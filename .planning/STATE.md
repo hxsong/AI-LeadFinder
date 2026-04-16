@@ -38,12 +38,17 @@ See: .planning/PROJECT.md (updated 2026-04-16)
 | 1: 功能说明文档重写 | ✅ Phase 1 Complete | 4/4 complete |
 | 2: 双向索引映射表 | ✅ Phase 2 Complete | 4/4 complete |
 | 3: 修订日志体系 | ✅ Phase 3 Complete | 3/3 complete |
-| 4: 最终清理与验收 | ○ Pending | 0/? pending |
+| 4: 最终清理与验收 | ✅ Phase 4 Complete | 4/4 complete |
+| 5: 冗余文件清理 | ○ Pending | 0/? pending |
+
+## Roadmap Evolution
+
+- Phase 5 added: 冗余文件清理（去除 prototype/docs 下的冗余 HTML 说明文件等）
 
 ## Next Action
 
-运行 `/gsd-plan-phase 4` 开始 Phase 4 规划
+运行 `/gsd-plan-phase 5` 开始 Phase 5 规划
 
 ---
 
-*State updated: 2026-04-16 after Phase 4 context gathered*
+*State updated: 2026-04-16 after Phase 5 added*

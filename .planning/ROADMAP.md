@@ -124,6 +124,16 @@
 - Mapped to phases: 6
 - Unmapped: 0 ✓
 
+### Phase 5: 冗余文件清理：根据当前的文档结构，去除冗余重复内容的文件，比如原始的 prototype/docs 文件夹下的"-说明.html"等。
+
+**Goal:** [To be planned]
+**Requirements**: TBD
+**Depends on:** Phase 4
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 5 to break down)
+
 ---
 *Roadmap created: 2026-04-16*
 *Last updated: 2026-04-16 after initial creation*
