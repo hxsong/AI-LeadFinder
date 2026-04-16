@@ -11,7 +11,7 @@
 docs/
 ├── README.md                    # 本文件，设计文档总索引
 ├── design/                      # 产品设计文档（可视化）
-│   ├── LeadFinder修订日志.html
+│   ├── LeadFinder修订日志.html  # ⚠ 已废弃（内容迁移至 changelog/v1.0.0.md）
 │   ├── LeadFinder业务流设计.html
 │   └── LeadFinder实体关系图.html
 ├── changelog/                   # 修订日志（Markdown，可用于 Git diff）
@@ -30,11 +30,11 @@ docs/
 |------|------|-------------|
 | LeadFinder业务流设计.html | 系统业务流时序图，包含角色、应用系统、自有服务、三方服务的完整交互流程 | P01-P80 全流程 |
 | LeadFinder实体关系图.html | 数据实体关系图，展示系统核心数据模型及实体间关系 | 全局数据模型 |
-| LeadFinder修订日志.html | 产品原型迭代变更记录，含每次变更的类型、内容和影响文件 | - |
+| LeadFinder修订日志.html | ~~产品原型迭代变更记录~~ | - | ⚠ 已废弃，内容迁移至 changelog/v1.0.0.md |
 
 ### changelog/ 修订日志
 
-存放 Markdown 格式的修订日志，用于 Git 版本管理和变更追溯。HTML 版本（design/）与 Markdown 版本（changelog/）内容同步更新。
+存放 Markdown 格式的修订日志，用于 Git 版本管理和变更追溯。HTML 版本（design/LeadFinder修订日志.html）已废弃，内容已迁移至 changelog/。
 
 | 版本 | 日期 | 状态 | 说明 |
 |------|------|------|------|
