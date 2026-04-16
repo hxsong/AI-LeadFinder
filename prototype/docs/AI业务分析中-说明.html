@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeadFinder - AI 业务分析处理页面功能说明</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Fira Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#60A5FA',
+                        cta: '#F97316',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .section-card {
+            transition: all 0.3s ease;
+        }
+        .section-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+        .code-block {
+            background: #1e293b;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        .code-block code {
+            color: #e2e8f0;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 13px;
+        }
+        .highlight-box {
+            border-left: 4px solid #3B82F6;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen font-sans">
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-slate-200">
+        <div class="max-w-6xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-semibold text-slate-800">功能说明文档</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm font-medium">P07-P08 节点</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-24 pb-16 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="mb-10">
+                <h1 class="text-3xl font-bold text-slate-800 mb-4">AI 业务分析处理页面</h1>
+                <p class="text-slate-500 text-lg">对应业务流程节点：P07-P08（文本提取与结构化 → 深度分析与 ICP 建模）</p>
+            </div>
+
+            <div class="space-y-8">
+                <!-- 页面概述 -->
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">页面概述</h2>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-6">
+                        <p class="text-slate-600 leading-relaxed mb-4">
+                            本页面是 AI 业务分析的核心处理页面，负责将原始输入数据转换为结构化的客户信息。处理结果将用于业务分析报告展示和后续潜在客户评分计算。
+                        </p>
+                        <p class="text-slate-600 leading-relaxed">
+                            系统通过异步任务队列处理大模型长耗时任务，前端实时展示处理进度。处理流程分为两个阶段：文本提取与结构化（P07）、深度分析与 ICP 建模（P08）。
+                        </p>
+                    </div>
+                </section>
+
+                <!-- 输入数据链路 -->
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">输入数据链路</h2>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="border border-blue-200 rounded-xl overflow-hidden">
+                            <div class="bg-blue-50 px-5 py-3 border-b border-blue-200">
+                                <h3 class="font-semibold text-blue-700">路径 1：文档上传</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="mb-4">
+                                    <p class="text-sm text-slate-600 mb-2">来源页面：上传业务材料.html</p>
+                                    <p class="text-sm text-slate-600">数据形态：PDF / WORD / MD 文档</p>
+                                </div>
+                                <div class="bg-slate-50 rounded-lg p-4">
+                                    <h4 class="font-medium text-slate-700 mb-2">处理步骤</h4>
+                                    <table class="w-full text-sm">
+                                        <thead>
+                                            <tr class="border-b border-slate-200">
+                                                <th class="text-left py-2 text-slate-500 font-medium">步骤</th>
+                                                <th class="text-left py-2 text-slate-500 font-medium">处理内容</th>
+                                                <th class="text-left py-2 text-slate-500 font-medium">输出格式</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="border-b border-slate-100">
+                                                <td class="py-2 text-slate-600">1. 文件解析</td>
+                                                <td class="py-2 text-slate-600">PDF/WORD/MD → 纯文本</td>
+                                                <td class="py-2 text-slate-600">Markdown 长文本</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-2 text-slate-600">2. ETL 清洗</td>
+                                                <td class="py-2 text-slate-600">去除噪音，提取结构化数据</td>
+                                                <td class="py-2 text-slate-600">JSON 实体字典</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-orange-200 rounded-xl overflow-hidden">
+                            <div class="bg-orange-50 px-5 py-3 border-b border-orange-200">
+                                <h3 class="font-semibold text-orange-700">路径 2：独立站授权</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="mb-4">
+                                    <p class="text-sm text-slate-600 mb-2">来源页面：独立站授权.html</p>
+                                    <p class="text-sm text-slate-600">数据形态：网站结构化数据</p>
+                                </div>
+                                <div class="bg-slate-50 rounded-lg p-4">
+                                    <h4 class="font-medium text-slate-700 mb-2">处理步骤</h4>
+                                    <table class="w-full text-sm">
+                                        <thead>
+                                            <tr class="border-b border-slate-200">
+                                                <th class="text-left py-2 text-slate-500 font-medium">步骤</th>
+                                                <th class="text-left py-2 text-slate-500 font-medium">处理内容</th>
+                                                <th class="text-left py-2 text-slate-500 font-medium">输出格式</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="border-b border-slate-100">
+                                                <td class="py-2 text-slate-600">1. 数据同步</td>
+                                                <td class="py-2 text-slate-600">从独立站 API 获取数据</td>
+                                                <td class="py-2 text-slate-600">JSON 数据包</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-2 text-slate-600">2. 数据解析</td>
+                                                <td class="py-2 text-slate-600">提取核心业务信息</td>
+                                                <td class="py-2 text-slate-600">JSON 实体字典</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 bg-blue-50 rounded-lg p-4 border border-blue-100">
+                        <h4 class="font-medium text-blue-700 mb-2">URL 参数识别</h4>
+                        <p class="text-sm text-blue-600">页面通过 <code class="bg-blue-100 px-2 py-0.5 rounded">?source=upload|site</code> 参数识别数据来源，动态调整显示文案。</p>
+                    </div>
+                </section>
+
+                <!-- 处理流程总览 -->
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">处理流程总览</h2>
+                    </div>
+
+                    <div class="bg-slate-50 rounded-xl p-6">
+                        <div class="flex items-center justify-center gap-4 flex-wrap">
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-2">
+                                    <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                    </svg>
+                                </div>
+                                <p class="text-sm font-medium text-slate-700">原始输入</p>
+                                <p class="text-xs text-slate-500">文档/网站数据</p>
+                            </div>
+                            <svg class="w-8 h-8 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-emerald-100 rounded-xl flex items-center justify-center mb-2">
+                                    <span class="text-emerald-600 font-bold">P07</span>
+                                </div>
+                                <p class="text-sm font-medium text-slate-700">文本提取与结构化</p>
+                                <p class="text-xs text-slate-500">ETL 数据清洗</p>
+                            </div>
+                            <svg class="w-8 h-8 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-purple-100 rounded-xl flex items-center justify-center mb-2">
+                                    <span class="text-purple-600 font-bold">P08</span>
+                                </div>
+                                <p class="text-sm font-medium text-slate-700">深度分析与 ICP 建模</p>
+                                <p class="text-xs text-slate-500">AI 业务推演</p>
+                            </div>
+                            <svg class="w-8 h-8 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-amber-100 rounded-xl flex items-center justify-center mb-2">
+                                    <svg class="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                                    </svg>
+                                </div>
+                                <p class="text-sm font-medium text-slate-700">客户信息</p>
+                                <p class="text-xs text-slate-500">存储至 MySQL</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 阶段 1：文本提取与结构化 -->
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center">
+                            <span class="text-emerald-600 font-bold">P07</span>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">阶段 1：文本提取与结构化</h2>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">1. 文件解析（文档上传模式）</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-blue-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-blue-700 mb-2">PDF 解析</h4>
+                                        <p class="text-sm text-blue-600">LlamaParse / Unstructured.io 处理复杂排版</p>
+                                    </div>
+                                    <div class="bg-emerald-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-emerald-700 mb-2">WORD 解析</h4>
+                                        <p class="text-sm text-emerald-600">python-docx 提取文本和表格</p>
+                                    </div>
+                                    <div class="bg-purple-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-purple-700 mb-2">MD/TXT 解析</h4>
+                                        <p class="text-sm text-purple-600">直接读取纯文本内容</p>
+                                    </div>
+                                </div>
+                                <div class="mt-4 bg-amber-50 rounded-lg p-4 border border-amber-100">
+                                    <p class="text-sm text-amber-700"><strong>输出：</strong>带排版噪音的 Markdown 长文本</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">2. 数据解析（独立站授权模式）</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="code-block p-4 mb-4">
+                                    <code>
+<pre>// 独立站数据解析流程
+
+Step 1: 从同步数据中提取核心字段
+  - 网站 title → 企业名称
+  - 网站 description → 企业定位
+  - 产品页面 → 主营品类
+  - 关于我们 → 企业规模、核心优势
+
+Step 2: 输出结构化 JSON
+  - 与文档上传模式输出格式统一</pre>
+                                    </code>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">3. ETL 数据清洗 Prompt</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="bg-blue-50 rounded-lg p-4 mb-4">
+                                    <p class="text-sm text-blue-700"><strong>语言选择说明：</strong>根据使用模型自动选择对应语言版本。国外模型(GPT-4, Claude)使用英文提示词，国内模型使用中文提示词。</p>
+                                </div>
+                                <div class="code-block p-4 mb-4">
+                                    <code>
+<pre>// ========== 中文版本 (Chinese Version) ==========
+# Role
+你是一个严谨的企业数据清洗与结构化抽取引擎 (ETL Data Extractor)。
+
+# Task
+请阅读以下文本内容，严格提取其中的客观业务事实，并按规定 JSON Schema 输出。
+
+# Strict Rules
+1. **零捏造原则**：绝对不要凭借自身先验知识捏造文档中未明确提及的信息。
+2. **空值处理**：如果文档中未提及某类信息，对应字段必须返回 null 或空数组 []。
+3. **去营销化**：剥离所有主观形容词，仅保留物理规格、标准术语、专有名词、资质认证。
+
+# Expected JSON Output Schema
+{
+  "raw_company_name": "企业名称",
+  "raw_company_profile": "企业定位、核心业务描述",
+  "raw_company_scale": {
+    "employees": "员工数量或范围",
+    "revenue": "营收规模或范围"
+  },
+  "raw_products_and_specs": ["产品品类及规格参数"],
+  "raw_certifications": ["资质认证"],
+  "raw_core_advantages": ["核心优势或能力"],
+  "raw_target_markets": ["目标市场区域"],
+  "raw_target_customers": ["目标客户类型描述"],
+  "raw_supply_chain": {
+    "upstream": ["上游依赖"],
+    "position": "自身生态位",
+    "downstream": ["下游客户类型"]
+  }
+}
+
+// ========== English Version (英文版本) ==========
+# Role
+You are a rigorous enterprise data cleaning and structured extraction engine (ETL Data Extractor).
+
+# Task
+Read the following text content, strictly extract objective business facts, and output according to the specified JSON Schema.
+
+# Strict Rules
+1. **Zero Fabrication Principle**: Never fabricate information not explicitly mentioned in the document using your prior knowledge.
+2. **Empty Value Handling**: If a certain type of information is not mentioned in the document, the corresponding field must return null or an empty array [].
+3. **De-marketing**: Strip all subjective adjectives, retain only physical specifications, standard terminology, proper nouns, and certifications.
+
+# Expected JSON Output Schema
+{
+  "raw_company_name": "Company Name",
+  "raw_company_profile": "Company Positioning, Core Business Description",
+  "raw_company_scale": {
+    "employees": "Employee count or range",
+    "revenue": "Revenue scale or range"
+  },
+  "raw_products_and_specs": ["Product categories and specifications"],
+  "raw_certifications": ["Certifications"],
+  "raw_core_advantages": ["Core advantages or capabilities"],
+  "raw_target_markets": ["Target market regions"],
+  "raw_target_customers": ["Target customer type descriptions"],
+  "raw_supply_chain": {
+    "upstream": ["Upstream dependencies"],
+    "position": "Position in ecosystem",
+    "downstream": ["Downstream customer types"]
+  }
+}</pre>
+                                    </code>
+                                </div>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="bg-blue-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-blue-700 mb-2">使用模型</h4>
+                                        <p class="text-sm text-blue-600">gpt-4o-mini / Gemini 1.5 Flash（强制开启 JSON Mode）</p>
+                                    </div>
+                                    <div class="bg-emerald-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-emerald-700 mb-2">输出结果</h4>
+                                        <p class="text-sm text-emerald-600">干净的实体字典 JSON，去除排版噪音和冗余废话</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 阶段 2：深度分析与 ICP 建模 -->
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center">
+                            <span class="text-purple-600 font-bold">P08</span>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">阶段 2：深度分析与 ICP 建模</h2>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">1. 输入数据</h3>
+                            </div>
+                            <div class="p-5">
+                                <p class="text-sm text-slate-600 mb-4">P07 阶段输出的实体字典 JSON，包含从原始输入中提取的结构化数据。</p>
+                                <div class="bg-blue-50 rounded-lg p-4 border border-blue-100">
+                                    <p class="text-sm text-blue-700">如果 P07 阶段输出的必填字段为空，系统将提示客户补充信息。</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">2. AI 分析 Prompt</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="bg-blue-50 rounded-lg p-4 mb-4">
+                                    <p class="text-sm text-blue-700"><strong>语言选择说明：</strong>根据使用模型自动选择对应语言版本。Claude 3.5 Sonnet / GPT-4 使用英文提示词，国内模型使用中文提示词。</p>
+                                </div>
+                                <div class="code-block p-4 mb-4">
+                                    <code>
+<pre>// ========== 中文版本 (Chinese Version) ==========
+# Role
+你是一位拥有 15 年经验的顶尖外贸 B2B 商业分析师与产品架构师。
+
+# Task
+请综合分析输入的企业数据，深度剖析其商业模式，输出《企业级业务与市场洞察报告》JSON。
+
+# Analytical Guidelines
+1. **企业定位**：凝练企业的核心生态位和业务定位。
+2. **业务类型识别**：判断企业类型（外贸型/生产型/服务型/渠道型）。
+3. **主营品类梳理**：整合产品线，提取核心品类。
+4. **核心优势提炼**：提取企业的核心竞争优势。
+5. **供应链分析**：推演上游依赖、自身生态位、下游客户类型。
+6. **目标客户画像**：推断目标客户类型、市场区域、品类、规模。
+7. **权重配置**：根据业务类型生成四维评分权重。
+
+# 动态权重配置规则
+| 业务类型 | 需求匹配度 | 购买能力 | 采购意向 | 活跃意向 |
+|----------|------------|----------|----------|----------|
+| 外贸型 | 32% | 20% | 35% | 13% |
+| 生产型 | 40% | 25% | 20% | 15% |
+| 服务型 | 35% | 25% | 15% | 25% |
+| 渠道型 | 35% | 20% | 30% | 15% |
+
+# Output JSON Format（与评分标准字段对应）
+{
+  "客户信息": {
+    "企业名称": "企业名称",
+    "企业定位": "一句话说明企业是谁，解决什么问题",
+    "业务类型": "外贸型|生产型|服务型|渠道型",
+    "主营品类": ["品类1", "品类2"],
+    "核心优势": ["优势1", "优势2"],
+    "企业规模": {
+      "员工规模": "50-200人",
+      "营收规模": "$1M-5M"
+    },
+    "供应链分析及示例": {
+      "上游依赖": ["上游供应商类型"],
+      "自身生态位": "在供应链中的角色",
+      "下游潜客群": ["下游客户类型"]
+    },
+    "目标客户类型": ["分销商", "批发商", "品牌商"],
+    "目标客户市场区域": ["欧洲", "北美", "东南亚"],
+    "目标客户主营品类": ["品类1", "品类2"],
+    "目标客户企业规模": {
+      "员工规模": "目标客户员工范围",
+      "营收规模": "目标客户营收范围"
+    }
+  },
+  "评分模型": {
+    "业务类型": "外贸型",
+    "权重配置": {
+      "需求匹配度": 0.32,
+      "购买能力": 0.20,
+      "采购意向": 0.35,
+      "活跃意向": 0.13
+    }
+  }
+}
+
+// ========== English Version (英文版本) ==========
+# Role
+You are a top B2B business analyst and product architect with 15 years of experience specializing in international trade.
+
+# Task
+Analyze the input enterprise data comprehensively, deeply examine its business model, and output the "Enterprise Business and Market Insight Report" JSON.
+
+# Analytical Guidelines
+1. **Business Positioning**: Refine the company's core ecosystem position and business positioning.
+2. **Business Type Identification**: Determine the business type (Trading/Manufacturing/Service/Channel).
+3. **Product Category Analysis**: Integrate product lines and extract core categories.
+4. **Core Advantage Extraction**: Extract the company's core competitive advantages.
+5. **Supply Chain Analysis**: Deduce upstream dependencies, ecosystem position, and downstream customer types.
+6. **Target Customer Profiling**: Infer target customer types, market regions, categories, and scale.
+7. **Weight Configuration**: Generate four-dimensional scoring weights based on business type.
+
+# Dynamic Weight Configuration Rules
+| Business Type | Demand Match | Purchase Power | Purchase Intent | Active Intent |
+|---------------|--------------|----------------|-----------------|---------------|
+| Trading | 32% | 20% | 35% | 13% |
+| Manufacturing | 40% | 25% | 20% | 15% |
+| Service | 35% | 25% | 15% | 25% |
+| Channel | 35% | 20% | 30% | 15% |
+
+# Output JSON Format (Corresponding to Scoring Criteria Fields)
+{
+  "customer_info": {
+    "company_name": "Company Name",
+    "company_positioning": "One sentence describing who the company is and what problem it solves",
+    "business_type": "Trading|Manufacturing|Service|Channel",
+    "main_categories": ["Category1", "Category2"],
+    "core_advantages": ["Advantage1", "Advantage2"],
+    "company_scale": {
+      "employee_scale": "50-200 employees",
+      "revenue_scale": "$1M-5M"
+    },
+    "supply_chain_analysis": {
+      "upstream_dependencies": ["Upstream supplier types"],
+      "ecosystem_position": "Role in the supply chain",
+      "downstream_potential_customers": ["Downstream customer types"]
+    },
+    "target_customer_types": ["Distributor", "Wholesaler", "Brand Owner"],
+    "target_customer_markets": ["Europe", "North America", "Southeast Asia"],
+    "target_customer_categories": ["Category1", "Category2"],
+    "target_customer_scale": {
+      "employee_scale": "Target customer employee range",
+      "revenue_scale": "Target customer revenue range"
+    }
+  },
+  "scoring_model": {
+    "business_type": "Trading",
+    "weight_configuration": {
+      "demand_match": 0.32,
+      "purchase_power": 0.20,
+      "purchase_intent": 0.35,
+      "active_intent": 0.13
+    }
+  }
+}</pre>
+                                    </code>
+                                </div>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="bg-blue-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-blue-700 mb-2">推理模型</h4>
+                                        <p class="text-sm text-blue-600">Claude 3.5 Sonnet / gpt-4o</p>
+                                    </div>
+                                    <div class="bg-emerald-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-emerald-700 mb-2">存储位置</h4>
+                                        <p class="text-sm text-emerald-600">客户信息存储至 MySQL，供 P19 评分计算使用</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">3. 字段缺失处理规则</h3>
+                            </div>
+                            <div class="p-5">
+                                <table class="w-full text-sm">
+                                    <thead>
+                                        <tr class="border-b border-slate-200">
+                                            <th class="text-left py-2 text-slate-500 font-medium">字段</th>
+                                            <th class="text-left py-2 text-slate-500 font-medium">是否必填</th>
+                                            <th class="text-left py-2 text-slate-500 font-medium">缺失处理</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="border-b border-slate-100">
+                                            <td class="py-3 text-slate-600">企业名称</td>
+                                            <td class="py-3"><span class="px-2 py-0.5 bg-red-100 text-red-600 rounded text-xs">必填</span></td>
+                                            <td class="py-3 text-slate-600">缺失时要求客户重新提供</td>
+                                        </tr>
+                                        <tr class="border-b border-slate-100">
+                                            <td class="py-3 text-slate-600">企业定位</td>
+                                            <td class="py-3"><span class="px-2 py-0.5 bg-red-100 text-red-600 rounded text-xs">必填</span></td>
+                                            <td class="py-3 text-slate-600">缺失时要求客户重新提供</td>
+                                        </tr>
+                                        <tr class="border-b border-slate-100">
+                                            <td class="py-3 text-slate-600">业务类型</td>
+                                            <td class="py-3"><span class="px-2 py-0.5 bg-red-100 text-red-600 rounded text-xs">必填</span></td>
+                                            <td class="py-3 text-slate-600">缺失时要求客户重新提供</td>
+                                        </tr>
+                                        <tr class="border-b border-slate-100">
+                                            <td class="py-3 text-slate-600">主营品类</td>
+                                            <td class="py-3"><span class="px-2 py-0.5 bg-red-100 text-red-600 rounded text-xs">必填</span></td>
+                                            <td class="py-3 text-slate-600">缺失时要求客户重新提供</td>
+                                        </tr>
+                                        <tr class="border-b border-slate-100">
+                                            <td class="py-3 text-slate-600">核心优势</td>
+                                            <td class="py-3"><span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">可选</span></td>
+                                            <td class="py-3 text-slate-600">缺失时设为空数组 []</td>
+                                        </tr>
+                                        <tr class="border-b border-slate-100">
+                                            <td class="py-3 text-slate-600">企业规模</td>
+                                            <td class="py-3"><span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">可选</span></td>
+                                            <td class="py-3 text-slate-600">缺失时设为 null</td>
+                                        </tr>
+                                        <tr class="border-b border-slate-100">
+                                            <td class="py-3 text-slate-600">供应链分析及示例</td>
+                                            <td class="py-3"><span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">可选</span></td>
+                                            <td class="py-3 text-slate-600">缺失时由 AI 推断</td>
+                                        </tr>
+                                        <tr class="border-b border-slate-100">
+                                            <td class="py-3 text-slate-600">目标客户类型</td>
+                                            <td class="py-3"><span class="px-2 py-0.5 bg-red-100 text-red-600 rounded text-xs">必填</span></td>
+                                            <td class="py-3 text-slate-600">缺失时要求客户补充</td>
+                                        </tr>
+                                        <tr class="border-b border-slate-100">
+                                            <td class="py-3 text-slate-600">目标客户市场区域</td>
+                                            <td class="py-3"><span class="px-2 py-0.5 bg-red-100 text-red-600 rounded text-xs">必填</span></td>
+                                            <td class="py-3 text-slate-600">缺失时要求客户补充</td>
+                                        </tr>
+                                        <tr class="border-b border-slate-100">
+                                            <td class="py-3 text-slate-600">目标客户主营品类</td>
+                                            <td class="py-3"><span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">可选</span></td>
+                                            <td class="py-3 text-slate-600">缺失时默认同主营品类</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-3 text-slate-600">目标客户企业规模</td>
+                                            <td class="py-3"><span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-xs">可选</span></td>
+                                            <td class="py-3 text-slate-600">缺失时设为 null</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 输出数据结构 -->
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4h8c2.21 0 4-1.79 4-4V7c0-2.21-1.79-4-4-4h-8c-4.418 0-8 1.79-8 4z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">输出数据结构</h2>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">客户信息（存储至 MySQL）</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="code-block p-4">
+                                    <code>
+<pre>{
+  "bot_id": "BOT-1001",
+  "客户信息": {
+    "企业名称": "华贸盛世（深圳）进出口有限公司",
+    "企业定位": "专注新能源与户外用品的外贸综合服务商",
+    "业务类型": "外贸型",
+    "主营品类": ["新能源产品", "日用消费品", "户外休闲用品"],
+    "核心优势": ["跨境电商全流程服务", "海外仓本地配送", "三重质检体系"],
+    "企业规模": {
+      "员工规模": "90+人",
+      "营收规模": "$5M+"
+    },
+    "供应链分析及示例": {
+      "上游依赖": ["国内头部新能源生产企业", "日用消费品生产厂家"],
+      "自身生态位": "外贸综合服务商",
+      "下游潜客群": ["欧美新能源企业及经销商", "户外用品经销商"]
+    },
+    "目标客户类型": ["分销商", "批发商", "品牌商", "零售商"],
+    "目标客户市场区域": ["北美", "欧洲", "日韩", "东南亚"],
+    "目标客户主营品类": ["新能源产品", "美妆个护", "母婴用品", "户外用品"],
+    "目标客户企业规模": {
+      "员工规模": "50-500人",
+      "营收规模": "$1M-10M"
+    }
+  },
+  "评分模型": {
+    "业务类型": "外贸型",
+    "权重配置": {
+      "需求匹配度": 0.32,
+      "购买能力": 0.20,
+      "采购意向": 0.35,
+      "活跃意向": 0.13
+    }
+  },
+  "created_at": "2024-01-15T14:30:00Z"
+}</pre>
+                                    </code>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">后续评分调用（P19）</h3>
+                            </div>
+                            <div class="p-5">
+                                <p class="text-sm text-slate-600 mb-4">P19 阶段进行潜在客户打分时，将调用 P08 生成的客户信息：</p>
+                                <ul class="text-sm text-slate-600 space-y-2">
+                                    <li>• <strong>读取客户信息</strong>：获取企业定位、业务类型、主营品类、核心优势等字段</li>
+                                    <li>• <strong>读取权重配置</strong>：根据业务类型获取动态权重</li>
+                                    <li>• <strong>AI 模型判断需求匹配度</strong>：将客户信息与候选企业信息输入 AI 模型，判断供需关系</li>
+                                    <li>• <strong>计算维度得分</strong>：
+                                        <ul class="ml-6 mt-2 space-y-1">
+                                            <li>- 需求匹配度：AI 模型判断候选企业是否是客户的潜在客户</li>
+                                            <li>- 购买能力：规模评分（60%）+ 地理评分（40%）</li>
+                                            <li>- 采购意向：海关 HS Code 匹配度 × 时间衰减系数</li>
+                                            <li>- 活跃意向：展会记录 × 时间衰减系数</li>
+                                        </ul>
+                                    </li>
+                                    <li>• <strong>加权计算</strong>：最终得分 = Σ(维度得分 × 权重)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 可见功能逻辑 -->
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-cyan-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-cyan-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">可见功能逻辑</h2>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">1. 处理进度展示</h3>
+                            </div>
+                            <div class="p-5 space-y-4">
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="bg-blue-50 rounded-xl p-4 border border-blue-100">
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <span class="w-6 h-6 bg-primary text-white rounded flex items-center justify-center text-xs font-medium">1</span>
+                                            <span class="font-medium text-slate-700">文本提取与结构化</span>
+                                        </div>
+                                        <p class="text-xs text-slate-500">P07：ETL 数据清洗</p>
+                                    </div>
+                                    <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <span class="w-6 h-6 bg-emerald-500 text-white rounded flex items-center justify-center text-xs font-medium">2</span>
+                                            <span class="font-medium text-slate-700">深度分析与 ICP 建模</span>
+                                        </div>
+                                        <p class="text-xs text-slate-500">P08：AI 业务推演</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">2. 步骤状态变化</h3>
+                            </div>
+                            <div class="p-5">
+                                <table class="w-full text-sm">
+                                    <thead>
+                                        <tr class="border-b border-slate-200">
+                                            <th class="text-left py-2 text-slate-500 font-medium">状态</th>
+                                            <th class="text-left py-2 text-slate-500 font-medium">图标</th>
+                                            <th class="text-left py-2 text-slate-500 font-medium">标签</th>
+                                            <th class="text-left py-2 text-slate-500 font-medium">进度条</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="border-b border-slate-100">
+                                            <td class="py-3 text-slate-600">等待中</td>
+                                            <td class="py-3"><span class="w-6 h-6 bg-slate-200 rounded-full inline-block"></span></td>
+                                            <td class="py-3"><span class="px-2 py-0.5 bg-slate-100 text-slate-400 rounded text-xs">等待中</span></td>
+                                            <td class="py-3 text-slate-400">灰色 0%</td>
+                                        </tr>
+                                        <tr class="border-b border-slate-100">
+                                            <td class="py-3 text-slate-600">进行中</td>
+                                            <td class="py-3"><span class="w-6 h-6 bg-primary rounded-full inline-block animate-spin"></span></td>
+                                            <td class="py-3"><span class="px-2 py-0.5 bg-blue-100 text-blue-600 rounded text-xs">进行中</span></td>
+                                            <td class="py-3 text-primary">蓝色渐变 0-100%</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-3 text-slate-600">已完成</td>
+                                            <td class="py-3"><span class="w-6 h-6 bg-green-500 rounded-full inline-block flex items-center justify-center text-white">✓</span></td>
+                                            <td class="py-3"><span class="px-2 py-0.5 bg-green-100 text-green-600 rounded text-xs">已完成</span></td>
+                                            <td class="py-3 text-green-600">绿色 100%</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">3. 自动跳转</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="bg-green-50 rounded-lg p-4 border border-green-100">
+                                    <div class="flex items-center gap-2">
+                                        <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                        </svg>
+                                        <span class="text-sm text-green-700">处理完成后 1.5 秒自动跳转至 业务分析报告.html</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 异常处理规则 -->
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">异常处理规则</h2>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">1. 必填字段缺失处理</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="bg-amber-50 rounded-lg p-4 border border-amber-100 mb-4">
+                                    <p class="text-sm text-amber-700">当必填字段（企业名称、企业定位、业务类型、主营品类、目标客户类型、目标客户市场区域）缺失时，系统将：</p>
+                                </div>
+                                <ul class="text-sm text-slate-600 space-y-2">
+                                    <li>• <strong>中断处理流程</strong>：停止后续处理，不进入 P08 阶段</li>
+                                    <li>• <strong>提示客户补充</strong>：显示缺失字段列表，引导客户返回上一步补充信息</li>
+                                    <li>• <strong>保存已提取数据</strong>：将已成功提取的字段暂存，避免重复处理</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">2. 系统异常处理</h3>
+                            </div>
+                            <div class="p-5">
+                                <table class="w-full text-sm">
+                                    <thead>
+                                        <tr class="border-b border-slate-200">
+                                            <th class="text-left py-2 text-slate-500 font-medium">异常场景</th>
+                                            <th class="text-left py-2 text-slate-500 font-medium">错误码</th>
+                                            <th class="text-left py-2 text-slate-500 font-medium">前端处理</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="border-b border-slate-100">
+                                            <td class="py-3 text-slate-600">任务不存在</td>
+                                            <td class="py-3"><code class="text-xs bg-red-50 text-red-600 px-2 py-1 rounded">404</code></td>
+                                            <td class="py-3 text-slate-600">跳转至初始化页面重新开始</td>
+                                        </tr>
+                                        <tr class="border-b border-slate-100">
+                                            <td class="py-3 text-slate-600">AI 模型调用失败</td>
+                                            <td class="py-3"><code class="text-xs bg-red-50 text-red-600 px-2 py-1 rounded">500</code></td>
+                                            <td class="py-3 text-slate-600">显示错误提示，支持重试</td>
+                                        </tr>
+                                        <tr class="border-b border-slate-100">
+                                            <td class="py-3 text-slate-600">任务超时</td>
+                                            <td class="py-3"><code class="text-xs bg-amber-50 text-amber-600 px-2 py-1 rounded">408</code></td>
+                                            <td class="py-3 text-slate-600">显示超时提示，支持重试</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-3 text-slate-600">数据解析失败</td>
+                                            <td class="py-3"><code class="text-xs bg-red-50 text-red-600 px-2 py-1 rounded">422</code></td>
+                                            <td class="py-3 text-slate-600">提示数据格式问题，返回上一步</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">3. AI 输出异常检测</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="bg-amber-50 rounded-lg p-4 border border-amber-100 mb-4">
+                                    <p class="text-sm text-amber-700"><strong>AI 模型存在幻觉风险</strong>，可能导致输出结果与输入材料不符或逻辑矛盾。本模块对 AI 输出进行专项检测。</p>
+                                </div>
+                                <ul class="text-sm text-slate-600 space-y-2 mb-4">
+                                    <li>• <strong>输出为空检测：</strong>AI 返回空结果或 null 时触发，提示「AI 分析结果为空，请重试或检查输入材料」</li>
+                                    <li>• <strong>格式校验：</strong>JSON 解析失败时触发，提示「AI 返回数据格式异常，正在自动重试...」</li>
+                                    <li>• <strong>一致性校验：</strong>输出与输入材料矛盾时触发，提示「AI 分析结果存在异常，建议重新分析」</li>
+                                    <li>• <strong>完整性校验：</strong>必要字段（如企业名称、ICP描述）缺失时触发，提示「AI 分析不完整，部分数据缺失」</li>
+                                    <li>• <strong>数值范围校验：</strong>评分超出 0-100 范围时触发，提示「AI 评分异常，已使用默认值」</li>
+                                </ul>
+                                <div class="bg-red-50 rounded-lg p-4 border border-red-100">
+                                    <h4 class="font-medium text-red-700 mb-2">AI 异常处理策略</h4>
+                                    <table class="w-full text-sm">
+                                        <thead>
+                                            <tr class="border-b border-red-200">
+                                                <th class="text-left py-1 text-red-600">异常类型</th>
+                                                <th class="text-left py-1 text-red-600">处理方式</th>
+                                                <th class="text-left py-1 text-red-600">提示文案</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="text-red-600">
+                                            <tr class="border-b border-red-100">
+                                                <td class="py-2">输出为空</td>
+                                                <td class="py-2">自动重试 1 次，失败后提示用户</td>
+                                                <td class="py-2">「AI 分析结果为空，请重试」</td>
+                                            </tr>
+                                            <tr class="border-b border-red-100">
+                                                <td class="py-2">格式错误</td>
+                                                <td class="py-2">自动重试 1 次，失败后使用默认值</td>
+                                                <td class="py-2">「AI 返回数据格式异常」</td>
+                                            </tr>
+                                            <tr class="border-b border-red-100">
+                                                <td class="py-2">内容幻觉</td>
+                                                <td class="py-2">标记异常，提示用户重新分析</td>
+                                                <td class="py-2">「AI 分析结果存在异常，建议重新分析」</td>
+                                            </tr>
+                                            <tr class="border-b border-red-100">
+                                                <td class="py-2">字段缺失</td>
+                                                <td class="py-2">使用默认值填充，标记数据不完整</td>
+                                                <td class="py-2">「AI 分析不完整，部分数据缺失」</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-2">数值异常</td>
+                                                <td class="py-2">使用业务默认值，通知风控</td>
+                                                <td class="py-2">「AI 评分异常，已使用默认值」</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 限制规则 -->
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">限制规则</h2>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                            <h4 class="font-medium text-red-700 mb-2">不可中断</h4>
+                            <p class="text-sm text-red-600">分析任务一旦开始不可中断，需等待完成或失败</p>
+                        </div>
+                        <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                            <h4 class="font-medium text-amber-700 mb-2">超时限制</h4>
+                            <p class="text-sm text-amber-600">单任务最长执行时间 10 分钟，超时自动标记失败</p>
+                        </div>
+                        <div class="bg-blue-50 rounded-xl p-4 border border-blue-100">
+                            <h4 class="font-medium text-blue-700 mb-2">并发限制</h4>
+                            <p class="text-sm text-blue-600">同一租户同时只能有 1 个分析任务执行中</p>
+                        </div>
+                        <div class="bg-purple-50 rounded-xl p-4 border border-purple-100">
+                            <h4 class="font-medium text-purple-700 mb-2">重试限制</h4>
+                            <p class="text-sm text-purple-600">失败后最多重试 3 次，超过需联系客服</p>
+                        </div>
+                        <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100 md:col-span-2">
+                            <h4 class="font-medium text-emerald-700 mb-2">异步任务执行规则</h4>
+                            <ul class="text-sm text-emerald-600 space-y-1">
+                                <li>• <strong>页面关闭继续执行：</strong>异步任务在后台执行，用户关闭页面不影响任务进度</li>
+                                <li>• <strong>接口超时机制：</strong>每次接口调用超时时间 1 分钟，超时后跳过本次调用继续执行</li>
+                                <li>• <strong>任务不阻塞：</strong>确保任务最终完成，不会因单个接口失败而阻塞</li>
+                                <li>• <strong>预估时长：</strong>按接口调用次数预估，每次调用约 1 分钟</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 页面跳转关系 -->
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-rose-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">页面跳转关系</h2>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-6">
+                        <div class="flex items-center justify-center gap-4 flex-wrap">
+                            <div class="px-4 py-2 bg-blue-100 text-blue-600 rounded-lg text-sm">
+                                上传业务材料.html
+                            </div>
+                            <span class="text-slate-400">或</span>
+                            <div class="px-4 py-2 bg-orange-100 text-orange-600 rounded-lg text-sm">
+                                独立站授权.html
+                            </div>
+                            <svg class="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                            <div class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium">
+                                AI业务分析中.html
+                            </div>
+                            <svg class="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                            <div class="px-4 py-2 bg-emerald-100 text-emerald-600 rounded-lg text-sm">
+                                业务分析报告.html
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 技术栈说明 -->
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">技术栈说明</h2>
+                    </div>
+                    <div class="grid md:grid-cols-4 gap-4">
+                        <div class="bg-slate-50 rounded-xl p-4">
+                            <h4 class="font-medium text-slate-700 mb-2">消息队列</h4>
+                            <p class="text-sm text-slate-600">Kafka / RabbitMQ</p>
+                        </div>
+                        <div class="bg-slate-50 rounded-xl p-4">
+                            <h4 class="font-medium text-slate-700 mb-2">ETL 模型</h4>
+                            <p class="text-sm text-slate-600">gpt-4o-mini / Gemini 1.5 Flash</p>
+                        </div>
+                        <div class="bg-slate-50 rounded-xl p-4">
+                            <h4 class="font-medium text-slate-700 mb-2">推理模型</h4>
+                            <p class="text-sm text-slate-600">Claude 3.5 Sonnet / gpt-4o</p>
+                        </div>
+                        <div class="bg-slate-50 rounded-xl p-4">
+                            <h4 class="font-medium text-slate-700 mb-2">数据存储</h4>
+                            <p class="text-sm text-slate-600">MySQL</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">Toast 提醒文案规范</h2>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-gradient-to-r from-cyan-50 to-blue-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">1. AI 分析任务状态</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                        <h4 class="font-medium text-emerald-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                            成功提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-emerald-600">
+                                            <p><strong>P07完成：</strong>「文本提取完成，正在进行 ICP 建模...」</p>
+                                            <p><strong>P08完成：</strong>「深度分析完成，正在生成报告...」</p>
+                                            <p><strong>任务完成：</strong>「AI 业务分析完成，正在跳转...」</p>
+                                            <p><strong>报告生成：</strong>「业务分析报告已生成」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                                        <h4 class="font-medium text-red-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                                            失败提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-red-600">
+                                            <p><strong>任务失败：</strong>「AI 分析任务失败，请重试」</p>
+                                            <p><strong>文本提取失败：</strong>「文本提取失败，请检查上传的文件」</p>
+                                            <p><strong>ICP建模失败：</strong>「ICP 建模失败，请重试」</p>
+                                            <p><strong>数据不足：</strong>「业务数据不足，无法完成分析」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                                        <h4 class="font-medium text-amber-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                            异常提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-amber-600">
+                                            <p><strong>任务中断：</strong>「AI 分析任务意外中断，正在尝试恢复...」</p>
+                                            <p><strong>进度同步：</strong>「进度同步失败，请刷新页面」</p>
+                                            <p><strong>网络错误：</strong>「网络连接异常，请检查网络后重试」</p>
+                                            <p><strong>超时：</strong>「任务响应超时，请稍后重试」</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-gradient-to-r from-purple-50 to-pink-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">2. 步骤进度更新</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                        <h4 class="font-medium text-emerald-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                            成功提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-emerald-600">
+                                            <p><strong>进度更新：</strong>「步骤 {step} 处理完成，正在进入下一步...」</p>
+                                            <p><strong>步骤完成：</strong>「{step_name} 已完成（{progress}%）」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                                        <h4 class="font-medium text-amber-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                            异常提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-amber-600">
+                                            <p><strong>步骤失败：</strong>「步骤 {step} 执行失败，正在重试...」</p>
+                                            <p><strong>重试中：</strong>「正在重新执行步骤 {step}，请稍候...」</p>
+                                            <p><strong>降级处理：</strong>「部分步骤执行异常，已使用备用方案」</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-gradient-to-r from-violet-50 to-purple-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">3. 页面加载与状态</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                        <h4 class="font-medium text-emerald-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                            成功提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-emerald-600">
+                                            <p><strong>加载成功：</strong>「AI 业务分析页面加载成功」</p>
+                                            <p><strong>任务加载：</strong>「任务状态已加载」</p>
+                                            <p><strong>数据加载：</strong>「业务数据加载成功」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                                        <h4 class="font-medium text-red-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                                            失败提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-red-600">
+                                            <p><strong>加载失败：</strong>「页面加载失败，请刷新页面重试」</p>
+                                            <p><strong>任务不存在：</strong>「任务不存在或已过期」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                                        <h4 class="font-medium text-amber-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                            异常提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-amber-600">
+                                            <p><strong>网络错误：</strong>「网络连接异常，请检查网络」</p>
+                                            <p><strong>超时：</strong>「数据请求超时，请稍后重试」</p>
+                                            <p><strong>服务不可用：</strong>「服务暂时不可用，请稍后再试」</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-gradient-to-r from-teal-50 to-cyan-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">4. 页面跳转</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                        <h4 class="font-medium text-emerald-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                            成功提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-emerald-600">
+                                            <p><strong>跳转成功：</strong>「正在跳转至业务分析报告页面...」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                                        <h4 class="font-medium text-amber-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                            异常提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-amber-600">
+                                            <p><strong>跳转失败：</strong>「页面跳转失败，请手动点击继续」</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-6">
+        <div class="max-w-5xl mx-auto px-4 text-center text-sm text-slate-400">
+            AI-LeadFinder 功能说明文档 · AI 业务分析处理页面
+        </div>
+
+    </footer>
+
+</body>
+</html>

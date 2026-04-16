@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeadFinder - 探针部署 功能说明</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Fira Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#60A5FA',
+                        cta: '#F97316',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .section-card {
+            transition: all 0.3s ease;
+        }
+        .section-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+        .code-block {
+            background: #1e293b;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        .code-block code {
+            color: #e2e8f0;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 13px;
+        }
+        .highlight-box {
+            border-left: 4px solid #3B82F6;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen font-sans">
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-slate-200">
+        <div class="max-w-6xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-semibold text-slate-800">功能说明文档</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm font-medium">P28-P32 节点</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-24 pb-16 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="mb-10">
+                <h1 class="text-3xl font-bold text-slate-800 mb-4">探针部署</h1>
+                <p class="text-slate-500 text-lg">对应业务流程节点：P28-P32 探针代码分发、授权与验证部署</p>
+            </div>
+
+            <div class="space-y-8">
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">页面概述</h2>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-6">
+                        <p class="text-slate-600 leading-relaxed">本页面是动态流量捕捉模块的入口，负责向企业管理员提供域名绑定与 JS 探针代码的部署功能。系统采用「域名绑定优先」机制，探针代码针对绑定域名生成，部署时校验域名一致性，确保数据采集的准确性与安全性。</p>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">核心约束规则：域名绑定机制</h2>
+                    </div>
+                    <div class="bg-red-50 border border-red-200 rounded-xl p-6 mb-6">
+                        <h3 class="font-semibold text-red-800 mb-3">设计原则</h3>
+                        <p class="text-red-700 text-sm mb-4">探针代码的生成与绑定以「网站域名」为最小单位，而非企业账号。</p>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-sm">
+                                <thead>
+                                    <tr class="border-b border-red-300">
+                                        <th class="text-left py-3 text-red-800 font-medium">约束项</th>
+                                        <th class="text-left py-3 text-red-800 font-medium">规则说明</th>
+                                        <th class="text-left py-3 text-red-800 font-medium">业务理由</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="border-b border-red-100">
+                                        <td class="py-3 text-red-700 font-medium">一账号一域名</td>
+                                        <td class="py-3 text-red-600">每个企业账号仅能绑定一个网站域名</td>
+                                        <td class="py-3 text-red-600">防止多站点访客数据重叠</td>
+                                    </tr>
+                                    <tr class="border-b border-red-100">
+                                        <td class="py-3 text-red-700 font-medium">探针域名唯一</td>
+                                        <td class="py-3 text-red-600">探针代码针对域名生成，同一域名对应唯一探针 ID</td>
+                                        <td class="py-3 text-red-600">确保数据采集的准确性与可追溯性</td>
+                                    </tr>
+                                    <tr class="border-b border-red-100">
+                                        <td class="py-3 text-red-700 font-medium">部署域名校验</td>
+                                        <td class="py-3 text-red-600">探针部署后，系统验证部署域名是否与绑定域名一致</td>
+                                        <td class="py-3 text-red-600">防止探针代码被滥用至未授权域名</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3 text-red-700 font-medium">域名变更限制</td>
+                                        <td class="py-3 text-red-600">域名绑定后如需更换，需联系平台管理员重置</td>
+                                        <td class="py-3 text-red-600">避免历史数据断层，保障数据连续性</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">可见功能逻辑</h2>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">步骤一：域名绑定入口 (二选一)</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                        <h4 class="font-medium text-emerald-700 mb-2">方式 A：独立站授权绑定</h4>
+                                        <p class="text-sm text-emerald-600">通过 OAuth 授权独立站，系统自动提取域名并绑定。支持后续一键部署探针。</p>
+                                    </div>
+                                    <div class="bg-blue-50 rounded-xl p-4 border border-blue-100">
+                                        <h4 class="font-medium text-blue-700 mb-2">方式 B：手动填写域名</h4>
+                                        <p class="text-sm text-blue-600">EBA 手动输入网站域名，系统验证域名格式与可访问性后完成绑定。需手动嵌入代码。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">分支 A：已授权独立站 - 一键安装路径</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="space-y-4">
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-8 h-8 bg-success/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <span class="text-sm font-bold text-success">1</span>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-medium text-slate-700 mb-1">域名自动绑定</h4>
+                                            <p class="text-sm text-slate-600">系统检测到已授权独立站，自动提取域名并完成绑定，生成专属探针 ID。</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-8 h-8 bg-success/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <span class="text-sm font-bold text-success">2</span>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-medium text-slate-700 mb-1">一键安装按钮</h4>
+                                            <p class="text-sm text-slate-600">显示「一键安装追踪探针」主按钮，点击后弹出部署进度弹窗，实时展示：连接独立站 API → 注入追踪代码 → 校验域名一致性 → 验证部署状态。</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-8 h-8 bg-success/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <span class="text-sm font-bold text-success">3</span>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-medium text-slate-700 mb-1">部署成功反馈</h4>
+                                            <p class="text-sm text-slate-600">部署完成后，弹窗自动关闭，页面底部显示成功卡片「数据已回传，探针已生效」，并提供跳转至「访客雷达」的入口。</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">分支 B：手动填写域名 - 手动埋点路径</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="space-y-4">
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <span class="text-sm font-bold text-primary">1</span>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-medium text-slate-700 mb-1">域名输入与验证</h4>
+                                            <p class="text-sm text-slate-600">EBA 手动输入网站域名，系统验证域名格式（正则校验）与可访问性（HTTP 请求）后完成绑定，生成专属探针 ID。</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <span class="text-sm font-bold text-primary">2</span>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-medium text-slate-700 mb-1">代码展示区</h4>
+                                            <p class="text-sm text-slate-600">页面展示 JS 探针代码片段，包含针对绑定域名生成的专属探针 ID。代码区块右上角提供「复制代码」按钮。</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <span class="text-sm font-bold text-primary">3</span>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-medium text-slate-700 mb-1">三步操作指引</h4>
+                                            <p class="text-sm text-slate-600">以卡片形式展示操作步骤：① 复制上方代码 → ② 粘贴到网站 &lt;head&gt; 标签 → ③ 等待系统验证生效。</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <span class="text-sm font-bold text-primary">4</span>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-medium text-slate-700 mb-1">验证按钮</h4>
+                                            <p class="text-sm text-slate-600">提供「验证代码是否生效」按钮，点击后弹出验证进度弹窗，系统检测网站是否已正确嵌入追踪代码，并校验请求来源域名是否与绑定域名一致。</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">交互效果</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="bg-slate-50 rounded-xl p-4">
+                                        <h4 class="font-medium text-slate-700 mb-2">绑定方式选择</h4>
+                                        <ul class="text-sm text-slate-600 space-y-1">
+                                            <li>• 两个绑定选项卡片，点击高亮选中</li>
+                                            <li>• 选中后显示对应的部署流程</li>
+                                            <li>• OAuth 方式标记「推荐」标签</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-slate-50 rounded-xl p-4">
+                                        <h4 class="font-medium text-slate-700 mb-2">域名验证反馈</h4>
+                                        <ul class="text-sm text-slate-600 space-y-1">
+                                            <li>• 域名格式校验：实时正则验证</li>
+                                            <li>• 绑定按钮状态：验证通过后激活</li>
+                                            <li>• 绑定成功：显示绿色成功提示</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-slate-50 rounded-xl p-4">
+                                        <h4 class="font-medium text-slate-700 mb-2">部署进度弹窗</h4>
+                                        <ul class="text-sm text-slate-600 space-y-1">
+                                            <li>• 旋转加载动画 + 步骤列表</li>
+                                            <li>• 步骤完成时显示绿色勾选图标</li>
+                                            <li>• 包含「校验域名一致性」步骤</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-slate-50 rounded-xl p-4">
+                                        <h4 class="font-medium text-slate-700 mb-2">状态反馈</h4>
+                                        <ul class="text-sm text-slate-600 space-y-1">
+                                            <li>• 复制成功：按钮文案变更为「已复制」</li>
+                                            <li>• 部署成功：渐变色成功卡片淡入</li>
+                                            <li>• 点击遮罩层可关闭弹窗</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">不可见功能逻辑</h2>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">API 接口 - 域名绑定</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="code-block p-4 mb-4">
+                                    <code>
+<pre>POST /api/v1/domain/bind
+
+Request Headers:
+  Authorization: Bearer {enterprise_token}
+
+Request Body:
+{
+  "domain": "example.com",
+  "bind_type": "manual"  // manual | oauth
+}
+
+Response:
+{
+  "code": 200,
+  "data": {
+    "domain": "example.com",
+    "probe_id": "LF-X7Y8Z9",
+    "bind_type": "manual",
+    "bind_at": "2024-02-26T10:00:00Z",
+    "status": "bound"
+  }
+}</pre>
+                                    </code>
+                                </div>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="bg-blue-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-blue-700 mb-2">校验逻辑</h4>
+                                        <p class="text-sm text-blue-600">验证域名格式、可访问性、是否已被其他账号绑定、当前账号是否已有绑定域名。</p>
+                                    </div>
+                                    <div class="bg-emerald-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-emerald-700 mb-2">返回内容</h4>
+                                        <p class="text-sm text-emerald-600">包含绑定域名、生成的探针 ID、绑定类型、绑定时间。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">API 接口 - 获取探针代码</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="code-block p-4 mb-4">
+                                    <code>
+<pre>GET /api/v1/probe/code
+
+Request Headers:
+  Authorization: Bearer {enterprise_token}
+
+Response:
+{
+  "code": 200,
+  "data": {
+    "probe_id": "LF-A1B2C3",
+    "bound_domain": "xx-tech.example.com",
+    "script_url": "https://cdn.leadfinder.io/probe/LF-A1B2C3.js",
+    "embed_code": "&lt;script&gt;\n(function(w,d,s,l,i){\n  w[l]=w[l]||[];\n  w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});\n  var f=d.getElementsByTagName(s)[0],\n  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';\n  j.async=true;\n  j.src='https://cdn.leadfinder.io/probe/'+i+'.js';\n  f.parentNode.insertBefore(j,f);\n})(window,document,'script','lfDataLayer','LF-A1B2C3');\n&lt;/script&gt;",
+    "created_at": "2024-02-26T10:00:00Z"
+  }
+}</pre>
+                                    </code>
+                                </div>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="bg-blue-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-blue-700 mb-2">前置条件</h4>
+                                        <p class="text-sm text-blue-600">账号必须已完成域名绑定，否则返回错误提示。</p>
+                                    </div>
+                                    <div class="bg-emerald-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-emerald-700 mb-2">返回内容</h4>
+                                        <p class="text-sm text-emerald-600">包含探针 ID、绑定域名、脚本 CDN 地址、完整嵌入代码。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">API 接口 - 一键部署（已授权站点）</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="code-block p-4 mb-4">
+                                    <code>
+<pre>POST /api/v1/probe/deploy
+
+Request Headers:
+  Authorization: Bearer {enterprise_token}
+
+Request Body:
+{
+  "site_id": "site_12345",
+  "probe_id": "LF-A1B2C3",
+  "deploy_type": "auto"
+}
+
+Response:
+{
+  "code": 200,
+  "data": {
+    "deploy_id": "deploy_67890",
+    "status": "success",
+    "deployed_domain": "xx-tech.example.com",
+    "domain_verified": true,
+    "deployed_at": "2024-02-26T10:05:00Z",
+    "message": "探针已成功部署，域名校验通过"
+  }
+}</pre>
+                                    </code>
+                                </div>
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-blue-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-blue-700 mb-2">服务端处理</h4>
+                                        <p class="text-sm text-blue-600">调用独立站 API 接口，向 &lt;head&gt; 标签注入代码</p>
+                                    </div>
+                                    <div class="bg-emerald-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-emerald-700 mb-2">域名校验</h4>
+                                        <p class="text-sm text-emerald-600">部署后校验站点域名是否与绑定域名一致</p>
+                                    </div>
+                                    <div class="bg-purple-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-purple-700 mb-2">状态更新</h4>
+                                        <p class="text-sm text-purple-600">更新企业探针状态为「已生效」</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">API 接口 - 验证代码嵌入</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="code-block p-4 mb-4">
+                                    <code>
+<pre>POST /api/v1/probe/verify
+
+Request Headers:
+  Authorization: Bearer {enterprise_token}
+
+Request Body:
+{
+  "probe_id": "LF-A1B2C3"
+}
+
+Response:
+{
+  "code": 200,
+  "data": {
+    "verified": true,
+    "detected_script": "https://cdn.leadfinder.io/probe/LF-A1B2C3.js",
+    "source_domain": "xx-tech.example.com",
+    "bound_domain": "xx-tech.example.com",
+    "domain_match": true,
+    "verified_at": "2024-02-26T10:08:00Z",
+    "status": "active",
+    "message": "探针代码检测成功，域名校验通过，数据采集链路已连通"
+  }
+}</pre>
+                                    </code>
+                                </div>
+                                <div class="bg-amber-50 rounded-lg p-4">
+                                    <h4 class="font-medium text-amber-700 mb-2">验证逻辑</h4>
+                                    <p class="text-sm text-amber-600">服务端发起 HTTP 请求访问绑定域名网站，解析 HTML 内容检测 &lt;head&gt; 标签中是否包含探针脚本。同时校验请求来源域名是否与绑定域名一致，若不一致则拒绝数据上报。</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">探针代码核心采集逻辑</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="bg-slate-50 rounded-xl p-4 mb-4">
+                                    <p class="text-sm text-slate-600 mb-3">探针脚本加载后，自动初始化以下采集维度：</p>
+                                    <table class="w-full text-sm">
+                                        <thead>
+                                            <tr class="border-b border-slate-200">
+                                                <th class="text-left py-2 text-slate-500 font-medium">行为类型</th>
+                                                <th class="text-left py-2 text-slate-500 font-medium">触发条件</th>
+                                                <th class="text-left py-2 text-slate-500 font-medium">采集内容</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="border-b border-slate-100">
+                                                <td class="py-3 text-slate-600">Click</td>
+                                                <td class="py-3 text-slate-600">元素点击</td>
+                                                <td class="py-3 text-slate-600">href、innerText、data-product-sku</td>
+                                            </tr>
+                                            <tr class="border-b border-slate-100">
+                                                <td class="py-3 text-slate-600">Scroll</td>
+                                                <td class="py-3 text-slate-600">滚动深度 50%/100%</td>
+                                                <td class="py-3 text-slate-600">视区内停留最久元素的标题</td>
+                                            </tr>
+                                            <tr class="border-b border-slate-100">
+                                                <td class="py-3 text-slate-600">Hover</td>
+                                                <td class="py-3 text-slate-600">悬停 &gt; 3秒</td>
+                                                <td class="py-3 text-slate-600">停留区域核心关键词/按钮文案</td>
+                                            </tr>
+                                            <tr class="border-b border-slate-100">
+                                                <td class="py-3 text-slate-600">Copy</td>
+                                                <td class="py-3 text-slate-600">文本复制</td>
+                                                <td class="py-3 text-slate-600">被复制的 Selection_Text</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-3 text-slate-600">Form</td>
+                                                <td class="py-3 text-slate-600">表单交互</td>
+                                                <td class="py-3 text-slate-600">Form_ID、Title（不采集输入内容）</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                                    <h4 class="font-medium text-red-700 mb-2">GDPR 合规红线</h4>
+                                    <p class="text-sm text-red-600">绝对不采集用户在 input 框中输入的具体字符内容，仅记录「发生过输入行为」。所有采集行为需用户 Cookie 同意后触发。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">限制规则</h2>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                            <h4 class="font-medium text-red-700 mb-2">一账号一域名</h4>
+                            <p class="text-sm text-red-600">每个企业账号仅能绑定一个网站域名，不可同时绑定多个站点。如需更换域名，需联系平台管理员。</p>
+                        </div>
+                        <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                            <h4 class="font-medium text-red-700 mb-2">域名唯一性</h4>
+                            <p class="text-sm text-red-600">同一域名仅能被一个账号绑定，若域名已被其他账号绑定，将拒绝当前绑定请求。</p>
+                        </div>
+                        <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                            <h4 class="font-medium text-amber-700 mb-2">部署域名校验</h4>
+                            <p class="text-sm text-amber-600">探针代码仅对绑定域名生效，若部署到未绑定域名，数据将无法正常上报，系统会返回域名不一致错误。</p>
+                        </div>
+                        <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                            <h4 class="font-medium text-amber-700 mb-2">验证频率</h4>
+                            <p class="text-sm text-amber-600">手动验证按钮有 30 秒冷却时间，避免频繁请求对目标网站造成压力。</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-orange-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">异常处理机制</h2>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="border-b border-slate-200">
+                                    <th class="text-left py-3 text-slate-500 font-medium">异常场景</th>
+                                    <th class="text-left py-3 text-slate-500 font-medium">系统行为</th>
+                                    <th class="text-left py-3 text-slate-500 font-medium">用户提示</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="border-b border-slate-100">
+                                    <td class="py-3 text-slate-600">域名已绑定其他账号</td>
+                                    <td class="py-3 text-slate-600">拒绝绑定请求</td>
+                                    <td class="py-3 text-slate-500">「该域名已被其他账号绑定，如需协助请联系客服」</td>
+                                </tr>
+                                <tr class="border-b border-slate-100">
+                                    <td class="py-3 text-slate-600">探针部署至未绑定域名</td>
+                                    <td class="py-3 text-slate-600">拒绝数据上报</td>
+                                    <td class="py-3 text-slate-500">「检测到探针部署域名与绑定域名不一致，请检查部署位置」</td>
+                                </tr>
+                                <tr class="border-b border-slate-100">
+                                    <td class="py-3 text-slate-600">账号已有绑定域名</td>
+                                    <td class="py-3 text-slate-600">阻止新域名绑定</td>
+                                    <td class="py-3 text-slate-500">「当前账号已绑定域名 xxx.com，如需更换请联系管理员」</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 text-slate-600">域名格式无效</td>
+                                    <td class="py-3 text-slate-600">拒绝绑定</td>
+                                    <td class="py-3 text-slate-500">「请输入有效的网站域名，如 example.com」</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">Toast 提醒文案规范</h2>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-gradient-to-r from-cyan-50 to-blue-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">1. 域名绑定操作</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                        <h4 class="font-medium text-emerald-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                            成功提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-emerald-600">
+                                            <p><strong>绑定成功：</strong>「域名绑定成功！探针代码已生成，数据采集链路已就绪。」</p>
+                                            <p><strong>自动绑定：</strong>「已自动提取授权独立站域名并完成绑定。」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                                        <h4 class="font-medium text-red-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                                            失败提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-red-600">
+                                            <p><strong>格式无效：</strong>「请输入有效的网站域名，格式如 example.com」</p>
+                                            <p><strong>已被绑定：</strong>「该域名已被其他账号绑定，如需协助请联系客服」</p>
+                                            <p><strong>已有绑定：</strong>「当前账号已绑定域名 {domain}，如需更换请联系管理员」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                                        <h4 class="font-medium text-amber-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                            异常提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-amber-600">
+                                            <p><strong>网络错误：</strong>「网络连接异常，请检查网络后重试」</p>
+                                            <p><strong>服务不可用：</strong>「服务暂时不可用，请稍后再试」</p>
+                                            <p><strong>超时：</strong>「请求超时，域名验证失败，请重试」</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-gradient-to-r from-purple-50 to-pink-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">2. 一键安装操作</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                        <h4 class="font-medium text-emerald-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                            成功提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-emerald-600">
+                                            <p><strong>部署成功：</strong>「探针部署成功！数据已回传，访客雷达已开始追踪。」</p>
+                                            <p><strong>注入成功：</strong>「追踪代码已成功注入网站 head 标签」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                                        <h4 class="font-medium text-red-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                                            失败提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-red-600">
+                                            <p><strong>连接失败：</strong>「无法连接独立站 API，请检查授权是否有效」</p>
+                                            <p><strong>注入失败：</strong>「代码注入失败，请手动复制代码进行部署」</p>
+                                            <p><strong>域名不一致：</strong>「检测到部署域名与绑定域名不一致，请重新授权」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                                        <h4 class="font-medium text-amber-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                            异常提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-amber-600">
+                                            <p><strong>部署超时：</strong>「部署操作超时，请检查网站可访问性后重试」</p>
+                                            <p><strong>服务异常：</strong>「部署服务异常，请稍后重试或使用手动部署」</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-gradient-to-r from-violet-50 to-purple-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">3. 复制代码操作</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                        <h4 class="font-medium text-emerald-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                            成功提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-emerald-600">
+                                            <p><strong>复制成功：</strong>「探针代码已复制到剪贴板，请粘贴到网站 head 标签」</p>
+                                            <p><strong>快捷键提示：</strong>「已复制，按 Ctrl+V / Cmd+V 粘贴」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                                        <h4 class="font-medium text-red-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                                            失败提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-red-600">
+                                            <p><strong>复制失败：</strong>「代码复制失败，请尝试手动选择复制」</p>
+                                            <p><strong>浏览器限制：</strong>「当前浏览器不支持自动复制，请手动选择代码」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                                        <h4 class="font-medium text-amber-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                            异常提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-amber-600">
+                                            <p><strong>权限被拒：</strong>「剪贴板访问权限被拒绝，请在浏览器设置中允许」</p>
+                                            <p><strong>操作失败：</strong>「复制操作失败，请刷新页面后重试」</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-gradient-to-r from-teal-50 to-cyan-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">4. 验证代码操作</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                        <h4 class="font-medium text-emerald-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                            成功提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-emerald-600">
+                                            <p><strong>验证通过：</strong>「探针代码检测成功！域名校验通过，数据采集链路已连通。」</p>
+                                            <p><strong>部署生效：</strong>「数据已回传，探针已生效，正在追踪访客行为」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                                        <h4 class="font-medium text-red-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                                            失败提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-red-600">
+                                            <p><strong>未检测到：</strong>「未检测到探针代码，请确认代码已正确嵌入 head 标签」</p>
+                                            <p><strong>域名不一致：</strong>「域名校验失败，探针部署域名与绑定域名不一致」</p>
+                                            <p><strong>代码错误：</strong>「检测到探针代码异常，请检查代码完整性」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                                        <h4 class="font-medium text-amber-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                            异常提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-amber-600">
+                                            <p><strong>验证冷却：</strong>「验证操作过于频繁，请 {seconds} 秒后再试」</p>
+                                            <p><strong>网站不可达：</strong>「无法访问目标网站，请确认网站可正常访问」</p>
+                                            <p><strong>验证超时：</strong>「验证请求超时，请稍后重试」</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-rose-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">页面跳转关系</h2>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-6">
+                        <div class="flex items-center justify-center gap-4 flex-wrap">
+                            <div class="px-4 py-2 bg-slate-200 text-slate-600 rounded-lg text-sm">
+                                企业配置页
+                            </div>
+                            <svg class="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                            <div class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium">
+                                探针部署
+                            </div>
+                            <svg class="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                            <div class="px-4 py-2 bg-emerald-100 text-emerald-600 rounded-lg text-sm">
+                                访客雷达
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">技术栈说明</h2>
+                    </div>
+                    <div class="grid md:grid-cols-4 gap-4">
+                        <div class="bg-slate-50 rounded-xl p-4">
+                            <h4 class="font-medium text-slate-700 mb-2">前端框架</h4>
+                            <p class="text-sm text-slate-600">Tailwind CSS + Vanilla JS</p>
+                        </div>
+                        <div class="bg-slate-50 rounded-xl p-4">
+                            <h4 class="font-medium text-slate-700 mb-2">探针脚本</h4>
+                            <p class="text-sm text-slate-600">轻量级 JS SDK (&lt;10KB)</p>
+                        </div>
+                        <div class="bg-slate-50 rounded-xl p-4">
+                            <h4 class="font-medium text-slate-700 mb-2">CDN 分发</h4>
+                            <p class="text-sm text-slate-600">全球节点加速，低延迟加载</p>
+                        </div>
+                        <div class="bg-slate-50 rounded-xl p-4">
+                            <h4 class="font-medium text-slate-700 mb-2">数据上报</h4>
+                            <p class="text-sm text-slate-600">Beacon API + 批量打包</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-6">
+        <div class="max-w-5xl mx-auto px-4 text-center text-sm text-slate-400">
+            AI-LeadFinder 功能说明文档 · 探针部署
+        </div>
+
+    </footer>
+
+</body>
+</html>

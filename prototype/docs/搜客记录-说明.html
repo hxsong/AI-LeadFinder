@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeadFinder - 搜客记录页面功能说明</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Fira Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#60A5FA',
+                        cta: '#F97316',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .section-card {
+            transition: all 0.3s ease;
+        }
+        .section-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+        .code-block {
+            background: #1e293b;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        .code-block code {
+            color: #e2e8f0;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 13px;
+        }
+        .highlight-box {
+            border-left: 4px solid #3B82F6;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen font-sans">
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-slate-200">
+        <div class="max-w-6xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-semibold text-slate-800">功能说明文档</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm font-medium">P12.1 节点</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-24 pb-16 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="mb-10">
+                <h1 class="text-3xl font-bold text-slate-800 mb-4">搜客记录页面</h1>
+                <p class="text-slate-500 text-lg">对应业务流程节点：P12.1（查看历史搜客任务及结果）</p>
+            </div>
+
+            <div class="space-y-8">
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">页面概述</h2>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-6">
+                        <p class="text-slate-600 leading-relaxed">
+                            搜客记录页面用于展示用户的历史搜客任务及结果。用户可以在此页面查看所有搜客任务的执行状态、消耗的 Credits、发现的企业数量等信息。支持按状态和时间筛选，点击已完成任务可跳转至搜客结果列表页面查看详细结果。
+                        </p>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">可见功能逻辑</h2>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">1. UI 组件</h3>
+                            </div>
+                            <div class="p-5 space-y-3">
+                                <div class="flex items-start gap-3">
+                                    <span class="w-6 h-6 bg-primary/10 text-primary rounded flex items-center justify-center text-sm font-medium flex-shrink-0">1</span>
+                                    <div>
+                                        <p class="font-medium text-slate-800">统计卡片</p>
+                                        <p class="text-sm text-slate-600">顶部三个统计卡片：总搜客次数、累计消耗 Credits、发现企业数量</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="w-6 h-6 bg-primary/10 text-primary rounded flex items-center justify-center text-sm font-medium flex-shrink-0">2</span>
+                                    <div>
+                                        <p class="font-medium text-slate-800">筛选栏</p>
+                                        <p class="text-sm text-slate-600">状态筛选（全部/已完成/进行中/失败）+ 时间筛选（全部时间/近7天/近30天/近90天）</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="w-6 h-6 bg-primary/10 text-primary rounded flex items-center justify-center text-sm font-medium flex-shrink-0">3</span>
+                                    <div>
+                                        <p class="font-medium text-slate-800">记录列表</p>
+                                        <p class="text-sm text-slate-600">按时间倒序展示搜客记录，每条记录包含：搜索时间、任务名称、搜索需求摘要、目标数量、消耗 Credits、数据源、状态标签</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="w-6 h-6 bg-primary/10 text-primary rounded flex items-center justify-center text-sm font-medium flex-shrink-0">4</span>
+                                    <div>
+                                        <p class="font-medium text-slate-800">分页组件</p>
+                                        <p class="text-sm text-slate-600">底部分页导航，支持翻页查看更多记录</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="w-6 h-6 bg-primary/10 text-primary rounded flex items-center justify-center text-sm font-medium flex-shrink-0">5</span>
+                                    <div>
+                                        <p class="font-medium text-slate-800">新建搜客按钮</p>
+                                        <p class="text-sm text-slate-600">页面右上角「新建搜客」按钮，点击跳转至搜客需求输入页面</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">2. 任务状态展示</h3>
+                            </div>
+                            <div class="p-5">
+                                <table class="w-full text-sm">
+                                    <thead>
+                                        <tr class="border-b border-slate-200">
+                                            <th class="text-left py-2 text-slate-500 font-medium">状态</th>
+                                            <th class="text-left py-2 text-slate-500 font-medium">图标</th>
+                                            <th class="text-left py-2 text-slate-500 font-medium">标签样式</th>
+                                            <th class="text-left py-2 text-slate-500 font-medium">交互行为</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="border-b border-slate-100">
+                                            <td class="py-3 text-slate-600">已完成</td>
+                                            <td class="py-3 text-slate-600">绿色勾选图标</td>
+                                            <td class="py-3"><span class="px-2 py-1 bg-green-100 text-green-600 text-xs rounded-lg">已完成</span></td>
+                                            <td class="py-3 text-slate-600">可点击跳转至搜客结果列表</td>
+                                        </tr>
+                                        <tr class="border-b border-slate-100">
+                                            <td class="py-3 text-slate-600">进行中</td>
+                                            <td class="py-3 text-slate-600">蓝色旋转加载图标</td>
+                                            <td class="py-3"><span class="px-2 py-1 bg-blue-100 text-blue-600 text-xs rounded-lg">进行中</span></td>
+                                            <td class="py-3 text-slate-600">显示进度条，不可点击</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-3 text-slate-600">失败</td>
+                                            <td class="py-3 text-slate-600">红色叉号图标</td>
+                                            <td class="py-3"><span class="px-2 py-1 bg-red-100 text-red-600 text-xs rounded-lg">失败</span></td>
+                                            <td class="py-3 text-slate-600">显示错误原因 + 重试按钮</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">3. 交互效果</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="bg-blue-50 rounded-lg p-4">
+                                    <ul class="text-sm text-slate-600 space-y-2">
+                                        <li>• <strong>筛选切换：</strong>点击状态/时间筛选按钮，列表实时更新</li>
+                                        <li>• <strong>记录点击：</strong>已完成任务点击跳转至搜客结果列表页面</li>
+                                        <li>• <strong>重试按钮：</strong>失败任务点击重试，重新发起搜客请求</li>
+                                        <li>• <strong>页面进入动画：</strong>各组件依次淡入上滑（fadeInUp）</li>
+                                        <li>• <strong>悬停效果：</strong>记录卡片悬停时显示阴影效果</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">不可见功能逻辑</h2>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">1. API 接口调用</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="code-block p-4 mb-4">
+                                    <code>
+<pre>GET /api/v1/search/records
+
+Request Headers:
+  Authorization: Bearer {tenant_token}
+
+Query Parameters:
+  tenant_id: "tenant_001"
+  status: "completed" | "in_progress" | "failed" | "all"
+  time_range: "7d" | "30d" | "90d" | "all"
+  page: 1
+  page_size: 10
+
+Response (Success):
+{
+  "code": 200,
+  "message": "success",
+  "data": {
+    "total": 24,
+    "page": 1,
+    "page_size": 10,
+    "records": [
+      {
+        "task_id": "task_20240120_001",
+        "task_name": "加州音视频集成商搜客",
+        "query": "加州的音视频集成商，优先考虑有展会记录的企业",
+        "target_count": 100,
+        "result_count": 98,
+        "credits_used": 115,
+        "data_sources": ["地图", "海关", "展会"],
+        "status": "completed",
+        "created_at": "2024-01-20T14:30:00Z",
+        "completed_at": "2024-01-20T14:45:00Z"
+      }
+    ],
+    "statistics": {
+      "total_searches": 24,
+      "total_credits": 2847,
+      "total_enterprises": 1892
+    }
+  }
+}</pre>
+                                    </code>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">2. 重试接口</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="code-block p-4 mb-4">
+                                    <code>
+<pre>POST /api/v1/search/retry
+
+Request Headers:
+  Authorization: Bearer {tenant_token}
+  Content-Type: application/json
+
+Request Body:
+{
+  "tenant_id": "tenant_001",
+  "task_id": "task_20240115_001"
+}
+
+Response (Success):
+{
+  "code": 200,
+  "message": "重试任务已创建",
+  "data": {
+    "new_task_id": "task_20240120_002",
+    "status": "pending"
+  }
+}</pre>
+                                    </code>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">3. 数据存储</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-slate-50 rounded-xl p-4">
+                                        <h4 class="font-medium text-slate-700 mb-2">搜索任务表</h4>
+                                        <p class="text-sm text-slate-600">记录所有搜客任务的元数据、状态、结果统计</p>
+                                    </div>
+                                    <div class="bg-slate-50 rounded-xl p-4">
+                                        <h4 class="font-medium text-slate-700 mb-2">Credits 流水表</h4>
+                                        <p class="text-sm text-slate-600">记录每次搜客的 Credits 消耗明细</p>
+                                    </div>
+                                    <div class="bg-slate-50 rounded-xl p-4">
+                                        <h4 class="font-medium text-slate-700 mb-2">结果缓存</h4>
+                                        <p class="text-sm text-slate-600">Redis 缓存搜客结果，有效期 7 天</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">限制规则</h2>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                            <h4 class="font-medium text-red-700 mb-2">数据保留</h4>
+                            <ul class="text-sm text-red-600 space-y-1">
+                                <li>• 搜客记录保留 90 天</li>
+                                <li>• 搜客结果缓存 7 天</li>
+                                <li>• 超期数据自动归档</li>
+                            </ul>
+                        </div>
+                        <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                            <h4 class="font-medium text-red-700 mb-2">权限限制</h4>
+                            <ul class="text-sm text-red-600 space-y-1">
+                                <li>• 仅可查看本租户的搜客记录</li>
+                                <li>• 重试功能需 Credits 余额 > 0</li>
+                            </ul>
+                            <div class="mt-3 pt-3 border-t border-red-200">
+                                <p class="text-xs text-red-500"><strong>余额规则：</strong>余额可为负，≤ 0 时禁止消耗操作；重试任务执行中不扣费，完成后按实际消耗结算，允许余额为负。</p>
+                            </div>
+                        </div>
+                        <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                            <h4 class="font-medium text-amber-700 mb-2">分页限制</h4>
+                            <ul class="text-sm text-amber-600 space-y-1">
+                                <li>• 每页最多显示 10 条记录</li>
+                                <li>• 最大翻页深度 100 页</li>
+                            </ul>
+                        </div>
+                        <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                            <h4 class="font-medium text-amber-700 mb-2">重试限制</h4>
+                            <ul class="text-sm text-amber-600 space-y-1">
+                                <li>• 仅失败任务可重试</li>
+                                <li>• 单个任务最多重试 3 次</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-rose-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">页面跳转关系</h2>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-6">
+                        <div class="flex items-center justify-center gap-4 flex-wrap">
+                            <div class="px-4 py-2 bg-blue-100 text-blue-600 rounded-lg text-sm">
+                                搜客需求输入.html
+                            </div>
+                            <svg class="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4"/>
+                            </svg>
+                            <div class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium">
+                                搜客记录.html
+                            </div>
+                            <svg class="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                            <div class="px-4 py-2 bg-emerald-100 text-emerald-600 rounded-lg text-sm">
+                                搜客结果列表.html
+                            </div>
+                        </div>
+                        <p class="text-xs text-slate-400 text-center mt-3">注：点击已完成的搜客记录可跳转至搜客结果列表页面查看详细结果</p>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">技术栈说明</h2>
+                    </div>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div class="bg-slate-50 rounded-xl p-4">
+                            <h4 class="font-medium text-slate-700 mb-2">前端框架</h4>
+                            <p class="text-sm text-slate-600">Tailwind CSS + Vanilla JS</p>
+                        </div>
+                        <div class="bg-slate-50 rounded-xl p-4">
+                            <h4 class="font-medium text-slate-700 mb-2">后端服务</h4>
+                            <p class="text-sm text-slate-600">RESTful API</p>
+                        </div>
+                        <div class="bg-slate-50 rounded-xl p-4">
+                            <h4 class="font-medium text-slate-700 mb-2">缓存服务</h4>
+                            <p class="text-sm text-slate-600">Redis</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-6">
+        <div class="max-w-5xl mx-auto px-4 text-center text-sm text-slate-400">
+            AI-LeadFinder 功能说明文档 · 搜客记录页面
+        </div>
+
+    </footer>
+
+</body>
+</html>

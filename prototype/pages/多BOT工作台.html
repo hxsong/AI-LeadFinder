@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeadFinder - 多BOT工作台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Fira Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#60A5FA',
+                        cta: '#F97316',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .bot-card {
+            transition: all 0.3s ease;
+        }
+        .bot-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15);
+        }
+        .create-card {
+            border: 2px dashed #CBD5E1;
+            transition: all 0.3s ease;
+        }
+        .create-card:hover:not(.disabled) {
+            border-color: #3B82F6;
+            background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+        }
+        .create-card.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        @keyframes pulse-ring {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+        .status-active {
+            animation: pulse-ring 2s ease-in-out infinite;
+        }
+        .modal-backdrop {
+            backdrop-filter: blur(4px);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen font-sans">
+    <nav class="fixed top-4 left-4 right-4 z-50">
+        <div class="max-w-6xl mx-auto bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg border border-slate-200/50 px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-semibold text-primary">AI-LeadFinder</h1>
+                        <p class="text-xs text-muted">智能获客引擎</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2 px-3 py-1.5 bg-accent/10 rounded-lg">
+                        <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                        <span class="text-sm font-medium text-accent">60,000 Credits</span>
+                    </div>
+                    <div class="w-9 h-9 bg-secondary rounded-full flex items-center justify-center">
+                        <span class="text-sm font-medium text-white">O</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-28 pb-16 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="mb-8 flex items-center justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold text-slate-800 mb-2">全局资源看板</h1>
+                    <p class="text-slate-500">管理您的获客引擎实例和算力积分</p>
+                </div>
+                <button onclick="openPurchaseModal()" class="px-4 py-2 bg-gradient-to-r from-primary to-secondary text-white rounded-xl font-medium hover:shadow-lg transition-all flex items-center gap-2 whitespace-nowrap">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                    </svg>
+                    <span>购买更多算力</span>
+                </button>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-gradient-to-br from-amber-400 to-orange-500 rounded-xl flex items-center justify-center">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-slate-500">算力积分余额</p>
+                                <p class="text-3xl font-bold text-slate-800">60,000</p>
+                            </div>
+                        </div>
+                        <span class="text-sm text-slate-400">Credits</span>
+                    </div>
+                    <div class="h-2 bg-slate-100 rounded-full overflow-hidden">
+                        <div class="h-full bg-gradient-to-r from-amber-400 to-orange-500 rounded-full" style="width: 60%"></div>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-2">已消耗 40,000 / 总计 100,000</p>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-slate-500">引擎实例额度</p>
+                                <p class="text-3xl font-bold text-slate-800">1 <span class="text-lg font-normal text-slate-400">/ 3</span></p>
+                            </div>
+                        </div>
+                        <span class="text-sm text-slate-400">BOT</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <div class="flex-1 h-2 bg-primary rounded-full"></div>
+                        <div class="flex-1 h-2 bg-slate-100 rounded-full"></div>
+                        <div class="flex-1 h-2 bg-slate-100 rounded-full"></div>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-2">已创建 1 个 / 剩余 2 个额度</p>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <h2 class="text-xl font-bold text-slate-800 mb-2">BOT 工作空间矩阵</h2>
+                <p class="text-slate-500">每个 BOT 对应一个独立的获客业务空间，数据完全隔离</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="botGrid">
+                <div class="bot-card bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="p-6">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-slate-800">北美区-LED大屏主站</h3>
+                                    <p class="text-sm text-slate-400">BOT-1001</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1.5 px-2.5 py-1 bg-green-100 rounded-full status-active">
+                                <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                                <span class="text-xs font-medium text-green-600">运行中</span>
+                            </div>
+                        </div>
+
+                        <div class="space-y-3 mb-4">
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-slate-500">创建时间</span>
+                                <span class="text-slate-700">2026-02-25</span>
+                            </div>
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-slate-500">静态线索</span>
+                                <span class="font-medium text-slate-700">142 条</span>
+                            </div>
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-slate-500">动态线索</span>
+                                <span class="font-medium text-slate-700">38 条</span>
+                            </div>
+                            <div class="flex items-center justify-between text-sm">
+                                <span class="text-slate-500">算力消耗</span>
+                                <span class="font-medium text-cta">2,150 Credits</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="px-6 py-4 bg-slate-50 border-t border-slate-100">
+                        <button onclick="enterBot('BOT-1001')" class="w-full py-2.5 bg-primary text-white rounded-xl font-medium hover:bg-blue-600 transition-colors flex items-center justify-center gap-2">
+                            <span>进入获客引擎</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="createBotCard" class="create-card bg-white rounded-2xl p-6 flex flex-col items-center justify-center min-h-[280px] cursor-pointer" onclick="openCreateBotModal()">
+                    <div class="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
+                        <svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                        </svg>
+                    </div>
+                    <p class="font-medium text-slate-600 mb-1">创建新 BOT</p>
+                    <p class="text-sm text-slate-400">剩余额度: 2 个</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="purchaseModal" class="fixed inset-0 bg-black/50 z-[60] hidden items-center justify-center modal-backdrop">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 overflow-hidden">
+            <div class="p-6 border-b border-slate-200 bg-gradient-to-r from-primary/5 to-secondary/5">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xl font-semibold text-slate-800">购买更多算力</h3>
+                    <button onclick="closePurchaseModal()" class="p-2 hover:bg-slate-100 rounded-lg transition-colors">
+                        <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="p-6">
+                <p class="text-slate-600 mb-6">如需扩充获客引擎实例席位，或补充全局获客算力积分，请联系销售或客服人员为您配置专属升级方案。</p>
+                
+                <div class="bg-blue-50 rounded-xl p-4 border border-blue-100">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm font-medium text-slate-700">访问官网了解更多</p>
+                            <a href="https://www.leadfinder.com" target="_blank" class="text-sm text-primary hover:underline">www.leadfinder.com</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="px-6 py-4 bg-slate-50 border-t border-slate-100">
+                <button onclick="closePurchaseModal()" class="w-full py-2.5 bg-slate-200 text-slate-700 rounded-xl font-medium hover:bg-slate-300 transition-colors">
+                    关闭
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="createBotModal" class="fixed inset-0 bg-black/50 z-[60] hidden items-center justify-center modal-backdrop">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full mx-4 overflow-hidden">
+            <div class="p-6 border-b border-slate-200">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xl font-semibold text-slate-800">创建新的获客 BOT</h3>
+                    <button onclick="closeCreateBotModal()" class="p-2 hover:bg-slate-100 rounded-lg transition-colors">
+                        <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="p-6">
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-slate-700 mb-2">BOT 名称</label>
+                    <input type="text" id="botName" placeholder="例如：欧洲区-户外屏主站" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all">
+                    <p class="text-xs text-slate-400 mt-2">建议使用"区域-产品线"格式命名，便于识别管理</p>
+                </div>
+
+                <div class="bg-blue-50 rounded-xl p-4 border border-blue-100">
+                    <div class="flex items-start gap-3">
+                        <svg class="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <div>
+                            <p class="text-sm font-medium text-blue-800">创建后将进入初始化流程</p>
+                            <p class="text-xs text-blue-600 mt-1">您需要上传业务材料或授权独立站，AI 将自动分析生成企业画像</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex gap-3">
+                <button onclick="closeCreateBotModal()" class="flex-1 py-2.5 bg-slate-200 text-slate-700 rounded-xl font-medium hover:bg-slate-300 transition-colors">
+                    取消
+                </button>
+                <button onclick="createBot()" class="flex-1 py-2.5 bg-primary text-white rounded-xl font-medium hover:bg-blue-600 transition-colors flex items-center justify-center gap-2">
+                    <span>创建并初始化</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 py-4">
+        <div class="max-w-6xl mx-auto px-4 flex items-center justify-between text-sm text-slate-400">
+            <span>AI-LeadFinder v1.0</span>
+            <div class="flex items-center gap-4">
+                <a href="#" class="hover:text-primary transition-colors">帮助中心</a>
+                <a href="#" class="hover:text-primary transition-colors">联系客服</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const botSeatsAvailable = 2;
+
+        function openPurchaseModal() {
+            document.getElementById('purchaseModal').classList.remove('hidden');
+            document.getElementById('purchaseModal').classList.add('flex');
+        }
+
+        function closePurchaseModal() {
+            document.getElementById('purchaseModal').classList.add('hidden');
+            document.getElementById('purchaseModal').classList.remove('flex');
+        }
+
+        function openCreateBotModal() {
+            if (botSeatsAvailable <= 0) {
+                alert('BOT 席位额度不足，请联系销售扩展席位');
+                return;
+            }
+            document.getElementById('createBotModal').classList.remove('hidden');
+            document.getElementById('createBotModal').classList.add('flex');
+        }
+
+        function closeCreateBotModal() {
+            document.getElementById('createBotModal').classList.add('hidden');
+            document.getElementById('createBotModal').classList.remove('flex');
+        }
+
+        function createBot() {
+            const name = document.getElementById('botName').value.trim();
+            
+            if (!name) {
+                alert('请输入 BOT 名称');
+                return;
+            }
+            
+            const btn = document.querySelector('#createBotModal button[onclick="createBot()"]');
+            btn.disabled = true;
+            btn.innerHTML = `
+                <svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span>初始化中...</span>
+            `;
+            
+            localStorage.setItem('current_active_bot_id', 'BOT-' + Date.now());
+            localStorage.setItem('current_bot_name', name);
+            
+            setTimeout(() => {
+                window.location.href = '业务初始化.html';
+            }, 1500);
+        }
+
+        function enterBot(botId) {
+            localStorage.setItem('current_active_bot_id', botId);
+            window.location.href = '搜客需求输入.html';
+        }
+    </script>
+</body>
+</html>

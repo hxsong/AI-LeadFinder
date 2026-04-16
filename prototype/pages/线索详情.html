@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>线索详情 - AI-LeadFinder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0F172A',
+                        secondary: '#334155',
+                        cta: '#0369A1',
+                        background: '#F8FAFC',
+                        text: '#020617',
+                        muted: '#64748B',
+                        accent: '#0EA5E9',
+                        success: '#10B981',
+                        warning: '#F59E0B',
+                        grade_s: '#059669',
+                        grade_a: '#0284C7',
+                        grade_b: '#7C3AED',
+                        grade_c: '#DC2626',
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+        .animate-delay-100 { animation-delay: 0.1s; }
+        .animate-delay-200 { animation-delay: 0.2s; }
+        .animate-delay-300 { animation-delay: 0.3s; }
+        .animate-delay-400 { animation-delay: 0.4s; }
+    </style>
+    <script src="../entry-nav.js"></script>
+</head>
+<body class="bg-background font-sans min-h-screen">
+    <nav class="fixed top-4 left-4 right-4 z-50">
+        <div class="max-w-6xl mx-auto bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg border border-slate-200/50 px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-semibold text-primary">AI-LeadFinder</h1>
+                        <p class="text-xs text-muted">智能获客引擎</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2 px-3 py-1.5 bg-accent/10 rounded-lg">
+                        <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                        <span class="text-sm font-medium text-accent">60,000 Credits</span>
+                    </div>
+                    <div class="w-9 h-9 bg-secondary rounded-full flex items-center justify-center">
+                        <span class="text-sm font-medium text-white">O</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-28 pb-32 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="mb-6">
+                <div class="flex items-center gap-2 mb-2">
+                    <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                    </svg>
+                    <h1 class="text-2xl font-bold text-primary">线索详情</h1>
+                </div>
+                <p class="text-muted text-sm">查看线索的完整分析报告和联系人信息</p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-6 mb-6 opacity-0 animate-fade-in-up">
+                <div class="flex items-start gap-4">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-3 mb-2">
+                            <h2 class="text-2xl font-bold text-primary">Orlando Mega Stage AV</h2>
+                        </div>
+                        <div class="flex items-center gap-4 text-sm text-muted mb-3">
+                            <a href="#" class="text-accent hover:underline flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+                                </svg>
+                                www.orlando-av.com
+                            </a>
+                            <span class="flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                </svg>
+                                Florida, USA
+                            </span>
+                            <span class="flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                </svg>
+                                50-200 人
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-6 mb-6 opacity-0 animate-fade-in-up animate-delay-100">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-accent/10 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-primary">联系人矩阵</h3>
+                            <p class="text-sm text-muted">深度挖掘获取的联系人信息</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 text-sm">
+                        <div class="flex items-center gap-2 px-3 py-1.5 bg-success/10 rounded-lg">
+                            <svg class="w-4 h-4 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <span class="text-success font-medium">3 位联系人</span>
+                        </div>
+                        <div class="flex items-center gap-2 px-3 py-1.5 bg-accent/10 rounded-lg">
+                            <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span class="text-accent font-medium">消耗 8 Credits</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="border border-slate-200 rounded-xl p-5 hover:border-slate-300 transition-colors">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-success/10 rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="text-lg font-bold text-success">JD</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <h4 class="text-lg font-semibold text-primary">John Doe</h4>
+                                    <span class="px-2 py-0.5 bg-success/10 text-success text-xs font-medium rounded">VP of Procurement</span>
+                                </div>
+                                <div class="flex flex-wrap items-center gap-4 text-sm">
+                                    <div class="flex items-center gap-2 text-muted">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                        </svg>
+                                        <a href="mailto:johndoe@orlando-av.com" class="text-accent hover:underline">johndoe@orlando-av.com</a>
+                                        <span class="px-1.5 py-0.5 bg-green-100 text-green-600 text-xs rounded">已验证</span>
+                                    </div>
+                                    <a href="#" class="flex items-center gap-2 text-muted hover:text-accent transition-colors">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                                        </svg>
+                                        LinkedIn 主页
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button onclick="showToast()" class="px-4 py-2 bg-cta hover:bg-cta/90 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2 cursor-pointer">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                    </svg>
+                                    立即触达
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border border-slate-200 rounded-xl p-5 hover:border-slate-300 transition-colors">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="text-lg font-bold text-secondary">JS</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <h4 class="text-lg font-semibold text-primary">Jane Smith</h4>
+                                    <span class="px-2 py-0.5 bg-slate-100 text-secondary text-xs font-medium rounded">AV Project Manager</span>
+                                </div>
+                                <div class="flex flex-wrap items-center gap-4 text-sm">
+                                    <div class="flex items-center gap-2 text-muted">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                        </svg>
+                                        <a href="mailto:janesmith@orlando-av.com" class="text-accent hover:underline">janesmith@orlando-av.com</a>
+                                        <span class="px-1.5 py-0.5 bg-green-100 text-green-600 text-xs rounded">已验证</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button onclick="showToast()" class="px-4 py-2 border border-slate-200 text-secondary text-sm font-medium rounded-lg hover:bg-slate-50 transition-colors flex items-center gap-2 cursor-pointer">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                    </svg>
+                                    立即触达
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border border-slate-200 rounded-xl p-5 hover:border-slate-300 transition-colors">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <span class="text-lg font-bold text-secondary">MR</span>
+                            </div>
+                            <div class="flex-1">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <h4 class="text-lg font-semibold text-primary">Mike Rodriguez</h4>
+                                    <span class="px-2 py-0.5 bg-slate-100 text-secondary text-xs font-medium rounded">Technical Director</span>
+                                </div>
+                                <div class="flex flex-wrap items-center gap-4 text-sm">
+                                    <div class="flex items-center gap-2 text-muted">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                        </svg>
+                                        <a href="mailto:mike@orlando-av.com" class="text-accent hover:underline">mike@orlando-av.com</a>
+                                        <span class="px-1.5 py-0.5 bg-green-100 text-green-600 text-xs rounded">已验证</span>
+                                    </div>
+                                    <a href="#" class="flex items-center gap-2 text-muted hover:text-accent transition-colors">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                                        </svg>
+                                        Twitter 主页
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button onclick="showToast()" class="px-4 py-2 border border-slate-200 text-secondary text-sm font-medium rounded-lg hover:bg-slate-50 transition-colors flex items-center gap-2 cursor-pointer">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                    </svg>
+                                    立即触达
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-6 mb-6 opacity-0 animate-fade-in-up animate-delay-200">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center">
+                        <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-primary">原始静态证据</h3>
+                        <p class="text-sm text-muted">该线索被收录的背景依据（基础匹配分：96分）</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="border border-slate-200 rounded-xl overflow-hidden">
+                        <div class="bg-green-50 px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                    </svg>
+                                </div>
+                                <span class="font-medium text-green-800">海关数据</span>
+                            </div>
+                            <span class="px-2 py-1 bg-green-100 text-green-600 text-xs rounded-lg">已匹配</span>
+                        </div>
+                        <div class="p-4">
+                            <div class="flex items-center gap-4 text-sm mb-3">
+                                <span class="text-muted">时间范围：</span>
+                                <span class="text-primary font-medium">近12个月</span>
+                                <span class="text-muted">进口次数：</span>
+                                <span class="text-primary font-medium">3 次</span>
+                            </div>
+                            <div class="bg-slate-50 rounded-lg p-3">
+                                <div class="flex items-center justify-between text-sm">
+                                    <div>
+                                        <p class="text-muted">HS Code</p>
+                                        <p class="text-primary font-mono font-medium">852859</p>
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-muted">产品描述</p>
+                                        <p class="text-primary font-medium">LED显示屏</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border border-slate-200 rounded-xl overflow-hidden">
+                        <div class="bg-purple-50 px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                    </svg>
+                                </div>
+                                <span class="font-medium text-purple-800">展会数据</span>
+                            </div>
+                            <span class="px-2 py-1 bg-purple-100 text-purple-600 text-xs rounded-lg">已匹配</span>
+                        </div>
+                        <div class="p-4">
+                            <div class="flex items-center gap-4 text-sm mb-3">
+                                <span class="text-muted">参展次数：</span>
+                                <span class="text-primary font-medium">2 次</span>
+                            </div>
+                            <div class="bg-slate-50 rounded-lg p-3">
+                                <div class="flex items-center justify-between text-sm">
+                                    <div>
+                                        <p class="text-primary font-medium">InfoComm 2023</p>
+                                        <p class="text-muted text-xs">Las Vegas, NV</p>
+                                    </div>
+                                    <span class="px-2 py-1 bg-purple-100 text-purple-600 text-xs rounded-lg">参展商</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border border-slate-200 rounded-xl overflow-hidden">
+                        <div class="bg-blue-50 px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                    </svg>
+                                </div>
+                                <span class="font-medium text-blue-800">地图数据</span>
+                            </div>
+                            <span class="px-2 py-1 bg-blue-100 text-blue-600 text-xs rounded-lg">已验证</span>
+                        </div>
+                        <div class="p-4">
+                            <div class="flex items-center gap-4 text-sm">
+                                <div class="flex-1">
+                                    <p class="text-muted mb-1">详细地址</p>
+                                    <p class="text-primary">1234 Tech Blvd, Orlando, FL 32801</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-muted mb-1">营业状态</p>
+                                    <span class="px-2 py-1 bg-green-100 text-green-600 text-xs rounded-lg">营业中</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border border-slate-200 rounded-xl overflow-hidden">
+                        <div class="bg-orange-50 px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+                                    </svg>
+                                </div>
+                                <span class="font-medium text-orange-800">网页数据</span>
+                            </div>
+                            <span class="px-2 py-1 bg-orange-100 text-orange-600 text-xs rounded-lg">已抓取</span>
+                        </div>
+                        <div class="p-4">
+                            <div class="flex items-center gap-4 text-sm mb-3">
+                                <span class="text-muted">抓取时间：</span>
+                                <span class="text-primary">2024-01-20</span>
+                            </div>
+                            <div class="bg-slate-50 rounded-lg p-3">
+                                <p class="text-sm text-secondary line-clamp-2">专业音视频设备集成商，主营舞台租赁LED屏、音响系统及灯光设备...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-6 opacity-0 animate-fade-in-up animate-delay-300">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center">
+                        <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-primary">账单摘要</h3>
+                        <p class="text-sm text-muted">本次挖掘的费用明细</p>
+                    </div>
+                </div>
+
+                <div class="bg-slate-50 rounded-xl p-4">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-muted">基础联系人费用（3人 x 2 Credits）</span>
+                            <span class="text-primary font-medium">6 Credits</span>
+                        </div>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-muted">LinkedIn 主页附加（1个 x 1 Credit）</span>
+                            <span class="text-primary font-medium">1 Credit</span>
+                        </div>
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-muted">Twitter 主页附加（1个 x 1 Credit）</span>
+                            <span class="text-primary font-medium">1 Credit</span>
+                        </div>
+                        <div class="border-t border-slate-200 pt-3 flex items-center justify-between">
+                            <span class="text-primary font-semibold">本次消耗总计</span>
+                            <span class="text-cta font-bold text-lg">8 Credits</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 py-4 px-4">
+        <div class="max-w-6xl mx-auto flex items-center justify-between">
+            <a href="静态线索池.html" class="px-6 py-3 text-slate-600 hover:text-primary transition-colors flex items-center gap-2 cursor-pointer">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+                返回线索列表
+            </a>
+            <button onclick="showToast()" class="px-8 py-3 bg-gradient-to-r from-cta to-accent hover:from-cta/90 hover:to-accent/90 text-white rounded-xl font-medium transition-all flex items-center gap-2 cursor-pointer shadow-lg shadow-cta/25">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                </svg>
+                智能触达
+            </button>
+        </div>
+    </footer>
+
+
+    <script>
+        function showToast() {
+            const toast = document.createElement("div");
+            toast.className = "fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-slate-800 text-white px-6 py-3 rounded-xl shadow-2xl z-[100] animate-fade-in-up";
+            toast.textContent = "敬请期待上线";
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.remove();
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

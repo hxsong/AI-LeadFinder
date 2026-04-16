@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>搜客记录 - AI-LeadFinder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0F172A',
+                        secondary: '#334155',
+                        cta: '#0369A1',
+                        background: '#F8FAFC',
+                        text: '#020617',
+                        muted: '#64748B',
+                        accent: '#0EA5E9',
+                        success: '#10B981',
+                        warning: '#F59E0B',
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+        .animate-delay-100 { animation-delay: 0.1s; }
+        .animate-delay-200 { animation-delay: 0.2s; }
+        .animate-delay-300 { animation-delay: 0.3s; }
+    </style>
+    <script src="../entry-nav.js"></script>
+</head>
+<body class="bg-background font-sans min-h-screen">
+    <!-- Navigation -->
+    <nav class="fixed top-4 left-4 right-4 z-50">
+        <div class="max-w-6xl mx-auto bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg border border-slate-200/50 px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-semibold text-primary">AI-LeadFinder</h1>
+                        <p class="text-xs text-muted">智能获客引擎</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2 px-3 py-1.5 bg-accent/10 rounded-lg">
+                        <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                        <span class="text-sm font-medium text-accent">60,000 Credits</span>
+                    </div>
+                    <div class="w-9 h-9 bg-secondary rounded-full flex items-center justify-center">
+                        <span class="text-sm font-medium text-white">O</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-28 pb-24 px-4">
+        <div class="max-w-4xl mx-auto">
+            <!-- Header -->
+            <div class="mb-8 opacity-0 animate-fade-in-up">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-2xl sm:text-3xl font-bold text-primary mb-2">搜客记录</h2>
+                        <p class="text-muted">查看历史搜客任务及结果</p>
+                    </div>
+                    <a href="搜客需求输入.html" class="px-5 py-2.5 bg-cta hover:bg-cta/90 text-white rounded-xl font-medium transition-all hover:shadow-lg hover:shadow-cta/20 flex items-center gap-2 cursor-pointer">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        新建搜客
+                    </a>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-3 gap-4 mb-6 opacity-0 animate-fade-in-up animate-delay-100">
+                <div class="bg-white rounded-xl p-4 border border-slate-200/50">
+                    <p class="text-sm text-muted mb-1">总搜客次数</p>
+                    <p class="text-2xl font-bold text-primary">24</p>
+                </div>
+                <div class="bg-white rounded-xl p-4 border border-slate-200/50">
+                    <p class="text-sm text-muted mb-1">累计消耗</p>
+                    <p class="text-2xl font-bold text-cta">2,847 <span class="text-sm font-normal text-muted">Credits</span></p>
+                </div>
+                <div class="bg-white rounded-xl p-4 border border-slate-200/50">
+                    <p class="text-sm text-muted mb-1">发现企业</p>
+                    <p class="text-2xl font-bold text-success">1,892 <span class="text-sm font-normal text-muted">家</span></p>
+                </div>
+            </div>
+
+            <!-- Filter Bar -->
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200/50 p-4 mb-6 opacity-0 animate-fade-in-up animate-delay-200">
+                <div class="flex flex-wrap items-center gap-3">
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm text-muted">状态：</span>
+                        <button class="px-3 py-1.5 bg-cta/10 text-cta text-sm rounded-lg font-medium cursor-pointer">全部</button>
+                        <button class="px-3 py-1.5 bg-slate-100 text-secondary text-sm rounded-lg hover:bg-slate-200 transition-colors cursor-pointer">已完成</button>
+                        <button class="px-3 py-1.5 bg-slate-100 text-secondary text-sm rounded-lg hover:bg-slate-200 transition-colors cursor-pointer">进行中</button>
+                        <button class="px-3 py-1.5 bg-slate-100 text-secondary text-sm rounded-lg hover:bg-slate-200 transition-colors cursor-pointer">失败</button>
+                    </div>
+                    <div class="ml-auto flex items-center gap-2">
+                        <span class="text-sm text-muted">时间：</span>
+                        <select class="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-sm text-primary focus:outline-none focus:ring-2 focus:ring-cta/20 cursor-pointer">
+                            <option>全部时间</option>
+                            <option>近7天</option>
+                            <option>近30天</option>
+                            <option>近90天</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Records List -->
+            <div class="space-y-4 opacity-0 animate-fade-in-up animate-delay-300">
+                <!-- Record 1 -->
+                <a href="搜客结果列表.html" class="block bg-white rounded-2xl shadow-sm border border-slate-200/50 p-5 hover:shadow-md transition-shadow cursor-pointer">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-success/10 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-muted">2024-01-20 14:30</p>
+                                <p class="font-semibold text-primary mt-0.5">加州音视频集成商搜客</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="px-2 py-1 bg-success/10 text-success text-xs font-medium rounded-lg">已完成</span>
+                            <span class="text-sm font-semibold text-primary">98 家企业</span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-muted mb-3 line-clamp-1">搜索需求：加州的音视频集成商，优先考虑有展会记录的企业...</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-4 text-xs text-muted">
+                            <span class="flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                                </svg>
+                                目标 100 家
+                            </span>
+                            <span class="flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                </svg>
+                                消耗 115 Credits
+                            </span>
+                            <span class="flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/>
+                                </svg>
+                                地图 + 海关 + 展会
+                            </span>
+                        </div>
+                        <div class="flex items-center gap-1 text-accent text-sm font-medium">
+                            查看结果
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Record 2 -->
+                <a href="搜客结果列表.html" class="block bg-white rounded-2xl shadow-sm border border-slate-200/50 p-5 hover:shadow-md transition-shadow cursor-pointer">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-success/10 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-muted">2024-01-18 09:15</p>
+                                <p class="font-semibold text-primary mt-0.5">欧洲LED显示屏分销商</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="px-2 py-1 bg-success/10 text-success text-xs font-medium rounded-lg">已完成</span>
+                            <span class="text-sm font-semibold text-primary">156 家企业</span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-muted mb-3 line-clamp-1">搜索需求：欧洲地区的LED显示屏分销商，有进口记录优先...</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-4 text-xs text-muted">
+                            <span class="flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                                </svg>
+                                目标 150 家
+                            </span>
+                            <span class="flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                </svg>
+                                消耗 198 Credits
+                            </span>
+                            <span class="flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/>
+                                </svg>
+                                地图 + 海关
+                            </span>
+                        </div>
+                        <div class="flex items-center gap-1 text-accent text-sm font-medium">
+                            查看结果
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Record 3 - In Progress -->
+                <div class="block bg-white rounded-2xl shadow-sm border border-slate-200/50 p-5 cursor-default">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-accent/10 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-accent animate-spin" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-muted">2024-01-20 16:45</p>
+                                <p class="font-semibold text-primary mt-0.5">东南亚舞台设备租赁商</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="px-2 py-1 bg-accent/10 text-accent text-xs font-medium rounded-lg">进行中</span>
+                            <span class="text-sm font-semibold text-muted">-- 家企业</span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-muted mb-3 line-clamp-1">搜索需求：东南亚地区的舞台设备租赁商，主要关注新加坡、马来西亚...</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-4 text-xs text-muted">
+                            <span class="flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                                </svg>
+                                目标 80 家
+                            </span>
+                            <span class="flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                </svg>
+                                预估 96 Credits
+                            </span>
+                            <span class="flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/>
+                                </svg>
+                                地图 + 展会
+                            </span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-24 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                                <div class="h-full bg-accent rounded-full" style="width: 65%"></div>
+                            </div>
+                            <span class="text-xs text-muted">65%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Record 4 - Failed -->
+                <div class="block bg-white rounded-2xl shadow-sm border border-slate-200/50 p-5 cursor-default">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-red-50 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-muted">2024-01-15 11:20</p>
+                                <p class="font-semibold text-primary mt-0.5">中东地区音响设备进口商</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="px-2 py-1 bg-red-50 text-red-500 text-xs font-medium rounded-lg">失败</span>
+                            <span class="text-sm font-semibold text-muted">-- 家企业</span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-muted mb-3 line-clamp-1">搜索需求：中东地区的音响设备进口商，有海关记录优先...</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-4 text-xs text-muted">
+                            <span class="flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                                </svg>
+                                目标 50 家
+                            </span>
+                            <span class="flex items-center gap-1 text-red-400">
+                                数据源连接超时
+                            </span>
+                        </div>
+                        <button class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-secondary text-sm rounded-lg transition-colors cursor-pointer">
+                            重试
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Record 5 -->
+                <a href="搜客结果列表.html" class="block bg-white rounded-2xl shadow-sm border border-slate-200/50 p-5 hover:shadow-md transition-shadow cursor-pointer">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-success/10 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-muted">2024-01-12 15:30</p>
+                                <p class="font-semibold text-primary mt-0.5">北美数字标牌集成商</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="px-2 py-1 bg-success/10 text-success text-xs font-medium rounded-lg">已完成</span>
+                            <span class="text-sm font-semibold text-primary">87 家企业</span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-muted mb-3 line-clamp-1">搜索需求：北美地区的数字标牌集成商，优先有展会记录...</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-4 text-xs text-muted">
+                            <span class="flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                                </svg>
+                                目标 100 家
+                            </span>
+                            <span class="flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                </svg>
+                                消耗 102 Credits
+                            </span>
+                            <span class="flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/>
+                                </svg>
+                                地图 + 展会
+                            </span>
+                        </div>
+                        <div class="flex items-center gap-1 text-accent text-sm font-medium">
+                            查看结果
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Pagination -->
+                <div class="flex items-center justify-between pt-4">
+                    <p class="text-sm text-muted">共 <span class="font-medium text-primary">24</span> 条记录</p>
+                    <div class="flex items-center gap-2">
+                        <button class="w-9 h-9 bg-slate-100 text-muted rounded-lg flex items-center justify-center hover:bg-slate-200 transition-colors cursor-pointer">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                            </svg>
+                        </button>
+                        <button class="w-9 h-9 bg-cta text-white rounded-lg flex items-center justify-center font-medium text-sm cursor-pointer">1</button>
+                        <button class="w-9 h-9 bg-slate-100 text-secondary rounded-lg flex items-center justify-center font-medium text-sm hover:bg-slate-200 transition-colors cursor-pointer">2</button>
+                        <button class="w-9 h-9 bg-slate-100 text-secondary rounded-lg flex items-center justify-center font-medium text-sm hover:bg-slate-200 transition-colors cursor-pointer">3</button>
+                        <button class="w-9 h-9 bg-slate-100 text-secondary rounded-lg flex items-center justify-center font-medium text-sm hover:bg-slate-200 transition-colors cursor-pointer">4</button>
+                        <button class="w-9 h-9 bg-slate-100 text-secondary rounded-lg flex items-center justify-center hover:bg-slate-200 transition-colors cursor-pointer">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Actions -->
+    <footer class="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-lg border-t border-slate-100 py-4 px-4">
+        <div class="max-w-4xl mx-auto flex items-center justify-between">
+            <a href="搜客需求输入.html" class="px-6 py-3 text-muted hover:text-primary transition-colors flex items-center gap-2 cursor-pointer">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+                返回搜客配置
+            </a>
+            <div class="text-sm text-muted">
+                总计消耗 <span class="font-semibold text-cta">2,847 Credits</span>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

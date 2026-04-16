@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeadFinder - 动态线索详情 功能说明</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Fira Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#60A5FA',
+                        cta: '#F97316',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .section-card {
+            transition: all 0.3s ease;
+        }
+        .section-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+        .code-block {
+            background: #1e293b;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        .code-block code {
+            color: #e2e8f0;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 13px;
+        }
+        .highlight-box {
+            border-left: 4px solid #3B82F6;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen font-sans">
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-slate-200">
+        <div class="max-w-6xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-semibold text-slate-800">功能说明文档</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm font-medium">P46 节点</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-24 pb-16 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="mb-10">
+                <h1 class="text-3xl font-bold text-slate-800 mb-4">动态线索详情</h1>
+                <p class="text-slate-500 text-lg">对应业务流程节点：P46（展示动态线索分析报告）</p>
+            </div>
+
+            <div class="space-y-8">
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">页面概述</h2>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-6">
+                        <p class="text-slate-600 leading-relaxed">动态线索详情页是企业身份被揭开后的"真相时刻"。由于底层调用了相同的联系人接口，此页面的展示形态需要与 P27（静态线索报告）高度对齐，但在核心依据上，要用"动态行为"替代"静态海关/展会数据"。页面展示最终动态线索评分、企业身份解析结果、原始动态行为证据、联系人列表、账单透明化和行动召唤按钮。</p>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">可见功能逻辑</h2>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">1. 企业核心信息区</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="bg-slate-50 rounded-lg p-4">
+                                    <h4 class="font-medium text-slate-700 mb-2">企业基础信息</h4>
+                                    <ul class="text-sm text-slate-600 space-y-1">
+                                        <li>• 企业名称（可点击跳转官网）</li>
+                                        <li>• 企业域名（超链接）</li>
+                                        <li>• 所在地</li>
+                                        <li>• 企业规模（员工数）</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">2. 联系人列表（与静态线索详情保持一致）</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                                    <div class="bg-blue-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-blue-700 mb-2">联系人标识</h4>
+                                        <ul class="text-sm text-blue-600 space-y-1">
+                                            <li>• 联系人卡片统一样式</li>
+                                            <li>• 姓名 + 职位标签</li>
+                                            <li>• 按重要性排序展示</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-slate-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-slate-700 mb-2">联系人信息</h4>
+                                        <ul class="text-sm text-slate-600 space-y-1">
+                                            <li>• 头像（姓名首字母）</li>
+                                            <li>• 姓名 + 职位标签</li>
+                                            <li>• 邮箱（可点击发送邮件）</li>
+                                            <li>• 邮箱验证状态徽章</li>
+                                            <li>• 社媒链接（LinkedIn/Twitter）</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="bg-purple-50 rounded-lg p-4">
+                                    <h4 class="font-medium text-purple-700 mb-2">操作按钮</h4>
+                                    <ul class="text-sm text-purple-600 space-y-1">
+                                        <li>• 所有联系人：统一按钮样式</li>
+                                        <li>• 点击后跳转至智能触达 (ITA) 服务</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">3. 原始动态行为证据（与静态线索的差异点）</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="bg-amber-50 rounded-lg p-4 mb-4">
+                                    <p class="text-sm text-amber-700">复刻 P37 的"微观行为轨迹轴"，作为该线索高热度的铁证</p>
+                                </div>
+                                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                                    <div class="bg-slate-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-slate-700 mb-2">访客基础信息</h4>
+                                        <ul class="text-sm text-slate-600 space-y-1">
+                                            <li>• 访客 IP（脱敏显示）</li>
+                                            <li>• 地理位置</li>
+                                            <li>• 设备类型 / 操作系统</li>
+                                            <li>• 流量来源</li>
+                                            <li>• 会话时间</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-slate-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-slate-700 mb-2">基础行为分</h4>
+                                        <ul class="text-sm text-slate-600 space-y-1">
+                                            <li>• 基础行为意向分（如：95分）</li>
+                                            <li>• 最终动态线索分计算说明</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="bg-red-50 rounded-lg p-4 mb-4 border border-red-100">
+                                    <h4 class="font-medium text-red-700 mb-2">微观行为轨迹轴</h4>
+                                    <ul class="text-sm text-red-600 space-y-1">
+                                        <li>• 时间线形式展示每个行为事件</li>
+                                        <li>• 行为类型标签（页面浏览/复制文本/悬停交互/意图流失）</li>
+                                        <li>• 行为详情（URL、停留时长、滚动深度等）</li>
+                                        <li>• AI 行为解读（每个行为的意义分析）</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-amber-50 rounded-lg p-4">
+                                    <h4 class="font-medium text-amber-700 mb-2">关键微观事件摘要</h4>
+                                    <ul class="text-sm text-amber-600 space-y-1">
+                                        <li>• 滚动深度: 85% (阅完参数表)</li>
+                                        <li>• 复制了文本: 'LD-P1.9-PRO'</li>
+                                        <li>• 表单弃填: Contact 页面</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">4. 账单透明化</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="bg-slate-50 rounded-lg p-4 mb-4">
+                                    <h4 class="font-medium text-slate-700 mb-2">费用明细（基于 Apollo.io Credits 消耗）</h4>
+                                    <ul class="text-sm text-slate-600 space-y-1">
+                                        <li>• IP 企业解析（IRS 服务）：3 Credits</li>
+                                        <li>• 基础联系人数据：不消耗 Credits</li>
+                                        <li>• 邮箱揭示（reveal_personal_emails）：每个有效邮箱 1 Credit</li>
+                                        <li>• 电话号码揭示（reveal_phone_number）：每个有效电话 1 Credit</li>
+                                        <li>• LinkedIn 主页附加：包含在基础数据中</li>
+                                        <li>• 本次消耗总计（加粗高亮）</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-emerald-50 rounded-lg p-4">
+                                    <h4 class="font-medium text-emerald-700 mb-2">评分计算说明</h4>
+                                    <p class="text-sm text-emerald-600">最终动态线索分（如：95）</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">5. 分支流程</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="space-y-4">
+                                    <div class="flex items-start gap-4">
+                                        <div class="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <span class="text-amber-600 font-bold text-sm">A</span>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-medium text-slate-700">返回线索列表</h4>
+                                            <p class="text-sm text-slate-600 mt-1">点击底部"返回线索列表"按钮，跳转至 动态线索池.html</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-4">
+                                        <div class="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <span class="text-amber-600 font-bold text-sm">B</span>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-medium text-slate-700">使用智能触达</h4>
+                                            <p class="text-sm text-slate-600 mt-1">点击底部主按钮，跳转至智能触达 (ITA) 服务页面，进入触达流程</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-4">
+                                        <div class="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <span class="text-amber-600 font-bold text-sm">C</span>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-medium text-slate-700">发送邮件</h4>
+                                            <p class="text-sm text-slate-600 mt-1">点击联系人卡片的"发送邮件"按钮，跳转至智能触达页面并预选该联系人</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">6. ISP 宽带线索特殊处理</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="bg-amber-50 rounded-lg p-4 mb-4 border border-amber-100">
+                                    <p class="text-sm text-amber-700">当 IP 解析结果为公共宽带（ISP）时，页面展示特殊状态</p>
+                                </div>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="bg-amber-50 rounded-lg p-4 border border-amber-100">
+                                        <h4 class="font-medium text-amber-700 mb-2">ISP 提示</h4>
+                                        <ul class="text-sm text-amber-600 space-y-1">
+                                            <li>• 企业名称显示"ISP 匿名访客"</li>
+                                            <li>• 显示 ISP 运营商名称</li>
+                                            <li>• 警告提示：未能精准定位企业主体</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-slate-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-slate-700 mb-2">保留数据</h4>
+                                        <ul class="text-sm text-slate-600 space-y-1">
+                                            <li>• 行为意向分保留</li>
+                                            <li>• AI 判词建议持续监测</li>
+                                            <li>• 联系人矩阵显示"未找到联系人"</li>
+                                            <li>• 账单仅显示 IP 解析成本</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">不可见功能逻辑</h2>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">1. 获取动态线索详情 API</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="code-block p-4 mb-4">
+                                    <code>
+<pre>GET /api/v1/dynamic-leads/{dynamic_lead_id}
+
+Request Headers:
+  Authorization: Bearer {tenant_token}
+
+Response (Success):
+{
+  "code": 200,
+  "message": "success",
+  "data": {
+    "dynamic_lead_id": "DYN-202602-001",
+    "resolution_status": {
+      "is_successful": true,
+      "company_name": "Orlando Mega Stage AV",
+      "company_domain": "orlando-av.com",
+      "industry": "Events & AV Integration"
+    },
+    "lead_evaluation": {
+      "final_dynamic_score": 95,
+      "lead_grade": "S",
+      "ai_reasoning": "该企业此前在独立站深度研究了您的 P1.9 防水屏参数..."
+    },
+    "original_behavior_evidence": {
+      "base_behavior_score": 95,
+      "visitor_info": {
+        "ip_address": "67.43.156.**",
+        "geo_location": "Florida, USA",
+        "device_type": "Desktop / Windows",
+        "traffic_source": "Google 搜索",
+        "session_time": "2024-02-27 10:05 - 10:12"
+      },
+      "key_micro_events": [
+        "滚动深度: 85% (阅完参数表)",
+        "复制了文本: 'LD-P1.9-PRO'",
+        "表单弃填: Contact 页面"
+      ],
+      "behavior_timeline": [
+        {
+          "time": "10:05:23",
+          "type": "page_view",
+          "details": "进入户外 P1.9 防水屏详情页",
+          "ai_interpretation": "完整看完参数表，对技术规格有深度兴趣"
+        }
+      ]
+    },
+    "billing_receipt": {
+      "ip_resolution_cost": 3,
+      "contacts_found": 3,
+      "emails_revealed": 3,
+      "phones_revealed": 0,
+      "contacts_cost": 3,
+      "total_credits_consumed": 6
+    },
+    "contacts_matrix": [
+      {
+        "name": "John Doe",
+        "title": "VP of Procurement",
+        "email": "johndoe@orlando-av.com",
+        "email_verified": true,
+        "social_links": {
+          "linkedin": "https://linkedin.com/in/johndoe"
+        }
+      }
+    ],
+    "created_at": "2024-02-27T10:05:00Z"
+  }
+}</pre>
+                                    </code>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">2. 账单透明化</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="bg-slate-50 rounded-lg p-4 mb-4">
+                                    <h4 class="font-medium text-slate-700 mb-2">费用明细（基于 Apollo.io Credits 消耗）</h4>
+                                    <ul class="text-sm text-slate-600 space-y-1">
+                                        <li>• IP 企业解析（IRS 服务）：3 Credits</li>
+                                        <li>• 基础联系人数据：不消耗 Credits</li>
+                                        <li>• 邮箱揭示（reveal_personal_emails）：每个有效邮箱 1 Credit</li>
+                                        <li>• 电话号码揭示（reveal_phone_number）：每个有效电话 1 Credit</li>
+                                        <li>• LinkedIn 主页附加：包含在基础数据中</li>
+                                        <li>• 本次消耗总计（加粗高亮）</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">限制规则</h2>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                            <h4 class="font-medium text-red-700 mb-2">权限控制</h4>
+                            <p class="text-sm text-red-600">当前版本系统暂无权限控制逻辑，所有登录用户均可查看动态线索详情。</p>
+                        </div>
+                        <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                            <h4 class="font-medium text-amber-700 mb-2">数据只读</h4>
+                            <p class="text-sm text-amber-600">线索详情页为只读模式，不支持编辑联系人信息</p>
+                        </div>
+                        <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                            <h4 class="font-medium text-amber-700 mb-2">线索状态</h4>
+                            <p class="text-sm text-amber-600 mb-2">点击深度挖掘的线索，无论是否挖掘成功，都会进入线索池，都能查看线索详情</p>
+                            <p class="text-sm text-amber-600">线索池中没有线索评分字段</p>
+                        </div>
+                        <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                            <h4 class="font-medium text-amber-700 mb-2">IP 解析处理逻辑</h4>
+                            <p class="text-sm text-amber-600 mb-2">深度挖掘时调用 IP 解析服务，处理逻辑如下：</p>
+                            <ul class="text-sm text-amber-600 space-y-1">
+                                <li>• <strong>解析成功：</strong>返回企业名称、地址、行业等信息，生成动态线索</li>
+                                <li>• <strong>解析失败（无法识别）：</strong>提示用户「该 IP 无法解析到企业」，不扣除 Credits</li>
+                                <li>• <strong>解析失败（服务异常）：</strong>提示用户「IP 解析服务暂时不可用」，不扣除 Credits</li>
+                                <li>• <strong>ISP 宽带线索：</strong>页面展示「该 IP 为 ISP 宽带 IP，无法解析到具体企业」提示</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">AI 综合研判异常检测</h2>
+                    </div>
+                    <div class="bg-amber-50 rounded-lg p-4 border border-amber-100 mb-4">
+                        <p class="text-sm text-amber-700"><strong>AI 模型存在幻觉风险</strong>，可能导致综合研判结论与实际情况不符。本模块对 AI 综合研判输出进行专项检测。</p>
+                    </div>
+                    <ul class="text-sm text-slate-600 space-y-2 mb-4">
+                        <li>• <strong>输出为空检测：</strong>AI 返回空研判时触发，提示「AI 研判结果为空」</li>
+                        <li>• <strong>格式校验：</strong>研判 JSON 解析失败时触发，提示「AI 返回数据格式异常」</li>
+                        <li>• <strong>一致性校验：</strong>研判与原始数据矛盾时触发，提示「AI 研判仅供参考」</li>
+                        <li>• <strong>完整性校验：</strong>必要研判字段缺失时触发，提示「AI 研判不完整」</li>
+                    </ul>
+                    <div class="bg-red-50 rounded-lg p-4 border border-red-100">
+                        <h4 class="font-medium text-red-700 mb-2">AI 综合研判异常处理策略</h4>
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="border-b border-red-200">
+                                    <th class="text-left py-1 text-red-600">异常类型</th>
+                                    <th class="text-left py-1 text-red-600">处理方式</th>
+                                    <th class="text-left py-1 text-red-600">提示文案</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-red-600">
+                                <tr class="border-b border-red-100">
+                                    <td class="py-2">输出为空</td>
+                                    <td class="py-2">显示默认研判模板</td>
+                                    <td class="py-2">「AI 研判结果为空」</td>
+                                </tr>
+                                <tr class="border-b border-red-100">
+                                    <td class="py-2">格式错误</td>
+                                    <td class="py-2">显示原始数据摘要</td>
+                                    <td class="py-2">「AI 返回数据格式异常」</td>
+                                </tr>
+                                <tr class="border-b border-red-100">
+                                    <td class="py-2">内容幻觉</td>
+                                    <td class="py-2">标记仅供参考，提示用户核实</td>
+                                    <td class="py-2">「AI 研判仅供参考，以实际数据为准」</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2">字段缺失</td>
+                                    <td class="py-2">使用默认值填充</td>
+                                    <td class="py-2">「AI 研判不完整」</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-rose-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">页面跳转关系</h2>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-6">
+                        <div class="flex items-center justify-center gap-4 flex-wrap">
+                            <div class="px-4 py-2 bg-blue-100 text-blue-600 rounded-lg text-sm">
+                                动态线索池.html
+                                <p class="text-xs text-blue-500 mt-1">动态线索池</p>
+                            </div>
+                            <svg class="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                            <div class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium">
+                                动态线索详情.html
+                                <p class="text-xs text-blue-200 mt-1">动态线索详情（当前）</p>
+                            </div>
+                            <svg class="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                            <div class="px-4 py-2 bg-emerald-100 text-emerald-600 rounded-lg text-sm">
+                                ITA 服务页面
+                                <p class="text-xs text-emerald-500 mt-1">智能触达</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">与静态线索详情的统一性</h2>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="bg-emerald-50 rounded-lg p-4 border border-emerald-100">
+                            <h4 class="font-medium text-emerald-700 mb-2">保持一致的元素</h4>
+                            <ul class="text-sm text-emerald-600 space-y-1">
+                                <li>• 联系人卡片样式（头像、姓名、职位、邮箱、LinkedIn）</li>
+                                <li>• 企业信息展示样式</li>
+                                <li>• 账单摘要样式</li>
+                                <li>• 底部操作栏布局</li>
+                            </ul>
+                        </div>
+                        <div class="bg-amber-50 rounded-lg p-4 border border-amber-100">
+                            <h4 class="font-medium text-amber-700 mb-2">差异化元素</h4>
+                            <ul class="text-sm text-amber-600 space-y-1">
+                                <li>• 证据来源：动态线索展示"原始动态行为证据"，静态线索展示"原始静态证据"</li>
+                                <li>• 特殊状态：动态线索有 ISP 宽带解析失败的特殊展示</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-6">
+        <div class="max-w-5xl mx-auto px-4 text-center text-sm text-slate-400">
+            AI-LeadFinder 功能说明文档 · 动态线索详情
+        </div>
+
+    </footer>
+
+</body>
+</html>

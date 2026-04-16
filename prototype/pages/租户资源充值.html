@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>服务商系统 - 租户资源充值</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .sidebar-item.active {
+            background: #3B82F6;
+            color: white;
+        }
+        .sidebar-item:hover:not(.active) {
+            background: #f1f5f9;
+        }
+        .slider-track {
+            background: linear-gradient(to right, #3B82F6 0%, #3B82F6 0%, #e2e8f0 0%, #e2e8f0 100%);
+        }
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #e2e8f0;
+            outline: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #3B82F6;
+            cursor: pointer;
+            border: 2px solid white;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        .package-card.selected {
+            border-color: #3B82F6;
+            background: #EFF6FF;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen font-sans">
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-gray-800 h-12">
+        <div class="flex items-center justify-between h-full px-4">
+            <div class="flex items-center gap-3">
+                <span class="text-white font-medium text-sm">服务商系统</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                </svg>
+                <span class="text-gray-300 text-sm">demo@leadong.com</span>
+                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex pt-12">
+        <aside class="fixed left-0 top-12 bottom-0 w-48 bg-white border-r border-gray-200 overflow-y-auto">
+            <div class="py-2">
+                <div class="px-3 py-1 text-xs text-gray-500 font-medium">入门指导</div>
+                <div class="sidebar-item active flex items-center gap-2 px-3 py-2 text-sm cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                    </svg>
+                    <span>用户管理</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                    <span>网站管理</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                    </svg>
+                    <span>授权站点管理</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                    </svg>
+                    <span>队列管理</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                    </svg>
+                    <span>域名管理</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                    </svg>
+                    <span>订单管理</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    <span>收支明细</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <span>关键词排名</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
+                    </svg>
+                    <span>设计管理</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                    </svg>
+                    <span>备案码管理</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+                    </svg>
+                    <span>网站主题管理</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/>
+                    </svg>
+                    <span>页面管理</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+                    </svg>
+                    <span>区块管理</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <span>案例网站库</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                    </svg>
+                    <span>渠道网站列表</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h2v2zm0-5.5A4.5 4.5 0 017.5 9h-2v2h2a4.5 4.5 0 104.5-4.5z"/>
+                    </svg>
+                    <span>我的优惠券</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002-2h2a2 2 0 012-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2V14a2 2 0 01-2 2h-2a2 2 0 01-2-2V5z"/>
+                    </svg>
+                    <span>流量点卡</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <span>小语种专业术语库</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002-2h2a2 2 0 012-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2V14a2 2 0 01-2 2h-2a2 2 0 01-2-2V5z"/>
+                    </svg>
+                    <span>SEO测评管理</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                    </svg>
+                    <span>网站可用性检测</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/>
+                    </svg>
+                    <span>广告智投管理</span>
+                </div>
+                <div class="mt-4 px-3 py-1 text-xs text-gray-500 font-medium">我客户的工单</div>
+            </div>
+        </aside>
+
+        <main class="ml-48 flex-1 p-4">
+            <div class="flex items-center gap-2 text-xs text-gray-500 mb-4">
+                <span>用户管理</span>
+                <span>/</span>
+                <span>财务管理</span>
+                <span>/</span>
+                <span>独立功能</span>
+            </div>
+
+            <div class="bg-white rounded-lg border border-gray-200 p-6">
+                <div class="flex items-start justify-between mb-6">
+                    <div>
+                        <h1 class="text-lg font-semibold text-gray-800">A企业</h1>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs text-gray-600">
+                        <div>
+                            <span class="text-gray-400">登录名：</span>demo-user
+                        </div>
+                        <div>
+                            <span class="text-gray-400">所属服务商：</span>南京焦点领动云...
+                        </div>
+                        <div>
+                            <span class="text-gray-400">添加日期：</span>2022-11-25 10:57:49
+                        </div>
+                        <div>
+                            <span class="text-gray-400">联系人：</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-400">联系方式：</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-400">邮件：</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2 mb-6">
+                    <span class="text-sm text-blue-500">AI-LeadFinder</span>
+                    <div class="relative inline-block w-10 h-5 bg-green-500 rounded-full">
+                        <div class="absolute right-0.5 top-0.5 w-4 h-4 bg-white rounded-full shadow"></div>
+                    </div>
+                </div>
+
+                <div class="border border-gray-200 rounded-lg p-4 mb-4">
+                    <div class="flex items-start gap-4">
+                        <div class="text-sm text-gray-700 font-medium mt-1">选择套餐：</div>
+                        <div class="flex-1 grid md:grid-cols-2 gap-4">
+                            <div class="package-card border-2 border-gray-200 rounded-lg p-4 cursor-pointer" onclick="togglePackage(this, 'basic')">
+                                <h3 class="text-sm font-medium text-gray-800 mb-1">LeadFinder 旗舰版基础包</h3>
+                                <p class="text-xs text-gray-500 mb-2">适合初次开通的企业客户</p>
+                                <p class="text-sm text-gray-700">· 3 个 BOT 席位</p>
+                                <p class="text-sm text-gray-700">· 50,000 Global Credits</p>
+                            </div>
+                            <div class="package-card border-2 border-gray-200 rounded-lg p-4 cursor-pointer" onclick="togglePackage(this, 'credits')">
+                                <h3 class="text-sm font-medium text-gray-800 mb-1">LeadFinder 算力加油包</h3>
+                                <p class="text-xs text-gray-500 mb-2">额外补充算力积分</p>
+                                <p class="text-sm text-gray-700">· 10,000 Global Credits</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border border-gray-200 rounded-lg p-4 mb-4">
+                    <div class="mb-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm text-gray-700">Global Credits:</span>
+                            <div class="flex items-center gap-2">
+                                <div class="bg-gray-100 px-2 py-1 rounded text-xs text-gray-600">5 000点</div>
+                                <span class="text-xs text-gray-500">已选：<input type="text" id="creditsInput" value="0" class="w-12 border border-gray-300 rounded px-1 text-center text-xs" onchange="updateSliderFromInput('credits')"></span>
+                                <span class="text-xs text-gray-500">剩余：13500点</span>
+                            </div>
+                        </div>
+                        <div class="relative">
+                            <input type="range" id="creditsSlider" min="0" max="10" value="0" class="w-full" oninput="updateCredits(this.value)">
+                            <div class="flex justify-between text-xs text-gray-400 mt-1">
+                                <span>0</span>
+                                <span>500</span>
+                                <span>1 000</span>
+                                <span>1 500</span>
+                                <span>2 000</span>
+                                <span>2 500</span>
+                                <span>3 000</span>
+                                <span>3 500</span>
+                                <span>4 000</span>
+                                <span>4 500</span>
+                                <span>5 000</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm text-gray-700">BOT数量：</span>
+                            <div class="flex items-center gap-2">
+                                <div class="bg-gray-100 px-2 py-1 rounded text-xs text-gray-600">100个</div>
+                                <span class="text-xs text-gray-500">已选：<input type="text" id="botInput" value="0" class="w-12 border border-gray-300 rounded px-1 text-center text-xs" onchange="updateSliderFromInput('bot')"></span>
+                                <span class="text-xs text-gray-500">已开通：3</span>
+                            </div>
+                        </div>
+                        <div class="relative">
+                            <input type="range" id="botSlider" min="0" max="50" value="0" class="w-full" oninput="updateBots(this.value)">
+                            <div class="flex justify-between text-xs text-gray-400 mt-1">
+                                <span>0</span>
+                                <span>5</span>
+                                <span>10</span>
+                                <span>15</span>
+                                <span>20</span>
+                                <span>25</span>
+                                <span>30</span>
+                                <span>35</span>
+                                <span>40</span>
+                                <span>45</span>
+                                <span>50</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="fixed bottom-0 left-48 right-0 bg-white border-t border-gray-200 py-4 px-6">
+        <div class="flex items-center justify-between">
+            <button onclick="window.history.back()" class="px-8 py-2 border border-gray-300 rounded text-sm text-gray-600 hover:bg-gray-50">
+                返回
+            </button>
+            <div class="flex items-center gap-6">
+                <div class="flex items-center gap-2">
+                    <span class="text-sm text-gray-600">总计费用：</span>
+                    <span class="text-lg font-bold text-orange-500" id="totalCost">0</span>
+                </div>
+                <button id="submitBtn" class="px-6 py-2 bg-gray-400 text-white rounded text-sm cursor-not-allowed">
+                    确认购买
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let selectedPackages = { basic: false, credits: false };
+        let totalCredits = 0;
+        let totalBots = 0;
+
+        function togglePackage(element, pkg) {
+            selectedPackages[pkg] = !selectedPackages[pkg];
+            if (selectedPackages[pkg]) {
+                element.classList.add('selected');
+            } else {
+                element.classList.remove('selected');
+            }
+            updateTotals();
+        }
+
+        function updateCredits(value) {
+            totalCredits = value * 500;
+            document.getElementById('creditsInput').value = totalCredits;
+            updateTotals();
+        }
+
+        function updateBots(value) {
+            totalBots = parseInt(value);
+            document.getElementById('botInput').value = totalBots;
+            updateTotals();
+        }
+
+        function updateSliderFromInput(type) {
+            if (type === 'credits') {
+                const value = parseInt(document.getElementById('creditsInput').value) || 0;
+                const sliderValue = Math.min(Math.max(Math.round(value / 500), 0), 10);
+                document.getElementById('creditsSlider').value = sliderValue;
+                totalCredits = sliderValue * 500;
+            } else if (type === 'bot') {
+                const value = parseInt(document.getElementById('botInput').value) || 0;
+                const sliderValue = Math.min(Math.max(value, 0), 50);
+                document.getElementById('botSlider').value = sliderValue;
+                totalBots = sliderValue;
+            }
+            updateTotals();
+        }
+
+        function updateTotals() {
+            let credits = 0;
+            let seats = 0;
+            
+            if (selectedPackages.basic) {
+                seats += 3;
+                credits += 50000;
+            }
+            if (selectedPackages.credits) {
+                credits += 10000;
+            }
+            
+            credits += totalCredits;
+            seats += totalBots;
+            
+            const cost = (credits * 0.01 + seats * 100).toFixed(0);
+            document.getElementById('totalCost').textContent = cost;
+            
+            const btn = document.getElementById('submitBtn');
+            const hasSelection = selectedPackages.basic || selectedPackages.credits || totalCredits > 0 || totalBots > 0;
+            
+            if (hasSelection) {
+                btn.disabled = false;
+                btn.className = 'px-6 py-2 bg-blue-500 text-white rounded text-sm cursor-pointer hover:bg-blue-600';
+            } else {
+                btn.disabled = true;
+                btn.className = 'px-6 py-2 bg-gray-400 text-white rounded text-sm cursor-not-allowed';
+            }
+        }
+    </script>
+</body>
+</html>

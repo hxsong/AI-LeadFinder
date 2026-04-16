@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>搜客执行中 - AI-LeadFinder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0F172A',
+                        secondary: '#334155',
+                        cta: '#0369A1',
+                        background: '#F8FAFC',
+                        text: '#020617',
+                        muted: '#64748B',
+                        accent: '#0EA5E9',
+                        success: '#10B981',
+                        warning: '#F59E0B',
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.5s ease-out forwards;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 1; }
+            100% { transform: scale(1.4); opacity: 0; }
+        }
+        .animate-pulse-ring {
+            animation: pulse-ring 1.5s ease-out infinite;
+        }
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin-slow {
+            animation: spin-slow 3s linear infinite;
+        }
+        @keyframes progress-wave {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        .animate-progress-wave {
+            animation: progress-wave 2s ease-in-out infinite;
+        }
+        @keyframes count-up {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-count-up {
+            animation: count-up 0.3s ease-out forwards;
+        }
+    </style>
+    <script src="../entry-nav.js"></script>
+</head>
+<body class="bg-background font-sans min-h-screen">
+    <!-- Navigation -->
+    <nav class="fixed top-4 left-4 right-4 z-50">
+        <div class="max-w-6xl mx-auto bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg border border-slate-200/50 px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-semibold text-primary">AI-LeadFinder</h1>
+                        <p class="text-xs text-muted">智能获客引擎</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2 px-3 py-1.5 bg-warning/10 rounded-lg">
+                        <svg class="w-4 h-4 text-warning animate-spin-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                        <span class="text-sm font-medium text-warning">42 Credits 冻结中</span>
+                    </div>
+                    <div class="w-9 h-9 bg-secondary rounded-full flex items-center justify-center">
+                        <span class="text-sm font-medium text-white">O</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-28 pb-24 px-4">
+        <div class="max-w-3xl mx-auto">
+            <!-- Progress Steps -->
+            <div class="mb-10">
+                <div class="flex items-center justify-center gap-2">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-full bg-success text-white flex items-center justify-center text-sm font-medium">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </div>
+                        <span class="text-sm font-medium text-success hidden sm:inline">业务分析</span>
+                    </div>
+                    <div class="w-8 sm:w-16 h-0.5 bg-success"></div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-full bg-success text-white flex items-center justify-center text-sm font-medium">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </div>
+                        <span class="text-sm font-medium text-success hidden sm:inline">搜客配置</span>
+                    </div>
+                    <div class="w-8 sm:w-16 h-0.5 bg-cta"></div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-full bg-cta text-white flex items-center justify-center text-sm font-medium">3</div>
+                        <span class="text-sm font-medium text-cta hidden sm:inline">执行搜客</span>
+                    </div>
+                    <div class="w-8 sm:w-16 h-0.5 bg-slate-200"></div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-full bg-slate-200 text-muted flex items-center justify-center text-sm font-medium">4</div>
+                        <span class="text-sm text-muted hidden sm:inline">结果分析</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Center Animation -->
+            <div class="flex flex-col items-center justify-center mb-12 opacity-0 animate-fade-in-up" style="animation-delay: 0.1s;">
+                <div class="relative mb-6">
+                    <div class="w-32 h-32 bg-cta/10 rounded-full flex items-center justify-center">
+                        <div class="w-24 h-24 bg-cta/20 rounded-full flex items-center justify-center">
+                            <div class="w-16 h-16 bg-cta rounded-full flex items-center justify-center">
+                                <svg class="w-8 h-8 text-white animate-spin-slow" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute inset-0 w-32 h-32 bg-cta/20 rounded-full animate-pulse-ring"></div>
+                </div>
+                <h2 class="text-2xl font-bold text-primary mb-2">正在执行搜客任务</h2>
+                <p class="text-muted text-center">AI 正在全网搜索并分析目标企业数据...</p>
+            </div>
+
+            <!-- Overall Progress -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-6 mb-6 opacity-0 animate-fade-in-up" style="animation-delay: 0.2s;">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-semibold text-primary">整体进度</h3>
+                    <span id="progressPercent" class="text-2xl font-bold text-cta">0%</span>
+                </div>
+                <div class="relative h-3 bg-slate-100 rounded-full overflow-hidden">
+                    <div id="progressBar" class="absolute left-0 top-0 h-full bg-gradient-to-r from-cta to-accent rounded-full transition-all duration-500" style="width: 0%;">
+                        <div class="absolute inset-0 bg-white/30 animate-progress-wave"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Execution Steps -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-6 opacity-0 animate-fade-in-up" style="animation-delay: 0.3s;">
+                <h3 class="font-semibold text-primary mb-4">执行步骤</h3>
+                
+                <div class="space-y-4">
+                    <!-- Step 1 -->
+                    <div id="step1" class="flex items-start gap-4 p-4 rounded-xl bg-slate-50">
+                        <div class="w-10 h-10 bg-cta text-white rounded-full flex items-center justify-center flex-shrink-0">
+                            <svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-1">
+                                <h4 class="font-medium text-primary">Google Maps 企业扫描</h4>
+                                <span class="text-xs text-cta font-medium">执行中...</span>
+                            </div>
+                            <p class="text-sm text-muted">正在扫描欧洲地区的登山装备品牌代理商...</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div id="step2" class="flex items-start gap-4 p-4 rounded-xl">
+                        <div class="w-10 h-10 bg-slate-100 text-muted rounded-full flex items-center justify-center flex-shrink-0">
+                            <span class="font-semibold text-sm">2</span>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-1">
+                                <h4 class="font-medium text-muted">海关数据交叉验证</h4>
+                                <span class="text-xs text-muted">等待中</span>
+                            </div>
+                            <p class="text-sm text-muted">验证企业海关进出口记录，计算采购意向得分</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div id="step3" class="flex items-start gap-4 p-4 rounded-xl">
+                        <div class="w-10 h-10 bg-slate-100 text-muted rounded-full flex items-center justify-center flex-shrink-0">
+                            <span class="font-semibold text-sm">3</span>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-1">
+                                <h4 class="font-medium text-muted">展会数据交叉验证</h4>
+                                <span class="text-xs text-muted">等待中</span>
+                            </div>
+                            <p class="text-sm text-muted">验证企业参展记录，计算活跃意向得分</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div id="step4" class="flex items-start gap-4 p-4 rounded-xl">
+                        <div class="w-10 h-10 bg-slate-100 text-muted rounded-full flex items-center justify-center flex-shrink-0">
+                            <span class="font-semibold text-sm">4</span>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-1">
+                                <h4 class="font-medium text-muted">官网内容富化</h4>
+                                <span class="text-xs text-muted">等待中</span>
+                            </div>
+                            <p class="text-sm text-muted">抓取企业官网内容，提取企业信息</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 5 -->
+                    <div id="step5" class="flex items-start gap-4 p-4 rounded-xl">
+                        <div class="w-10 h-10 bg-slate-100 text-muted rounded-full flex items-center justify-center flex-shrink-0">
+                            <span class="font-semibold text-sm">5</span>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-1">
+                                <h4 class="font-medium text-muted">AI 需求匹配度计算</h4>
+                                <span class="text-xs text-muted">等待中</span>
+                            </div>
+                            <p class="text-sm text-muted">AI 模型判断供需关系，计算四维评分并生成推荐理由</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tips -->
+            <div class="mt-6 bg-accent/5 rounded-xl p-4 border border-accent/20 opacity-0 animate-fade-in-up" style="animation-delay: 0.4s;">
+                <div class="flex gap-3">
+                    <svg class="w-5 h-5 text-accent flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <div>
+                        <p class="text-sm font-medium text-primary mb-1">预计耗时 2-5 分钟</p>
+                        <p class="text-xs text-muted">您可以离开此页面，任务完成后可以从系统的搜客记录中查看。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const steps = [
+            { id: 'step1', name: 'Google Maps 企业扫描', duration: 2000 },
+            { id: 'step2', name: '海关数据交叉验证', duration: 1500 },
+            { id: 'step3', name: '展会数据交叉验证', duration: 1500 },
+            { id: 'step4', name: '官网内容富化', duration: 3000 },
+            { id: 'step5', name: 'AI 四维评分计算', duration: 2000 }
+        ];
+        
+        let currentStep = 0;
+        let progress = 0;
+
+        function updateStep(stepIndex, status) {
+            const stepEl = document.getElementById(steps[stepIndex].id);
+            const iconEl = stepEl.querySelector('div:first-child');
+            const statusEl = stepEl.querySelector('span:last-child');
+            
+            if (status === 'active') {
+                stepEl.className = 'flex items-start gap-4 p-4 rounded-xl bg-slate-50';
+                iconEl.className = 'w-10 h-10 bg-cta text-white rounded-full flex items-center justify-center flex-shrink-0';
+                iconEl.innerHTML = `
+                    <svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                `;
+                statusEl.textContent = '执行中...';
+                statusEl.className = 'text-xs text-cta font-medium';
+            } else if (status === 'completed') {
+                stepEl.className = 'flex items-start gap-4 p-4 rounded-xl bg-success/5';
+                iconEl.className = 'w-10 h-10 bg-success text-white rounded-full flex items-center justify-center flex-shrink-0';
+                iconEl.innerHTML = `
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                `;
+                statusEl.textContent = '已完成';
+                statusEl.className = 'text-xs text-success font-medium';
+            }
+        }
+
+        function updateProgress(percent) {
+            document.getElementById('progressPercent').textContent = percent + '%';
+            document.getElementById('progressBar').style.width = percent + '%';
+        }
+
+        function runStep(stepIndex) {
+            if (stepIndex >= steps.length) {
+                updateProgress(100);
+                setTimeout(() => {
+                    window.location.href = '搜客结果列表.html';
+                }, 500);
+                return;
+            }
+
+            updateStep(stepIndex, 'active');
+            
+            const step = steps[stepIndex];
+            const startProgress = progress;
+            const targetProgress = Math.min(100, ((stepIndex + 1) / steps.length) * 100);
+            
+            const interval = 50;
+            const steps_count = step.duration / interval;
+            let current = 0;
+
+            const timer = setInterval(() => {
+                current++;
+                progress = Math.floor(startProgress + (targetProgress - startProgress) * (current / steps_count));
+                updateProgress(progress);
+
+                if (current >= steps_count) {
+                    clearInterval(timer);
+                    updateStep(stepIndex, 'completed');
+                    setTimeout(() => runStep(stepIndex + 1), 300);
+                }
+            }, interval);
+        }
+
+        setTimeout(() => runStep(0), 500);
+    </script>
+
+</body>
+</html>

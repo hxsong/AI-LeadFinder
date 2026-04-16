@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeadFinder - 上传业务材料页面功能说明</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Fira Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#60A5FA',
+                        cta: '#F97316',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .section-card {
+            transition: all 0.3s ease;
+        }
+        .section-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+        .code-block {
+            background: #1e293b;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        .code-block code {
+            color: #e2e8f0;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 13px;
+        }
+        .highlight-box {
+            border-left: 4px solid #3B82F6;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen font-sans">
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-slate-200">
+        <div class="max-w-6xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-semibold text-slate-800">功能说明文档</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm font-medium">P04 节点</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-24 pb-16 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="mb-10">
+                <h1 class="text-3xl font-bold text-slate-800 mb-4">上传业务材料页面</h1>
+                <p class="text-slate-500 text-lg">对应业务流程节点：P04（为当前 BOT 自助上传特定企业/产品业务材料）</p>
+            </div>
+
+            <div class="space-y-8">
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">页面概述</h2>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-6">
+                        <p class="text-slate-600 leading-relaxed">
+                            本页面用于接收用户本地非结构化业务凭证，作为 AI 画像分析的物理语料。用户可上传产品目录、公司介绍、服务介绍等材料。此流程与 P05/P06 互斥，防止实体信息冲突。
+                        </p>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">可见功能逻辑</h2>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">1. 文件上传区域</h3>
+                            </div>
+                            <div class="p-5 space-y-4">
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="highlight-box bg-blue-50 p-4 rounded-r-lg">
+                                        <h4 class="font-medium text-slate-700 mb-2">支持的文件格式</h4>
+                                        <div class="flex flex-wrap gap-2">
+                                            <span class="px-2 py-1 bg-white rounded text-xs text-slate-600 border">PDF</span>
+                                            <span class="px-2 py-1 bg-white rounded text-xs text-slate-600 border">WORD</span>
+                                            <span class="px-2 py-1 bg-white rounded text-xs text-slate-600 border">MD</span>
+                                            <span class="px-2 py-1 bg-white rounded text-xs text-slate-600 border">TXT</span>
+                                        </div>
+                                    </div>
+                                    <div class="highlight-box bg-orange-50 p-4 rounded-r-lg">
+                                        <h4 class="font-medium text-slate-700 mb-2">文件限制</h4>
+                                        <ul class="text-sm text-slate-600 space-y-1">
+                                            <li>• 单文件最大 5MB</li>
+                                            <li>• 最多上传 3 个文件</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">2. 上传交互方式</h3>
+                            </div>
+                            <div class="p-5">
+                                <table class="w-full text-sm">
+                                    <thead>
+                                        <tr class="border-b border-slate-200">
+                                            <th class="text-left py-2 text-slate-500 font-medium">方式</th>
+                                            <th class="text-left py-2 text-slate-500 font-medium">操作说明</th>
+                                            <th class="text-left py-2 text-slate-500 font-medium">视觉效果</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="border-b border-slate-100">
+                                            <td class="py-3 text-slate-600">点击上传</td>
+                                            <td class="py-3 text-slate-600">点击上传区域触发文件选择器</td>
+                                            <td class="py-3 text-slate-600">边框变蓝 + 背景渐变</td>
+                                        </tr>
+                                        <tr class="border-b border-slate-100">
+                                            <td class="py-3 text-slate-600">拖拽上传</td>
+                                            <td class="py-3 text-slate-600">拖拽文件到上传区域</td>
+                                            <td class="py-3 text-slate-600">dragover 状态：蓝色边框 + 渐变背景</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-3 text-slate-600">多选上传</td>
+                                            <td class="py-3 text-slate-600">支持一次选择多个文件</td>
+                                            <td class="py-3 text-slate-600">逐个添加到文件列表</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">3. 文件列表管理</h3>
+                            </div>
+                            <div class="p-5 space-y-3">
+                                <div class="flex items-start gap-3">
+                                    <span class="w-6 h-6 bg-blue-100 text-blue-600 rounded flex items-center justify-center text-xs font-medium flex-shrink-0">1</span>
+                                    <div>
+                                        <p class="text-slate-600 text-sm font-medium">文件信息展示</p>
+                                        <p class="text-slate-500 text-sm">显示文件名、文件大小、文件类型图标（PDF红色/WORD蓝色/MD灰色/TXT灰色）</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="w-6 h-6 bg-blue-100 text-blue-600 rounded flex items-center justify-center text-xs font-medium flex-shrink-0">2</span>
+                                    <div>
+                                        <p class="text-slate-600 text-sm font-medium">删除功能</p>
+                                        <p class="text-slate-500 text-sm">点击删除按钮移除文件，从列表中移除并更新计数</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">4. 提交按钮状态</h3>
+                            </div>
+                            <div class="p-5">
+                                <table class="w-full text-sm">
+                                    <thead>
+                                        <tr class="border-b border-slate-200">
+                                            <th class="text-left py-2 text-slate-500 font-medium">条件</th>
+                                            <th class="text-left py-2 text-slate-500 font-medium">按钮状态</th>
+                                            <th class="text-left py-2 text-slate-500 font-medium">跳转目标</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="border-b border-slate-100">
+                                            <td class="py-3 text-slate-600">未上传文件</td>
+                                            <td class="py-3"><span class="px-2 py-1 bg-slate-200 text-slate-400 rounded text-xs">灰色禁用</span></td>
+                                            <td class="py-3 text-slate-400">-</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-3 text-slate-600">已上传文件</td>
+                                            <td class="py-3"><span class="px-2 py-1 bg-primary text-white rounded text-xs">蓝色可点击</span></td>
+                                            <td class="py-3 text-slate-600">AI业务分析中.html?source=upload</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">5. 分支流程</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="bg-slate-50 rounded-lg p-4">
+                                    <div class="flex items-center gap-3 mb-3">
+                                        <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                                        </svg>
+                                        <span class="font-medium text-slate-700">返回上一步</span>
+                                    </div>
+                                    <p class="text-sm text-slate-600">点击"返回上一步"按钮，返回 业务初始化.html 重新选择数据来源方式</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">不可见功能逻辑</h2>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">1. 文件上传接口</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="code-block p-4 mb-4">
+                                    <code>
+<pre>POST /api/v1/materials/upload
+
+Request Headers:
+  Authorization: Bearer {tenant_token}
+  Content-Type: multipart/form-data
+
+Request Body:
+  files: File[]           // 文件数组，最多3个
+
+Response:
+{
+  "code": 200,
+  "data": {
+    "upload_id": "UPLOAD-2024-001",
+    "files": [
+      {
+        "file_id": "FILE-001",
+        "file_name": "产品画册.pdf",
+        "file_size": 5242880,
+        "file_type": "application/pdf",
+        "storage_url": "s3://materials/tenant-001/FILE-001.pdf",
+        "upload_time": "2024-01-15T14:30:00Z"
+      }
+    ],
+    "total_size": 15728640,
+    "status": "uploaded"
+  }
+}</pre>
+                                    </code>
+                                </div>
+                                <div class="bg-slate-50 rounded-lg p-4">
+                                    <h4 class="font-medium text-slate-700 mb-2">服务端处理逻辑：</h4>
+                                    <ul class="text-sm text-slate-600 space-y-1">
+                                        <li>• 验证文件类型和大小限制</li>
+                                        <li>• 生成唯一 file_id 并存储到 AWS S3 / 阿里云 OSS</li>
+                                        <li>• 记录文件元数据到数据库</li>
+                                        <li>• 返回存储 URL 供后续处理使用</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">2. 异常流程处理</h3>
+                            </div>
+                            <div class="p-5">
+                                <table class="w-full text-sm">
+                                    <thead>
+                                        <tr class="border-b border-slate-200">
+                                            <th class="text-left py-2 text-slate-500 font-medium">异常场景</th>
+                                            <th class="text-left py-2 text-slate-500 font-medium">错误码</th>
+                                            <th class="text-left py-2 text-slate-500 font-medium">前端处理</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="border-b border-slate-100">
+                                            <td class="py-3 text-slate-600">文件格式不支持</td>
+                                            <td class="py-3"><code class="text-xs bg-red-50 text-red-600 px-2 py-1 rounded">400</code></td>
+                                            <td class="py-3 text-slate-600">弹窗提示"不支持的文件格式"</td>
+                                        </tr>
+                                        <tr class="border-b border-slate-100">
+                                            <td class="py-3 text-slate-600">文件超过 5MB</td>
+                                            <td class="py-3"><code class="text-xs bg-red-50 text-red-600 px-2 py-1 rounded">400</code></td>
+                                            <td class="py-3 text-slate-600">弹窗提示"文件过大，最大支持 5MB"</td>
+                                        </tr>
+                                        <tr class="border-b border-slate-100">
+                                            <td class="py-3 text-slate-600">超过 3 个文件</td>
+                                            <td class="py-3"><code class="text-xs bg-amber-50 text-amber-600 px-2 py-1 rounded">400</code></td>
+                                            <td class="py-3 text-slate-600">弹窗提示"最多只能上传 3 个文件"</td>
+                                        </tr>
+                                        <tr class="border-b border-slate-100">
+                                            <td class="py-3 text-slate-600">URL 格式错误</td>
+                                            <td class="py-3"><code class="text-xs bg-amber-50 text-amber-600 px-2 py-1 rounded">400</code></td>
+                                            <td class="py-3 text-slate-600">弹窗提示"请输入有效的网址"</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-3 text-slate-600">上传失败</td>
+                                            <td class="py-3"><code class="text-xs bg-red-50 text-red-600 px-2 py-1 rounded">500</code></td>
+                                            <td class="py-3 text-slate-600">显示错误提示，支持重试</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">3. AI 解析异常检测</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="bg-amber-50 rounded-lg p-4 border border-amber-100 mb-4">
+                                    <p class="text-sm text-amber-700"><strong>AI 模型存在幻觉风险</strong>，可能导致材料解析结果与实际内容不符。本模块对 AI 解析输出进行专项检测。</p>
+                                </div>
+                                <ul class="text-sm text-slate-600 space-y-2 mb-4">
+                                    <li>• <strong>输出为空检测：</strong>AI 解析返回空结果时触发，提示「AI 解析结果为空，请重试或检查材料内容」</li>
+                                    <li>• <strong>格式校验：</strong>JSON 解析失败时触发，提示「AI 返回数据格式异常，正在自动重试...」</li>
+                                    <li>• <strong>一致性校验：</strong>解析结果与原文矛盾时触发，提示「AI 解析结果存在异常，建议重新上传」</li>
+                                    <li>• <strong>完整性校验：</strong>必要业务字段缺失时触发，提示「AI 解析不完整，部分数据缺失」</li>
+                                </ul>
+                                <div class="bg-red-50 rounded-lg p-4 border border-red-100">
+                                    <h4 class="font-medium text-red-700 mb-2">AI 解析异常处理策略</h4>
+                                    <table class="w-full text-sm">
+                                        <thead>
+                                            <tr class="border-b border-red-200">
+                                                <th class="text-left py-1 text-red-600">异常类型</th>
+                                                <th class="text-left py-1 text-red-600">处理方式</th>
+                                                <th class="text-left py-1 text-red-600">提示文案</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="text-red-600">
+                                            <tr class="border-b border-red-100">
+                                                <td class="py-2">输出为空</td>
+                                                <td class="py-2">自动重试 1 次，失败后提示用户</td>
+                                                <td class="py-2">「AI 解析结果为空，请重试」</td>
+                                            </tr>
+                                            <tr class="border-b border-red-100">
+                                                <td class="py-2">格式错误</td>
+                                                <td class="py-2">自动重试 1 次，失败后使用默认值</td>
+                                                <td class="py-2">「AI 返回数据格式异常」</td>
+                                            </tr>
+                                            <tr class="border-b border-red-100">
+                                                <td class="py-2">内容幻觉</td>
+                                                <td class="py-2">标记异常，提示用户重新上传</td>
+                                                <td class="py-2">「AI 解析结果存在异常，建议重新上传」</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-2">字段缺失</td>
+                                                <td class="py-2">使用默认值填充，标记数据不完整</td>
+                                                <td class="py-2">「AI 解析不完整，部分数据缺失」</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">限制规则</h2>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                            <h4 class="font-medium text-red-700 mb-2">文件数量限制</h4>
+                            <p class="text-sm text-red-600">最多上传 3 个文件，超出时弹窗提示并拒绝</p>
+                        </div>
+                        <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                            <h4 class="font-medium text-amber-700 mb-2">文件大小限制</h4>
+                            <p class="text-sm text-amber-600">单文件最大 5MB，超出时弹窗提示并拒绝</p>
+                        </div>
+                        <div class="bg-blue-50 rounded-xl p-4 border border-blue-100">
+                            <h4 class="font-medium text-blue-700 mb-2">格式限制</h4>
+                            <p class="text-sm text-blue-600">仅支持 PDF、WORD、MD、TXT 格式</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-rose-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">页面跳转关系</h2>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-6">
+                        <div class="flex items-center justify-center gap-4 flex-wrap">
+                            <div class="px-4 py-2 bg-blue-100 text-blue-600 rounded-lg text-sm">
+                                业务初始化.html
+                            </div>
+                            <svg class="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                            <div class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium">
+                                上传业务材料.html
+                            </div>
+                            <svg class="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                            <div class="px-4 py-2 bg-emerald-100 text-emerald-600 rounded-lg text-sm">
+                                AI业务分析中.html
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">技术栈说明</h2>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-slate-50 rounded-xl p-4">
+                            <h4 class="font-medium text-slate-700 mb-2">存储层</h4>
+                            <p class="text-sm text-slate-600">AWS S3 / 阿里云 OSS</p>
+                        </div>
+                        <div class="bg-slate-50 rounded-xl p-4">
+                            <h4 class="font-medium text-slate-700 mb-2">文件格式</h4>
+                            <p class="text-sm text-slate-600">PDF / WORD / MD / TXT</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">Toast 提醒文案规范</h2>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-gradient-to-r from-cyan-50 to-blue-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">1. 文件上传操作</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                        <h4 class="font-medium text-emerald-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                            成功提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-emerald-600">
+                                            <p><strong>上传成功：</strong>「{filename} 上传成功」</p>
+                                            <p><strong>批量上传：</strong>「{count} 个文件上传成功」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                                        <h4 class="font-medium text-red-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                                            失败提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-red-600">
+                                            <p><strong>格式错误：</strong>「{filename} 格式不支持，仅支持 PDF、WORD、MD、TXT」</p>
+                                            <p><strong>大小超限：</strong>「{filename} 超过 5MB 限制」</p>
+                                            <p><strong>上传失败：</strong>「{filename} 上传失败，请重试」</p>
+                                            <p><strong>已达上限：</strong>「已达到最大上传数量限制（3 个）」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                                        <h4 class="font-medium text-amber-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                            异常提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-amber-600">
+                                            <p><strong>网络错误：</strong>「网络连接异常，请检查网络后重试」</p>
+                                            <p><strong>超时：</strong>「上传超时，请重试」</p>
+                                            <p><strong>上传中：</strong>「文件上传中，请稍候...」</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-gradient-to-r from-purple-50 to-pink-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">2. 文件管理操作</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                        <h4 class="font-medium text-emerald-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                            成功提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-emerald-600">
+                                            <p><strong>删除成功：</strong>「{filename} 已从列表中移除」</p>
+                                            <p><strong>清空成功：</strong>「已清空所有文件」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                                        <h4 class="font-medium text-red-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                                            失败提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-red-600">
+                                            <p><strong>删除失败：</strong>「文件删除失败，请重试」</p>
+                                            <p><strong>操作失败：</strong>「文件操作失败，请重试」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                                        <h4 class="font-medium text-amber-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                            异常提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-amber-600">
+                                            <p><strong>网络错误：</strong>「网络连接异常，请检查网络后重试」</p>
+                                            <p><strong>超时：</strong>「请求超时，请稍后重试」</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-gradient-to-r from-violet-50 to-purple-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">3. 提交材料操作</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                        <h4 class="font-medium text-emerald-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                            成功提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-emerald-600">
+                                            <p><strong>提交成功：</strong>「业务材料提交成功，正在跳转...」</p>
+                                            <p><strong>上传完成：</strong>「所有文件已上传，材料提交中...」</p>
+                                            <p><strong>跳转成功：</strong>「正在跳转至业务分析页面...」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                                        <h4 class="font-medium text-red-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                                            失败提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-red-600">
+                                            <p><strong>无文件：</strong>「请先上传至少一个文件」</p>
+                                            <p><strong>上传未完成：</strong>「有文件仍在上传中，请等待上传完成」</p>
+                                            <p><strong>提交失败：</strong>「材料提交失败，请稍后重试」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                                        <h4 class="font-medium text-amber-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                            异常提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-amber-600">
+                                            <p><strong>网络错误：</strong>「网络连接异常，请检查网络后重试」</p>
+                                            <p><strong>超时：</strong>「提交请求超时，请稍后重试」</p>
+                                            <p><strong>服务不可用：</strong>「提交服务暂时不可用，请稍后再试」</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-gradient-to-r from-teal-50 to-cyan-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">4. 页面加载与状态</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                        <h4 class="font-medium text-emerald-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                            成功提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-emerald-600">
+                                            <p><strong>加载成功：</strong>「上传业务材料页面加载成功」</p>
+                                            <p><strong>刷新成功：</strong>「页面已刷新」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                                        <h4 class="font-medium text-red-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                                            失败提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-red-600">
+                                            <p><strong>加载失败：</strong>「页面加载失败，请刷新页面重试」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                                        <h4 class="font-medium text-amber-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                            异常提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-amber-600">
+                                            <p><strong>网络错误：</strong>「网络连接异常，请检查网络」</p>
+                                            <p><strong>超时：</strong>「数据请求超时，请稍后重试」</p>
+                                            <p><strong>服务不可用：</strong>「服务暂时不可用，请稍后再试」</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-6">
+        <div class="max-w-5xl mx-auto px-4 text-center text-sm text-slate-400">
+            AI-LeadFinder 功能说明文档 · 上传业务材料页面
+        </div>
+
+    </footer>
+
+</body>
+</html>

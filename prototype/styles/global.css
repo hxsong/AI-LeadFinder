@@ -1,0 +1,228 @@
+/* ==========================================================================
+   AI-LeadFinder 全局样式规范
+   版本：v1.0.0
+   最后更新：2026-04-10
+
+   使用说明：
+   1. 所有 prototype/pages/*.html 应在 <head> 中引入此文件
+   2. 移除各页面内重复的 Tailwind 配置，统一使用此处定义的设计 Token
+   3. 自定义 CSS 变量（设计 Token）可在各页面直接使用
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. 设计 Token（Design Tokens）
+   -------------------------------------------------------------------------- */
+:root {
+  /* 主色调 */
+  --color-primary: #3B82F6;
+  --color-primary-hover: #2563EB;
+  --color-primary-light: #EFF6FF;
+  --color-primary-border: #BFDBFE;
+
+  /* 辅助色 */
+  --color-secondary: #60A5FA;
+  --color-accent: #8B5CF6;
+  --color-cta: #F97316;
+
+  /* 状态色 */
+  --color-success: #10B981;
+  --color-success-light: #D1FAE5;
+  --color-warning: #F59E0B;
+  --color-warning-light: #FEF3C7;
+  --color-error: #EF4444;
+  --color-error-light: #FEE2E2;
+  --color-info: #3B82F6;
+  --color-info-light: #DBEAFE;
+
+  /* 热度色 */
+  --color-heat-high: #EF4444;    /* 极高热度（≥80分）红色 */
+  --color-heat-mid: #F59E0B;     /* 较高热度（60-79分）橙色 */
+  --color-heat-low: #10B981;    /* 一般热度（<60分）绿色 */
+
+  /* 背景与文本 */
+  --color-bg: #F8FAFC;
+  --color-bg-white: #FFFFFF;
+  --color-bg-card: #FFFFFF;
+  --color-text: #020617;
+  --color-text-secondary: #334155;
+  --color-text-muted: #64748B;
+  --color-text-placeholder: #94A3B8;
+  --color-border: #E2E8F0;
+  --color-border-light: #F1F5F9;
+
+  /* 阴影 */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-modal: 0 16px 48px rgba(0, 0, 0, 0.15);
+
+  /* 圆角 */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+  --radius-full: 9999px;
+
+  /* 间距 */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  /* 字体 */
+  --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Fira Sans', 'SF Mono', 'Monaco', monospace;
+}
+
+/* --------------------------------------------------------------------------
+   2. 全局重置与基础样式
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --------------------------------------------------------------------------
+   3. 通用组件样式
+   -------------------------------------------------------------------------- */
+
+/* 按钮 */
+.btn-primary {
+  background-color: var(--color-primary);
+  color: white;
+  border-radius: var(--radius-lg);
+  padding: 10px 20px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+  transform: translateY(-1px);
+}
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-secondary {
+  background-color: white;
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 10px 20px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+.btn-secondary:hover {
+  background-color: var(--color-bg);
+  border-color: var(--color-primary-border);
+}
+
+/* 卡片 */
+.card {
+  background: var(--color-bg-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--color-border-light);
+  padding: var(--space-6);
+  transition: all 0.3s ease;
+}
+.card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+/* 标签徽章 */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 500;
+}
+.badge-blue { background: var(--color-primary-light); color: var(--color-primary); }
+.badge-green { background: var(--color-success-light); color: var(--color-success); }
+.badge-yellow { background: var(--color-warning-light); color: var(--color-warning); }
+.badge-red { background: var(--color-error-light); color: var(--color-error); }
+
+/* 热度角标 */
+.heat-badge-high { background: var(--color-error-light); color: var(--color-heat-high); }
+.heat-badge-mid  { background: var(--color-warning-light); color: var(--color-heat-mid); }
+.heat-badge-low  { background: var(--color-success-light); color: var(--color-heat-low); }
+
+/* 进度条 */
+.progress-bar {
+  height: 8px;
+  background: var(--color-border);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  border-radius: var(--radius-full);
+  transition: width 0.3s ease;
+}
+
+/* Toast 提示 */
+.toast {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  padding: 12px 24px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  font-size: 14px;
+  font-weight: 500;
+  animation: fadeInDown 0.3s ease;
+}
+.toast-success { background: var(--color-success-light); color: var(--color-success); border-left: 4px solid var(--color-success); }
+.toast-error   { background: var(--color-error-light);   color: var(--color-error);   border-left: 4px solid var(--color-error); }
+.toast-warning { background: var(--color-warning-light); color: var(--color-warning); border-left: 4px solid var(--color-warning); }
+.toast-info    { background: var(--color-info-light);    color: var(--color-info);    border-left: 4px solid var(--color-info); }
+
+/* 加载动画 */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse-slow {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.animate-fade-in-up { animation: fadeInUp 0.5s ease-out forwards; }
+.animate-pulse-slow { animation: pulse-slow 2s ease-in-out infinite; }

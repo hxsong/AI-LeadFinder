@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeadFinder - 搜客策略预览页面功能说明</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Fira Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#60A5FA',
+                        cta: '#F97316',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .section-card {
+            transition: all 0.3s ease;
+        }
+        .section-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+        .code-block {
+            background: #1e293b;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        .code-block code {
+            color: #e2e8f0;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 13px;
+        }
+        .highlight-box {
+            border-left: 4px solid #3B82F6;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen font-sans">
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-slate-200">
+        <div class="max-w-6xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-semibold text-slate-800">功能说明文档</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm font-medium">P13-P15 节点</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-24 pb-16 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="mb-10">
+                <h1 class="text-3xl font-bold text-slate-800 mb-4">搜客策略预览页面</h1>
+                <p class="text-slate-500 text-lg">对应业务流程节点：P13-P15（AI 智能生成搜客策略 → 展示搜客策略和预估消耗费用）</p>
+            </div>
+
+            <div class="space-y-8">
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">页面概述</h2>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-6">
+                        <p class="text-slate-600 leading-relaxed">
+                            本页面展示 AI 智能生成的搜客策略，包括策略解读、瀑布流执行计划、费用预估明细。策略生成基于用户输入的搜索需求和目标客户数量，结合三方 API 配置智能规划最优执行方案。用户确认后系统冻结预估 Credits 并开始执行搜客任务。
+                        </p>
+                        <p class="text-sm text-slate-500 mt-3">详细处理流程见「不可见功能逻辑」模块。</p>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">可见功能逻辑</h2>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">1. UI 组件</h3>
+                            </div>
+                            <div class="p-5 space-y-3">
+                                <div class="flex items-start gap-3">
+                                    <span class="w-6 h-6 bg-primary/10 text-primary rounded flex items-center justify-center text-sm font-medium flex-shrink-0">1</span>
+                                    <div>
+                                        <p class="font-medium text-slate-800">AI 策略解读卡片</p>
+                                        <p class="text-sm text-slate-600">展示 AI 生成的策略逻辑说明，向用户解释这套策略的执行思路</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="w-6 h-6 bg-primary/10 text-primary rounded flex items-center justify-center text-sm font-medium flex-shrink-0">2</span>
+                                    <div>
+                                        <p class="font-medium text-slate-800">瀑布流执行计划</p>
+                                        <p class="text-sm text-slate-600">动态展示执行步骤（1-4步），根据用户需求智能选择需要调用的接口，每步显示 API 来源和参数配置</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="w-6 h-6 bg-primary/10 text-primary rounded flex items-center justify-center text-sm font-medium flex-shrink-0">3</span>
+                                    <div>
+                                        <p class="font-medium text-slate-800">目标对齐模块</p>
+                                        <p class="text-sm text-slate-600">展示目标企业数量、预计候选企业、最终输出企业的数量对比。预计候选企业 = 各接口预估获取数量之和</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="w-6 h-6 bg-primary/10 text-primary rounded flex items-center justify-center text-sm font-medium flex-shrink-0">4</span>
+                                    <div>
+                                        <p class="font-medium text-slate-800">费用预估明细</p>
+                                        <p class="text-sm text-slate-600">展示各 API 服务的预估费用和总消耗，隐藏单价和计算细节</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">2. 交互效果</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="bg-blue-50 rounded-lg p-4">
+                                    <ul class="text-sm text-slate-600 space-y-2">
+                                        <li>• <strong>页面进入动画：</strong>各组件依次淡入上滑（fadeInUp），带延迟效果</li>
+                                        <li>• <strong>返回按钮：</strong>点击返回 搜客需求输入.html 修改策略</li>
+                                        <li>• <strong>确认按钮：</strong>点击后显示 "冻结 Credits..." 加载状态，按钮禁用</li>
+                                        <li>• <strong>成功状态徽章：</strong>顶部显示 "AI 策略规划完成" 绿色徽章</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">3. 分支流程</h3>
+                            </div>
+                            <div class="p-5 space-y-3">
+                                <div class="bg-amber-50 rounded-lg p-4 border border-amber-100">
+                                    <p class="text-sm text-amber-700"><strong>Credits 余额不足：</strong>若用户 Credits 余额 < 预估消耗，显示充值提示，禁用确认按钮</p>
+                                </div>
+                                <div class="bg-red-50 rounded-lg p-4 border border-red-100">
+                                    <p class="text-sm text-red-700"><strong>API 服务不可用：</strong>若某第三方 API 服务离线，策略中对应步骤标记为"服务异常"，提示用户稍后重试</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">不可见功能逻辑</h2>
+                    </div>
+
+                    <div class="space-y-6">
+                        <!-- Step 1: 参数校验与任务创建 -->
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">1. 参数校验与任务创建</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="bg-blue-50 rounded-lg p-4 mb-4">
+                                    <p class="text-sm text-blue-700 mb-2"><strong>触发条件：</strong>用户提交 user_query（需求内容）+ target_count（目标客户最大数量）</p>
+                                </div>
+                                
+                                <div class="space-y-3">
+                                    <div class="flex items-start gap-3">
+                                        <span class="w-6 h-6 bg-purple-500 text-white rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0">1</span>
+                                        <div>
+                                            <p class="text-sm font-medium text-slate-700">参数校验</p>
+                                            <p class="text-xs text-slate-500">验证 tenant_id 有效性、user_query 长度（≤500）、target_count 范围（20-200）</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <span class="w-6 h-6 bg-purple-500 text-white rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0">2</span>
+                                        <div>
+                                            <p class="text-sm font-medium text-slate-700">创建待确认搜索任务</p>
+                                            <p class="text-xs text-slate-500">生成 task_id，状态设为 "pending_confirmation"，存储到数据库</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: AI 策略规划师 -->
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">2. AI 策略规划师 - 生成搜客策略</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="bg-amber-50 rounded-lg p-4 mb-4">
+                                    <p class="text-sm text-amber-700 mb-2"><strong>核心逻辑：</strong>根据用户输入的搜索需求 + 目标客户数量 + 三方 API 配置，直接生成完整的搜客策略，包括搜索关键字、调用接口、执行顺序、执行脚本。</p>
+                                </div>
+                                <div class="bg-blue-50 rounded-lg p-4 mb-4">
+                                    <p class="text-sm text-blue-700"><strong>语言选择说明：</strong>根据使用模型自动选择对应语言版本。国外模型(GPT-4, Claude)使用英文提示词，国内模型使用中文提示词。<strong>特别注意：</strong>调用国外 API 时，search_keywords 必须输出英文版本。</p>
+                                </div>
+
+                                <div class="code-block p-4 mb-4">
+                                    <code>
+<pre>// ========== 中文版本 (Chinese Version) ==========
+// AI 策略规划师 System Prompt
+
+# Role
+你是一个智能 API 调度网关与搜客策略规划师。
+
+# Task
+根据用户的搜索需求和目标客户数量，制定一套瀑布流式的数据抓取策略。
+你必须决定：先调用哪个 API 铺网？再调用哪个 API 过滤？生成搜索关键字列表和调用顺序。
+
+# Input
+{
+  "user_query": "我想找欧洲的登山装备的品牌代理商",
+  "target_count": 20
+}
+
+# Available APIs (可用数据源)
+
+## 1. GOOGLE_MAPS_API
+**用途**：按地理位置和实体类型寻找企业
+**核心参数**：
+- textQuery: 搜索文本（需翻译为英文）
+- includedType: 地点类型筛选
+- locationRestriction: 区域限制
+- pageSize: 每页数量（最大20）
+- languageCode: 返回语言
+- **target_count**: 目标企业数量（必传）
+**调用限制**：单次最多返回 20 条，需根据 target_count 计算调用次数
+
+## 2. CHUHAIPAI_API
+**用途**：查询海关进出口记录，获取有采购意向的企业
+**核心参数**：
+- searchField: 搜索字段（product/shipname/consname）
+- modifier: 匹配方式（contains/exactly/any）
+- searchTerm: 搜索关键词
+- hs_codes: HS 编码数组
+- country: 国家代码
+- date_range: 日期范围
+- **target_count**: 目标企业数量（必传）
+**调用限制**：批量查询一次可处理 100 个域名
+
+## 3. 10TIMES_EXPO_API
+**用途**：获取展会参展商名单
+**核心参数**：
+- location: 地理位置
+- query: 活动名称搜索关键词（需翻译为英文）
+- category: 行业类别 ID
+- eventType: 活动类型
+- date_range: 日期范围
+- **target_count**: 目标企业数量（必传）
+**调用限制**：批量查询一次可处理最多 1000 个活动
+
+## 4. JINA_READER_API
+**用途**：解析企业官网内容
+**核心参数**：
+- url: 要解析的 URL
+- extract_mode: 提取模式
+- **target_count**: 目标企业数量（必传）
+**调用限制**：单次请求对应 1 个 URL，需根据 target_count 计算调用次数
+
+# Execution Rules
+1. 目标寻客数量上限设为 {target_count} 家
+2. **动态接口选择**：
+   - 根据用户需求智能选择需要调用的接口，不强制调用所有接口
+   - 示例：用户只想要海关数据 → 仅调用 CHUHAIPAI_API
+   - 示例：用户需要欧洲地区企业 → 调用 GOOGLE_MAPS_API + 其他验证接口
+3. **起手式判断**：
+   - 意图包含明确区域 → 优先用 GOOGLE_MAPS_API 起手
+   - 意图强调采购某类产品 → 优先用 CHUHAIPAI_API 起手
+   - 意图强调展会参展商 → 优先用 10TIMES_EXPO_API 起手
+4. **target_count 传递**：
+   - 每个被调用的接口都必须传入 target_count 参数
+   - 确保每个接口都能获取到目标数量的数据
+   - 对于有返回数量限制的接口，需要计算调用次数
+
+# 参数语言转换规则 (重要!)
+- GOOGLE_MAPS_API: textQuery 必须为英文
+- CHUHAIPAI_API: searchTerm 可为中文或英文
+- 10TIMES_EXPO_API: query 必须为英文
+- JINA_READER_API: 不涉及搜索关键字
+
+# Output JSON Format
+{
+  "search_keywords": {
+    "primary": ["英文关键字1", "英文关键字2"],
+    "primary_zh": ["原始中文关键字1", "原始中文关键字2"],
+    "secondary": ["英文次要关键字1", "英文次要关键字2"],
+    "secondary_zh": ["原始中文次要关键字1", "原始中文次要关键字2"],
+    "region_codes": ["DE", "FR", "GB", "IT", "ES"],
+    "hs_codes": ["950691", "420212"]
+  },
+  "waterfall_plan": [
+    {
+      "step": 1,
+      "api_source": "GOOGLE_MAPS_API",
+      "description": "地图企业扫描",
+      "search_query": "mountaineering equipment brand distributor in Europe",
+      "parameters": {
+        "textQuery": "mountaineering equipment brand distributor",
+        "locationRestriction": {"region": "Europe"},
+        "pageSize": 20,
+        "target_count": 20
+      },
+      "expected_output": "获取欧洲地区登山装备品牌代理商候选列表"
+    }
+  ],
+  "strategy_explanation": {
+    "rationale": "策略逻辑说明",
+    "why_this_order": "为什么按这个顺序调用",
+    "why_these_apis": "为什么选择这些接口"
+  }
+}
+
+// ========== English Version (英文版本) ==========
+// AI Strategy Planner System Prompt
+
+# Role
+You are an intelligent API scheduling gateway and search strategy planner.
+
+# Task
+Based on the user's search requirements and target customer count, develop a waterfall-style data crawling strategy.
+You must decide: Which API to call first for coverage? Which API to call next for filtering? Generate search keyword lists and call sequence.
+
+# Input
+{
+  "user_query": "I want to find brand distributors of mountaineering equipment in Europe",
+  "target_count": 20
+}
+
+# Available APIs
+
+## 1. GOOGLE_MAPS_API
+**Purpose**: Find businesses by geographic location and entity type
+**Core Parameters**:
+- textQuery: Search text
+- includedType: Location type filter
+- locationRestriction: Region restriction
+- pageSize: Results per page (max 20)
+- languageCode: Response language
+- **target_count**: Target number of companies (required)
+**Call Limit**: Max 20 results per call, calculate call count based on target_count
+
+## 2. CHUHAIPAI_API
+**Purpose**: Query customs import/export records to find companies with purchase intent
+**Core Parameters**:
+- searchField: Search field (product/shipname/consname)
+- modifier: Match type (contains/exactly/any)
+- searchTerm: Search keywords
+- hs_codes: HS code array
+- country: Country code
+- date_range: Date range
+- **target_count**: Target number of companies (required)
+**Call Limit**: Batch query can process 100 domain names per call
+
+## 3. 10TIMES_EXPO_API
+**Purpose**: Get exhibition exhibitor lists
+**Core Parameters**:
+- location: Geographic location
+- query: Event name search keywords
+- category: Industry category ID
+- eventType: Event type
+- date_range: Date range
+- **target_count**: Target number of companies (required)
+**Call Limit**: Batch query can process up to 1000 events per call
+
+## 4. JINA_READER_API
+**Purpose**: Parse company website content
+**Core Parameters**:
+- url: URL to parse
+- extract_mode: Extraction mode
+- **target_count**: Target number of companies (required)
+**Call Limit**: One request corresponds to 1 URL, calculate call count based on target_count
+
+# Execution Rules
+1. Target customer count upper limit is set to {target_count}
+2. **Dynamic API Selection**:
+   - Intelligently select APIs to call based on user requirements, not forced to call all APIs
+   - Example: User only wants customs data → Call CHUHAIPAI_API only
+   - Example: User needs European companies → Call GOOGLE_MAPS_API + other verification APIs
+3. **Starting Strategy**:
+   - Intent contains specific region → Prioritize GOOGLE_MAPS_API
+   - Intent emphasizes purchasing certain products → Prioritize CHUHAIPAI_API
+   - Intent emphasizes exhibition exhibitors → Prioritize 10TIMES_EXPO_API
+4. **target_count Pass-through**:
+   - Each called API must receive target_count parameter
+   - Ensure each API can obtain target amount of data
+   - For APIs with return quantity limits, calculate call count
+
+# Parameter Language Conversion Rules (Important!)
+- GOOGLE_MAPS_API: textQuery MUST be in English
+- CHUHAIPAI_API: searchTerm can be in Chinese or English
+- 10TIMES_EXPO_API: query MUST be in English
+- JINA_READER_API: Does not involve search keywords
+
+# Output JSON Format
+{
+  "search_keywords": {
+    "primary": ["mountaineering equipment", "brand distributor"],
+    "primary_zh": ["登山装备", "品牌代理商"],
+    "secondary": ["hiking gear", "climbing equipment"],
+    "secondary_zh": ["徒步装备", "攀岩装备"],
+    "region_codes": ["DE", "FR", "GB", "IT", "ES"],
+    "hs_codes": ["950691", "420212"]
+  },
+  "waterfall_plan": [
+    {
+      "step": 1,
+      "api_source": "GOOGLE_MAPS_API",
+      "description": "Map Business Scan",
+      "search_query": "mountaineering equipment brand distributor in Europe",
+      "parameters": {
+        "textQuery": "mountaineering equipment brand distributor",
+        "locationRestriction": {"region": "Europe"},
+        "pageSize": 20,
+        "target_count": 20
+      },
+      "expected_output": "Get candidate list of mountaineering equipment brand distributors in Europe"
+    }
+  ],
+  "strategy_explanation": {
+    "rationale": "Strategy logic explanation",
+    "why_this_order": "Why call in this order",
+    "why_these_apis": "Why choose these APIs"
+  }
+}</pre>
+                                    </code>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: 脚本生成与费用预估 -->
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">3. 脚本生成与费用预估</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="bg-red-50 rounded-lg p-4 mb-4">
+                                    <p class="text-sm text-red-700 mb-2"><strong>核心逻辑：</strong>根据 AI 策略规划师输出的 waterfall_plan，自动生成可执行的 API 调用脚本，并根据调用次数预估费用。</p>
+                                </div>
+
+                                <h4 class="font-medium text-slate-700 mb-3">脚本生成逻辑：</h4>
+                                <div class="space-y-3 mb-4">
+                                    <div class="flex items-start gap-3 bg-slate-50 rounded-lg p-3">
+                                        <span class="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0">1</span>
+                                        <div>
+                                            <p class="text-sm font-medium text-slate-700">解析 waterfall_plan</p>
+                                            <p class="text-xs text-slate-500">遍历每个 step，提取 api_source、parameters</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3 bg-slate-50 rounded-lg p-3">
+                                        <span class="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0">2</span>
+                                        <div>
+                                            <p class="text-sm font-medium text-slate-700">生成 API 调用脚本</p>
+                                            <p class="text-xs text-slate-500">根据 API 类型，生成对应的 curl 命令或 SDK 调用代码</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3 bg-slate-50 rounded-lg p-3">
+                                        <span class="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0">3</span>
+                                        <div>
+                                            <p class="text-sm font-medium text-slate-700">计算调用次数</p>
+                                            <p class="text-xs text-slate-500">根据 target_count 和 API 返回限制，计算每个 API 需要调用的次数</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3 bg-slate-50 rounded-lg p-3">
+                                        <span class="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-sm font-medium flex-shrink-0">4</span>
+                                        <div>
+                                            <p class="text-sm font-medium text-slate-700">预估费用</p>
+                                            <p class="text-xs text-slate-500">调用次数 × API 单价 × (1 + 30% 动态溢价)</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="code-block p-4 mb-4">
+                                    <code>
+<pre>// 生成的执行脚本示例
+{
+  "execution_script": {
+    "step_1": {
+      "api": "GOOGLE_MAPS_API",
+      "calls": [
+        {
+          "method": "POST",
+          "url": "https://places.googleapis.com/v1/places:searchText",
+          "headers": {
+            "X-Goog-Api-Key": "${GOOGLE_API_KEY}",
+            "X-Goog-FieldMask": "places.displayName,places.formattedAddress"
+          },
+          "body": {
+            "textQuery": "mountaineering equipment brand distributor",
+            "locationRestriction": {"region": "Europe"},
+            "pageSize": 20
+          }
+        }
+      ],
+      "estimated_calls": 2
+    },
+    "step_2": {
+      "api": "CHUHAIPAI_API",
+      "calls": [...],
+      "estimated_calls": 1
+    }
+  },
+  "estimated_api_calls": {
+    "GOOGLE_MAPS_API": 2,
+    "CHUHAIPAI_API": 1,
+    "10TIMES_EXPO_API": 1,
+    "JINA_READER_API": 20
+  }
+}</pre>
+                                    </code>
+                                </div>
+
+                                <div class="bg-purple-50 rounded-lg p-4">
+                                    <p class="text-sm font-medium text-purple-700 mb-2">费用预估计算：</p>
+                                    <table class="w-full text-sm mb-3">
+                                        <thead>
+                                            <tr class="border-b border-purple-200">
+                                                <th class="text-left py-2 text-purple-700">API 服务</th>
+                                                <th class="text-left py-2 text-purple-700">单价</th>
+                                                <th class="text-left py-2 text-purple-700">预计调用</th>
+                                                <th class="text-left py-2 text-purple-700">小计</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="border-b border-purple-100">
+                                                <td class="py-2 text-slate-600">GOOGLE_MAPS_API</td>
+                                                <td class="py-2 text-slate-600">2 Credits</td>
+                                                <td class="py-2 text-slate-600">2 次</td>
+                                                <td class="py-2 text-slate-600">4 Credits</td>
+                                            </tr>
+                                            <tr class="border-b border-purple-100">
+                                                <td class="py-2 text-slate-600">CHUHAIPAI_API</td>
+                                                <td class="py-2 text-slate-600">5 Credits</td>
+                                                <td class="py-2 text-slate-600">1 次</td>
+                                                <td class="py-2 text-slate-600">5 Credits</td>
+                                            </tr>
+                                            <tr class="border-b border-purple-100">
+                                                <td class="py-2 text-slate-600">10TIMES_EXPO_API</td>
+                                                <td class="py-2 text-slate-600">3 Credits</td>
+                                                <td class="py-2 text-slate-600">1 次</td>
+                                                <td class="py-2 text-slate-600">3 Credits</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-2 text-slate-600">JINA_READER_API</td>
+                                                <td class="py-2 text-slate-600">1 Credit</td>
+                                                <td class="py-2 text-slate-600">20 次</td>
+                                                <td class="py-2 text-slate-600">20 Credits</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <p class="text-sm text-slate-600">基准成本：32 Credits | 总预估：<strong class="text-primary">42 Credits</strong>（含30%动态溢价）</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: API 接口规范 -->
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">4. API 接口规范</h3>
+                            </div>
+                            <div class="p-5">
+                                <p class="text-sm text-slate-600 mb-4">根据上述所有阶段的产出，定义完整的 API 接口输入和返回参数格式：</p>
+                                
+                                <div class="code-block p-4 mb-4">
+                                    <code>
+<pre>POST /api/v1/search/strategy/generate
+
+Request Body:
+{
+  "user_query": "我想找欧洲的登山装备的品牌代理商",
+  "target_count": 20
+}
+
+Response (Success):
+{
+  "code": 200,
+  "message": "success",
+  "data": {
+    "task_id": "task_20240115_001",
+    "status": "pending_confirmation",
+    
+    "search_keywords": {
+      "primary": ["mountaineering equipment", "brand distributor"],
+      "secondary": ["hiking gear", "climbing equipment"],
+      "region_codes": ["DE", "FR", "GB", "IT", "ES"],
+      "hs_codes": ["950691", "420212"]
+    },
+    
+    "waterfall_plan": [
+      {
+        "step": 1,
+        "api_source": "GOOGLE_MAPS_API",
+        "description": "地图企业扫描 - 欧洲登山装备品牌代理商",
+        "search_query": "mountaineering equipment brand distributor in Europe",
+        "parameters": {...},
+        "expected_output": "获取欧洲地区登山装备品牌代理商候选列表"
+      },
+      {
+        "step": 2,
+        "api_source": "CHUHAIPAI_API",
+        "description": "海关数据验证",
+        "parameters": {...}
+      },
+      {
+        "step": 3,
+        "api_source": "10TIMES_EXPO_API",
+        "description": "展会数据验证",
+        "parameters": {...}
+      },
+      {
+        "step": 4,
+        "api_source": "JINA_READER_API",
+        "description": "官网内容富化",
+        "parameters": {...}
+      }
+    ],
+    
+    "execution_script": {
+      "step_1": { "api": "GOOGLE_MAPS_API", "calls": [...] },
+      "step_2": { "api": "CHUHAIPAI_API", "calls": [...] },
+      "step_3": { "api": "10TIMES_EXPO_API", "calls": [...] },
+      "step_4": { "api": "JINA_READER_API", "calls": [...] }
+    },
+    
+    "estimated_api_calls": {
+      "GOOGLE_MAPS_API": 2,
+      "CHUHAIPAI_API": 1,
+      "10TIMES_EXPO_API": 1,
+      "JINA_READER_API": 20
+    },
+    
+    "estimated_credits": 42,
+    
+    "strategy_explanation": {
+      "rationale": "系统将优先在欧洲地图雷达扫描登山装备品牌代理商，并结合海关与展会数据进行深度交叉验证",
+      "why_google_maps_first": "用户意图明确指定地区（欧洲）",
+      "why_import_genius_second": "海关数据验证采购意向"
+    }
+  }
+}</pre>
+                                    </code>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 5: 确认执行 -->
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">5. 确认开始搜客 - API 接口</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="code-block p-4">
+                                    <code>
+<pre>POST /api/v1/search/execute
+
+Request Body:
+{
+  "task_id": "task_20240115_001",
+  "confirmed": true,
+  "estimated_credits": 42
+}
+
+Response (Success):
+{
+  "code": 200,
+  "message": "success",
+  "data": {
+    "task_id": "task_20240115_001",
+    "status": "executing",
+    "frozen_credits": 42,
+    "started_at": "2024-01-15T10:30:00Z"
+  }
+}</pre>
+                                    </code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">限制规则</h2>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                            <h4 class="font-medium text-red-700 mb-2">余额限制</h4>
+                            <ul class="text-sm text-red-600 space-y-1">
+                                <li>• Credits 余额需 > 0 且 ≥ 预估消耗</li>
+                                <li>• 预估消耗含 30% 动态溢价</li>
+                            </ul>
+                            <div class="mt-3 pt-3 border-t border-red-200">
+                                <p class="text-xs text-red-500"><strong>余额规则：</strong>余额可为负，≤ 0 时禁止消耗操作；执行中不扣费，完成后按实际消耗结算，允许余额为负。</p>
+                            </div>
+                        </div>
+                        <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                            <h4 class="font-medium text-red-700 mb-2">策略限制</h4>
+                            <ul class="text-sm text-red-600 space-y-1">
+                                <li>• 目标寻客数量上限：200 家</li>
+                                <li>• 单次执行最多 4 个 API 步骤</li>
+                            </ul>
+                        </div>
+                        <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                            <h4 class="font-medium text-amber-700 mb-2">API 可用性</h4>
+                            <ul class="text-sm text-amber-600 space-y-1">
+                                <li>• 依赖第三方 API 服务状态</li>
+                                <li>• API 离线时策略标记异常</li>
+                            </ul>
+                        </div>
+                        <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                            <h4 class="font-medium text-amber-700 mb-2">费用结算</h4>
+                            <ul class="text-sm text-amber-600 space-y-1">
+                                <li>• 预估费用仅供参考</li>
+                                <li>• 实际扣费按成功调用结算</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">AI 策略规划异常检测</h2>
+                    </div>
+                    <div class="bg-amber-50 rounded-lg p-4 border border-amber-100 mb-4">
+                        <p class="text-sm text-amber-700"><strong>AI 模型存在幻觉风险</strong>，可能导致生成的搜客策略与用户需求不符或逻辑矛盾。本模块对 AI 策略输出进行专项检测。</p>
+                    </div>
+                    <ul class="text-sm text-slate-600 space-y-2 mb-4">
+                        <li>• <strong>输出为空检测：</strong>AI 返回空策略时触发，提示「AI 策略生成结果为空，请重试」</li>
+                        <li>• <strong>格式校验：</strong>策略 JSON 解析失败时触发，提示「AI 返回数据格式异常，正在自动重试...」</li>
+                        <li>• <strong>一致性校验：</strong>策略与用户需求矛盾时触发，提示「AI 策略与需求不符，建议重新生成」</li>
+                        <li>• <strong>完整性校验：</strong>必要策略字段缺失时触发，提示「AI 策略生成不完整」</li>
+                    </ul>
+                    <div class="bg-red-50 rounded-lg p-4 border border-red-100">
+                        <h4 class="font-medium text-red-700 mb-2">AI 策略异常处理策略</h4>
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="border-b border-red-200">
+                                    <th class="text-left py-1 text-red-600">异常类型</th>
+                                    <th class="text-left py-1 text-red-600">处理方式</th>
+                                    <th class="text-left py-1 text-red-600">提示文案</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-red-600">
+                                <tr class="border-b border-red-100">
+                                    <td class="py-2">输出为空</td>
+                                    <td class="py-2">自动重试 1 次，失败后提示用户</td>
+                                    <td class="py-2">「AI 策略为空，请重试」</td>
+                                </tr>
+                                <tr class="border-b border-red-100">
+                                    <td class="py-2">格式错误</td>
+                                    <td class="py-2">自动重试 1 次，失败后使用默认策略</td>
+                                    <td class="py-2">「AI 返回数据格式异常」</td>
+                                </tr>
+                                <tr class="border-b border-red-100">
+                                    <td class="py-2">内容幻觉</td>
+                                    <td class="py-2">标记异常，提示用户重新生成</td>
+                                    <td class="py-2">「AI 策略存在异常，建议重新生成」</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2">字段缺失</td>
+                                    <td class="py-2">使用默认值填充，标记数据不完整</td>
+                                    <td class="py-2">「AI 策略不完整，已使用默认值」</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-rose-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">页面跳转关系</h2>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-6">
+                        <div class="flex items-center justify-center gap-4 flex-wrap">
+                            <div class="px-4 py-2 bg-blue-100 text-blue-600 rounded-lg text-sm">
+                                搜客需求输入.html
+                            </div>
+                            <svg class="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                            <div class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium">
+                                搜客策略预览.html
+                            </div>
+                            <svg class="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                            <div class="px-4 py-2 bg-emerald-100 text-emerald-600 rounded-lg text-sm">
+                                搜客执行中.html
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">技术栈说明</h2>
+                    </div>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div class="bg-slate-50 rounded-xl p-4">
+                            <h4 class="font-medium text-slate-700 mb-2">推理模型</h4>
+                            <p class="text-sm text-slate-600">gpt-4o / Claude 3.5 Sonnet</p>
+                        </div>
+                        <div class="bg-slate-50 rounded-xl p-4">
+                            <h4 class="font-medium text-slate-700 mb-2">消息队列</h4>
+                            <p class="text-sm text-slate-600">Kafka / RabbitMQ</p>
+                        </div>
+                        <div class="bg-slate-50 rounded-xl p-4">
+                            <h4 class="font-medium text-slate-700 mb-2">第三方 API</h4>
+                            <p class="text-sm text-slate-600">Maps / 出海派 / 10times / Jina</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">Toast 提醒文案规范</h2>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-gradient-to-r from-cyan-50 to-blue-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">1. AI 策略生成操作</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                        <h4 class="font-medium text-emerald-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                            成功提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-emerald-600">
+                                            <p><strong>生成成功：</strong>「AI 搜客策略已生成，正在加载预览页面」</p>
+                                            <p><strong>策略加载：</strong>「策略已加载完成，请确认后开始执行」</p>
+                                            <p><strong>重新生成：</strong>「策略已重新生成，请查看最新方案」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                                        <h4 class="font-medium text-red-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                                            失败提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-red-600">
+                                            <p><strong>策略为空：</strong>「AI 策略生成结果为空，请重试」</p>
+                                            <p><strong>格式错误：</strong>「AI 返回数据格式异常，请重新生成」</p>
+                                            <p><strong>字段缺失：</strong>「AI 策略不完整，已使用默认值」</p>
+                                            <p><strong>策略不符：</strong>「AI 策略与需求不符，建议重新生成」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                                        <h4 class="font-medium text-amber-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                            异常提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-amber-600">
+                                            <p><strong>网络错误：</strong>「网络连接异常，请检查网络后重试」</p>
+                                            <p><strong>AI幻觉：</strong>「AI 策略存在异常，正在重新分析...」</p>
+                                            <p><strong>服务不可用：</strong>「策略生成服务暂时不可用，请稍后再试」</p>
+                                            <p><strong>超时：</strong>「策略生成超时，请稍后重试」</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-gradient-to-r from-purple-50 to-pink-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">2. 确认开始搜客操作</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                        <h4 class="font-medium text-emerald-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                            成功提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-emerald-600">
+                                            <p><strong>冻结成功：</strong>「Credits 已冻结（{amount}），正在启动搜客任务」</p>
+                                            <p><strong>任务开始：</strong>「搜客任务已启动，正在跳转到执行页面...」</p>
+                                            <p><strong>准备执行：</strong>「正在准备执行环境，请稍候...」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                                        <h4 class="font-medium text-red-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                                            失败提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-red-600">
+                                            <p><strong>余额不足：</strong>「Credits 余额不足（当前：{balance}，预估：{estimated}），请充值后再试」</p>
+                                            <p><strong>冻结失败：</strong>「Credits 冻结失败，请稍后重试」</p>
+                                            <p><strong>API不可用：</strong>「部分 API 服务暂不可用，请稍后重试」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                                        <h4 class="font-medium text-amber-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                            异常提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-amber-600">
+                                            <p><strong>网络错误：</strong>「网络连接异常，请检查网络后重试」</p>
+                                            <p><strong>超时：</strong>「请求超时，请稍后重试」</p>
+                                            <p><strong>服务异常：</strong>「服务暂时不可用，请稍后再试」</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-gradient-to-r from-violet-50 to-purple-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">3. 页面加载与策略查看</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                        <h4 class="font-medium text-emerald-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                            成功提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-emerald-600">
+                                            <p><strong>加载成功：</strong>「策略预览页面加载成功」</p>
+                                            <p><strong>策略加载：</strong>「搜客策略已加载完成」</p>
+                                            <p><strong>费用预估：</strong>「费用预估已计算完成」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                                        <h4 class="font-medium text-red-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                                            失败提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-red-600">
+                                            <p><strong>加载失败：</strong>「策略预览加载失败，请刷新页面重试」</p>
+                                            <p><strong>任务不存在：</strong>「任务不存在或已过期，请重新提交需求」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                                        <h4 class="font-medium text-amber-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                            异常提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-amber-600">
+                                            <p><strong>网络错误：</strong>「网络连接异常，请检查网络」</p>
+                                            <p><strong>超时：</strong>「数据加载超时，请刷新页面重试」</p>
+                                            <p><strong>服务不可用：</strong>「服务暂时不可用，请稍后再试」</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-gradient-to-r from-teal-50 to-cyan-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">4. 返回与修改操作</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                        <h4 class="font-medium text-emerald-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                            成功提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-emerald-600">
+                                            <p><strong>返回成功：</strong>「正在返回需求输入页面...」</p>
+                                            <p><strong>跳转成功：</strong>「页面跳转成功」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                                        <h4 class="font-medium text-amber-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                            异常提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-amber-600">
+                                            <p><strong>跳转失败：</strong>「页面跳转失败，请手动返回」</p>
+                                            <p><strong>数据未保存：</strong>「返回后将丢失当前修改，请确认」</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-gradient-to-r from-rose-50 to-pink-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">5. API 服务状态监控</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                        <h4 class="font-medium text-emerald-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                            成功提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-emerald-600">
+                                            <p><strong>服务正常：</strong>「所有 API 服务运行正常」</p>
+                                            <p><strong>部分可用：</strong>「部分 API 服务可用，策略已做调整」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                                        <h4 class="font-medium text-red-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                                            失败提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-red-600">
+                                            <p><strong>服务异常：</strong>「{api_name} 服务异常，策略中对应步骤已标记」</p>
+                                            <p><strong>服务离线：</strong>「{api_name} 服务暂时离线，请稍后重试」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                                        <h4 class="font-medium text-amber-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                            异常提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-amber-600">
+                                            <p><strong>状态检测：</strong>「正在检测 API 服务状态...」</p>
+                                            <p><strong>检测失败：</strong>「API 状态检测失败，策略可能包含不可用服务」</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-6">
+        <div class="max-w-5xl mx-auto px-4 text-center text-sm text-slate-400">
+            AI-LeadFinder 功能说明文档 · 搜客策略预览页面
+        </div>
+
+    </footer>
+
+</body>
+</html>

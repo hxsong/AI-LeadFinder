@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeadFinder - 访客行为详情 功能说明</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Fira Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#60A5FA',
+                        cta: '#F97316',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .section-card {
+            transition: all 0.3s ease;
+        }
+        .section-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+        .code-block {
+            background: #1e293b;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        .code-block code {
+            color: #e2e8f0;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 13px;
+        }
+        .highlight-box {
+            border-left: 4px solid #3B82F6;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen font-sans">
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-slate-200">
+        <div class="max-w-6xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-semibold text-slate-800">功能说明文档</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm font-medium">P39 节点</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-24 pb-16 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="mb-10">
+                <h1 class="text-3xl font-bold text-slate-800 mb-4">访客行为详情</h1>
+                <p class="text-slate-500 text-lg">对应业务流程节点：P39（人工查看特定 IP 行为分析详情并选择挖掘 → 展示动态线索分析报告）</p>
+            </div>
+
+            <div class="space-y-8">
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">页面概述</h2>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-6">
+                        <p class="text-slate-600 leading-relaxed">访客行为详情页是访客雷达的深度分析页面，展示单个访客的完整行为画像。页面以时间轴形式呈现高维微观行为轨迹，每个行为节点附带 AI 行为解读。同时展示同一 IP 的历史访问记录，支持溯源分析。右侧面板显示规则打分结果、AI 关键动作洞察、综合研判建议，并提供深度挖掘入口触发企业身份揭秘流程。</p>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">可见功能逻辑</h2>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">访客基础信息卡片</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-4 gap-4">
+                                    <div class="bg-slate-50 rounded-xl p-4">
+                                        <h4 class="font-medium text-slate-700 mb-2">IP 地址</h4>
+                                        <p class="text-sm text-slate-600">脱敏展示（如 67.43.156.**）</p>
+                                    </div>
+                                    <div class="bg-slate-50 rounded-xl p-4">
+                                        <h4 class="font-medium text-slate-700 mb-2">地理位置</h4>
+                                        <p class="text-sm text-slate-600">GeoIP 物理定位（Florida, USA）</p>
+                                    </div>
+                                    <div class="bg-slate-50 rounded-xl p-4">
+                                        <h4 class="font-medium text-slate-700 mb-2">设备类型</h4>
+                                        <p class="text-sm text-slate-600">Desktop / Mobile / Tablet</p>
+                                    </div>
+                                    <div class="bg-slate-50 rounded-xl p-4">
+                                        <h4 class="font-medium text-slate-700 mb-2">操作系统</h4>
+                                        <p class="text-sm text-slate-600">Windows / macOS / iOS / Android</p>
+                                    </div>
+                                </div>
+                                <div class="grid md:grid-cols-4 gap-4 mt-4">
+                                    <div class="bg-slate-50 rounded-xl p-4">
+                                        <h4 class="font-medium text-slate-700 mb-2">流量来源</h4>
+                                        <p class="text-sm text-slate-600">Google 搜索 / 直接访问 / 推广链接</p>
+                                    </div>
+                                    <div class="bg-slate-50 rounded-xl p-4">
+                                        <h4 class="font-medium text-slate-700 mb-2">落地页</h4>
+                                        <p class="text-sm text-slate-600">首次访问的页面 URL 路径</p>
+                                    </div>
+                                    <div class="bg-slate-50 rounded-xl p-4">
+                                        <h4 class="font-medium text-slate-700 mb-2">访问次数</h4>
+                                        <p class="text-sm text-slate-600">历史来访总次数</p>
+                                    </div>
+                                    <div class="bg-slate-50 rounded-xl p-4">
+                                        <h4 class="font-medium text-slate-700 mb-2">首次访问</h4>
+                                        <p class="text-sm text-slate-600">首次检测到该访客的日期</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">高维微观行为轨迹时间轴</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="bg-blue-50 rounded-lg p-3 mb-4">
+                                    <p class="text-sm text-blue-700"><strong>时间轴说明：</strong>按时间倒序展示访客行为轨迹，每个节点代表一个独立的用户动作。行为类型不同，UI 展示区块和携带信息也有所差异。</p>
+                                </div>
+                                <div class="space-y-4">
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <span class="text-sm font-bold text-primary">1</span>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-medium text-slate-700 mb-1">页面浏览节点</h4>
+                                            <p class="text-sm text-slate-600 mb-2">展示信息：时间戳、页面标题、URL 路径、停留时长、滚动深度</p>
+                                            <p class="text-sm text-slate-600 mb-2"><strong>UI 区块：</strong>蓝色边框卡片，序号圆圈为蓝色背景</p>
+                                            <p class="text-sm text-slate-600"><strong>AI 解读：</strong>节点下方附加 AI 行为解读卡片（当规则打分 ≥ 60 分时显示）</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-8 h-8 bg-amber-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <span class="text-sm font-bold text-amber-600">2</span>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-medium text-slate-700 mb-1">复制文本节点（高优意图）</h4>
+                                            <p class="text-sm text-slate-600 mb-2">展示信息：被复制的具体文本内容（如技术参数、联系方式、价格信息）</p>
+                                            <p class="text-sm text-slate-600 mb-2"><strong>UI 区块：</strong>琥珀色背景高亮卡片，序号圆圈为琥珀色背景，标识高价值意图信号</p>
+                                            <p class="text-sm text-slate-600"><strong>AI 解读：</strong>节点下方附加 AI 行为解读卡片（当规则打分 ≥ 60 分时显示）</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-8 h-8 bg-red-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <span class="text-sm font-bold text-red-600">3</span>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-medium text-slate-700 mb-1">意图流失节点（转化漏斗）</h4>
+                                            <p class="text-sm text-slate-600 mb-2">展示信息：表单 ID、表单 Title、填表进度、弃填状态（已放弃/未完成）</p>
+                                            <p class="text-sm text-slate-600 mb-2"><strong>UI 区块：</strong>红色边框卡片，序号圆圈为红色背景，标识关键转化流失点</p>
+                                            <p class="text-sm text-slate-600"><strong>AI 解读：</strong>节点下方附加 AI 行为解读卡片（当规则打分 ≥ 60 分时显示）</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-8 h-8 bg-emerald-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <span class="text-sm font-bold text-emerald-600">4</span>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-medium text-slate-700 mb-1">文件下载节点</h4>
+                                            <p class="text-sm text-slate-600 mb-2">展示信息：文件名、文件类型、文件大小</p>
+                                            <p class="text-sm text-slate-600 mb-2"><strong>UI 区块：</strong>绿色边框卡片，序号圆圈为绿色背景，标识深度兴趣信号</p>
+                                            <p class="text-sm text-slate-600"><strong>AI 解读：</strong>节点下方附加 AI 行为解读卡片（当规则打分 ≥ 60 分时显示）</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-8 h-8 bg-purple-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <span class="text-sm font-bold text-purple-600">5</span>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-medium text-slate-700 mb-1">点击行为节点</h4>
+                                            <p class="text-sm text-slate-600 mb-2">展示信息：元素类型、元素文本/描述、点击位置</p>
+                                            <p class="text-sm text-slate-600 mb-2"><strong>UI 区块：</strong>紫色边框卡片，序号圆圈为紫色背景，标识主动交互意向</p>
+                                            <p class="text-sm text-slate-600"><strong>AI 解读：</strong>节点下方附加 AI 行为解读卡片（当规则打分 ≥ 60 分时显示）</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <span class="text-sm font-bold text-slate-600">6</span>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-medium text-slate-700 mb-1">会话结束节点</h4>
+                                            <p class="text-sm text-slate-600 mb-2">展示信息：访客离开时间、总会话时长、退出页面</p>
+                                            <p class="text-sm text-slate-600 mb-2"><strong>UI 区块：</strong>灰色背景卡片，序号圆圈为灰色背景</p>
+                                            <p class="text-sm text-slate-600"><strong>AI 解读：</strong>不显示（会话结束节点不携带意图信号）</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-amber-50 rounded-lg p-3 mt-4">
+                                    <p class="text-sm text-amber-700"><strong>数据处理逻辑：</strong></p>
+                                    <ul class="text-sm text-amber-600 mt-2 space-y-1">
+                                        <li>• <strong>页面浏览：</strong>实时采集，每次页面切换生成新节点</li>
+                                        <li>• <strong>复制文本：</strong>通过 JS 监听 copy 事件采集，仅记录复制内容，不记录来源页面 URL</li>
+                                        <li>• <strong>文件下载：</strong>监听文件下载链接点击或资源请求，采集文件名、类型和大小</li>
+                                        <li>• <strong>点击行为：</strong>监听关键元素点击事件（按钮、CTA、导航链接等），采集元素标识和位置</li>
+                                        <li>• <strong>表单流失：</strong>监听表单聚焦和失焦事件，结合页面可见性变化判断弃填</li>
+                                        <li>• <strong>会话结束：</strong>基于页面可见性 API（visibilitychange）或心跳超时判定</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-indigo-50 rounded-lg p-3 mt-4">
+                                    <p class="text-sm text-indigo-700"><strong>行为类型-UI展示统一规则：</strong></p>
+                                    <div class="overflow-x-auto mt-3">
+                                        <table class="w-full text-sm">
+                                            <thead>
+                                                <tr class="border-b border-indigo-200">
+                                                    <th class="text-left py-2 text-indigo-600">行为类型</th>
+                                                    <th class="text-left py-2 text-indigo-600">event_type</th>
+                                                    <th class="text-left py-2 text-indigo-600">UI边框颜色</th>
+                                                    <th class="text-left py-2 text-indigo-600">加分值</th>
+                                                    <th class="text-left py-2 text-indigo-600">携带信息</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="text-slate-700">
+                                                <tr class="border-b border-slate-100">
+                                                    <td class="py-2">页面浏览</td>
+                                                    <td class="py-2 font-mono text-xs">page_view</td>
+                                                    <td class="py-2"><span class="px-2 py-0.5 bg-blue-100 text-blue-700 rounded">蓝色</span></td>
+                                                    <td class="py-2 font-medium">+5分</td>
+                                                    <td class="py-2">页面标题、URL、停留时长、滚动深度</td>
+                                                </tr>
+                                                <tr class="border-b border-slate-100">
+                                                    <td class="py-2">复制文本</td>
+                                                    <td class="py-2 font-mono text-xs">copy_text</td>
+                                                    <td class="py-2"><span class="px-2 py-0.5 bg-amber-100 text-amber-700 rounded">琥珀色</span></td>
+                                                    <td class="py-2 font-medium">+15分</td>
+                                                    <td class="py-2">复制内容摘要</td>
+                                                </tr>
+                                                <tr class="border-b border-slate-100">
+                                                    <td class="py-2">文件下载</td>
+                                                    <td class="py-2 font-mono text-xs">file_download</td>
+                                                    <td class="py-2"><span class="px-2 py-0.5 bg-emerald-100 text-emerald-700 rounded">绿色</span></td>
+                                                    <td class="py-2 font-medium">+10分</td>
+                                                    <td class="py-2">文件名、文件类型、文件大小</td>
+                                                </tr>
+                                                <tr class="border-b border-slate-100">
+                                                    <td class="py-2">表单提交</td>
+                                                    <td class="py-2 font-mono text-xs">form_submit</td>
+                                                    <td class="py-2"><span class="px-2 py-0.5 bg-red-100 text-red-700 rounded">红色</span></td>
+                                                    <td class="py-2 font-medium">+25分</td>
+                                                    <td class="py-2">表单ID、表单标题</td>
+                                                </tr>
+                                                <tr class="border-b border-slate-100">
+                                                    <td class="py-2">表单弃填</td>
+                                                    <td class="py-2 font-mono text-xs">form_abandon</td>
+                                                    <td class="py-2"><span class="px-2 py-0.5 bg-red-100 text-red-700 rounded">红色</span></td>
+                                                    <td class="py-2 font-medium">+15分</td>
+                                                    <td class="py-2">表单ID、填表进度、弃填状态</td>
+                                                </tr>
+                                                <tr class="border-b border-slate-100">
+                                                    <td class="py-2">点击行为</td>
+                                                    <td class="py-2 font-mono text-xs">click</td>
+                                                    <td class="py-2"><span class="px-2 py-0.5 bg-purple-100 text-purple-700 rounded">紫色</span></td>
+                                                    <td class="py-2 font-medium">+8分</td>
+                                                    <td class="py-2">元素类型、元素文本、点击位置</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="py-2">会话结束</td>
+                                                    <td class="py-2 font-mono text-xs">session_end</td>
+                                                    <td class="py-2"><span class="px-2 py-0.5 bg-slate-100 text-slate-700 rounded">灰色</span></td>
+                                                    <td class="py-2 font-medium">+0分</td>
+                                                    <td class="py-2">退出时间、会话时长</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">同一 IP 的历史访问记录</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="bg-blue-50 rounded-lg p-4 mb-4">
+                                    <p class="text-sm text-blue-700"><strong>关联规则：</strong>基于同一 IP 地址关联历史访问记录，无时间限制。同一 IP 下的多用户场景不做特殊处理，所有访问记录统一关联。</p>
+                                </div>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="bg-slate-50 rounded-xl p-4">
+                                        <h4 class="font-medium text-slate-700 mb-2">记录卡片</h4>
+                                        <ul class="text-sm text-slate-600 space-y-1">
+                                            <li>• 显示历史会话日期时间</li>
+                                            <li>• 该会话的规则打分</li>
+                                            <li>• 关键行为摘要</li>
+                                            <li>• 会话时长</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-slate-50 rounded-xl p-4">
+                                        <h4 class="font-medium text-slate-700 mb-2">交互行为</h4>
+                                        <ul class="text-sm text-slate-600 space-y-1">
+                                            <li>• 点击卡片跳转该会话详情</li>
+                                            <li>• 按时间倒序排列</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">右侧分析面板</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="space-y-4">
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-8 h-8 bg-red-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <span class="text-sm font-bold text-red-600">1</span>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-medium text-slate-700 mb-1">规则打分结果</h4>
+                                            <p class="text-sm text-slate-600">环形图展示 0-100 分，颜色根据热度变化。</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-8 h-8 bg-amber-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <span class="text-sm font-bold text-amber-600">2</span>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-medium text-slate-700 mb-1">AI 关键动作洞察</h4>
+                                            <p class="text-sm text-slate-600">琥珀色卡片，列表展示 AI 分析的关键行为洞察点（仅当规则打分 ≥ 60 分时显示）。</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <span class="text-sm font-bold text-blue-600">3</span>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-medium text-slate-700 mb-1">AI 综合研判建议</h4>
+                                            <p class="text-sm text-slate-600">蓝色卡片，展示 AI 综合研判结论与行动建议（仅当规则打分 ≥ 60 分时显示）。</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-8 h-8 bg-gradient-to-br from-red-500 to-orange-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <span class="text-sm font-bold text-white">4</span>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-medium text-slate-700 mb-1">深度挖掘按钮</h4>
+                                            <p class="text-sm text-slate-600">渐变色主按钮，点击触发企业身份揭秘弹窗。</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">深度挖掘弹窗</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="bg-amber-50 rounded-xl p-4">
+                                        <h4 class="font-medium text-amber-700 mb-2">计费规则说明</h4>
+                                        <ul class="text-sm text-amber-600 space-y-1">
+                                            <li>• IP 企业解析 = 5 Credits</li>
+                                            <li>• 每获取 1 个验证邮箱 = 2 Credits</li>
+                                            <li>• 附加 LinkedIn 主页 = +1 Credit</li>
+                                            <li>• 附加 Twitter/FB = +1 Credit/个</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-blue-50 rounded-xl p-4">
+                                        <h4 class="font-medium text-blue-700 mb-2">UTM 标识检测</h4>
+                                        <p class="text-sm text-blue-600">若检测到 UTM 参数，显示「系统将优先尝试关联静态数据中已有的企业信息」提示。</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">处理进度弹窗</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="bg-slate-50 rounded-xl p-4">
+                                    <p class="text-sm text-slate-600 mb-3">确认挖掘后显示处理进度：</p>
+                                    <ul class="text-sm text-slate-600 space-y-2">
+                                        <li class="flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                            IP 企业解析 → 显示「完成」
+                                        </li>
+                                        <li class="flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                            企业信息验证 → 显示「完成」
+                                        </li>
+                                        <li class="flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+                                            联系人挖掘 → 显示「进行中...」
+                                        </li>
+                                    </ul>
+                                    <p class="text-sm text-slate-500 mt-3">进度条动画展示当前进度百分比</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">交互效果</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="bg-slate-50 rounded-xl p-4">
+                                        <h4 class="font-medium text-slate-700 mb-2">返回导航</h4>
+                                        <ul class="text-sm text-slate-600 space-y-1">
+                                            <li>• 左上角「返回访客雷达」链接</li>
+                                            <li>• 面包屑导航支持快速返回</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-slate-50 rounded-xl p-4">
+                                        <h4 class="font-medium text-slate-700 mb-2">热度标签</h4>
+                                        <ul class="text-sm text-slate-600 space-y-1">
+                                            <li>• 极高热度：红色脉冲动画</li>
+                                            <li>• 较高热度：橙色静态标签</li>
+                                            <li>• 一般热度：绿色静态标签</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">不可见功能逻辑</h2>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">API 接口 - 获取访客详情</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="code-block p-4 mb-4">
+                                    <code>
+<pre>GET /api/v1/visitors/{visitor_log_id}
+
+Request Headers:
+  Authorization: Bearer {enterprise_token}
+
+Query Parameters:
+  session_id: sess_09876 (可选，指定会话)
+
+Response:
+{
+  "code": 200,
+  "data": {
+    "visitor_log_id": "VIS-99482X",
+    "visitor_identity": {
+      "ip_masked": "67.43.156.**",
+      "geo_location": "Florida, USA",
+      "device_type": "Desktop",
+      "os": "Windows",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)..."
+    },
+    "traffic_context": {
+      "source": "Google 搜索",
+      "landing_page": "/products/led-p1-9",
+      "utm_params": {
+        "source": "google",
+        "medium": "cpc",
+        "campaign": "spring_sale"
+      }
+    },
+    "visit_stats": {
+      "visit_count": 3,
+      "first_visit": "2024-02-24",
+      "last_visit": "2024-02-26"
+    },
+    "behavior_analysis": {
+      "rule_based_score": 95,
+      "heat_level": "极高",
+      "ai_analysis_triggered": true,
+      "ai_insights": [
+        "复制技术参数文本，大概率正在制作内部的竞品选型对比表",
+        "在 Contact 页面输入后放弃，说明存在明确采购需求，但可能对服务或价格存有顾虑"
+      ],
+      "ai_reasoning": "该访客行为逻辑极度清晰：从技术选型对比（复制核心参数）到表单交互意向，处于深度选型与比价阶段。"
+    },
+    "current_session": {
+      "session_id": "sess_09876",
+      "start_time": "2024-02-26T10:05:00Z",
+      "end_time": "2024-02-26T10:12:00Z",
+      "duration_seconds": 402,
+      "events": [
+        {
+          "timestamp": 1708861200,
+          "event_type": "page_view",
+          "target_object": {
+            "page_title": "P1.9 Outdoor LED Screen",
+            "url_path": "/products/led-p1-9"
+          },
+          "metrics": {
+            "stay_duration_ms": 135000,
+            "scroll_depth": 85
+          },
+          "ai_interpretation": "完整看完参数表，对技术规格有深度兴趣"
+        },
+        {
+          "timestamp": 1708861245,
+          "event_type": "copy_text",
+          "target_object": {
+            "copied_content": "Brightness: 7500 nits, Refresh Rate: 7680Hz"
+          },
+          "ai_interpretation": "正在制作内部的竞品选型对比表，处于深度评估阶段"
+        },
+        {
+          "timestamp": 1708861265,
+          "event_type": "file_download",
+          "target_object": {
+            "file_name": "LD-P1.9-Datasheet.pdf",
+            "file_type": "PDF",
+            "file_size_kb": 2048
+          },
+          "ai_interpretation": "下载产品规格书，深度了解产品细节"
+        },
+        {
+          "timestamp": 1708861300,
+          "event_type": "click",
+          "target_object": {
+            "element_type": "button",
+            "element_text": "Request Bulk Pricing",
+            "click_position": "center"
+          },
+          "ai_interpretation": "点击批发询价按钮，有明确的批量采购意向"
+        },
+        {
+          "timestamp": 1708861338,
+          "event_type": "form_abandon",
+          "target_object": {
+            "form_id": "contact_form",
+            "form_title": "Request Quote Form"
+          },
+          "ai_interpretation": "存在明确采购需求，但可能对服务或价格存有顾虑，导致放弃提交"
+        }
+      ]
+    },
+    "historical_sessions": [
+      {
+        "session_id": "sess_09875",
+        "date": "2024-02-25",
+        "score": 85,
+        "summary": "浏览产品目录、下载规格书",
+        "duration_seconds": 495
+      },
+      {
+        "session_id": "sess_09874",
+        "date": "2024-02-24",
+        "score": 72,
+        "summary": "首次访问，浏览首页和关于我们",
+        "duration_seconds": 150
+      }
+    ]
+  }
+}
+</pre>
+                                    </code>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">API 接口 - 触发深度挖掘</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="code-block p-4 mb-4">
+                                    <code>
+<pre>POST /api/v1/visitors/{visitor_log_id}/reveal
+
+Request Headers:
+  Authorization: Bearer {enterprise_token}
+
+Request Body:
+{
+  "visitor_log_id": "VIS-99482X",
+  "options": {
+    "include_linkedin": true,
+    "include_social": ["twitter", "facebook"]
+  }
+}
+
+Response:
+{
+  "code": 200,
+  "data": {
+    "task_id": "task_abc123",
+    "status": "processing",
+    "estimated_credits": 15,
+    "processing_steps": [
+      {"step": "ip_resolution", "status": "pending"},
+      {"step": "company_verification", "status": "pending"},
+      {"step": "contact_mining", "status": "pending"}
+    ],
+    "message": "IP 解析与联系人挖掘任务已启动"
+  }
+}</pre>
+                                    </code>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">企业识别分支逻辑 - P39/P40</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="space-y-4">
+                                    <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+                                        <h4 class="font-medium text-emerald-700 mb-2">分支 A：存在有效 UTM 标识</h4>
+                                        <div class="text-sm text-emerald-600 space-y-1">
+                                            <p>• 系统自动解析 UTM 参数中的企业标识</p>
+                                            <p>• 关联静态数据中已有的企业信息</p>
+                                            <p>• 跳过 IP 解析服务调用，节省 Credits</p>
+                                            <p>• 直接进入联系人挖掘阶段</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-blue-50 border border-blue-200 rounded-xl p-4">
+                                        <h4 class="font-medium text-blue-700 mb-2">分支 B：无 UTM 标识</h4>
+                                        <div class="text-sm text-blue-600 space-y-1">
+                                            <p>• 启动 IP 解析服务（IRS）进行企业识别</p>
+                                            <p>• 通过 IP 反查获取企业域名/名称</p>
+                                            <p>• 验证企业信息有效性</p>
+                                            <p>• 进入联系人挖掘阶段</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">AI 模型处理逻辑 - 关键动作洞察（统一版本）</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="bg-blue-50 rounded-lg p-4 mb-4">
+                                    <p class="text-sm text-blue-700"><strong>设计说明：</strong>使用统一提示词一次性生成单行为分析、关键动作洞察和 AI 综合研判建议。AI 不再参与打分，只在达到触发阈值后生成洞察分析。</p>
+                                </div>
+                                <div class="code-block p-4 mb-4">
+                                    <code>
+<pre># AI 分析触发条件
+当规则打分达到 60 分及以上时，触发 AI 分析
+
+# AI 输入数据
+- 访客行为序列: {behavior_events}
+  - 每个行为节点包含: 时间戳、行为类型(event_type)、交互对象(target_object)、行为指标(metrics)
+  - 行为类型: page_view, copy_text, file_download, click, form_submit, form_abandon
+- 规则打分结果: {rule_based_score}
+- 热度等级: {heat_level}
+
+# AI 任务
+一次性生成以下内容：
+1. 单行为分析 (ai_interpretation): 对每个高价值行为节点生成意图解读
+2. 关键动作洞察 (ai_insights): 识别高价值行为并解读意图
+3. 综合研判建议 (ai_reasoning): 给出跟进建议
+
+# AI Output JSON Format
+{
+  "ai_analysis_triggered": true,
+  "ai_interpretations": [
+    {
+      "event_index": 1,
+      "event_type": "copy_text",
+      "summary": "正在制作内部的竞品选型对比表，处于深度评估阶段"
+    },
+    {
+      "event_index": 4,
+      "event_type": "form_abandon",
+      "summary": "存在明确采购需求，但可能对服务或价格存有顾虑，导致放弃提交"
+    }
+  ],
+  "ai_insights": [
+    "复制技术参数文本，大概率正在制作内部的竞品选型对比表",
+    "在 Contact 页面输入后放弃，说明存在明确采购需求"
+  ],
+  "ai_reasoning": "该访客行为逻辑极度清晰，处于深度选型与比价阶段。"
+}</pre>
+                                    </code>
+                                </div>
+                                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                                    <div class="bg-purple-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-purple-700 mb-2">触发阈值</h4>
+                                        <p class="text-sm text-purple-600">规则打分 ≥ 60 分</p>
+                                    </div>
+                                    <div class="bg-emerald-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-emerald-700 mb-2">输出内容</h4>
+                                        <p class="text-sm text-emerald-600">单行为解读 + 关键洞察 + 综合研判</p>
+                                    </div>
+                                </div>
+                                <div class="bg-amber-50 rounded-lg p-4">
+                                    <h4 class="font-medium text-amber-700 mb-2">ai_interpretations 字段说明</h4>
+                                    <table class="w-full text-sm">
+                                        <thead>
+                                            <tr class="border-b border-amber-200">
+                                                <th class="text-left py-2 text-amber-600">字段名</th>
+                                                <th class="text-left py-2 text-amber-600">类型</th>
+                                                <th class="text-left py-2 text-amber-600">说明</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="text-slate-700">
+                                            <tr class="border-b border-slate-100">
+                                                <td class="py-2">event_index</td>
+                                                <td class="py-2 font-mono text-xs">int</td>
+                                                <td class="py-2">行为节点在序列中的索引</td>
+                                            </tr>
+                                            <tr class="border-b border-slate-100">
+                                                <td class="py-2">event_type</td>
+                                                <td class="py-2 font-mono text-xs">string</td>
+                                                <td class="py-2">行为类型</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="py-2">summary</td>
+                                                <td class="py-2 font-mono text-xs">string</td>
+                                                <td class="py-2">行为意图的一句话总结，15-30字</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">限制规则</h2>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                            <h4 class="font-medium text-red-700 mb-2">Credits 余额检查</h4>
+                            <p class="text-sm text-red-600">触发深度挖掘前检查账户余额 > 0，余额 ≤ 0 时弹窗提示充值，阻止任务提交。</p>
+                            <div class="mt-3 pt-3 border-t border-red-200">
+                                <p class="text-xs text-red-500"><strong>余额规则：</strong>余额可为负，≤ 0 时禁止消耗操作；挖掘执行中不扣费，完成后按实际消耗结算，允许余额为负。</p>
+                            </div>
+                        </div>
+                        <div class="bg-blue-50 rounded-xl p-4 border border-blue-100">
+                            <h4 class="font-medium text-blue-700 mb-2">热度判断逻辑</h4>
+                            <p class="text-sm text-blue-600 mb-2">热度等级由规则打分结果决定，用于快速识别高价值访客：</p>
+                            <ul class="text-sm text-blue-600 space-y-1">
+                                <li>• <strong>极高热度（红色）：</strong>规则打分 ≥ 80 分</li>
+                                <li>• <strong>较高热度（橙色）：</strong>规则打分 60-79 分</li>
+                                <li>• <strong>一般热度（绿色）：</strong>规则打分 &lt; 60 分</li>
+                            </ul>
+                        </div>
+                        <div class="bg-purple-50 rounded-xl p-4 border border-purple-100">
+                            <h4 class="font-medium text-purple-700 mb-2">AI 分析触发条件</h4>
+                            <p class="text-sm text-purple-600 mb-2">AI 只在达到触发阈值后生成洞察分析，不再参与打分：</p>
+                            <ul class="text-sm text-purple-600 space-y-1">
+                                <li>• <strong>触发阈值：</strong>规则打分 ≥ 60 分</li>
+                                <li>• <strong>低于阈值：</strong>不触发 AI 分析，不显示 AI 洞察区域</li>
+                                <li>• <strong>高于阈值：</strong>触发 AI 生成关键动作洞察和综合研判建议</li>
+                            </ul>
+                        </div>
+                        <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                            <h4 class="font-medium text-amber-700 mb-2">重复挖掘限制</h4>
+                            <p class="text-sm text-amber-600">已挖掘的访客记录会标记为「已挖掘」状态，不存在重复挖掘的概念。访客一旦被挖掘过，系统直接显示其已挖掘状态，不会再次触发挖掘流程，也不会产生重复扣费。</p>
+                        </div>
+                        <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                            <h4 class="font-medium text-amber-700 mb-2">深度挖掘准入规则</h4>
+                            <p class="text-sm text-amber-600 mb-2">访客数据无论分数高低均可进行深度挖掘，逻辑说明如下：</p>
+                            <ul class="text-sm text-amber-600 space-y-1">
+                                <li>• <strong>规则打分 &lt; 60 分：</strong>仍可进行深度挖掘，触发 IP 企业解析与联系人挖掘流程，Credits 按标准计费</li>
+                                <li>• <strong>规则打分 ≥ 60 分：</strong>触发深度挖掘的同时，额外生成 AI 行为洞察分析</li>
+                                <li>• <strong>核心逻辑：</strong>深度挖掘是独立于规则打分的操作，分数仅影响是否触发 AI 分析，不作为挖掘准入门槛</li>
+                            </ul>
+                        </div>
+                        <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                            <h4 class="font-medium text-amber-700 mb-2">IP 解析处理逻辑</h4>
+                            <p class="text-sm text-amber-600 mb-2">深度挖掘时调用 IP 解析服务，处理逻辑如下：</p>
+                            <ul class="text-sm text-amber-600 space-y-1">
+                                <li>• <strong>解析成功：</strong>返回企业名称、地址、行业等信息，生成动态线索</li>
+                                <li>• <strong>解析失败（无法识别）：</strong>提示用户「该 IP 无法解析到企业」，不扣除 Credits</li>
+                                <li>• <strong>解析失败（服务异常）：</strong>提示用户「IP 解析服务暂时不可用」，不扣除 Credits</li>
+                            </ul>
+                        </div>
+                        <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                            <h4 class="font-medium text-red-700 mb-2">权限控制</h4>
+                            <p class="text-sm text-red-600">当前版本系统暂无权限控制逻辑，所有登录用户均可查看访客行为详情数据。</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">AI 行为解读异常检测</h2>
+                    </div>
+                    <div class="bg-amber-50 rounded-lg p-4 border border-amber-100 mb-4">
+                        <p class="text-sm text-amber-700"><strong>AI 模型存在幻觉风险</strong>，可能导致行为解读与实际行为不符。本模块对 AI 行为解读输出进行专项检测。</p>
+                    </div>
+                    <ul class="text-sm text-slate-600 space-y-2 mb-4">
+                        <li>• <strong>输出为空检测：</strong>AI 返回空解读时触发，显示「暂无解读」</li>
+                        <li>• <strong>格式校验：</strong>解读 JSON 解析失败时触发，显示原始行为描述</li>
+                        <li>• <strong>一致性校验：</strong>解读与行为事实矛盾时触发，提示「AI 解读仅供参考」</li>
+                        <li>• <strong>完整性校验：</strong>关键动作洞察缺失时触发，显示「分析中」</li>
+                    </ul>
+                    <div class="bg-red-50 rounded-lg p-4 border border-red-100">
+                        <h4 class="font-medium text-red-700 mb-2">AI 行为解读异常处理策略</h4>
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="border-b border-red-200">
+                                    <th class="text-left py-1 text-red-600">异常类型</th>
+                                    <th class="text-left py-1 text-red-600">处理方式</th>
+                                    <th class="text-left py-1 text-red-600">提示文案</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-red-600">
+                                <tr class="border-b border-red-100">
+                                    <td class="py-2">输出为空</td>
+                                    <td class="py-2">显示默认解读模板</td>
+                                    <td class="py-2">「暂无解读」</td>
+                                </tr>
+                                <tr class="border-b border-red-100">
+                                    <td class="py-2">格式错误</td>
+                                    <td class="py-2">显示原始行为描述</td>
+                                    <td class="py-2">「AI 解读生成异常」</td>
+                                </tr>
+                                <tr class="border-b border-red-100">
+                                    <td class="py-2">内容幻觉</td>
+                                    <td class="py-2">标记仅供参考</td>
+                                    <td class="py-2">「AI 解读仅供参考」</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2">字段缺失</td>
+                                    <td class="py-2">显示分析中状态</td>
+                                    <td class="py-2">「AI 分析不完整」</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-rose-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">页面跳转关系</h2>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-6">
+                        <div class="flex items-center justify-center gap-4 flex-wrap">
+                            <div class="px-4 py-2 bg-slate-200 text-slate-600 rounded-lg text-sm">
+                                访客雷达
+                            </div>
+                            <svg class="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                            <div class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium">
+                                访客详情
+                            </div>
+                            <svg class="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                            <div class="px-4 py-2 bg-emerald-100 text-emerald-600 rounded-lg text-sm">
+                                动态线索详情
+                            </div>
+                        </div>
+                        <div class="mt-4 text-center">
+                            <span class="text-sm text-slate-500">深度挖掘完成后自动跳转 → 动态线索详情页（P46）</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">技术栈说明</h2>
+                    </div>
+                    <div class="grid md:grid-cols-4 gap-4">
+                        <div class="bg-slate-50 rounded-xl p-4">
+                            <h4 class="font-medium text-slate-700 mb-2">前端框架</h4>
+                            <p class="text-sm text-slate-600">Tailwind CSS + Vanilla JS</p>
+                        </div>
+                        <div class="bg-slate-50 rounded-xl p-4">
+                            <h4 class="font-medium text-slate-700 mb-2">AI 模型</h4>
+                            <p class="text-sm text-slate-600">gpt-4o-mini (动态意向分析)</p>
+                        </div>
+                        <div class="bg-slate-50 rounded-xl p-4">
+                            <h4 class="font-medium text-slate-700 mb-2">三方服务</h4>
+                            <p class="text-sm text-slate-600">IRS (IP解析) + ECS (联系人)</p>
+                        </div>
+                        <div class="bg-slate-50 rounded-xl p-4">
+                            <h4 class="font-medium text-slate-700 mb-2">数据存储</h4>
+                            <p class="text-sm text-slate-600">访客表 → 动态线索池</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">Toast 提醒文案规范</h2>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-gradient-to-r from-cyan-50 to-blue-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">1. 页面加载与数据刷新</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                        <h4 class="font-medium text-emerald-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                            成功提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-emerald-600">
+                                            <p><strong>加载成功：</strong>「访客行为详情加载成功」</p>
+                                            <p><strong>数据加载：</strong>「行为轨迹数据加载成功」</p>
+                                            <p><strong>历史记录：</strong>「历史访问记录加载成功」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                                        <h4 class="font-medium text-red-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                                            失败提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-red-600">
+                                            <p><strong>加载失败：</strong>「访客详情加载失败，请刷新页面重试」</p>
+                                            <p><strong>访客不存在：</strong>「该访客记录不存在或已被清除」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                                        <h4 class="font-medium text-amber-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                            异常提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-amber-600">
+                                            <p><strong>网络错误：</strong>「网络连接异常，请检查网络后重试」</p>
+                                            <p><strong>超时：</strong>「数据请求超时，请稍后重试」</p>
+                                            <p><strong>服务不可用：</strong>「服务暂时不可用，请稍后再试」</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-gradient-to-r from-purple-50 to-pink-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">2. 行为轨迹与历史记录查看</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                        <h4 class="font-medium text-emerald-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                            成功提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-emerald-600">
+                                            <p><strong>加载成功：</strong>「行为轨迹数据加载成功」</p>
+                                            <p><strong>历史记录：</strong>「历史访问记录加载成功」</p>
+                                            <p><strong>AI解读加载：</strong>「AI 行为解读加载成功」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                                        <h4 class="font-medium text-red-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                                            失败提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-red-600">
+                                            <p><strong>加载失败：</strong>「行为轨迹加载失败，请重试」</p>
+                                            <p><strong>历史无数据：</strong>「该访客暂无历史访问记录」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                                        <h4 class="font-medium text-amber-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                            异常提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-amber-600">
+                                            <p><strong>网络错误：</strong>「网络连接异常，请检查网络后重试」</p>
+                                            <p><strong>超时：</strong>「数据加载超时，请稍后重试」</p>
+                                            <p><strong>数据过期：</strong>「部分数据已过期，请刷新获取最新数据」</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-gradient-to-r from-violet-50 to-purple-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">3. 深度挖掘操作</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                        <h4 class="font-medium text-emerald-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                            成功提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-emerald-600">
+                                            <p><strong>任务创建：</strong>「深度挖掘任务已创建，正在分析企业信息...」</p>
+                                            <p><strong>Credits冻结：</strong>「Credits 已冻结（{amount}），任务执行中」</p>
+                                            <p><strong>跳转成功：</strong>「正在跳转至线索详情页面...」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                                        <h4 class="font-medium text-red-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                                            失败提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-red-600">
+                                            <p><strong>余额不足：</strong>「Credits 余额不足（当前：{balance}），请充值后再试」</p>
+                                            <p><strong>已达上限：</strong>「该访客已达到最大挖掘次数」</p>
+                                            <p><strong>挖掘失败：</strong>「企业身份挖掘失败，请稍后重试」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                                        <h4 class="font-medium text-amber-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                            异常提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-amber-600">
+                                            <p><strong>网络错误：</strong>「网络连接异常，请检查网络后重试」</p>
+                                            <p><strong>超时：</strong>「挖掘请求超时，请稍后重试」</p>
+                                            <p><strong>服务不可用：</strong>「挖掘服务暂时不可用，请稍后再试」</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-gradient-to-r from-teal-50 to-cyan-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">4. 页面跳转与返回</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                        <h4 class="font-medium text-emerald-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                            成功提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-emerald-600">
+                                            <p><strong>跳转成功：</strong>「正在返回访客雷达...」</p>
+                                            <p><strong>跳转成功：</strong>「正在跳转至线索详情页面...」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                                        <h4 class="font-medium text-amber-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                            异常提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-amber-600">
+                                            <p><strong>跳转失败：</strong>「页面跳转失败，请重试」</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-6">
+        <div class="max-w-5xl mx-auto px-4 text-center text-sm text-slate-400">
+            AI-LeadFinder 功能说明文档 · 访客行为详情
+        </div>
+
+    </footer>
+
+</body>
+</html>

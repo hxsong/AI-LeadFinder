@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeadFinder - 静态线索池 功能说明</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Fira Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#60A5FA',
+                        cta: '#F97316',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .section-card {
+            transition: all 0.3s ease;
+        }
+        .section-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+        .code-block {
+            background: #1e293b;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        .code-block code {
+            color: #e2e8f0;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 13px;
+        }
+        .highlight-box {
+            border-left: 4px solid #3B82F6;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen font-sans">
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-slate-200">
+        <div class="max-w-6xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-semibold text-slate-800">功能说明文档</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm font-medium">P21-P27 节点</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-24 pb-16 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="mb-10">
+                <h1 class="text-3xl font-bold text-slate-800 mb-4">静态线索池</h1>
+                <p class="text-slate-500 text-lg">对应业务流程节点：P21-P27（选择目标企业挖掘联系人 → 展示静态线索分析报告）</p>
+            </div>
+
+            <div class="space-y-8">
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">页面概述</h2>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-6">
+                        <p class="text-slate-600 leading-relaxed">静态线索池是用户管理已挖掘线索的核心页面。页面展示所有已完成挖掘和正在挖掘中的静态线索，支持按评分、等级、状态进行筛选和排序。每条线索卡片实时展示挖掘进度，挖掘完成后显示联系人摘要信息。点击卡片可进入线索详情页查看完整分析报告。</p>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">可见功能逻辑</h2>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">1. 线索卡片展示</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                                    <div class="bg-emerald-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-emerald-700 mb-2">挖掘中状态</h4>
+                                        <ul class="text-sm text-emerald-600 space-y-1">
+                                            <li>• 卡片边框高亮显示（蓝色边框）</li>
+                                            <li>• 顶部显示"挖掘中"标签（带旋转动画）</li>
+                                            <li>• 显示进度条和剩余时间预估</li>
+                                            <li>• 联系人数量显示"挖掘中..."</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-blue-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-blue-700 mb-2">已完成状态</h4>
+                                        <ul class="text-sm text-blue-600 space-y-1">
+                                            <li>• 展示已获取的联系人头像和姓名</li>
+                                            <li>• 显示消耗的 Credits 数量</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="bg-slate-50 rounded-lg p-4">
+                                    <h4 class="font-medium text-slate-700 mb-2">卡片核心信息</h4>
+                                    <ul class="text-sm text-slate-600 space-y-1">
+                                        <li>• 企业名称</li>
+                                        <li>• 企业简介</li>
+                                        <li>• 联系人数量 / Credits 消耗</li>
+                                        <li>• 入库时间</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">2. 分支流程</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="space-y-4">
+                                    <div class="flex items-start gap-4">
+                                        <div class="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <span class="text-amber-600 font-bold text-sm">A</span>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-medium text-slate-700">点击线索卡片</h4>
+                                            <p class="text-sm text-slate-600 mt-1">无论挖掘中还是已完成，点击卡片均跳转至线索详情页（线索详情.html）</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-4">
+                                        <div class="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <span class="text-amber-600 font-bold text-sm">B</span>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-medium text-slate-700">返回搜客结果</h4>
+                                            <p class="text-sm text-slate-600 mt-1">点击底部"返回搜客结果"按钮，跳转至 搜客结果列表.html</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-4">
+                                        <div class="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                            <span class="text-amber-600 font-bold text-sm">C</span>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-medium text-slate-700">筛选条件切换</h4>
+                                            <p class="text-sm text-slate-600 mt-1">点击筛选按钮后，列表实时刷新，保持当前排序方式</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">3. 异常流程</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="bg-red-50 rounded-lg p-4 border border-red-100">
+                                        <h4 class="font-medium text-red-700 mb-2">挖掘失败</h4>
+                                        <p class="text-sm text-red-600">若 Apollo API 调用失败，卡片显示"挖掘失败"状态，支持重新挖掘操作</p>
+                                    </div>
+                                    <div class="bg-red-50 rounded-lg p-4 border border-red-100">
+                                        <h4 class="font-medium text-red-700 mb-2">无联系人结果</h4>
+                                        <p class="text-sm text-red-600">若未找到任何联系人，卡片显示"未找到联系人"，消耗 0 Credits</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">4. 交互效果</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-purple-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-purple-700 mb-2">卡片悬停</h4>
+                                        <p class="text-sm text-purple-600">阴影加深，cursor 变为 pointer</p>
+                                    </div>
+                                    <div class="bg-purple-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-purple-700 mb-2">进度条动画</h4>
+                                        <p class="text-sm text-purple-600">渐变色流动效果，模拟加载状态</p>
+                                    </div>
+                                    <div class="bg-purple-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-purple-700 mb-2">入场动画</h4>
+                                        <p class="text-sm text-purple-600">卡片依次淡入上滑（delay 递增）</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">不可见功能逻辑</h2>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">1. 获取线索列表 API</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="code-block p-4 mb-4">
+                                    <code>
+<pre>GET /api/v1/leads/static
+
+Request Headers:
+  Authorization: Bearer {tenant_token}
+
+Query Parameters:
+  page: 1 (页码)
+  page_size: 10 (每页数量)
+  sort_by: "score_desc" | "score_asc" | "created_at_desc"
+  grade: "all" | "S" | "A" | "B" | "C"
+  status: "all" | "digging" | "completed"
+
+Response (Success):
+{
+  "code": 200,
+  "message": "success",
+  "data": {
+    "total": 12,
+    "page": 1,
+    "page_size": 10,
+    "items": [
+      {
+        "lead_id": "LD-99201",
+        "enterprise_name": "Orlando Mega Stage AV",
+        "domain": "orlando-av.com",
+        "final_lead_score": 105,
+        "lead_grade": "S",
+        "ai_reasoning": "企业基础盘高度吻合...",
+        "status": "digging",
+        "digging_progress": 65,
+        "estimated_remaining_seconds": 30,
+        "contacts_count": null,
+        "credits_consumed": null,
+        "created_at": "2024-01-20T10:30:00Z"
+      },
+      {
+        "lead_id": "LD-99202",
+        "enterprise_name": "California Visual Solutions",
+        "domain": "cavisual.com",
+        "final_lead_score": 92,
+        "lead_grade": "A",
+        "ai_reasoning": "主营业务高度契合...",
+        "status": "completed",
+        "digging_progress": 100,
+        "contacts_count": 2,
+        "credits_consumed": 6,
+        "created_at": "2024-01-20T08:15:00Z"
+      }
+    ]
+  }
+}</pre>
+                                    </code>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">2. 挖掘进度轮询机制</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="bg-blue-50 rounded-lg p-4 mb-4">
+                                    <p class="text-sm text-blue-700">前端每 3 秒轮询一次挖掘状态，直至状态变为 completed 或 failed</p>
+                                </div>
+                                <div class="code-block p-4 mb-4">
+                                    <code>
+<pre>GET /api/v1/leads/{lead_id}/digging-status
+
+Response:
+{
+  "code": 200,
+  "data": {
+    "lead_id": "LD-99201",
+    "status": "digging" | "completed" | "failed",
+    "progress": 65,
+    "estimated_remaining_seconds": 30,
+    "error_message": null
+  }
+}</pre>
+                                    </code>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">3. P22-P23：Apollo API 调度与联系人获取</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="bg-amber-50 rounded-lg p-4 mb-4">
+                                    <p class="text-sm text-amber-700">自动化执行引擎 (AEE) 调用 Apollo.io 接口获取联系人数据</p>
+                                </div>
+                                <div class="code-block p-4 mb-4">
+                                    <code>
+<pre>POST https://api.apollo.io/api/v1/mixed_people/search
+
+Request Headers:
+  Api-Key: {apollo_api_key}
+  Content-Type: application/json
+
+Request Body (有域名场景):
+{
+  "organization_domains": ["orlando-av.com"],
+  "page": 1,
+  "per_page": 10
+}
+
+Request Body (无域名场景):
+{
+  "q_organization_name": "Orlando Mega Stage AV",
+  "page": 1,
+  "per_page": 10
+}
+
+Response:
+{
+  "people": [
+    {
+      "id": "587cf802f65125cad923a266",
+      "first_name": "John",
+      "last_name": "Doe",
+      "name": "John Doe",
+      "title": "VP of Procurement",
+      "organization": {
+        "id": "5f5a8f7e4b3b2c0001a8b7c6",
+        "name": "Orlando Mega Stage AV",
+        "domain": "orlando-av.com"
+      },
+      "email": "johndoe@orlando-av.com",
+      "linkedin_url": "https://linkedin.com/in/johndoe"
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "per_page": 10,
+    "total_entries": 5
+  }
+}</pre>
+                                    </code>
+                                </div>
+                                <div class="grid md:grid-cols-2 gap-4">
+                                    <div class="bg-slate-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-slate-700 mb-2">参数路由逻辑</h4>
+                                        <ul class="text-sm text-slate-600 space-y-1">
+                                            <li>• 有域名：使用 organization_domains 精准锁定</li>
+                                            <li>• 无域名：使用 q_organization_name 模糊匹配</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-slate-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-slate-700 mb-2">数据过滤规则</h4>
+                                        <ul class="text-sm text-slate-600 space-y-1">
+                                            <li>• 仅保留有 email 的记录</li>
+                                            <li>• 输出 raw_contacts_list 数组</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">4. P25：AI 线索匹配智能分析 - AI 模型处理</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="bg-blue-50 rounded-lg p-4 mb-4">
+                                    <p class="text-sm text-blue-700"><strong>语言选择说明：</strong>根据使用模型自动选择对应语言版本。gpt-4o-mini 使用英文提示词，国内模型使用中文提示词。</p>
+                                </div>
+                                <div class="code-block p-4 mb-4">
+                                    <code>
+<pre>// ========== 中文版本 (Chinese Version) ==========
+// System Prompt
+
+# Role
+你是一位资深的 B2B 销售总监与线索质量评估专家。
+
+# Input Data
+- 企业基础匹配分 (Base Score): {account_fit_score}
+- ICP 筛选条件 (ICP Lead Criteria): {icp_lead_criteria}
+- 候选联系人列表: {raw_contacts_list}
+
+# Task
+1. **异常处理**：如果候选联系人列表为空 `[]`，直接输出 final_lead_score = Base Score，并说明"遗憾未找到关键联系人"。
+2. **沙里淘金 (Ranking)**：根据联系人的职位，评估其业务相关性。保留核心业务相关联系人，并按重要程度排序。
+3. **生成 AI 判词**：结合原有的企业优势，向客户解释这些联系人的价值。
+
+# Output JSON Schema
+{
+  "top_contacts_array": [
+    {
+      "name": "提取的名字",
+      "title": "提取的职位",
+      "email": "提取的邮箱",
+      "social_links": {"linkedin": "url", "twitter": "url"}
+    }
+  ],
+  "scoring_result": {
+    "final_lead_score": 96
+  },
+  "ai_reasoning": "企业基础盘高度吻合。企业与您的产品高度匹配，线索转化率极高。"
+}
+
+// ========== English Version (英文版本) ==========
+// System Prompt
+
+# Role
+You are a senior B2B sales director and lead quality assessment expert.
+
+# Input Data
+- Account Base Match Score: {account_fit_score}
+- ICP Lead Criteria: {icp_lead_criteria}
+- Candidate Contact List: {raw_contacts_list}
+
+# Task
+1. **Exception Handling**: If candidate contact list is empty `[]`, directly output final_lead_score = Base Score, and explain "Regrettably, no key contact found".
+2. **Ranking**: Evaluate business relevance based on contact positions. Retain core business-related contacts and sort by importance.
+3. **Generate AI Reasoning**: Explain the value of these contacts to the client, combining original company advantages.
+
+# Output JSON Schema
+{
+  "top_contacts_array": [
+    {
+      "name": "Extracted name",
+      "title": "Extracted title",
+      "email": "Extracted email",
+      "social_links": {"linkedin": "url", "twitter": "url"}
+    }
+  ],
+  "scoring_result": {
+    "final_lead_score": 96
+  },
+  "ai_reasoning": "Company foundation highly matches. The company is highly aligned with your product, with extremely high lead conversion rate."
+}</pre>
+                                    </code>
+                                </div>
+                                <div class="grid md:grid-cols-3 gap-4 mb-4">
+                                    <div class="bg-blue-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-blue-700 mb-2">使用模型</h4>
+                                        <p class="text-sm text-blue-600">gpt-4o-mini</p>
+                                    </div>
+                                    <div class="bg-emerald-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-emerald-700 mb-2">输出结果</h4>
+                                        <p class="text-sm text-emerald-600">排序后的联系人列表 + 最终线索分</p>
+                                    </div>
+                                    <div class="bg-purple-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-purple-700 mb-2">关键动作</h4>
+                                        <p class="text-sm text-purple-600">联系人排序 + AI 判词生成</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">5. P26：价值精算与持久化入库</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="bg-slate-50 rounded-lg p-4 mb-4">
+                                    <h4 class="font-medium text-slate-700 mb-2">计费规则（基于 Apollo.io Credits 消耗）</h4>
+                                    <ul class="text-sm text-slate-600 space-y-1">
+                                        <li>• 基础联系人数据：不消耗 Credits</li>
+                                        <li>• 邮箱揭示（reveal_personal_emails）：每个有效邮箱 1 Credit</li>
+                                        <li>• 电话号码揭示（reveal_phone_number）：每个有效电话 1 Credit</li>
+                                        <li>• LinkedIn 主页附加：包含在基础数据中</li>
+                                        <li>• 无联系人结果：0 Credits（免费入库）</li>
+                                    </ul>
+                                </div>
+                                <div class="code-block p-4">
+                                    <code>
+<pre>POST /api/v1/leads/{lead_id}/finalize
+
+Request Body:
+{
+  "top_contacts_array": [...],
+  "scoring_result": {
+    "multiplier_applied": 1.1,
+    "final_lead_score": 105
+  },
+  "full_static_payload": {
+    "enterprise_name": "Orlando Mega Stage AV",
+    "domain": "orlando-av.com",
+    "customs_data": {...},
+    "exhibition_data": {...}
+  }
+}
+
+Response:
+{
+  "code": 200,
+  "data": {
+    "lead_id": "LD-99201",
+    "billing": {
+      "contacts_found": 3,
+      "emails_revealed": 3,
+      "phones_revealed": 0,
+      "total_credits_consumed": 3
+    }
+  }
+}</pre>
+                                    </code>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">6. 导出线索列表 API</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="code-block p-4">
+                                    <code>
+<pre>GET /api/v1/leads/static/export
+
+Query Parameters:
+  grade: "all" | "S" | "A" | "B" | "C"
+  status: "all" | "digging" | "completed"
+  format: "csv" | "xlsx"
+
+Response:
+{
+  "code": 200,
+  "data": {
+    "download_url": "https://cdn.example.com/exports/leads_20240120.xlsx",
+    "expires_at": "2024-01-21T10:30:00Z"
+  }
+}</pre>
+                                    </code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">限制规则</h2>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                            <h4 class="font-medium text-red-700 mb-2">Credits 余额检查</h4>
+                            <p class="text-sm text-red-600">挖掘前需确认 Credits 余额 > 0，余额 ≤ 0 时禁止启动新挖掘任务</p>
+                            <div class="mt-3 pt-3 border-t border-red-200">
+                                <p class="text-xs text-red-500"><strong>余额规则：</strong>余额可为负，≤ 0 时禁止消耗操作；挖掘执行中不扣费，完成后按实际消耗结算，允许余额为负。</p>
+                            </div>
+                        </div>
+                        <div class="bg-blue-50 rounded-xl p-4 border border-blue-100">
+                            <h4 class="font-medium text-blue-700 mb-2">异步任务执行规则</h4>
+                            <ul class="text-sm text-blue-600 space-y-1">
+                                <li>• <strong>页面关闭继续执行：</strong>挖掘任务在后台异步执行，用户关闭页面不影响任务进度</li>
+                                <li>• <strong>接口超时机制：</strong>每次接口调用超时时间 1 分钟，超时后跳过本次调用继续执行</li>
+                                <li>• <strong>任务不阻塞：</strong>确保任务最终完成，不会因单个接口失败而阻塞</li>
+                                <li>• <strong>预估时长：</strong>按接口调用次数预估，每次调用约 1 分钟</li>
+                            </ul>
+                        </div>
+                        <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                            <h4 class="font-medium text-amber-700 mb-2">并发挖掘限制</h4>
+                            <p class="text-sm text-amber-600">单租户同时最多 5 个挖掘中任务，超出需等待任务完成</p>
+                        </div>
+                        <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                            <h4 class="font-medium text-amber-700 mb-2">线索去重</h4>
+                            <p class="text-sm text-amber-600">同一企业域名不可重复入库，已存在的线索显示"已入库"标识</p>
+                        </div>
+                        <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                            <h4 class="font-medium text-red-700 mb-2">权限控制</h4>
+                            <p class="text-sm text-red-600">当前版本系统暂无权限控制逻辑，所有登录用户均可查看静态线索池。</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">AI 线索评分异常检测</h2>
+                    </div>
+                    <div class="bg-amber-50 rounded-lg p-4 border border-amber-100 mb-4">
+                        <p class="text-sm text-amber-700"><strong>AI 模型存在幻觉风险</strong>，可能导致线索评分与实际情况不符。本模块对 AI 评分输出进行专项检测。</p>
+                    </div>
+                    <ul class="text-sm text-slate-600 space-y-2 mb-4">
+                        <li>• <strong>输出为空检测：</strong>AI 返回空评分时触发，提示「AI 评分结果为空，请重试」</li>
+                        <li>• <strong>格式校验：</strong>评分 JSON 解析失败时触发，提示「AI 返回数据格式异常，正在自动重试...」</li>
+                        <li>• <strong>一致性校验：</strong>评分与原始数据矛盾时触发，提示「AI 评分存在异常，建议重新分析」</li>
+                        <li>• <strong>数值范围校验：</strong>评分超出 0-100 范围时触发，提示「AI 评分异常，已使用默认值」</li>
+                    </ul>
+                    <div class="bg-red-50 rounded-lg p-4 border border-red-100">
+                        <h4 class="font-medium text-red-700 mb-2">AI 评分异常处理策略</h4>
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="border-b border-red-200">
+                                    <th class="text-left py-1 text-red-600">异常类型</th>
+                                    <th class="text-left py-1 text-red-600">处理方式</th>
+                                    <th class="text-left py-1 text-red-600">提示文案</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-red-600">
+                                <tr class="border-b border-red-100">
+                                    <td class="py-2">输出为空</td>
+                                    <td class="py-2">使用基础评分，不显示 AI 判词</td>
+                                    <td class="py-2">「AI 评分结果为空」</td>
+                                </tr>
+                                <tr class="border-b border-red-100">
+                                    <td class="py-2">格式错误</td>
+                                    <td class="py-2">自动重试 1 次，失败后使用默认值</td>
+                                    <td class="py-2">「AI 返回数据格式异常」</td>
+                                </tr>
+                                <tr class="border-b border-red-100">
+                                    <td class="py-2">内容幻觉</td>
+                                    <td class="py-2">标记异常，显示基础评分</td>
+                                    <td class="py-2">「AI 评分仅供参考」</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2">数值异常</td>
+                                    <td class="py-2">使用业务默认值，通知风控</td>
+                                    <td class="py-2">「AI 评分异常，已使用默认值」</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-rose-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">页面跳转关系</h2>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-6">
+                        <div class="flex items-center justify-center gap-4 flex-wrap">
+                            <div class="px-4 py-2 bg-blue-100 text-blue-600 rounded-lg text-sm">
+                                搜客结果列表.html
+                                <p class="text-xs text-blue-500 mt-1">搜客结果列表</p>
+                            </div>
+                            <svg class="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                            <div class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium">
+                                静态线索池.html
+                                <p class="text-xs text-blue-200 mt-1">静态线索池（当前）</p>
+                            </div>
+                            <svg class="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                            <div class="px-4 py-2 bg-emerald-100 text-emerald-600 rounded-lg text-sm">
+                                线索详情.html
+                                <p class="text-xs text-emerald-500 mt-1">线索详情页</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">技术栈说明</h2>
+                    </div>
+                    <div class="grid md:grid-cols-4 gap-4">
+                        <div class="bg-slate-50 rounded-xl p-4">
+                            <h4 class="font-medium text-slate-700 mb-2">前端框架</h4>
+                            <p class="text-sm text-slate-600">React / Vue + TailwindCSS</p>
+                        </div>
+                        <div class="bg-slate-50 rounded-xl p-4">
+                            <h4 class="font-medium text-slate-700 mb-2">后端服务</h4>
+                            <p class="text-sm text-slate-600">Node.js / Python FastAPI</p>
+                        </div>
+                        <div class="bg-slate-50 rounded-xl p-4">
+                            <h4 class="font-medium text-slate-700 mb-2">AI 模型</h4>
+                            <p class="text-sm text-slate-600">gpt-4o-mini</p>
+                        </div>
+                        <div class="bg-slate-50 rounded-xl p-4">
+                            <h4 class="font-medium text-slate-700 mb-2">三方服务</h4>
+                            <p class="text-sm text-slate-600">Apollo.io API</p>
+                        </div>
+                        <div class="bg-slate-50 rounded-xl p-4">
+                            <h4 class="font-medium text-slate-700 mb-2">消息队列</h4>
+                            <p class="text-sm text-slate-600">Kafka / RabbitMQ</p>
+                        </div>
+                        <div class="bg-slate-50 rounded-xl p-4">
+                            <h4 class="font-medium text-slate-700 mb-2">数据库</h4>
+                            <p class="text-sm text-slate-600">PostgreSQL + Redis</p>
+                        </div>
+                        <div class="bg-slate-50 rounded-xl p-4">
+                            <h4 class="font-medium text-slate-700 mb-2">实时通信</h4>
+                            <p class="text-sm text-slate-600">WebSocket / SSE</p>
+                        </div>
+                        <div class="bg-slate-50 rounded-xl p-4">
+                            <h4 class="font-medium text-slate-700 mb-2">文件存储</h4>
+                            <p class="text-sm text-slate-600">AWS S3 / 阿里云 OSS</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">Toast 提醒文案规范</h2>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-gradient-to-r from-cyan-50 to-blue-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">1. 线索卡片交互操作</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                        <h4 class="font-medium text-emerald-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                            成功提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-emerald-600">
+                                            <p><strong>跳转成功：</strong>「正在跳转至线索详情页...」</p>
+                                            <p><strong>页面加载：</strong>「线索详情页加载中...」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                                        <h4 class="font-medium text-amber-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                            异常提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-amber-600">
+                                            <p><strong>跳转失败：</strong>「页面跳转失败，请手动点击卡片」</p>
+                                            <p><strong>数据加载：</strong>「线索详情加载失败，请重试」</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-gradient-to-r from-purple-50 to-pink-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">2. 筛选与排序操作</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                        <h4 class="font-medium text-emerald-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                            成功提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-emerald-600">
+                                            <p><strong>筛选成功：</strong>「筛选条件已应用，共 {count} 条线索」</p>
+                                            <p><strong>排序成功：</strong>「列表已按 {sort_type} 排序」</p>
+                                            <p><strong>重置成功：</strong>「筛选条件已重置」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                                        <h4 class="font-medium text-red-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                                            失败提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-red-600">
+                                            <p><strong>无数据：</strong>「当前筛选条件下无线索」</p>
+                                            <p><strong>加载失败：</strong>「筛选结果加载失败，请重试」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                                        <h4 class="font-medium text-amber-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                            异常提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-amber-600">
+                                            <p><strong>网络错误：</strong>「网络连接异常，请检查网络后重试」</p>
+                                            <p><strong>超时：</strong>「筛选请求超时，请稍后重试」</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-gradient-to-r from-violet-50 to-purple-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">3. 联系人挖掘状态</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                        <h4 class="font-medium text-emerald-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                            成功提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-emerald-600">
+                                            <p><strong>挖掘完成：</strong>「联系人挖掘完成！已获取 {count} 个联系人」</p>
+                                            <p><strong>Credits结算：</strong>「Credits 已结算，消耗 {amount}，已退还差额」</p>
+                                            <p><strong>无结果：</strong>「未找到该企业的联系人信息」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                                        <h4 class="font-medium text-red-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                                            失败提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-red-600">
+                                            <p><strong>挖掘失败：</strong>「联系人挖掘失败，{reason}」</p>
+                                            <p><strong>API失败：</strong>「Apollo API 调用失败，请稍后重试」</p>
+                                            <p><strong>超时：</strong>「挖掘请求超时，请重新挖掘」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                                        <h4 class="font-medium text-amber-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                            异常提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-amber-600">
+                                            <p><strong>进度更新：</strong>「挖掘进度更新中，请稍候...」</p>
+                                            <p><strong>状态同步：</strong>「挖掘状态同步中...」</p>
+                                            <p><strong>重试中：</strong>「正在重新尝试挖掘，请稍候...」</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-gradient-to-r from-teal-50 to-cyan-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">4. 页面加载与刷新</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                        <h4 class="font-medium text-emerald-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                            成功提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-emerald-600">
+                                            <p><strong>加载成功：</strong>「静态线索池加载成功」</p>
+                                            <p><strong>刷新成功：</strong>「数据已刷新」</p>
+                                            <p><strong>实时更新：</strong>「列表已实时更新」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                                        <h4 class="font-medium text-red-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                                            失败提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-red-600">
+                                            <p><strong>加载失败：</strong>「线索池加载失败，请刷新页面重试」</p>
+                                            <p><strong>无数据：</strong>「暂无静态线索」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                                        <h4 class="font-medium text-amber-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                            异常提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-amber-600">
+                                            <p><strong>网络错误：</strong>「网络连接异常，请检查网络」</p>
+                                            <p><strong>超时：</strong>「数据请求超时，请稍后重试」</p>
+                                            <p><strong>连接中断：</strong>「实时连接已断开，正在尝试重连...」</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-gradient-to-r from-rose-50 to-pink-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">5. 返回操作</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                        <h4 class="font-medium text-emerald-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                            成功提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-emerald-600">
+                                            <p><strong>跳转成功：</strong>「正在返回搜客结果页面...」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                                        <h4 class="font-medium text-amber-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                            异常提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-amber-600">
+                                            <p><strong>跳转失败：</strong>「页面跳转失败，请手动返回」</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-6">
+        <div class="max-w-5xl mx-auto px-4 text-center text-sm text-slate-400">
+            AI-LeadFinder 功能说明文档 · 静态线索池
+        </div>
+
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeadFinder - 搜客结果列表页面功能说明</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Fira Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#60A5FA',
+                        cta: '#F97316',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .section-card {
+            transition: all 0.3s ease;
+        }
+        .section-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+        .code-block {
+            background: #1e293b;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        .code-block code {
+            color: #e2e8f0;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 13px;
+        }
+        .highlight-box {
+            border-left: 4px solid #3B82F6;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen font-sans">
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-slate-200">
+        <div class="max-w-6xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-semibold text-slate-800">功能说明文档</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm font-medium">P20-P21 节点</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-24 pb-16 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="mb-10">
+                <h1 class="text-3xl font-bold text-slate-800 mb-4">搜客结果列表页面</h1>
+                <p class="text-slate-500 text-lg">对应业务流程节点：P20-P21（返回企业数据分析结果列表 → 展示企业数据分析结果列表）</p>
+            </div>
+
+            <div class="space-y-8">
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">页面概述</h2>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-6">
+                        <p class="text-slate-600 leading-relaxed">
+                            本页面是静态数据获客流程的结果展示页面，展示经过 AI 分析和打分的企业线索列表。用户可以查看匹配度评分、AI 推荐理由、企业徽章等信息，并选择目标企业进行联系人挖掘。
+                        </p>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">可见功能逻辑</h2>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">1. UI 组件</h3>
+                            </div>
+                            <div class="p-5 space-y-3">
+                                <div class="flex items-start gap-3">
+                                    <span class="w-6 h-6 bg-primary/10 text-primary rounded flex items-center justify-center text-sm font-medium flex-shrink-0">1</span>
+                                    <div>
+                                        <p class="font-medium text-slate-800">成功横幅</p>
+                                        <p class="text-sm text-slate-600">显示任务完成状态、实际消耗 Credits、退回差额、发现企业数量</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="w-6 h-6 bg-primary/10 text-primary rounded flex items-center justify-center text-sm font-medium flex-shrink-0">2</span>
+                                    <div>
+                                        <p class="font-medium text-slate-800">筛选排序栏</p>
+                                        <p class="text-sm text-slate-600">排序选项（匹配度高到低/低到高/企业名称A-Z）、筛选标签（全部/有海关记录/有参展记录）、导出列表按钮</p>
+                                        <div class="mt-3 bg-emerald-50 rounded-lg p-3 border border-emerald-100">
+                                            <p class="text-sm text-emerald-700 font-medium mb-2">导出功能说明</p>
+                                            <ul class="text-xs text-emerald-600 space-y-1">
+                                                <li>• <strong>导出格式：</strong>Excel（.xlsx）</li>
+                                                <li>• <strong>版本限制：</strong>无，所有版本均可使用</li>
+                                                <li>• <strong>导出字段：</strong>企业名称、官网、匹配度评分、AI推荐理由、徽章标签、企业简介、员工规模、联系方式、海关记录、展会记录、地理位置</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="w-6 h-6 bg-primary/10 text-primary rounded flex items-center justify-center text-sm font-medium flex-shrink-0">3</span>
+                                    <div>
+                                        <p class="font-medium text-slate-800">企业结果卡片</p>
+                                        <p class="text-sm text-slate-600">匹配度环形评分图、企业名称和官网链接、徽章标签、企业简介、AI 推荐理由、员工规模、挖掘联系人按钮</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="w-6 h-6 bg-primary/10 text-primary rounded flex items-center justify-center text-sm font-medium flex-shrink-0">4</span>
+                                    <div>
+                                        <p class="font-medium text-slate-800">分页组件</p>
+                                        <p class="text-sm text-slate-600">显示总企业数量，支持页码跳转</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="w-6 h-6 bg-primary/10 text-primary rounded flex items-center justify-center text-sm font-medium flex-shrink-0">5</span>
+                                    <div>
+                                        <p class="font-medium text-slate-800">原始数据查看弹窗</p>
+                                        <p class="text-sm text-slate-600">展示海关数据、展会数据、地图数据、网页数据四类原始抓取信息</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="w-6 h-6 bg-primary/10 text-primary rounded flex items-center justify-center text-sm font-medium flex-shrink-0">6</span>
+                                    <div>
+                                        <p class="font-medium text-slate-800">挖掘企业联系人按钮</p>
+                                        <p class="text-sm text-slate-600">点击后弹出联系人挖掘确认弹窗，显示计费规则和异步执行提示，确认后跳转至静态线索池页面</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="w-6 h-6 bg-primary/10 text-primary rounded flex items-center justify-center text-sm font-medium flex-shrink-0">7</span>
+                                    <div>
+                                        <p class="font-medium text-slate-800">联系人挖掘确认弹窗</p>
+                                        <p class="text-sm text-slate-600">显示计费规则（验证邮箱 2 Credits/个，LinkedIn +1 Credit，Twitter/FB +1 Credit/个）、异步执行提示、当前账户余额</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="w-6 h-6 bg-primary/10 text-primary rounded flex items-center justify-center text-sm font-medium flex-shrink-0">8</span>
+                                    <div>
+                                        <p class="font-medium text-slate-800">重新搜索按钮</p>
+                                        <p class="text-sm text-slate-600">点击返回搜客需求输入页面，当前搜客结果仍可在「搜客记录」中查看</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">2. 交互效果</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="bg-blue-50 rounded-lg p-4">
+                                    <ul class="text-sm text-slate-600 space-y-2">
+                                        <li>• <strong>卡片悬停：</strong>阴影加深（hover:shadow-md），鼠标变为手型</li>
+                                        <li>• <strong>评分环形图：</strong>根据分数显示不同颜色（≥80 绿色，60-79 蓝色，<60 灰色）</li>
+                                        <li>• <strong>筛选标签切换：</strong>选中态蓝色背景，未选中灰色背景</li>
+                                        <li>• <strong>挖掘按钮：</strong>点击打开弹窗，弹窗内显示加载状态和成功状态</li>
+                                        <li>• <strong>页面进入动画：</strong>卡片依次淡入上滑（fadeInUp）</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">3. 徽章类型说明</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-green-50 rounded-xl p-4 border border-green-100">
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <span class="px-2 py-1 bg-green-100 text-green-600 text-xs font-medium rounded-lg">海关记录</span>
+                                        </div>
+                                        <p class="text-sm text-green-700">企业有海关进出口记录，命中出海派数据库</p>
+                                    </div>
+                                    <div class="bg-purple-50 rounded-xl p-4 border border-purple-100">
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <span class="px-2 py-1 bg-purple-100 text-purple-600 text-xs font-medium rounded-lg">参展记录</span>
+                                        </div>
+                                        <p class="text-sm text-purple-700">企业有展会参展记录，命中 10times 数据库</p>
+                                    </div>
+                                    <div class="bg-blue-50 rounded-xl p-4 border border-blue-100">
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <span class="px-2 py-1 bg-blue-100 text-blue-600 text-xs font-medium rounded-lg">地理位置</span>
+                                        </div>
+                                        <p class="text-sm text-blue-700">企业地理位置符合搜索条件（如加州）</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">4. 原始数据弹窗内容说明</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="space-y-4">
+                                    <div class="bg-green-50 rounded-xl p-4 border border-green-100">
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <span class="px-2 py-1 bg-green-100 text-green-600 text-xs font-medium rounded-lg">海关数据</span>
+                                        </div>
+                                        <ul class="text-sm text-green-700 space-y-1">
+                                            <li>• HS Code：海关编码</li>
+                                            <li>• 产品描述：进口产品名称</li>
+                                            <li>• 进口次数：近12个月进口次数</li>
+                                            <li>• 最近日期：最后一次进口时间</li>
+                                            <li>• 供应商国家：进口来源国</li>
+                                            <li>• 数据来源：出海派</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-purple-50 rounded-xl p-4 border border-purple-100">
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <span class="px-2 py-1 bg-purple-100 text-purple-600 text-xs font-medium rounded-lg">展会数据</span>
+                                        </div>
+                                        <ul class="text-sm text-purple-700 space-y-1">
+                                            <li>• 展会名称：参展活动名称</li>
+                                            <li>• 展会日期：参展时间</li>
+                                            <li>• 展会地点：举办城市</li>
+                                            <li>• 参与类型：参展商/观众</li>
+                                            <li>• 数据来源：10times</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-blue-50 rounded-xl p-4 border border-blue-100">
+                                        <div class="flex items-center gap-2 mb-2">
+                                            <span class="px-2 py-1 bg-blue-100 text-blue-600 text-xs font-medium rounded-lg">地图数据</span>
+                                        </div>
+                                        <ul class="text-sm text-blue-700 space-y-1">
+                                            <li>• 企业名称：地图注册名称</li>
+                                            <li>• 详细地址：完整地址信息</li>
+                                            <li>• 用户评分：Google评分及评价数</li>
+                                            <li>• 营业状态：营业中/已关闭</li>
+                                            <li>• 坐标位置：经纬度信息</li>
+                                            <li>• 数据来源：Google Maps</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-orange-50 rounded-xl p-4 border border-orange-100">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <span class="px-2 py-1 bg-orange-100 text-orange-600 text-xs font-medium rounded-lg">网页数据</span>
+                                </div>
+                                <ul class="text-sm text-orange-700 space-y-1">
+                                    <li>• 抓取时间：内容抓取日期</li>
+                                    <li>• 内容长度：抓取字符数（无限制)</li>
+                                    <li>• 正文内容:官网首页及关键页面摘要</li>
+                                    <li>• 数据来源:Jina Reader</li>
+                                </ul>
+                            </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">不可见功能逻辑</h2>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">1. P20：AI 推理判词生成 - AI 模型处理</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="code-block p-4 mb-4">
+                                    <code>
+<pre>// AI 推理判词生成 Prompt
+
+# Role
+你是一位拥有 10 年经验的 B2B 商业分析师，擅长从企业数据中提炼关键洞察。
+
+# Task
+根据企业的匹配度得分、海关记录、展会记录、地理位置等信息，生成一段简洁有力的 AI 推荐理由（不超过 50 字）。
+
+# Input
+- 企业名称：{enterprise_name}
+- 综合得分：{total_score}
+- 维度得分：{score_breakdown}
+- 海关记录：{has_customs_record}
+- 展会记录：{has_exhibitor_record}
+- 地理位置：{region}
+- 业务描述：{description}
+- 数据完整度：{data_completeness}
+
+# Output Rules
+1. 必须包含至少一个具体的数据点（如海关记录、展会名称）
+2. 必须突出企业与客户 ICP 的匹配点
+3. 语言简洁有力，不超过 50 字
+
+# Example Output
+"欧洲登山装备渠道商，展会曝光积极"</pre>
+                                    </code>
+                                </div>
+                                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                                    <div class="bg-blue-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-blue-700 mb-2">推理模型</h4>
+                                        <p class="text-sm text-blue-600">gpt-4o-mini（快速推理）</p>
+                                    </div>
+                                    <div class="bg-emerald-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-emerald-700 mb-2">输出结果</h4>
+                                        <p class="text-sm text-emerald-600">简洁的 AI 推荐理由文本（≤50 字）</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">2. P20：获取企业数据分析结果 - API 接口</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="code-block p-4 mb-4">
+                                    <code>
+<pre>GET /api/v1/search/results/{task_id}
+
+Request Headers:
+  Authorization: Bearer {tenant_token}
+
+Query Parameters:
+  sort_by: "score_desc" | "score_asc" | "name_asc"
+  filter: "all" | "has_customs" | "has_exhibition"
+  page: 1
+  page_size: 10
+
+Response (Success):
+{
+  "code": 200,
+  "message": "success",
+  "data": {
+    "task_id": "task_20240115_001",
+    "status": "completed",
+    "actual_credits_consumed": 32,
+    "refunded_credits": 10,
+    "total_enterprises": 20,
+    "high_potential_count": 8,
+    "pagination": {
+      "current_page": 1,
+      "total_pages": 2,
+      "page_size": 10
+    },
+    "data_list": [
+      {
+        "enterprise_id": "ent_001",
+        "enterprise_name": "Alpine Pro Equipment GmbH",
+        "website": "www.alpine-pro-equipment.de",
+        "total_score": 71.3,
+        "score_breakdown": {
+          "需求匹配度": 28.16,
+          "购买能力": 8.60,
+          "采购意向": 23.45,
+          "活跃意向": 11.70
+        },
+        "ai_recommendation": "欧洲登山装备渠道商，展会曝光积极",
+        "match_dimensions": ["outdoor_equipment", "mountaineering_gear", "distributor"],
+        "has_customs_record": true,
+        "has_exhibitor_record": true,
+        "region": "德国",
+        "description": "欧洲登山装备分销商，主营登山器材、户外装备及露营用品批发分销。",
+        "employee_range": "50-200",
+        "company_type": "GmbH",
+        "contacts_status": "locked",
+        "customs_details": {
+          "hs_codes": ["950691", "420212", "640399"],
+          "import_count": 12,
+          "last_import_date": "2025-02-15"
+        },
+        "exhibitor_details": {
+          "event_name": "OutDoor by ISPO 2024",
+          "event_date": "2024-06-03",
+          "event_location": "Munich, Germany"
+        }
+      }
+    ]
+  }
+}</pre>
+                                    </code>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">4. P22：选择目标企业挖掘联系人 - 异步交互起点</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="code-block p-4 mb-4">
+                                    <code>
+<pre>POST /api/v1/contacts/dig
+
+Request Headers:
+  Authorization: Bearer {tenant_token}
+  Content-Type: application/json
+
+Request Body:
+{
+  "task_id": "task_20240115_001",
+  "enterprise_id": "ent_001",
+  "enterprise_name": "Orlando Mega Stage AV",
+  "website": "www.orlando-av.com"
+}
+
+Response (Success - 异步任务已创建):
+{
+  "code": 200,
+  "message": "success",
+  "data": {
+    "dig_id": "dig_20240115_001",
+    "status": "pending",
+    "estimated_time": "30-60s",
+    "callback_url": "/static-lead-pool?dig_id=dig_20240115_001"
+  }
+}</pre>
+                                    </code>
+                                </div>
+                                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                                    <div class="bg-blue-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-blue-700 mb-2">计费规则</h4>
+                                        <ul class="text-sm text-blue-600 space-y-1">
+                                            <li>• 每获取 1 个验证邮箱 = 2 Credits</li>
+                                            <li>• 附加 LinkedIn 主页 = +1 Credit</li>
+                                            <li>• 附加 Twitter/FB = +1 Credit/个</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-emerald-50 rounded-lg p-4">
+                                        <h4 class="font-medium text-emerald-700 mb-2">异步处理</h4>
+                                        <p class="text-sm text-emerald-600">任务在后台异步执行，用户跳转至静态线索池页面查看进度</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">5. 原始数据查看 - API 接口</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="code-block p-4 mb-4">
+                                    <code>
+<pre>GET /api/v1/enterprise/{enterprise_id}/raw-data
+
+Request Headers:
+  Authorization: Bearer {tenant_token}
+
+Query Parameters:
+  data_type: "all" | "customs" | "exhibition" | "maps" | "website"
+
+Response (Success):
+{
+  "code": 200,
+  "message": "success",
+  "data": {
+    "enterprise_id": "ent_001",
+    "enterprise_name": "Orlando Mega Stage AV",
+    "raw_data": {
+      "customs_data": {
+        "has_record": true,
+        "import_records": [
+          {
+            "hs_code": "852859",
+            "product_desc": "LED显示屏",
+            "import_count": 3,
+            "last_import_date": "2024-01-15",
+            "supplier_country": "China"
+          }
+        ],
+        "total_imports": 3,
+        "timeframe": "近12个月"
+      },
+      "exhibition_data": {
+        "source": "10times",
+        "has_record": true,
+        "exhibitions": [
+          {
+            "event_name": "InfoComm 2023",
+            "event_date": "2023-06-14",
+            "location": "Las Vegas, NV",
+            "booth_type": "参展商"
+          }
+        ],
+        "total_events": 2
+      },
+      "maps_data": {
+        "source": "Google Maps",
+        "business_name": "Orlando Mega Stage AV",
+        "formatted_address": "1234 Tech Blvd, Orlando, FL 32801, USA",
+        "location": { "lat": 28.5383, "lng": -81.3792 },
+        "rating": 4.5,
+        "user_ratings_total": 127,
+        "business_status": "OPERATIONAL"
+      },
+      "website_data": {
+        "source": "Jina Reader",
+        "extracted_content": "Orlando Mega Stage AV 是一家专业音视频设备集成商...",
+        "content_length": 2456,
+        "extraction_date": "2024-01-20"
+      }
+    },
+    "data_freshness": {
+      "customs_updated_at": "2024-01-20T10:30:00Z",
+      "exhibition_updated_at": "2024-01-20T10:31:00Z",
+      "maps_updated_at": "2024-01-20T10:28:00Z",
+      "website_updated_at": "2024-01-20T10:35:00Z"
+    }
+  }
+}</pre>
+                                    </code>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-slate-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">6. 服务端处理逻辑</h3>
+                            </div>
+                            <div class="p-5 space-y-3">
+                                <div class="flex items-start gap-3">
+                                    <span class="w-6 h-6 bg-purple-500 text-white rounded flex items-center justify-center text-sm font-medium flex-shrink-0">1</span>
+                                    <div>
+                                        <p class="font-medium text-slate-800">Credits 结算（P20）</p>
+                                        <p class="text-sm text-slate-600">按实际 API 成功调用次数重新核算，从冻结 Credits 中扣除实际消耗，退还差额</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="w-6 h-6 bg-purple-500 text-white rounded flex items-center justify-center text-sm font-medium flex-shrink-0">2</span>
+                                    <div>
+                                        <p class="font-medium text-slate-800">结果排序与筛选</p>
+                                        <p class="text-sm text-slate-600">支持按匹配度排序、按徽章筛选，分页返回结果</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="w-6 h-6 bg-purple-500 text-white rounded flex items-center justify-center text-sm font-medium flex-shrink-0">3</span>
+                                    <div>
+                                        <p class="font-medium text-slate-800">原始数据查询</p>
+                                        <p class="text-sm text-slate-600">支持按企业 ID 查询海关、展会、地图、网页四类原始抓取数据</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="w-6 h-6 bg-purple-500 text-white rounded flex items-center justify-center text-sm font-medium flex-shrink-0">4</span>
+                                    <div>
+                                        <p class="font-medium text-slate-800">联系人挖掘任务创建（P22）</p>
+                                        <p class="text-sm text-slate-600">创建异步挖掘任务，返回任务 ID，用户跳转至静态线索池查看进度</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">限制规则</h2>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                            <h4 class="font-medium text-red-700 mb-2">联系人挖掘限制</h4>
+                            <ul class="text-sm text-red-600 space-y-1">
+                                <li>• 单次挖掘消耗 15 Credits</li>
+                                <li>• 单企业最多挖掘 5 次</li>
+                                <li>• 联系人数据有效期 90 天</li>
+                            </ul>
+                            <div class="mt-3 pt-3 border-t border-red-200">
+                                <p class="text-xs text-red-500"><strong>余额规则：</strong>余额可为负，≤ 0 时禁止消耗操作；挖掘执行中不扣费，完成后按实际消耗结算，允许余额为负。</p>
+                            </div>
+                        </div>
+                        <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                            <h4 class="font-medium text-red-700 mb-2">数据访问限制</h4>
+                            <ul class="text-sm text-red-600 space-y-1">
+                                <li>• 搜索结果保留 90 天</li>
+                                <li>• 导出功能无版本限制</li>
+                            </ul>
+                        </div>
+                        <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                            <h4 class="font-medium text-amber-700 mb-2">分页限制</h4>
+                            <ul class="text-sm text-amber-600 space-y-1">
+                                <li>• 每页最大 20 条记录</li>
+                                <li>• 总结果最大 200 条</li>
+                            </ul>
+                        </div>
+                        <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                            <h4 class="font-medium text-amber-700 mb-2">第三方服务依赖</h4>
+                            <ul class="text-sm text-amber-600 space-y-1">
+                                <li>• 联系人挖掘依赖 ECS 服务</li>
+                                <li>• 服务不可用时显示提示</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-red-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">AI 推荐理由异常检测</h2>
+                    </div>
+                    <div class="bg-amber-50 rounded-lg p-4 border border-amber-100 mb-4">
+                        <p class="text-sm text-amber-700"><strong>AI 模型存在幻觉风险</strong>，可能导致推荐理由与企业信息不符。本模块对 AI 推荐理由输出进行专项检测。</p>
+                    </div>
+                    <ul class="text-sm text-slate-600 space-y-2 mb-4">
+                        <li>• <strong>输出为空检测：</strong>AI 返回空推荐理由时触发，显示「暂无推荐理由」</li>
+                        <li>• <strong>格式校验：</strong>推荐理由格式异常时触发，显示原始数据摘要</li>
+                        <li>• <strong>一致性校验：</strong>推荐理由与企业信息矛盾时触发，提示「推荐理由仅供参考」</li>
+                        <li>• <strong>长度校验：</strong>推荐理由超过 500 字时截断，显示「查看更多」展开</li>
+                    </ul>
+                    <div class="bg-red-50 rounded-lg p-4 border border-red-100">
+                        <h4 class="font-medium text-red-700 mb-2">AI 推荐理由异常处理策略</h4>
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr class="border-b border-red-200">
+                                    <th class="text-left py-1 text-red-600">异常类型</th>
+                                    <th class="text-left py-1 text-red-600">处理方式</th>
+                                    <th class="text-left py-1 text-red-600">提示文案</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-red-600">
+                                <tr class="border-b border-red-100">
+                                    <td class="py-2">输出为空</td>
+                                    <td class="py-2">显示默认推荐理由模板</td>
+                                    <td class="py-2">「暂无推荐理由」</td>
+                                </tr>
+                                <tr class="border-b border-red-100">
+                                    <td class="py-2">格式错误</td>
+                                    <td class="py-2">显示原始数据摘要作为替代</td>
+                                    <td class="py-2">「推荐理由生成异常」</td>
+                                </tr>
+                                <tr class="border-b border-red-100">
+                                    <td class="py-2">内容幻觉</td>
+                                    <td class="py-2">标记数据仅供参考，提示用户核实</td>
+                                    <td class="py-2">「推荐理由仅供参考」</td>
+                                </tr>
+                                <tr>
+                                    <td class="py-2">长度超限</td>
+                                    <td class="py-2">截断显示，提供展开功能</td>
+                                    <td class="py-2">「查看更多」</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-rose-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">页面跳转关系</h2>
+                    </div>
+                    <div class="bg-slate-50 rounded-xl p-6">
+                        <div class="flex items-center justify-center gap-4 flex-wrap">
+                            <div class="px-4 py-2 bg-blue-100 text-blue-600 rounded-lg text-sm">
+                                搜客执行中.html
+                            </div>
+                            <svg class="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                            <div class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium">
+                                搜客结果列表.html
+                            </div>
+                            <svg class="w-6 h-6 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                            <div class="px-4 py-2 bg-emerald-100 text-emerald-600 rounded-lg text-sm">
+                                静态线索池.html
+                            </div>
+                        </div>
+                        <p class="text-center text-sm text-muted mt-4">注：静态线索池.html 和 线索详情.html 是独立入口模块，不属于搜索流程</p>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">技术栈说明</h2>
+                    </div>
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div class="bg-slate-50 rounded-xl p-4">
+                            <h4 class="font-medium text-slate-700 mb-2">推理模型</h4>
+                            <p class="text-sm text-slate-600">gpt-4o / Claude 3.5 Sonnet</p>
+                        </div>
+                        <div class="bg-slate-50 rounded-xl p-4">
+                            <h4 class="font-medium text-slate-700 mb-2">第三方服务</h4>
+                            <p class="text-sm text-slate-600">ECS（企业联系人数据服务）</p>
+                        </div>
+                        <div class="bg-slate-50 rounded-xl p-4">
+                            <h4 class="font-medium text-slate-700 mb-2">数据存储</h4>
+                            <p class="text-sm text-slate-600">PostgreSQL + Redis</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section-card bg-white rounded-2xl border border-slate-200 p-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-slate-700">Toast 提醒文案规范</h2>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-gradient-to-r from-cyan-50 to-blue-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">1. 导出列表操作</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                        <h4 class="font-medium text-emerald-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                            成功提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-emerald-600">
+                                            <p><strong>导出成功：</strong>「Excel 文件已生成，正在下载...」</p>
+                                            <p><strong>下载完成：</strong>「导出完成，共 {count} 条企业数据」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                                        <h4 class="font-medium text-red-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                                            失败提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-red-600">
+                                            <p><strong>无数据：</strong>「当前筛选条件下无数据可导出」</p>
+                                            <p><strong>导出失败：</strong>「导出失败，请稍后重试」</p>
+                                            <p><strong>格式错误：</strong>「导出格式不支持，请刷新页面重试」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                                        <h4 class="font-medium text-amber-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                            异常提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-amber-600">
+                                            <p><strong>网络错误：</strong>「网络连接异常，请检查网络后重试」</p>
+                                            <p><strong>超时：</strong>「导出请求超时，请稍后重试」</p>
+                                            <p><strong>服务异常：</strong>「导出服务暂时不可用，请稍后再试」</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-gradient-to-r from-purple-50 to-pink-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">2. 筛选与排序操作</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                        <h4 class="font-medium text-emerald-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                            成功提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-emerald-600">
+                                            <p><strong>筛选成功：</strong>「筛选条件已应用，共找到 {count} 条结果」</p>
+                                            <p><strong>排序成功：</strong>「列表已按 {sort_type} 排序」</p>
+                                            <p><strong>重置成功：</strong>「筛选条件已重置」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                                        <h4 class="font-medium text-amber-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                            异常提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-amber-600">
+                                            <p><strong>加载失败：</strong>「筛选结果加载失败，请重试」</p>
+                                            <p><strong>数据过期：</strong>「数据已过期，请刷新页面获取最新结果」</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-gradient-to-r from-violet-50 to-purple-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">3. 原始数据查看操作</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                        <h4 class="font-medium text-emerald-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                            成功提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-emerald-600">
+                                            <p><strong>加载成功：</strong>「原始数据已加载」</p>
+                                            <p><strong>海关数据：</strong>「海关数据已加载」</p>
+                                            <p><strong>展会数据：</strong>「展会数据已加载」</p>
+                                            <p><strong>地图数据：</strong>「地图数据已加载」</p>
+                                            <p><strong>网页数据：</strong>「网页数据已加载」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                                        <h4 class="font-medium text-red-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                                            失败提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-red-600">
+                                            <p><strong>加载失败：</strong>「原始数据加载失败，请重试」</p>
+                                            <p><strong>数据缺失：</strong>「该企业暂无 {data_type} 数据」</p>
+                                            <p><strong>数据过期：</strong>「{data_type} 数据已过期，正在刷新...」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                                        <h4 class="font-medium text-amber-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                            异常提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-amber-600">
+                                            <p><strong>网络错误：</strong>「网络连接异常，请检查网络后重试」</p>
+                                            <p><strong>超时：</strong>「数据加载超时，请稍后重试」</p>
+                                            <p><strong>服务不可用：</strong>「{source} 服务暂时不可用」</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-gradient-to-r from-teal-50 to-cyan-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">4. 联系人挖掘操作</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                        <h4 class="font-medium text-emerald-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                            成功提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-emerald-600">
+                                            <p><strong>任务创建：</strong>「联系人挖掘任务已创建，正在跳转...」</p>
+                                            <p><strong>Credits冻结：</strong>「Credits 已冻结（{amount}），任务执行中」</p>
+                                            <p><strong>跳转成功：</strong>「正在跳转至静态线索池查看进度...」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                                        <h4 class="font-medium text-red-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                                            失败提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-red-600">
+                                            <p><strong>余额不足：</strong>「Credits 余额不足（当前：{balance}），请充值后再试」</p>
+                                            <p><strong>已达上限：</strong>「该企业已挖掘 {count} 次，达到上限」</p>
+                                            <p><strong>任务失败：</strong>「联系人挖掘任务创建失败，请稍后重试」</p>
+                                            <p><strong>服务不可用：</strong>「ECS 服务暂时不可用，请稍后重试」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                                        <h4 class="font-medium text-amber-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                            异常提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-amber-600">
+                                            <p><strong>网络错误：</strong>「网络连接异常，请检查网络后重试」</p>
+                                            <p><strong>超时：</strong>「任务创建请求超时，请稍后重试」</p>
+                                            <p><strong>服务异常：</strong>「服务暂时不可用，请稍后再试」</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border border-slate-200 rounded-xl overflow-hidden">
+                            <div class="bg-gradient-to-r from-rose-50 to-pink-50 px-5 py-3 border-b border-slate-200">
+                                <h3 class="font-semibold text-slate-700">5. 页面加载与状态</h3>
+                            </div>
+                            <div class="p-5">
+                                <div class="grid md:grid-cols-3 gap-4">
+                                    <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                                        <h4 class="font-medium text-emerald-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                            成功提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-emerald-600">
+                                            <p><strong>加载成功：</strong>「搜客结果加载成功」</p>
+                                            <p><strong>分页加载：</strong>「第 {page} 页数据加载成功」</p>
+                                            <p><strong>刷新成功：</strong>「数据已刷新」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-red-50 rounded-xl p-4 border border-red-100">
+                                        <h4 class="font-medium text-red-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                                            失败提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-red-600">
+                                            <p><strong>加载失败：</strong>「搜客结果加载失败，请刷新页面重试」</p>
+                                            <p><strong>任务不存在：</strong>「任务不存在或已过期」</p>
+                                            <p><strong>无结果：</strong>「未找到匹配的搜客结果」</p>
+                                        </div>
+                                    </div>
+                                    <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                                        <h4 class="font-medium text-amber-700 mb-3 flex items-center gap-2">
+                                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                                            异常提醒
+                                        </h4>
+                                        <div class="space-y-2 text-sm text-amber-600">
+                                            <p><strong>网络错误：</strong>「网络连接异常，请检查网络」</p>
+                                            <p><strong>超时：</strong>「数据请求超时，请稍后重试」</p>
+                                            <p><strong>服务不可用：</strong>「服务暂时不可用，请稍后再试」</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-6">
+        <div class="max-w-5xl mx-auto px-4 text-center text-sm text-slate-400">
+            AI-LeadFinder 功能说明文档 · 搜客结果列表页面
+        </div>
+
+    </footer>
+
+</body>
+</html>
