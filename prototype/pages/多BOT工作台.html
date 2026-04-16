@@ -24,38 +24,8 @@
             }
         }
     </script>
-    <style>
-        .bot-card {
-            transition: all 0.3s ease;
-        }
-        .bot-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15);
-        }
-        .create-card {
-            border: 2px dashed #CBD5E1;
-            transition: all 0.3s ease;
-        }
-        .create-card:hover:not(.disabled) {
-            border-color: #3B82F6;
-            background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
-        }
-        .create-card.disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        @keyframes pulse-ring {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.05); }
-        }
-        .status-active {
-            animation: pulse-ring 2s ease-in-out infinite;
-        }
-        .modal-backdrop {
-            backdrop-filter: blur(4px);
-        }
-    </style>
-</head>
+    <link rel="stylesheet" href="../styles/global.css">
+    <script src="../entry-nav.js"></script>
 <body class="bg-slate-50 min-h-screen font-sans">
     <nav class="fixed top-4 left-4 right-4 z-50">
         <div class="max-w-6xl mx-auto bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg border border-slate-200/50 px-6 py-4">

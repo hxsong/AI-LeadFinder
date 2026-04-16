@@ -24,36 +24,7 @@
             }
         }
     </script>
-    <style>
-        .site-card {
-            transition: all 0.3s ease;
-        }
-        .site-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-        }
-        .site-card.selected {
-            border-color: #F97316;
-            background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%);
-        }
-        .data-sync-animation {
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        .sync-item {
-            animation: slideIn 0.5s ease forwards;
-            opacity: 0;
-        }
-        @keyframes slideIn {
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="../styles/global.css">
     <script src="../entry-nav.js"></script>
 </head>
 <body class="bg-slate-50 min-h-screen font-sans">

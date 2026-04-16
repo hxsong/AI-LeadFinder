@@ -24,44 +24,7 @@
             }
         }
     </script>
-    <style>
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        @keyframes progress {
-            0% { width: 0%; }
-            100% { width: 100%; }
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-        .animate-spin-slow {
-            animation: spin 3s linear infinite;
-        }
-        .animate-pulse-custom {
-            animation: pulse 2s ease-in-out infinite;
-        }
-        .animate-float {
-            animation: float 3s ease-in-out infinite;
-        }
-        .progress-animate {
-            animation: progress 2s ease-out forwards;
-        }
-        .step-line {
-            transition: background-color 0.5s ease;
-        }
-        .step-item {
-            transition: all 0.3s ease;
-        }
-        .glow {
-            box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
-        }
-    </style>
+    <link rel="stylesheet" href="../styles/global.css">
     <script src="../entry-nav.js"></script>
 </head>
 <body class="bg-slate-50 min-h-screen font-sans">

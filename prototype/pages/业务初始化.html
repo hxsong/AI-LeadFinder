@@ -24,26 +24,7 @@
             }
         }
     </script>
-    <style>
-        .card-hover {
-            transition: all 0.3s ease;
-        }
-        .card-hover:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15);
-        }
-        .card-selected {
-            border-color: #3B82F6 !important;
-            background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
-        }
-        .pulse-ring {
-            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-        @keyframes pulse-ring {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-    </style>
+    <link rel="stylesheet" href="../styles/global.css">
     <script src="../entry-nav.js"></script>
 </head>
 <body class="bg-slate-50 min-h-screen font-sans">
