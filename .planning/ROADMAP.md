@@ -7,7 +7,7 @@
 | # | Phase | Goal | Requirements | Success Criteria |
 |---|-------|------|--------------|-----------------|
 | 1 | 功能说明文档重写 | 将 21 个 prototype/docs/ 文件按新模板统一格式，增加字段映射、版本元数据、AI Prompt 引用等章节 | DOC-02 | 21 个文件全部重写完毕，格式审查通过 |
-| 2 | 双向索引映射表 | 完善 prototype/README.md 映射表，建立 prd-md/ 各文件头部的原型页面对应关系 | DOC-03 | 双向索引完整，可双向追溯 |
+| 2 | 双向索引映射表 | 4/4 | Complete    | 2026-04-16 |
 | 3 | 修订日志体系 | 建立完整的 changelog/v1.x.md 体系，补充 v1.0.0 完整变更记录 | DOC-05 | changelog/v1.1.0.md 生成，变更可追溯 |
 | 4 | 最终清理与验收 | 完善 API 规范总览、样式审查、文档完整性检查 | DOC-04, DOC-06 | 所有待处理项完成，文档可交付 |
 
@@ -52,7 +52,7 @@
 
 **Plans:**
 
-| Plan | Description |
+4/4 plans complete
 |------|-------------|
 | P2.1 | 完善 prototype/README.md：补充缺失的映射关系，建立与 PRD 节点的精确索引 |
 | P2.2 | 更新 prd-md/ 各子目录 README.md：建立阶段级索引表 |
