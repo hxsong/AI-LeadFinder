@@ -26,7 +26,7 @@ Full details: [.planning/milestones/v1.0.0-ROADMAP.md](./milestones/v1.0.0-ROADM
 - [x] Phase 7: 内容迁移 (1/1 plan) — completed 2026-04-17
 - [x] Phase 8: 索引同步与验收 (2/2 plans) — completed 2026-04-17
 - [x] Phase 9: 内容修正和文档清理 (3/3 plans) — completed 2026-04-17
-- [ ] Phase 10: 目录规范完善与原型规范建设
+- [x] Phase 10: 目录规范完善与原型规范建设 (completed 2026-04-17)
 
 ---
 
