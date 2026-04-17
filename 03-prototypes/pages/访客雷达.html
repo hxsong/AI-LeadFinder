@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>访客雷达 - AI-LeadFinder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0F172A',
+                        secondary: '#334155',
+                        cta: '#0369A1',
+                        background: '#F8FAFC',
+                        text: '#020617',
+                        muted: '#64748B',
+                        accent: '#0EA5E9',
+                        success: '#10B981',
+                        warning: '#F59E0B',
+                        danger: '#EF4444',
+                        heat_high: '#DC2626',
+                        heat_medium: '#F59E0B',
+                        heat_low: '#10B981',
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="../styles/global.css">
+    <style>
+        .animate-delay-100 { animation-delay: 0.1s; }
+        .animate-delay-200 { animation-delay: 0.2s; }
+        .animate-delay-300 { animation-delay: 0.3s; }
+        .animate-delay-400 { animation-delay: 0.4s; }
+        .score-ring {
+            transform: rotate(-90deg);
+        }
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+            50% { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+        }
+        .animate-pulse-glow {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.95) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .animate-modal-in {
+            animation: modalIn 0.3s ease-out forwards;
+        }
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            left: 11px;
+            top: 24px;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #E2E8F0, transparent);
+        }
+    </style>
+    <script src="../entry-nav.js"></script>
+</head>
+<body class="bg-background font-sans min-h-screen">
+    <nav class="fixed top-4 left-4 right-4 z-50">
+        <div class="max-w-6xl mx-auto bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg border border-slate-200/50 px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-semibold text-primary">AI-LeadFinder</h1>
+                        <p class="text-xs text-muted">智能获客引擎</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2 px-3 py-1.5 bg-accent/10 rounded-lg">
+                        <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                        <span class="text-sm font-medium text-accent">60,000 Credits</span>
+                    </div>
+                    <div class="w-9 h-9 bg-secondary rounded-full flex items-center justify-center">
+                        <span class="text-sm font-medium text-white">O</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-28 pb-24 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="mb-6">
+                <div class="flex items-center gap-2 mb-2">
+                    <div class="relative">
+                        <div class="w-8 h-8 bg-heat_high/10 rounded-lg flex items-center justify-center">
+                            <svg class="w-5 h-5 text-heat_high" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.636 18.364a9 9 0 010-12.728m12.728 0a9 9 0 010 12.728m-9.9-2.829a5 5 0 010-7.07m7.072 0a5 5 0 010 7.07M13 12a1 1 0 11-2 0 1 1 0 012 0z"/>
+                            </svg>
+                        </div>
+                        <div class="absolute -top-1 -right-1 w-3 h-3 bg-heat_high rounded-full animate-pulse-glow"></div>
+                    </div>
+                    <h1 class="text-2xl font-bold text-primary">访客雷达</h1>
+                </div>
+                <p class="text-muted text-sm">实时追踪独立站访客行为，AI 智能分析访客意向</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 opacity-0 animate-fade-in-up">
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200/50 p-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center">
+                            <svg class="w-5 h-5 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold text-primary">247</p>
+                            <p class="text-xs text-muted">今日访客</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200/50 p-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-heat_high/10 rounded-lg flex items-center justify-center">
+                            <svg class="w-5 h-5 text-heat_high" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold text-heat_high">18</p>
+                            <p class="text-xs text-muted">高热度访客</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200/50 p-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-heat_medium/10 rounded-lg flex items-center justify-center">
+                            <svg class="w-5 h-5 text-heat_medium" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold text-heat_medium">43</p>
+                            <p class="text-xs text-muted">较高热度访客</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200/50 p-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-success/10 rounded-lg flex items-center justify-center">
+                            <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold text-success">12</p>
+                            <p class="text-xs text-muted">已挖掘企业</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200/50 p-4 mb-6 opacity-0 animate-fade-in-up animate-delay-100">
+                <div class="flex flex-wrap items-center gap-3">
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm text-muted">热度：</span>
+                        <button class="px-3 py-1.5 bg-cta/10 text-cta text-sm rounded-lg font-medium cursor-pointer">全部</button>
+                        <button class="px-3 py-1.5 bg-heat_high/10 text-heat_high text-sm rounded-lg hover:bg-heat_high/20 transition-colors cursor-pointer">极高 ≥80</button>
+                        <button class="px-3 py-1.5 bg-heat_medium/10 text-heat_medium text-sm rounded-lg hover:bg-heat_medium/20 transition-colors cursor-pointer">较高 60-79</button>
+                        <button class="px-3 py-1.5 bg-heat_low/10 text-heat_low text-sm rounded-lg hover:bg-heat_low/20 transition-colors cursor-pointer">一般 &lt;60</button>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm text-muted">地区：</span>
+                        <select class="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-sm text-primary focus:outline-none focus:ring-2 focus:ring-cta/20 cursor-pointer">
+                            <option>全部地区</option>
+                            <option>北美</option>
+                            <option>欧洲</option>
+                            <option>东南亚</option>
+                        </select>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm text-muted">日期：</span>
+                        <div class="flex items-center gap-1 bg-slate-50 rounded-lg p-1">
+                            <button id="dateBtnToday" class="px-3 py-1 bg-accent text-white text-sm rounded-md font-medium transition-all">今日</button>
+                            <button id="dateBtn7Days" class="px-3 py-1 text-secondary text-sm rounded-md hover:bg-white transition-all">近7天</button>
+                            <button id="dateBtn30Days" class="px-3 py-1 text-secondary text-sm rounded-md hover:bg-white transition-all">近30天</button>
+                            <button id="dateBtnAll" class="px-3 py-1 text-secondary text-sm rounded-md hover:bg-white transition-all">全部</button>
+                        </div>
+                        <div class="relative">
+                            <input type="date" id="customDateFrom" class="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-sm text-primary focus:outline-none focus:ring-2 focus:ring-cta/20 cursor-pointer w-36">
+                            <span class="text-sm text-muted mx-1">至</span>
+                            <input type="date" id="customDateTo" class="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-sm text-primary focus:outline-none focus:ring-2 focus:ring-cta/20 cursor-pointer w-36">
+                            <button id="applyDateRange" class="ml-2 px-3 py-1.5 bg-cta text-white text-sm rounded-lg hover:bg-cta/90 transition-colors cursor-pointer">
+                                应用
+                            </button>
+                        </div>
+                    </div>
+                    <div id="selectedDateDisplay" class="ml-auto flex items-center gap-2">
+                        <span class="text-sm text-muted">实时更新中</span>
+                        <div class="w-2 h-2 bg-success rounded-full animate-pulse"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <div class="bg-white rounded-2xl shadow-sm border border-heat_high/30 p-6 hover:shadow-lg transition-all opacity-0 animate-fade-in-up animate-delay-200 cursor-pointer relative overflow-hidden" onclick="window.location.href='访客行为详情.html'">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-heat_high/5 to-transparent rounded-bl-full"></div>
+                    
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0">
+                            <div class="relative w-20 h-20">
+                                <svg class="w-20 h-20 score-ring" viewBox="0 0 36 36">
+                                    <path class="text-slate-100" stroke="currentColor" stroke-width="3" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                                    <path class="text-heat_high" stroke="currentColor" stroke-width="3" fill="none" stroke-dasharray="95, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                                </svg>
+                                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                    <span class="text-xl font-bold text-heat_high">95</span>
+                                    <span class="text-[10px] text-muted">/100</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-lg font-semibold text-primary">IP: 67.43.156.**</span>
+                                        <span class="px-2 py-0.5 bg-heat_high text-white text-xs font-bold rounded animate-pulse-glow">极高热度</span>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-xs text-muted">15 分钟前</p>
+                                    <p class="text-sm font-medium text-primary">Florida, USA</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-4 mb-4 text-sm text-muted">
+                                <span class="flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                    </svg>
+                                    Desktop / Windows
+                                </span>
+                                <span class="flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+                                    </svg>
+                                    Google 搜索进入
+                                </span>
+                            </div>
+
+                            <div class="bg-slate-50 rounded-xl p-4 mb-4">
+                                <p class="text-xs text-muted mb-3 font-medium">高维微观行为轨迹</p>
+                                <div class="space-y-3 relative timeline-line">
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-6 h-6 bg-accent/10 rounded-full flex items-center justify-center flex-shrink-0 z-10">
+                                            <svg class="w-3 h-3 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                            </svg>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="text-sm text-primary"><span class="font-medium">10:05</span> 【页面浏览】进入 <span class="text-accent">户外 P1.9 防水屏详情页</span>，滚动深度达 <span class="font-medium">85%</span></p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-6 h-6 bg-warning/10 rounded-full flex items-center justify-center flex-shrink-0 z-10">
+                                            <svg class="w-3 h-3 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/>
+                                            </svg>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="text-sm text-primary"><span class="font-medium">10:07</span> 【复制文本】复制了核心参数：<span class="text-accent font-mono text-xs bg-accent/5 px-1 rounded">Brightness: 7500 nits, Refresh Rate: 7680Hz</span></p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-6 h-6 bg-danger/10 rounded-full flex items-center justify-center flex-shrink-0 z-10">
+                                            <svg class="w-3 h-3 text-danger" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                            </svg>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="text-sm text-primary"><span class="font-medium">10:09</span> 【意图流失】在 <span class="text-danger">Contact Us</span> 页面与表单发生交互，但未提交（表单弃填）</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div class="bg-amber-50 border border-amber-200 rounded-xl p-3">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                                        </svg>
+                                        <span class="text-sm font-medium text-amber-800">AI 关键动作洞察</span>
+                                    </div>
+                                    <ul class="text-sm text-amber-700 space-y-1.5">
+                                        <li class="flex items-start gap-2">
+                                            <span class="text-amber-500 mt-1">*</span>
+                                            复制技术参数文本，大概率正在制作内部的竞品选型对比表
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <span class="text-amber-500 mt-1">*</span>
+                                            在 Contact 页面输入后放弃，说明存在明确采购需求，但可能对服务或价格存有顾虑
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="bg-blue-50 border border-blue-200 rounded-xl p-3">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                        </svg>
+                                        <span class="text-sm font-medium text-blue-800">AI 综合研判建议</span>
+                                    </div>
+                                    <p class="text-sm text-blue-700">该访客行为逻辑极度清晰，处于深度选型与比价阶段。强烈建议立刻揭秘企业身份，主动出击破冰。</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-4 text-sm">
+                                    <span class="px-2 py-1 bg-green-50 text-green-600 text-xs font-medium rounded-lg">历史来访 3 次</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <a href="访客行为详情.html" onclick="event.stopPropagation()" class="px-5 py-2.5 border border-slate-200 text-secondary hover:bg-slate-50 text-sm font-medium rounded-xl transition-colors flex items-center gap-2 cursor-pointer">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                        </svg>
+                                        查看详情
+                                    </a>
+                                    <button onclick="event.stopPropagation(); showRevealModal(this)" class="px-5 py-2.5 bg-gradient-to-r from-heat_high to-orange-500 hover:from-heat_high/90 hover:to-orange-500/90 text-white text-sm font-medium rounded-xl transition-all flex items-center gap-2 cursor-pointer shadow-lg shadow-heat_high/20">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                        </svg>
+                                        深度挖掘
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm border border-heat_medium/30 p-6 hover:shadow-md transition-shadow opacity-0 animate-fade-in-up animate-delay-300 cursor-pointer" onclick="window.location.href='访客行为详情.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0">
+                            <div class="relative w-20 h-20">
+                                <svg class="w-20 h-20 score-ring" viewBox="0 0 36 36">
+                                    <path class="text-slate-100" stroke="currentColor" stroke-width="3" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                                    <path class="text-heat_medium" stroke="currentColor" stroke-width="3" fill="none" stroke-dasharray="78, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                                </svg>
+                                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                    <span class="text-xl font-bold text-heat_medium">78</span>
+                                    <span class="text-[10px] text-muted">/100</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-lg font-semibold text-primary">IP: 192.168.45.**</span>
+                                        <span class="px-2 py-0.5 bg-heat_medium text-white text-xs font-bold rounded">较高热度</span>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-xs text-muted">32 分钟前</p>
+                                    <p class="text-sm font-medium text-primary">California, USA</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-4 mb-4 text-sm text-muted">
+                                <span class="flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+                                    </svg>
+                                    Mobile / iOS
+                                </span>
+                                <span class="flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+                                    </svg>
+                                    直接访问
+                                </span>
+                            </div>
+
+                            <div class="bg-slate-50 rounded-xl p-4 mb-4">
+                                <p class="text-xs text-muted mb-3 font-medium">高维微观行为轨迹</p>
+                                <div class="space-y-3 relative timeline-line">
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-6 h-6 bg-accent/10 rounded-full flex items-center justify-center flex-shrink-0 z-10">
+                                            <svg class="w-3 h-3 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                            </svg>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="text-sm text-primary"><span class="font-medium">14:22</span> 【页面浏览】浏览 <span class="text-accent">产品目录页</span>，停留时长 3 分 20 秒</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-6 h-6 bg-accent/10 rounded-full flex items-center justify-center flex-shrink-0 z-10">
+                                            <svg class="w-3 h-3 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                                            </svg>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="text-sm text-primary"><span class="font-medium">14:28</span> 【文件下载】下载了 <span class="text-accent">P2.5 室内屏规格书.pdf</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div class="bg-amber-50 border border-amber-200 rounded-xl p-3">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                                        </svg>
+                                        <span class="text-sm font-medium text-amber-800">AI 关键动作洞察</span>
+                                    </div>
+                                    <ul class="text-sm text-amber-700 space-y-1.5">
+                                        <li class="flex items-start gap-2">
+                                            <span class="text-amber-500 mt-1">*</span>
+                                            下载规格书，处于产品评估阶段
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <span class="text-amber-500 mt-1">*</span>
+                                            移动端访问，可能在非工作时间进行初步调研
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="bg-blue-50 border border-blue-200 rounded-xl p-3">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                        </svg>
+                                        <span class="text-sm font-medium text-blue-800">AI 综合研判建议</span>
+                                    </div>
+                                    <p class="text-sm text-blue-700">访客有明确的产品兴趣，建议揭秘身份后发送针对性的产品资料和报价。</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-4 text-sm">
+                                    <span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs font-medium rounded-lg">首次来访</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <a href="访客行为详情.html" onclick="event.stopPropagation()" class="px-5 py-2.5 border border-slate-200 text-secondary hover:bg-slate-50 text-sm font-medium rounded-xl transition-colors flex items-center gap-2 cursor-pointer">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                        </svg>
+                                        查看详情
+                                    </a>
+                                    <button onclick="event.stopPropagation(); showRevealModal(this)" class="px-5 py-2.5 bg-cta hover:bg-cta/90 text-white text-sm font-medium rounded-xl transition-colors flex items-center gap-2 cursor-pointer">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                        </svg>
+                                        深度挖掘
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-6 hover:shadow-md transition-shadow opacity-0 animate-fade-in-up animate-delay-400 cursor-pointer" onclick="window.location.href='访客行为详情.html'">
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0">
+                            <div class="relative w-20 h-20">
+                                <svg class="w-20 h-20 score-ring" viewBox="0 0 36 36">
+                                    <path class="text-slate-100" stroke="currentColor" stroke-width="3" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                                    <path class="text-heat_low" stroke="currentColor" stroke-width="3" fill="none" stroke-dasharray="52, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                                </svg>
+                                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                    <span class="text-xl font-bold text-heat_low">52</span>
+                                    <span class="text-[10px] text-muted">/100</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-lg font-semibold text-primary">IP: 45.67.89.**</span>
+                                        <span class="px-2 py-0.5 bg-heat_low text-white text-xs font-bold rounded">一般热度</span>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-xs text-muted">1 小时前</p>
+                                    <p class="text-sm font-medium text-primary">Texas, USA</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-4 mb-4 text-sm text-muted">
+                                <span class="flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                    </svg>
+                                    Desktop / macOS
+                                </span>
+                                <span class="flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+                                    </svg>
+                                    Bing 搜索进入
+                                </span>
+                            </div>
+
+                            <div class="bg-slate-50 rounded-xl p-4 mb-4">
+                                <p class="text-xs text-muted mb-3 font-medium">高维微观行为轨迹</p>
+                                <div class="space-y-3 relative timeline-line">
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-6 h-6 bg-accent/10 rounded-full flex items-center justify-center flex-shrink-0 z-10">
+                                            <svg class="w-3 h-3 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                            </svg>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="text-sm text-primary"><span class="font-medium">09:15</span> 【页面浏览】进入 <span class="text-accent">首页</span>，停留时长 45 秒</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-start gap-3">
+                                        <div class="w-6 h-6 bg-slate-200 rounded-full flex items-center justify-center flex-shrink-0 z-10">
+                                            <svg class="w-3 h-3 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                            </svg>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="text-sm text-primary"><span class="font-medium">09:16</span> 【页面浏览】浏览 <span class="text-accent">关于我们</span> 页面</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-slate-100 border border-dashed border-slate-300 rounded-xl p-4 mb-4">
+                                <div class="flex items-center gap-2 mb-2">
+                                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                    <span class="text-sm font-medium text-slate-500">AI 分析未触发</span>
+                                </div>
+                                <p class="text-xs text-slate-400">该访客行为分 52 分，未达到 AI 分析触发阈值（60分）。</p>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-4 text-sm">
+                                    <span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs font-medium rounded-lg">意向待定</span>
+                                    <span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs font-medium rounded-lg">首次来访</span>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    <a href="访客行为详情.html" onclick="event.stopPropagation()" class="px-5 py-2.5 border border-slate-200 text-secondary hover:bg-slate-50 text-sm font-medium rounded-xl transition-colors flex items-center gap-2 cursor-pointer">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                                        </svg>
+                                        查看详情
+                                    </a>
+                                    <button onclick="event.stopPropagation(); showRevealModal(this)" class="px-5 py-2.5 border border-slate-200 text-secondary hover:bg-slate-50 text-sm font-medium rounded-xl transition-colors flex items-center gap-2 cursor-pointer">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                        </svg>
+                                        深度挖掘
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between pt-4">
+                    <p class="text-sm text-muted">共 <span class="font-medium text-primary">247</span> 位访客</p>
+                    <div class="flex items-center gap-2">
+                        <button class="w-9 h-9 bg-slate-100 text-muted rounded-lg flex items-center justify-center hover:bg-slate-200 transition-colors cursor-pointer">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                            </svg>
+                        </button>
+                        <button class="w-9 h-9 bg-cta text-white rounded-lg flex items-center justify-center font-medium text-sm cursor-pointer">1</button>
+                        <button class="w-9 h-9 bg-slate-100 text-secondary rounded-lg flex items-center justify-center font-medium text-sm hover:bg-slate-200 transition-colors cursor-pointer">2</button>
+                        <button class="w-9 h-9 bg-slate-100 text-secondary rounded-lg flex items-center justify-center font-medium text-sm hover:bg-slate-200 transition-colors cursor-pointer">3</button>
+                        <span class="text-muted">...</span>
+                        <button class="w-9 h-9 bg-slate-100 text-secondary rounded-lg flex items-center justify-center font-medium text-sm hover:bg-slate-200 transition-colors cursor-pointer">25</button>
+                        <button class="w-9 h-9 bg-slate-100 text-secondary rounded-lg flex items-center justify-center hover:bg-slate-200 transition-colors cursor-pointer">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="revealModal" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-primary/50 backdrop-blur-sm" onclick="hideRevealModal()"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg">
+            <div class="bg-white rounded-2xl shadow-2xl m-4 animate-modal-in">
+                <div class="p-6 border-b border-slate-100">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 bg-gradient-to-br from-heat_high to-orange-500 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold text-primary">解密企业身份并挖掘联系人</h3>
+                            <p class="text-sm text-muted">IP: 67.43.156.**</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="p-6">
+                    <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-5">
+                        <div class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <div>
+                                <p class="text-sm font-medium text-amber-800 mb-2">计费规则说明</p>
+                                <ul class="text-sm text-amber-700 space-y-1.5">
+                                    <li class="flex items-center gap-2">
+                                        <span class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span>
+                                        IP 企业解析 = <span class="font-semibold">5 Credits</span>
+                                    </li>
+                                    <li class="flex items-center gap-2">
+                                        <span class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span>
+                                        每获取 1 个验证邮箱 = <span class="font-semibold">2 Credits</span>
+                                    </li>
+                                    <li class="flex items-center gap-1">
+                                        <span class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span>
+                                        附加 LinkedIn 主页 = <span class="font-semibold">+1 Credit</span>
+                                    </li>
+                                    <li class="flex items-center gap-1">
+                                        <span class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span>
+                                        附加 Twitter/FB = <span class="font-semibold">+1 Credit/个</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-5">
+                        <div class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <div>
+                                <p class="text-sm font-medium text-blue-800">异步执行提示</p>
+                                <p class="text-sm text-blue-700 mt-1">IP 解析和联系人挖掘将在后台异步执行，完成后自动生成动态线索报告并进入线索池。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 rounded-xl p-4">
+                        <div class="flex items-center justify-between text-sm">
+                            <span class="text-muted">当前账户余额</span>
+                            <span class="font-semibold text-primary">2,465 Credits</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-6 border-t border-slate-100 bg-slate-50/50 rounded-b-2xl">
+                    <div class="flex items-center justify-between gap-4">
+                        <button onclick="hideRevealModal()" class="flex-1 px-6 py-3 border border-slate-200 text-secondary rounded-xl font-medium hover:bg-slate-100 transition-colors cursor-pointer">
+                            取消
+                        </button>
+                        <button onclick="startReveal()" class="flex-1 px-6 py-3 bg-gradient-to-r from-heat_high to-orange-500 hover:from-heat_high/90 hover:to-orange-500/90 text-white rounded-xl font-medium transition-colors cursor-pointer shadow-lg shadow-heat_high/20">
+                            确认挖掘
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        let currentDateMode = 'today';
+
+        function initDatePicker() {
+            const today = new Date();
+            const todayStr = today.toISOString().split('T')[0];
+
+            document.getElementById('customDateTo').value = todayStr;
+            document.getElementById('customDateTo').max = todayStr;
+
+            const sevenDaysAgo = new Date(today);
+            sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
+            document.getElementById('customDateFrom').value = sevenDaysAgo.toISOString().split('T')[0];
+            document.getElementById('customDateFrom').max = todayStr;
+
+            updateSelectedDateDisplay();
+        }
+
+        function updateSelectedDateDisplay() {
+            const display = document.getElementById('selectedDateDisplay');
+            let dateText = '';
+
+            switch(currentDateMode) {
+                case 'today':
+                    const today = new Date();
+                    dateText = `今日 (${today.getMonth() + 1}/${today.getDate()})`;
+                    break;
+                case 'last7days':
+                    const today7 = new Date();
+                    const from7 = new Date(today7);
+                    from7.setDate(from7.getDate() - 6);
+                    dateText = `近7天 (${from7.getMonth() + 1}/${from7.getDate()} - ${today7.getMonth() + 1}/${today7.getDate()})`;
+                    break;
+                case 'last30days':
+                    const today30 = new Date();
+                    const from30 = new Date(today30);
+                    from30.setDate(from30.getDate() - 29);
+                    dateText = `近30天 (${from30.getMonth() + 1}/${from30.getDate()} - ${today30.getMonth() + 1}/${today30.getDate()})`;
+                    break;
+                case 'all':
+                    dateText = '全部数据';
+                    break;
+                case 'custom':
+                    const from = document.getElementById('customDateFrom').value;
+                    const to = document.getElementById('customDateTo').value;
+                    if (from && to) {
+                        const fromDate = new Date(from);
+                        const toDate = new Date(to);
+                        dateText = `${fromDate.getMonth() + 1}/${fromDate.getDate()} - ${toDate.getMonth() + 1}/${toDate.getDate()}`;
+                    }
+                    break;
+            }
+
+            display.innerHTML = `
+                <span class="text-sm text-primary font-medium">${dateText}</span>
+                <span class="text-sm text-muted">实时更新中</span>
+                <div class="w-2 h-2 bg-success rounded-full animate-pulse"></div>
+            `;
+        }
+
+        function setDateMode(mode) {
+            currentDateMode = mode;
+
+            const buttons = [
+                { id: 'dateBtnToday', text: '今日' },
+                { id: 'dateBtn7Days', text: '近7天' },
+                { id: 'dateBtn30Days', text: '近30天' },
+                { id: 'dateBtnAll', text: '全部' }
+            ];
+
+            buttons.forEach(btn => {
+                const element = document.getElementById(btn.id);
+                if (btn.id === 'dateBtn' + mode.charAt(0).toUpperCase() + mode.slice(1).replace('days', 'Days').replace('All', 'All')) {
+                    element.className = 'px-3 py-1 bg-accent text-white text-sm rounded-md font-medium transition-all';
+                } else {
+                    element.className = 'px-3 py-1 text-secondary text-sm rounded-md hover:bg-white transition-all';
+                }
+            });
+
+            updateSelectedDateDisplay();
+            queryVisitorsByDate();
+        }
+
+        function queryVisitorsByDate() {
+            console.log('查询访客数据，模式:', currentDateMode);
+
+            let dateFrom, dateTo;
+            const today = new Date().toISOString().split('T')[0];
+
+            switch(currentDateMode) {
+                case 'today':
+                    dateFrom = today;
+                    dateTo = today;
+                    break;
+                case 'last7days':
+                    const date7 = new Date();
+                    date7.setDate(date7.getDate() - 6);
+                    dateFrom = date7.toISOString().split('T')[0];
+                    dateTo = today;
+                    break;
+                case 'last30days':
+                    const date30 = new Date();
+                    date30.setDate(date30.getDate() - 29);
+                    dateFrom = date30.toISOString().split('T')[0];
+                    dateTo = today;
+                    break;
+                case 'all':
+                    dateFrom = null;
+                    dateTo = null;
+                    break;
+                case 'custom':
+                    dateFrom = document.getElementById('customDateFrom').value;
+                    dateTo = document.getElementById('customDateTo').value;
+                    break;
+            }
+
+            console.log('日期范围:', { dateFrom, dateTo });
+
+            const loadingIndicator = document.createElement('div');
+            loadingIndicator.id = 'loadingIndicator';
+            loadingIndicator.className = 'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-lg p-6 z-50';
+            loadingIndicator.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-accent"></div>
+                    <span class="text-primary font-medium">正在查询...</span>
+                </div>
+            `;
+            document.body.appendChild(loadingIndicator);
+
+            setTimeout(() => {
+                if (document.getElementById('loadingIndicator')) {
+                    document.getElementById('loadingIndicator').remove();
+                }
+                updateSelectedDateDisplay();
+            }, 500);
+        }
+
+        document.getElementById('dateBtnToday').addEventListener('click', () => setDateMode('today'));
+        document.getElementById('dateBtn7Days').addEventListener('click', () => setDateMode('last7days'));
+        document.getElementById('dateBtn30Days').addEventListener('click', () => setDateMode('last30days'));
+        document.getElementById('dateBtnAll').addEventListener('click', () => setDateMode('all'));
+        document.getElementById('applyDateRange').addEventListener('click', () => {
+            currentDateMode = 'custom';
+            setDateMode('custom');
+        });
+
+        document.getElementById('customDateFrom').addEventListener('change', () => {
+            currentDateMode = 'custom';
+        });
+        document.getElementById('customDateTo').addEventListener('change', () => {
+            currentDateMode = 'custom';
+        });
+
+        initDatePicker();
+
+        function showRevealModal(btn) {
+            document.getElementById('revealModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideRevealModal() {
+            document.getElementById('revealModal').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function startReveal() {
+            hideRevealModal();
+            window.location.href = '动态线索池.html';
+        }
+    </script>
+
+</body>
+</html>

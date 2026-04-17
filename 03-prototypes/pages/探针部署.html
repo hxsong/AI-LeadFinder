@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>探针部署 - AI-LeadFinder</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0F172A',
+                        secondary: '#334155',
+                        cta: '#0369A1',
+                        background: '#F8FAFC',
+                        text: '#020617',
+                        muted: '#64748B',
+                        accent: '#0EA5E9',
+                        success: '#10B981',
+                        warning: '#F59E0B',
+                        danger: '#EF4444',
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="../styles/global.css">
+    <style>
+        .animate-delay-100 { animation-delay: 0.1s; }
+        .animate-delay-200 { animation-delay: 0.2s; }
+        .animate-delay-300 { animation-delay: 0.3s; }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); opacity: 1; }
+            50% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(0.95); opacity: 1; }
+        }
+        .animate-pulse-ring {
+            animation: pulse-ring 2s ease-in-out infinite;
+        }
+        pre code {
+            font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+        }
+        .binding-option {
+            transition: all 0.3s ease;
+        }
+        .binding-option:hover {
+            transform: translateY(-2px);
+        }
+        .binding-option.selected {
+            border-color: #0369A1;
+            background-color: rgba(3, 105, 161, 0.05);
+        }
+    </style>
+    <script src="../entry-nav.js"></script>
+</head>
+<body class="bg-background font-sans min-h-screen">
+    <nav class="fixed top-4 left-4 right-4 z-50">
+        <div class="max-w-6xl mx-auto bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg border border-slate-200/50 px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-semibold text-primary">AI-LeadFinder</h1>
+                        <p class="text-xs text-muted">智能获客引擎</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2 px-3 py-1.5 bg-accent/10 rounded-lg">
+                        <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                        <span class="text-sm font-medium text-accent">60,000 Credits</span>
+                    </div>
+                    <div class="w-9 h-9 bg-secondary rounded-full flex items-center justify-center">
+                        <span class="text-sm font-medium text-white">O</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-28 pb-24 px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="mb-8">
+                <div class="flex items-center gap-2 mb-2">
+                    <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                    </svg>
+                    <h1 class="text-2xl font-bold text-primary">部署访客追踪探针</h1>
+                </div>
+                <p class="text-muted text-sm">绑定网站域名并部署追踪代码，开始捕捉访客行为数据</p>
+            </div>
+
+            <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
+                <div class="flex items-start gap-3">
+                    <svg class="w-5 h-5 text-warning flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                    </svg>
+                    <div>
+                        <p class="text-sm font-medium text-amber-800 mb-1">重要提示</p>
+                        <p class="text-sm text-amber-700">每个账号仅能绑定一个网站域名。探针代码将针对绑定域名生成，部署时系统会校验域名一致性，请确保部署到正确的网站。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="step1Binding" class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-6 mb-6 opacity-0 animate-fade-in-up">
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-semibold text-primary">步骤一：绑定网站域名</h2>
+                        <p class="text-sm text-muted">选择域名绑定方式，探针代码将针对此域名生成</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div onclick="selectBindingMethod('oauth')" class="binding-option cursor-pointer border-2 border-slate-200 rounded-xl p-5 hover:border-accent/50" id="optionOauth">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 bg-success/10 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-primary">独立站授权绑定</h3>
+                                <p class="text-xs text-muted">推荐 · 自动提取域名</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-secondary">通过 OAuth 授权您的独立站，系统将自动提取域名并完成绑定，支持一键部署探针。</p>
+                        <div class="mt-3 flex items-center gap-2 text-xs text-success">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            <span>支持一键安装探针</span>
+                        </div>
+                    </div>
+
+                    <div onclick="selectBindingMethod('manual')" class="binding-option cursor-pointer border-2 border-slate-200 rounded-xl p-5 hover:border-accent/50" id="optionManual">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-primary">手动填写域名</h3>
+                                <p class="text-xs text-muted">适用于第三方建站平台</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-secondary">手动输入您的网站域名，系统验证后将生成专属探针代码，需手动嵌入网站。</p>
+                        <div class="mt-3 flex items-center gap-2 text-xs text-muted">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0a9 9 0 0118 0z"/>
+                            </svg>
+                            <span>需手动嵌入代码</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="oauthFlow" class="hidden">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-6 mb-6 opacity-0 animate-fade-in-up">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-12 h-12 bg-success/10 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="text-lg font-semibold text-primary">检测到已授权独立站</h2>
+                            <p class="text-sm text-muted">域名已自动绑定，可使用一键安装功能</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-50 rounded-xl p-4 mb-6">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="font-medium text-primary">XX科技官方网站</p>
+                                    <p class="text-sm text-muted">xx-tech.example.com</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="px-3 py-1 bg-success/10 text-success text-sm font-medium rounded-lg">已绑定</span>
+                                <span class="px-3 py-1 bg-accent/10 text-accent text-sm font-medium rounded-lg">探针ID: LF-A1B2C3</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-accent/5 border border-accent/20 rounded-xl p-4 mb-6">
+                        <div class="flex items-start gap-3">
+                            <svg class="w-5 h-5 text-accent flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0a9 9 0 0118 0z"/>
+                            </svg>
+                            <div>
+                                <p class="text-sm font-medium text-primary mb-1">一键安装说明</p>
+                                <p class="text-sm text-secondary">点击下方按钮，系统将自动向您的独立站注入追踪代码。部署时系统会校验域名一致性，确保探针部署到正确的网站。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="showInstallModal()" class="w-full px-6 py-4 bg-cta hover:bg-cta/90 text-white font-medium rounded-xl transition-colors flex items-center justify-center gap-2 cursor-pointer">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                        </svg>
+                        一键安装追踪探针
+                    </button>
+                </div>
+            </div>
+
+            <div id="manualFlow" class="hidden">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-6 mb-6 opacity-0 animate-fade-in-up">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="text-lg font-semibold text-primary">步骤二：填写网站域名</h2>
+                            <p class="text-sm text-muted">输入您要部署探针的网站域名</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-primary mb-2">网站域名</label>
+                        <div class="flex gap-3">
+                            <div class="flex-1 relative">
+                                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-muted text-sm">https://</span>
+                                <input type="text" id="domainInput" placeholder="example.com" class="w-full pl-20 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent text-primary" oninput="validateDomain()">
+                            </div>
+                            <button onclick="bindDomain()" id="bindDomainBtn" disabled class="px-6 py-3 bg-slate-200 text-slate-400 font-medium rounded-xl cursor-not-allowed transition-colors">
+                                绑定域名
+                            </button>
+                        </div>
+                        <p class="mt-2 text-xs text-muted">请输入完整的网站域名，如 www.example.com 或 shop.example.com</p>
+                    </div>
+
+                    <div id="domainValidation" class="hidden mb-6">
+                        <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 bg-success rounded-lg flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-emerald-800">域名验证通过</p>
+                                    <p class="text-xs text-emerald-600">已绑定：xx-tech.com · 探针ID: LF-X7Y8Z9</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="manualCodeSection" class="hidden">
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-6 mb-6 opacity-0 animate-fade-in-up">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center">
+                                <svg class="w-6 h-6 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h2 class="text-lg font-semibold text-primary">步骤三：嵌入探针代码</h2>
+                                <p class="text-sm text-muted">将以下代码添加到网站的 &lt;head&gt; 标签内</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-900 rounded-xl p-4 mb-4 overflow-x-auto">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs text-slate-400">将以下代码添加到网站 &lt;head&gt; 标签内</span>
+                                <button onclick="copyCode()" class="text-xs text-accent hover:text-accent/80 transition-colors flex items-center gap-1 cursor-pointer">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                                    </svg>
+                                    复制代码
+                                </button>
+                            </div>
+                            <pre class="text-sm text-slate-300"><code id="trackingCode">&lt;script&gt;
+(function(w,d,s,l,i){
+  w[l]=w[l]||[];
+  w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+  var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';
+  j.async=true;
+  j.src='https://cdn.leadfinder.io/probe/'+i+'.js';
+  f.parentNode.insertBefore(j,f);
+})(window,document,'script','lfDataLayer','LF-X7Y8Z9');
+&lt;/script&gt;</code></pre>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
+                            <div class="bg-slate-50 rounded-xl p-4 text-center">
+                                <div class="w-8 h-8 bg-white rounded-lg flex items-center justify-center mx-auto mb-2 shadow-sm">
+                                    <span class="text-sm font-bold text-primary">1</span>
+                                </div>
+                                <p class="text-xs text-muted">复制上方代码</p>
+                            </div>
+                            <div class="bg-slate-50 rounded-xl p-4 text-center">
+                                <div class="w-8 h-8 bg-white rounded-lg flex items-center justify-center mx-auto mb-2 shadow-sm">
+                                    <span class="text-sm font-bold text-primary">2</span>
+                                </div>
+                                <p class="text-xs text-muted">粘贴到网站 &lt;head&gt; 标签</p>
+                            </div>
+                            <div class="bg-slate-50 rounded-xl p-4 text-center">
+                                <div class="w-8 h-8 bg-white rounded-lg flex items-center justify-center mx-auto mb-2 shadow-sm">
+                                    <span class="text-sm font-bold text-primary">3</span>
+                                </div>
+                                <p class="text-xs text-muted">等待系统验证生效</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
+                            <div class="flex items-start gap-3">
+                                <svg class="w-5 h-5 text-warning flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                </svg>
+                                <div>
+                                    <p class="text-sm font-medium text-amber-800 mb-1">域名校验提示</p>
+                                    <p class="text-sm text-amber-700">探针部署后，系统会校验请求来源域名是否与绑定的域名 (xx-tech.com) 一致。如部署到其他域名，数据将无法正常上报。</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button onclick="verifyManualInstall()" class="w-full px-6 py-3 border border-slate-200 text-secondary hover:bg-slate-50 font-medium rounded-xl transition-colors flex items-center justify-center gap-2 cursor-pointer">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0a9 9 0 0118 0z"/>
+                            </svg>
+                            验证代码是否生效
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="successCard" class="hidden bg-gradient-to-r from-success/10 to-accent/10 rounded-2xl p-6 border border-success/20 opacity-0 animate-fade-in-up">
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 bg-success rounded-xl flex items-center justify-center flex-shrink-0">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-lg font-semibold text-primary mb-1">数据已回传，探针已生效</h3>
+                        <p class="text-sm text-secondary">访客行为数据将自动同步至系统，您可以在「访客雷达」中查看</p>
+                    </div>
+                    <a href="访客雷达.html" class="px-5 py-2.5 bg-cta hover:bg-cta/90 text-white text-sm font-medium rounded-xl transition-colors flex items-center gap-2 cursor-pointer">
+                        查看访客雷达
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div id="installModal" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-primary/50 backdrop-blur-sm" onclick="hideInstallModal()"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md">
+            <div class="bg-white rounded-2xl shadow-2xl m-4">
+                <div class="p-6 text-center">
+                    <div class="w-16 h-16 mx-auto mb-4 relative">
+                        <div class="absolute inset-0 border-4 border-slate-200 rounded-full"></div>
+                        <div class="absolute inset-0 border-4 border-cta rounded-full border-t-transparent animate-spin"></div>
+                    </div>
+                    <h3 class="text-lg font-semibold text-primary mb-2">正在部署探针...</h3>
+                    <p class="text-sm text-muted mb-4">系统正在向您的独立站注入追踪代码</p>
+                    <div class="bg-slate-50 rounded-xl p-4 text-left">
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-5 h-5 bg-success rounded-full flex items-center justify-center">
+                                    <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                </div>
+                                <span class="text-sm text-primary">连接独立站 API</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-5 h-5 bg-success rounded-full flex items-center justify-center">
+                                    <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                </div>
+                                <span class="text-sm text-primary">注入追踪代码</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-5 h-5 bg-success rounded-full flex items-center justify-center">
+                                    <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                </div>
+                                <span class="text-sm text-primary">校验域名一致性</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-5 h-5 bg-cta rounded-full flex items-center justify-center animate-pulse"></div>
+                                <span class="text-sm text-primary font-medium">验证部署状态...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="verifyModal" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-primary/50 backdrop-blur-sm" onclick="hideVerifyModal()"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md">
+            <div class="bg-white rounded-2xl shadow-2xl m-4">
+                <div class="p-6 text-center">
+                    <div class="w-16 h-16 mx-auto mb-4 relative">
+                        <div class="absolute inset-0 border-4 border-slate-200 rounded-full"></div>
+                        <div class="absolute inset-0 border-4 border-accent rounded-full border-t-transparent animate-spin"></div>
+                    </div>
+                    <h3 class="text-lg font-semibold text-primary mb-2">正在验证代码...</h3>
+                    <p class="text-sm text-muted mb-4">系统正在检测网站并校验域名一致性</p>
+                    <div class="bg-slate-50 rounded-xl p-4 text-left">
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-5 h-5 bg-success rounded-full flex items-center justify-center">
+                                    <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                </div>
+                                <span class="text-sm text-primary">检测探针代码</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-5 h-5 bg-success rounded-full flex items-center justify-center">
+                                    <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                </div>
+                                <span class="text-sm text-primary">校验域名一致性</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-5 h-5 bg-accent rounded-full flex items-center justify-center animate-pulse"></div>
+                                <span class="text-sm text-primary font-medium">验证数据链路...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedMethod = null;
+
+        function selectBindingMethod(method) {
+            selectedMethod = method;
+            
+            document.querySelectorAll('.binding-option').forEach(el => {
+                el.classList.remove('selected');
+            });
+            
+            if (method === 'oauth') {
+                document.getElementById('optionOauth').classList.add('selected');
+                document.getElementById('oauthFlow').classList.remove('hidden');
+                document.getElementById('manualFlow').classList.add('hidden');
+                setTimeout(() => {
+                    document.getElementById('oauthFlow').classList.add('animate-fade-in-up');
+                }, 10);
+            } else {
+                document.getElementById('optionManual').classList.add('selected');
+                document.getElementById('manualFlow').classList.remove('hidden');
+                document.getElementById('oauthFlow').classList.add('hidden');
+                setTimeout(() => {
+                    document.getElementById('manualFlow').classList.add('animate-fade-in-up');
+                }, 10);
+            }
+        }
+
+        function validateDomain() {
+            const input = document.getElementById('domainInput');
+            const btn = document.getElementById('bindDomainBtn');
+            const domain = input.value.trim();
+            
+            const domainRegex = /^[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+$/;
+            
+            if (domainRegex.test(domain)) {
+                btn.disabled = false;
+                btn.classList.remove('bg-slate-200', 'text-slate-400', 'cursor-not-allowed');
+                btn.classList.add('bg-cta', 'hover:bg-cta/90', 'text-white');
+            } else {
+                btn.disabled = true;
+                btn.classList.add('bg-slate-200', 'text-slate-400', 'cursor-not-allowed');
+                btn.classList.remove('bg-cta', 'hover:bg-cta/90', 'text-white');
+            }
+        }
+
+        function bindDomain() {
+            const btn = document.getElementById('bindDomainBtn');
+            btn.innerHTML = '<svg class="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg> 绑定中...';
+            
+            setTimeout(() => {
+                document.getElementById('domainValidation').classList.remove('hidden');
+                document.getElementById('manualCodeSection').classList.remove('hidden');
+                setTimeout(() => {
+                    document.getElementById('manualCodeSection').classList.add('animate-fade-in-up');
+                }, 10);
+                btn.innerHTML = '已绑定';
+                btn.disabled = true;
+                btn.classList.remove('bg-cta', 'hover:bg-cta/90');
+                btn.classList.add('bg-success', 'text-white');
+            }, 1500);
+        }
+
+        function showInstallModal() {
+            document.getElementById('installModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            
+            setTimeout(() => {
+                document.getElementById('installModal').classList.add('hidden');
+                document.getElementById('successCard').classList.remove('hidden');
+                document.getElementById('successCard').classList.add('animate-fade-in-up');
+                document.body.style.overflow = '';
+            }, 3500);
+        }
+
+        function hideInstallModal() {
+            document.getElementById('installModal').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function verifyManualInstall() {
+            document.getElementById('verifyModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            
+            setTimeout(() => {
+                document.getElementById('verifyModal').classList.add('hidden');
+                document.getElementById('successCard').classList.remove('hidden');
+                document.getElementById('successCard').classList.add('animate-fade-in-up');
+                document.body.style.overflow = '';
+            }, 3000);
+        }
+
+        function hideVerifyModal() {
+            document.getElementById('verifyModal').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function copyCode() {
+            const code = document.getElementById('trackingCode').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                const btn = event.target.closest('button');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> 已复制';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

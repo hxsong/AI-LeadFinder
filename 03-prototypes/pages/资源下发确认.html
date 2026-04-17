@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>服务商系统 - 订单详情</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../styles/global.css">
+    <style>
+        .sidebar-item.active {
+            background: #3B82F6;
+            color: white;
+        }
+        .sidebar-item:hover:not(.active) {
+            background: #f1f5f9;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen font-sans">
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-gray-800 h-12">
+        <div class="flex items-center justify-between h-full px-4">
+            <div class="flex items-center gap-3">
+                <span class="text-white font-medium text-sm">服务商系统</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+                </svg>
+                <span class="text-gray-300 text-sm">demo@leadong.com</span>
+                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex pt-12">
+        <aside class="fixed left-0 top-12 bottom-0 w-48 bg-white border-r border-gray-200 overflow-y-auto">
+            <div class="py-2">
+                <div class="px-3 py-1 text-xs text-gray-500 font-medium">入门指导</div>
+                <div class="sidebar-item active flex items-center gap-2 px-3 py-2 text-sm cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                    </svg>
+                    <span>用户管理</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                    <span>网站管理</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                    </svg>
+                    <span>授权站点管理</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                    </svg>
+                    <span>队列管理</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 5a2 2 0 012-2h2a2 2 0 012-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                    </svg>
+                    <span>域名管理</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13V6a2 2 0 112 2h2v2zm0-5.5A4.5 4.5 0 017.5 9h-2v2h2a4.5 4.5 0 104.5-4.5z"/>
+                    </svg>
+                    <span>订单管理</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    <span>收支明细</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <span>关键词排名</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
+                    </svg>
+                    <span>设计管理</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                    </svg>
+                    <span>备案码管理</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+                    </svg>
+                    <span>网站主题管理</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/>
+                    </svg>
+                    <span>页面管理</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2z"/>
+                    </svg>
+                    <span>区块管理</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <span>案例网站库</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                    </svg>
+                    <span>渠道网站列表</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h2v2zm0-5.5A4.5 4.5 0 017.5 9h-2v2h2a4.5 4.5 0 104.5-4.5z"/>
+                    </svg>
+                    <span>我的优惠券</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 012 2v10m-6 0a2 2 0 002-2h2a2 2 0 012-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2V14a2 2 0 01-2 2h-2a2 2 0 01-2-2V5z"/>
+                    </svg>
+                    <span>流量点卡</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    <span>小语种专业术语库</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 012 2v10m-6 0a2 2 0 002-2h2a2 2 0 012-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2V14a2 2 0 01-2 2h-2a2 2 0 01-2-2V5z"/>
+                    </svg>
+                    <span>SEO测评管理</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                    </svg>
+                    <span>网站可用性检测</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/>
+                    </svg>
+                    <span>广告智投管理</span>
+                </div>
+                <div class="mt-4 px-3 py-1 text-xs text-gray-500 font-medium">我客户的工单</div>
+            </div>
+        </aside>
+
+        <main class="ml-48 flex-1 p-4">
+            <div class="flex items-center gap-2 text-xs text-gray-500 mb-4">
+                <span>用户管理</span>
+                <span>/</span>
+                <span>财务管理</span>
+                <span>/</span>
+                <span>独立功能</span>
+            </div>
+
+            <div class="bg-white border border-gray-300 rounded mb-4">
+                <div class="bg-gray-100 px-4 py-2 border-b border-gray-300">
+                    <h2 class="text-sm font-medium text-gray-700">订单信息</h2>
+                </div>
+                <div class="p-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <div class="flex items-start gap-2">
+                            <span class="text-gray-600">订单号</span>
+                            <span class="text-gray-800">SC2603061131886609</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <span class="text-red-600">*</span>
+                            <span class="text-gray-600">产品总价</span>
+                            <span class="text-gray-800">110589.00</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <span class="text-gray-600">买家用户名</span>
+                            <span class="text-gray-800">zouna@leadong.com</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <span class="text-gray-600">订单总额</span>
+                            <span class="text-red-600 text-lg font-medium">110589.00</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <span class="text-gray-600">下单时间</span>
+                            <span class="text-gray-800">(GMT+6:30)2026-03-06 10:01</span>
+                        </div>
+                        <div></div>
+                        <div class="flex items-start gap-2">
+                            <span class="text-gray-600">订单状态</span>
+                            <span class="text-gray-800">已支付</span>
+                        </div>
+                        <div></div>
+                        <div class="flex items-start gap-2">
+                            <span class="text-gray-600">买家留言</span>
+                            <span class="text-gray-800"></span>
+                        </div>
+                        <div></div>
+                        <div class="flex items-start gap-2">
+                            <span class="text-red-600">*</span>
+                            <span class="text-gray-600">订单备注</span>
+                            <span class="text-gray-800"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border border-gray-300 rounded mb-4">
+                <div class="bg-gray-100 px-4 py-2 border-b border-gray-300 flex items-center gap-2">
+                    <h2 class="text-sm font-medium text-gray-700">商品清单</h2>
+                    <span class="text-sm text-gray-600">用户：mic-szzhouyu</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-50">
+                            <tr class="border-b border-gray-300">
+                                <th class="text-left px-4 py-2 font-medium text-gray-700">名称</th>
+                                <th class="text-left px-4 py-2 font-medium text-gray-700">时长</th>
+                                <th class="text-left px-4 py-2 font-medium text-gray-700">详细</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-200">
+                                <td class="px-4 py-3 text-gray-800">增长引擎 GEO运营套餐</td>
+                                <td class="px-4 py-3 text-gray-600">12个月</td>
+                                <td class="px-4 py-3 text-gray-600">增长引擎：授权网站数10个；产品功能：关键词管理、关键词探索、关键词排名抓取、竞争对手研究</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="bg-gray-200 h-24 mb-4"></div>
+
+            <div>
+                <h3 class="text-sm font-medium text-gray-700 mb-2">订单日志：</h3>
+                <div class="space-y-3">
+                    <div class="flex items-start gap-3">
+                        <div class="w-4 h-4 rounded-full border-2 border-blue-500 mt-0.5 flex-shrink-0">
+                            <div class="w-2 h-2 bg-blue-500 rounded-full m-0.5"></div>
+                        </div>
+                        <div class="text-sm text-gray-600">
+                            <span class="text-gray-800">2026-03-06 11:31:37</span>
+                            <span class="mx-2 text-gray-800 font-medium">[zouna@leadong.com]</span>
+                            <span class="text-gray-800">已支付</span>
+                            <span class="ml-2 text-gray-600">买家可见:否</span>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <div class="w-4 h-4 rounded-full border-2 border-blue-500 mt-0.5 flex-shrink-0">
+                            <div class="w-2 h-2 bg-blue-500 rounded-full m-0.5"></div>
+                        </div>
+                        <div class="text-sm text-gray-600">
+                            <span class="text-gray-800">2026-03-06 11:31:36</span>
+                            <span class="mx-2 text-gray-800 font-medium">[zouna@leadong.com]</span>
+                            <span class="text-gray-800">已下单</span>
+                            <span class="ml-2 text-gray-600">买家可见:否</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="fixed bottom-0 left-48 right-0 bg-white border-t border-gray-200 py-4 px-6">
+        <div class="flex items-center justify-between">
+            <button onclick="window.location.href='租户资源充值.html'" class="px-8 py-2 border border-gray-300 rounded text-sm text-gray-600 hover:bg-gray-50">
+                返回
+            </button>
+        </div>
+    </footer>
+
+</body>
+</html>

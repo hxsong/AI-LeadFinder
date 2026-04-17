@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeadFinder - 业务分析报告</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Fira Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#60A5FA',
+                        cta: '#F97316',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="../styles/global.css">
+    <script src="../entry-nav.js"></script>
+</head>
+<body class="bg-slate-50 min-h-screen font-sans">
+    <!-- Navigation -->
+    <nav class="fixed top-4 left-4 right-4 z-50">
+        <div class="max-w-6xl mx-auto bg-white/80 backdrop-blur-lg rounded-2xl shadow-lg border border-slate-200/50 px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-lg font-semibold text-primary">AI-LeadFinder</h1>
+                        <p class="text-xs text-muted">智能获客引擎</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2 px-3 py-1.5 bg-accent/10 rounded-lg">
+                        <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                        <span class="text-sm font-medium text-accent">60,000 Credits</span>
+                    </div>
+                    <div class="w-9 h-9 bg-secondary rounded-full flex items-center justify-center">
+                        <span class="text-sm font-medium text-white">O</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-28 pb-32 px-4">
+        <div class="max-w-5xl mx-auto">
+            <!-- Progress Steps -->
+            <div class="mb-10">
+                <div class="flex items-center justify-center gap-4">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center text-sm font-medium">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </div>
+                        <span class="text-sm font-medium text-primary">数据来源</span>
+                    </div>
+                    <div class="w-16 h-0.5 bg-primary"></div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center text-sm font-medium">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </div>
+                        <span class="text-sm font-medium text-primary">业务分析</span>
+                    </div>
+                    <div class="w-16 h-0.5 bg-primary"></div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center text-sm font-medium animate-pulse">3</div>
+                        <span class="text-sm font-medium text-primary">报告确认</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Report Header -->
+            <div class="text-center mb-10 animate-fade-in-up">
+                <div class="inline-flex items-center gap-2 px-4 py-2 bg-green-100 text-green-600 rounded-full text-sm font-medium mb-4">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    分析完成
+                </div>
+                <h1 class="text-3xl font-bold text-slate-800 mb-3">企业级业务与市场洞察报告</h1>
+                <p class="text-slate-500">基于您的业务数据，AI 已完成深度分析并生成以下洞察</p>
+            </div>
+
+            <!-- Module 1: 当前企业画像 -->
+            <div class="bg-white rounded-2xl border border-slate-200 p-6 mb-6 animate-fade-in-up card-hover" style="animation-delay: 0.1s;">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-semibold text-slate-700">当前企业画像</h2>
+                        <p class="text-xs text-slate-400">基于您的业务材料，AI 提取的企业核心特征</p>
+                    </div>
+                </div>
+
+                <!-- 企业名称和企业定位 - 同一行 -->
+                <div class="bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 rounded-xl p-5 mb-5">
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-sm text-slate-500 mb-1">企业名称</p>
+                            <p class="text-lg font-bold text-slate-800">华贸盛世（深圳）进出口有限公司</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-slate-500 mb-1">企业定位</p>
+                            <p class="text-base font-semibold text-slate-700">专注新能源与户外用品的外贸综合服务商</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 四列布局：业务类型、主营品类、核心优势、企业规模 -->
+                <div class="grid md:grid-cols-4 gap-4">
+                    <!-- 业务类型 -->
+                    <div class="bg-slate-50 rounded-xl p-4">
+                        <p class="text-sm text-slate-500 mb-3">业务类型</p>
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="font-bold text-primary">外贸型</p>
+                                <p class="text-xs text-slate-500">专注出口贸易</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 主营品类 -->
+                    <div class="bg-slate-50 rounded-xl p-4">
+                        <p class="text-sm text-slate-500 mb-3">主营品类</p>
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="px-2.5 py-1 bg-emerald-100 text-emerald-700 rounded-lg text-xs font-medium">新能源产品</span>
+                            <span class="px-2.5 py-1 bg-emerald-100 text-emerald-700 rounded-lg text-xs font-medium">日用消费品</span>
+                            <span class="px-2.5 py-1 bg-emerald-100 text-emerald-700 rounded-lg text-xs font-medium">户外休闲用品</span>
+                        </div>
+                    </div>
+
+                    <!-- 核心优势 -->
+                    <div class="bg-slate-50 rounded-xl p-4">
+                        <p class="text-sm text-slate-500 mb-3">核心优势</p>
+                        <!-- 后端返回数据示例：核心优势根据后端返回数量自适应显示 -->
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="px-2.5 py-1 bg-violet-100 text-violet-700 rounded-lg text-xs font-medium">跨境电商全流程服务</span>
+                            <span class="px-2.5 py-1 bg-violet-100 text-violet-700 rounded-lg text-xs font-medium">海外仓本地配送</span>
+                            <span class="px-2.5 py-1 bg-violet-100 text-violet-700 rounded-lg text-xs font-medium">三重质检体系</span>
+                        </div>
+                    </div>
+
+                    <!-- 企业规模 -->
+                    <div class="bg-slate-50 rounded-xl p-4">
+                        <p class="text-sm text-slate-500 mb-3">企业规模</p>
+                        <div class="space-y-2">
+                            <div class="bg-white rounded-lg p-2 shadow-sm">
+                                <div class="flex items-center gap-2">
+                                    <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                    </svg>
+                                    <span class="text-xs text-slate-500">员工规模</span>
+                                </div>
+                                <p class="text-sm font-bold text-slate-800 mt-1">90+ 人</p>
+                            </div>
+                            <div class="bg-white rounded-lg p-2 shadow-sm">
+                                <div class="flex items-center gap-2">
+                                    <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                    <span class="text-xs text-slate-500">年营收规模</span>
+                                </div>
+                                <p class="text-sm font-bold text-slate-800 mt-1">$5M+</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Module 2: 供应链分析及示例 -->
+            <div class="bg-white rounded-2xl border border-slate-200 p-6 mb-6 animate-fade-in-up card-hover" style="animation-delay: 0.2s;">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-violet-600 rounded-xl flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-semibold text-slate-700">供应链分析及示例</h2>
+                        <p class="text-xs text-slate-400">基于行业知识图谱，定位您的生态位与潜在客户群</p>
+                    </div>
+                </div>
+
+                <!-- 流程图 -->
+                <div class="grid md:grid-cols-5 gap-3 items-center">
+                    <!-- 上游依赖 -->
+                    <div>
+                        <div class="text-center mb-2">
+                            <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-xs font-semibold">上游依赖</span>
+                        </div>
+                        <div class="bg-blue-50 rounded-xl p-3 border border-blue-100">
+                            <div class="space-y-2">
+                                <div class="bg-white rounded-lg p-2 shadow-sm">
+                                    <p class="text-sm font-medium text-slate-700">国内头部新能源生产企业</p>
+                                    <p class="text-xs text-slate-400">光伏组件、储能设备</p>
+                                </div>
+                                <div class="bg-white rounded-lg p-2 shadow-sm">
+                                    <p class="text-sm font-medium text-slate-700">日用消费品生产厂家</p>
+                                    <p class="text-xs text-slate-400">美妆个护、母婴用品</p>
+                                </div>
+                                <div class="bg-white rounded-lg p-2 shadow-sm">
+                                    <p class="text-sm font-medium text-slate-700">户外用品产业带供应商</p>
+                                    <p class="text-xs text-slate-400">露营装备、户外工具</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 箭头 -->
+                    <div class="flex justify-center">
+                        <svg class="w-8 h-8 text-slate-300 rotate-0 md:rotate-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                        </svg>
+                    </div>
+
+                    <!-- 自身生态位 -->
+                    <div>
+                        <div class="text-center mb-2">
+                            <span class="px-3 py-1 bg-primary text-white rounded-full text-xs font-semibold">自身生态位</span>
+                        </div>
+                        <div class="bg-gradient-to-br from-primary to-secondary rounded-xl p-4 flex flex-col items-center justify-center text-center shadow-lg">
+                            <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center mb-2">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+                                </svg>
+                            </div>
+                            <p class="text-white font-bold">外贸综合服务商</p>
+                            <p class="text-white/80 text-xs mt-1">供应链中游 · 连接产销</p>
+                            <div class="mt-3 pt-2 border-t border-white/20 w-full">
+                                <p class="text-white/70 text-xs">全球 50+ 国家 · 90+ 团队</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 箭头 -->
+                    <div class="flex justify-center">
+                        <svg class="w-8 h-8 text-cta" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                        </svg>
+                    </div>
+
+                    <!-- 下游潜客群 -->
+                    <div>
+                        <div class="text-center mb-2">
+                            <span class="px-3 py-1 bg-cta text-white rounded-full text-xs font-semibold">下游潜客群</span>
+                        </div>
+                        <div class="bg-orange-50 rounded-xl p-3 border border-orange-100">
+                            <div class="space-y-2">
+                                <div class="bg-white rounded-lg p-2 shadow-sm">
+                                    <p class="text-sm font-medium text-slate-700">欧美新能源企业及经销商</p>
+                                    <p class="text-xs text-slate-400">光伏、储能采购商</p>
+                                </div>
+                                <div class="bg-white rounded-lg p-2 shadow-sm">
+                                    <p class="text-sm font-medium text-slate-700">日韩美妆品牌及母婴连锁</p>
+                                    <p class="text-xs text-slate-400">跨境采购需求</p>
+                                </div>
+                                <div class="bg-white rounded-lg p-2 shadow-sm">
+                                    <p class="text-sm font-medium text-slate-700">户外用品经销商</p>
+                                    <p class="text-xs text-slate-400">露营、登山装备分销</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Module 3: 目标客户画像 -->
+            <div class="bg-white rounded-2xl border border-slate-200 p-6 mb-6 animate-fade-in-up card-hover" style="animation-delay: 0.3s;">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-xl flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-semibold text-slate-700">目标客户画像</h2>
+                        <p class="text-xs text-slate-400">基于您的业务定位，AI 推断的理想客户特征</p>
+                    </div>
+                </div>
+
+                <!-- 四列布局 -->
+                <div class="grid md:grid-cols-4 gap-4">
+                    <!-- 目标客户类型 -->
+                    <div class="bg-slate-50 rounded-xl p-4">
+                        <p class="text-sm text-slate-500 mb-3">目标客户类型</p>
+                        <div class="space-y-2">
+                            <div class="flex items-center gap-2 px-3 py-2 bg-white rounded-lg shadow-sm">
+                                <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span class="text-sm font-medium text-slate-700">分销商</span>
+                            </div>
+                            <div class="flex items-center gap-2 px-3 py-2 bg-white rounded-lg shadow-sm">
+                                <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span class="text-sm font-medium text-slate-700">批发商</span>
+                            </div>
+                            <div class="flex items-center gap-2 px-3 py-2 bg-white rounded-lg shadow-sm">
+                                <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span class="text-sm font-medium text-slate-700">品牌商</span>
+                            </div>
+                            <div class="flex items-center gap-2 px-3 py-2 bg-white rounded-lg shadow-sm">
+                                <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span class="text-sm font-medium text-slate-700">零售商</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 目标市场区域 -->
+                    <div class="bg-slate-50 rounded-xl p-4">
+                        <p class="text-sm text-slate-500 mb-3">目标市场区域</p>
+                        <div class="space-y-2">
+                            <div class="px-3 py-2 bg-gradient-to-r from-primary to-secondary text-white rounded-lg text-sm font-medium text-center">北美市场</div>
+                            <div class="px-3 py-2 bg-gradient-to-r from-primary to-secondary text-white rounded-lg text-sm font-medium text-center">欧洲市场</div>
+                            <div class="px-3 py-2 bg-gradient-to-r from-primary to-secondary text-white rounded-lg text-sm font-medium text-center">日韩市场</div>
+                            <div class="px-3 py-2 bg-gradient-to-r from-primary to-secondary text-white rounded-lg text-sm font-medium text-center">东南亚市场</div>
+                        </div>
+                    </div>
+
+                    <!-- 目标品类 -->
+                    <div class="bg-slate-50 rounded-xl p-4">
+                        <p class="text-sm text-slate-500 mb-3">目标品类</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1.5 bg-emerald-100 text-emerald-700 rounded-lg text-sm font-medium">新能源产品</span>
+                            <span class="px-3 py-1.5 bg-emerald-100 text-emerald-700 rounded-lg text-sm font-medium">美妆个护</span>
+                            <span class="px-3 py-1.5 bg-emerald-100 text-emerald-700 rounded-lg text-sm font-medium">母婴用品</span>
+                            <span class="px-3 py-1.5 bg-emerald-100 text-emerald-700 rounded-lg text-sm font-medium">户外用品</span>
+                            <span class="px-3 py-1.5 bg-emerald-100 text-emerald-700 rounded-lg text-sm font-medium">电子消费品</span>
+                        </div>
+                    </div>
+
+                    <!-- 目标客户规模 -->
+                    <div class="bg-slate-50 rounded-xl p-4">
+                        <p class="text-sm text-slate-500 mb-3">目标客户规模</p>
+                        <div class="space-y-3">
+                            <div class="bg-white rounded-lg p-3 shadow-sm">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                    </svg>
+                                    <span class="text-xs text-slate-500">员工规模</span>
+                                </div>
+                                <p class="text-lg font-bold text-slate-800">50-500人</p>
+                            </div>
+                            <div class="bg-white rounded-lg p-3 shadow-sm">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                    <span class="text-xs text-slate-500">年营收规模</span>
+                                </div>
+                                <p class="text-lg font-bold text-slate-800">$1M-10M</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Module 4: 四维评分模型 -->
+            <div class="bg-white rounded-2xl border border-slate-200 p-6 mb-8 animate-fade-in-up" style="animation-delay: 0.4s;">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-rose-500 to-pink-600 rounded-xl flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="text-lg font-semibold text-slate-700">四维评分模型</h2>
+                            <p class="text-xs text-slate-400">动态权重配置 · 外贸型企业</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 px-3 py-1.5 bg-slate-100 rounded-lg">
+                        <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <span class="text-xs text-slate-500 font-medium">权重总计 100%</span>
+                    </div>
+                </div>
+
+                <!-- 四维评分卡片 -->
+                <div class="grid md:grid-cols-4 gap-4 mb-6">
+                    <!-- 需求匹配度 -->
+                    <div class="bg-blue-50 rounded-xl p-4 border border-blue-100">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                                    </svg>
+                                </div>
+                                <span class="text-sm font-semibold text-slate-700">需求匹配度</span>
+                            </div>
+                            <span class="text-2xl font-bold text-primary">32%</span>
+                        </div>
+                        <div class="h-2 bg-blue-100 rounded-full overflow-hidden mb-3">
+                            <div class="h-full bg-primary rounded-full" style="width: 32%"></div>
+                        </div>
+                        <p class="text-xs text-slate-500">AI 模型判断供需关系</p>
+                    </div>
+
+                    <!-- 购买能力 -->
+                    <div class="bg-emerald-50 rounded-xl p-4 border border-emerald-100">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 bg-emerald-500 rounded-lg flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                </div>
+                                <span class="text-sm font-semibold text-slate-700">购买能力</span>
+                            </div>
+                            <span class="text-2xl font-bold text-emerald-500">20%</span>
+                        </div>
+                        <div class="h-2 bg-emerald-100 rounded-full overflow-hidden mb-3">
+                            <div class="h-full bg-emerald-500 rounded-full" style="width: 20%"></div>
+                        </div>
+                        <p class="text-xs text-slate-500">规模 + 地理评分</p>
+                    </div>
+
+                    <!-- 采购意向 -->
+                    <div class="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 bg-amber-500 rounded-lg flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
+                                    </svg>
+                                </div>
+                                <span class="text-sm font-semibold text-slate-700">采购意向</span>
+                            </div>
+                            <span class="text-2xl font-bold text-amber-500">35%</span>
+                        </div>
+                        <div class="h-2 bg-amber-100 rounded-full overflow-hidden mb-3">
+                            <div class="h-full bg-amber-500 rounded-full" style="width: 35%"></div>
+                        </div>
+                        <p class="text-xs text-slate-500">海关 HS Code 匹配</p>
+                    </div>
+
+                    <!-- 活跃意向 -->
+                    <div class="bg-purple-50 rounded-xl p-4 border border-purple-100">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                    </svg>
+                                </div>
+                                <span class="text-sm font-semibold text-slate-700">活跃意向</span>
+                            </div>
+                            <span class="text-2xl font-bold text-purple-500">13%</span>
+                        </div>
+                        <div class="h-2 bg-purple-100 rounded-full overflow-hidden mb-3">
+                            <div class="h-full bg-purple-500 rounded-full" style="width: 13%"></div>
+                        </div>
+                        <p class="text-xs text-slate-500">展会参展记录</p>
+                    </div>
+                </div>
+
+                <!-- 权重分布可视化 -->
+                <div class="bg-slate-50 rounded-xl p-4 border border-slate-100">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-sm font-medium text-slate-600">权重分布</span>
+                        <span class="text-xs text-slate-400">外贸型企业配置</span>
+                    </div>
+                    <div class="flex h-4 rounded-lg overflow-hidden">
+                        <div class="bg-primary flex items-center justify-center" style="width: 32%">
+                            <span class="text-xs text-white font-medium">32%</span>
+                        </div>
+                        <div class="bg-emerald-500 flex items-center justify-center" style="width: 20%">
+                            <span class="text-xs text-white font-medium">20%</span>
+                        </div>
+                        <div class="bg-amber-500 flex items-center justify-center" style="width: 35%">
+                            <span class="text-xs text-white font-medium">35%</span>
+                        </div>
+                        <div class="bg-purple-500 flex items-center justify-center" style="width: 13%">
+                            <span class="text-xs text-white font-medium">13%</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-between mt-2 text-xs text-slate-500">
+                        <span>需求匹配度</span>
+                        <span>购买能力</span>
+                        <span>采购意向</span>
+                        <span>活跃意向</span>
+                    </div>
+                </div>
+
+                <!-- 评分逻辑说明 -->
+                <div class="mt-4 grid md:grid-cols-2 gap-3">
+                    <div class="bg-blue-50/50 rounded-lg p-3 text-xs text-slate-600">
+                        <span class="font-medium text-primary">需求匹配度：</span>AI 分析客户与候选企业的供需关系，判断品类匹配、业务模式匹配、市场范围匹配程度
+                    </div>
+                    <div class="bg-emerald-50/50 rounded-lg p-3 text-xs text-slate-600">
+                        <span class="font-medium text-emerald-600">购买能力：</span>企业规模评分（60%）+ 地理位置评分（40%），评估企业的采购预算和规模
+                    </div>
+                    <div class="bg-amber-50/50 rounded-lg p-3 text-xs text-slate-600">
+                        <span class="font-medium text-amber-600">采购意向：</span>基于海关 HS Code 匹配度计算，应用时间衰减系数（近期记录权重更高）
+                    </div>
+                    <div class="bg-purple-50/50 rounded-lg p-3 text-xs text-slate-600">
+                        <span class="font-medium text-purple-600">活跃意向：</span>基于展会参展记录计算，参展商身份得分更高，同样应用时间衰减系数
+                    </div>
+                </div>
+            </div>
+
+            <!-- Next Step CTA -->
+            <a href="搜客需求输入.html" class="block bg-gradient-to-r from-primary via-blue-500 to-secondary rounded-2xl p-8 animate-fade-in-up cursor-pointer hover:shadow-lg hover:shadow-blue-500/20 transition-all group" style="animation-delay: 0.5s;">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div class="text-center md:text-left">
+                        <h3 class="text-xl font-bold text-white mb-2">开始智能获客</h3>
+                        <p class="text-white/80">点击进入智能搜客阶段，AI 将基于四维评分模型精准匹配潜在客户</p>
+                    </div>
+                    <div class="flex items-center gap-2 px-6 py-3 bg-white text-primary rounded-xl font-semibold group-hover:bg-white/90 transition-colors">
+                        <span>立即开始</span>
+                        <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                        </svg>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </main>
+    <!-- Footer Action Bar -->
+    <footer class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 py-4 px-4">
+        <div class="max-w-5xl mx-auto flex items-center justify-between">
+            <button onclick="window.location.href='业务初始化.html'" class="px-4 py-2 text-slate-500 hover:text-slate-700 transition-colors flex items-center gap-2 cursor-pointer">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                </svg>
+                重新分析
+            </button>
+            <span class="text-sm text-slate-400">报告生成时间：2024-01-15 14:32</span>
+        </div>
+    </footer>
+
+</body>
+</html>
