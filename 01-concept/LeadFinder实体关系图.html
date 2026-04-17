@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeadFinder实体关系图 - AI-LeadFinder 智能获客引擎</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/dist/svg-pan-zoom.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: { primary: '#3B82F6', secondary: '#60A5FA', accent: '#8B5CF6' }
+                }
+            }
+        }
+    </script>
+    <style>
+        .mermaid-wrapper {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            background: #f8fafc;
+        }
+        .mermaid-container {
+            width: 100%;
+            height: 600px;
+            cursor: grab;
+        }
+        .mermaid-container:active {
+            cursor: grabbing;
+        }
+        .mermaid-container svg {
+            width: 2000px;
+            height: 1400px;
+        }
+        .zoom-controls {
+            position: absolute;
+            bottom: 16px;
+            right: 16px;
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+        .zoom-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .zoom-btn:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+        }
+        .zoom-btn:active {
+            transform: scale(0.95);
+        }
+        .zoom-info {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            padding: 6px 12px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 6px;
+            font-size: 12px;
+            color: #64748b;
+            z-index: 10;
+        }
+        .section-card { transition: all 0.3s ease; }
+        .section-card:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); }
+        .entity-card { transition: all 0.2s ease; }
+        .entity-card:hover { transform: scale(1.02); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12); }
+        .gradient-text { background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .tab-btn.active { background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%); color: white; }
+        .attribute-tag { font-size: 11px; padding: 2px 8px; border-radius: 4px; margin: 2px; display: inline-block; }
+        .pk-tag { background: #FEE2E2; color: #DC2626; font-weight: 600; }
+        .fk-tag { background: #DBEAFE; color: #2563EB; }
+        .normal-tag { background: #F3F4F6; color: #4B5563; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-slate-100 min-h-screen font-sans">
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="text-xl font-semibold text-slate-800">LeadFinder实体关系图</span>
+                        <p class="text-xs text-slate-500">AI-LeadFinder 智能获客引擎</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <a href="LeadFinder业务流设计.html" class="px-3 py-1.5 bg-slate-100 text-slate-600 rounded-lg text-sm font-medium hover:bg-slate-200 transition-all">业务流设计</a>
+                    <a href="LeadFinder实体关系图.html" class="px-3 py-1.5 bg-primary text-white rounded-lg text-sm font-medium transition-all cursor-default">实体关系图</a>
+                    <a href="LeadFinder修订日志.html" class="px-3 py-1.5 bg-slate-100 text-slate-600 rounded-lg text-sm font-medium hover:bg-slate-200 transition-all">修订日志</a>
+                    <button onclick="toggleCatalog()" class="px-3 py-1.5 bg-slate-100 text-slate-600 rounded-lg text-sm font-medium hover:bg-slate-200 transition-all flex items-center gap-1.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                        原型目录
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-24 pb-16 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-10 text-center">
+                <h1 class="text-4xl font-bold gradient-text mb-4">LeadFinder实体关系图</h1>
+                <p class="text-slate-500 text-lg max-w-2xl mx-auto">基于产品核心业务流设计，展示智能获客引擎的完整数据模型架构</p>
+            </div>
+
+            <div class="flex justify-center gap-2 mb-8">
+                <button onclick="switchTab('diagram')" id="tab-diagram" class="tab-btn active px-6 py-2 rounded-lg font-medium transition-all">
+                    关系图视图
+                </button>
+                <button onclick="switchTab('entities')" id="tab-entities" class="tab-btn px-6 py-2 rounded-lg font-medium bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 transition-all">
+                    实体详情视图
+                </button>
+                <button onclick="switchTab('relations')" id="tab-relations" class="tab-btn px-6 py-2 rounded-lg font-medium bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 transition-all">
+                    关系说明
+                </button>
+            </div>
+
+            <div id="view-diagram" class="view-content">
+                <div class="section-card bg-white rounded-2xl border border-slate-200 p-8 mb-8">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center">
+                                <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"/>
+                                </svg>
+                            </div>
+                            <h2 class="text-xl font-semibold text-slate-700">完整 ER 关系图</h2>
+                        </div>
+                        <div class="text-sm text-slate-500">
+                            <span class="px-2 py-1 bg-slate-100 rounded">滚轮缩放</span>
+                            <span class="px-2 py-1 bg-slate-100 rounded ml-2">拖拽移动</span>
+                        </div>
+                    </div>
+                    <div class="mermaid-wrapper">
+                        <div id="mermaid-container" class="mermaid-container">
+                            <pre class="mermaid">
+erDiagram
+    Tenant ||--o{ Bot : "创建管理"
+    Tenant ||--o{ User : "拥有"
+    Tenant ||--o{ CreditTransaction : "消费记录"
+    Tenant ||--o{ ResourcePackage : "购买"
+    
+    Bot ||--|| BusinessAnalysis : "生成"
+    Bot ||--o{ BusinessMaterial : "上传"
+    Bot ||--o| Website : "绑定"
+    Bot ||--o{ SearchRecord : "产生"
+    Bot ||--o{ StaticLead : "产生"
+    Bot ||--o{ DynamicLead : "产生"
+    Bot ||--o{ Visitor : "追踪"
+    Bot ||--o{ VisitorBehavior : "采集"
+    
+    BusinessAnalysis ||--|| ICPModel : "包含"
+    
+    SearchRecord ||--o{ StaticLead : "产生"
+    
+    Website ||--o{ Visitor : "接待"
+    Visitor ||--o{ VisitorBehavior : "产生"
+    Visitor ||--o| DynamicLead : "转化为"
+    
+    StaticLead ||--o{ Contact : "包含"
+    DynamicLead ||--o{ Contact : "包含"
+    
+    Tenant {
+        string tenant_id PK
+        string company_name
+        string admin_user_id FK
+        int global_credits_balance
+        int bot_seats_total
+        int bot_seats_used
+        datetime service_expiry_date
+        string account_status
+        datetime created_at
+    }
+    
+    Bot {
+        string bot_id PK
+        string tenant_id FK
+        string bot_name
+        string bot_language
+        string business_analysis_id FK
+        json icp_model_vector
+        boolean automation_enabled
+        string status
+        datetime created_at
+    }
+    
+    BusinessAnalysis {
+        string analysis_id PK
+        string bot_id FK
+        string industry_type
+        json upstream_industries
+        json downstream_industries
+        json icp_profile
+        json feature_vectors
+        text analysis_report
+        datetime created_at
+    }
+    
+    ICPModel {
+        string icp_id PK
+        string analysis_id FK
+        string industry
+        json company_size
+        json geography
+        json tech_stack
+        json decision_maker_roles
+        datetime created_at
+    }
+    
+    SearchRecord {
+        string search_record_id PK
+        string bot_id FK
+        string task_name
+        text query
+        int target_count
+        int result_count
+        int credits_used
+        json data_sources
+        string status
+        datetime created_at
+        datetime completed_at
+    }
+    
+    StaticLead {
+        string static_lead_id PK
+        string bot_id FK
+        string search_record_id FK
+        string company_name
+        string company_domain
+        string industry
+        int match_score
+        string lead_grade
+        json contact_list
+        text analysis_report
+        string source_channel
+        string status
+        int credits_consumed
+        datetime created_at
+    }
+    
+    DynamicLead {
+        string dynamic_lead_id PK
+        string bot_id FK
+        string visitor_id FK
+        string company_name
+        string company_domain
+        int intent_score
+        string lead_grade
+        json behavior_summary
+        json contact_list
+        text analysis_report
+        string status
+        int credits_consumed
+        datetime created_at
+    }
+    
+    Contact {
+        string contact_id PK
+        string lead_id FK
+        string lead_type
+        string full_name
+        string job_title
+        string email
+        string email_status
+        string phone
+        string linkedin_url
+        string twitter_url
+        boolean is_primary
+        boolean decision_maker
+        datetime created_at
+    }
+    
+    Visitor {
+        string visitor_id PK
+        string bot_id FK
+        string website_id FK
+        string ip_address
+        string geo_location
+        string device_info
+        string traffic_source
+        string company_name
+        string company_domain
+        int total_engagement_score
+        int visit_count
+        datetime first_visit_at
+        datetime last_visit_at
+        string status
+    }
+    
+    VisitorBehavior {
+        string behavior_id PK
+        string visitor_id FK
+        string bot_id FK
+        string event_type
+        string event_target
+        string page_url
+        string session_id
+        json context_data
+        datetime timestamp
+    }
+    
+    Website {
+        string website_id PK
+        string bot_id FK
+        string domain_name
+        string site_name
+        text js_probe_code
+        boolean probe_installed
+        datetime authorized_at
+    }
+    
+    User {
+        string user_id PK
+        string tenant_id FK
+        string role_type
+        string username
+        string email
+        json permissions
+        datetime created_at
+    }
+    
+    CreditTransaction {
+        string transaction_id PK
+        string tenant_id FK
+        string transaction_type
+        int amount
+        int balance_after
+        string used_by_bot_id
+        string used_for_action
+        string description
+        datetime transaction_at
+    }
+    
+    ResourcePackage {
+        string package_id PK
+        string tenant_id FK
+        string package_type
+        int credits_amount
+        int bot_seats
+        datetime purchase_date
+        datetime expiry_date
+        decimal price
+    }
+    
+    BusinessMaterial {
+        string material_id PK
+        string bot_id FK
+        string file_name
+        string file_type
+        string file_path
+        int file_size
+        text content_extracted
+        datetime uploaded_at
+    }
+                            </pre>
+                        </div>
+                        <div class="zoom-info">
+                            <span id="zoom-level">100%</span> | 按住拖拽 | 滚轮缩放
+                        </div>
+                        <div class="zoom-controls">
+                            <button class="zoom-btn" onclick="zoomIn()" title="放大">
+                                <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7"/>
+                                </svg>
+                            </button>
+                            <button class="zoom-btn" onclick="zoomOut()" title="缩小">
+                                <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM13 10H7"/>
+                                </svg>
+                            </button>
+                            <button class="zoom-btn" onclick="resetZoom()" title="重置">
+                                <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                </svg>
+                            </button>
+                            <button class="zoom-btn" onclick="fitToScreen()" title="适应屏幕">
+                                <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-entities" class="view-content hidden">
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="entity-card bg-gradient-to-br from-amber-50 to-yellow-50 rounded-2xl border-2 border-amber-300 p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-12 h-12 bg-amber-400 rounded-xl flex items-center justify-center"><span class="text-2xl">🏢</span></div>
+                            <div><h3 class="font-bold text-amber-800">Tenant</h3><p class="text-xs text-amber-600">企业租户</p></div>
+                        </div>
+                        <div class="space-y-1">
+                            <span class="attribute-tag pk-tag">tenant_id PK</span>
+                            <span class="attribute-tag normal-tag">company_name</span>
+                            <span class="attribute-tag fk-tag">admin_user_id FK</span>
+                            <span class="attribute-tag normal-tag">global_credits_balance</span>
+                            <span class="attribute-tag normal-tag">bot_seats_total</span>
+                            <span class="attribute-tag normal-tag">bot_seats_used</span>
+                            <span class="attribute-tag normal-tag">service_expiry_date</span>
+                            <span class="attribute-tag normal-tag">account_status</span>
+                        </div>
+                        <p class="text-xs text-amber-700 mt-4">核心实体，代表一个企业客户账号，管理全局资源池和BOT席位</p>
+                    </div>
+
+                    <div class="entity-card bg-gradient-to-br from-blue-50 to-cyan-50 rounded-2xl border-2 border-blue-300 p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-12 h-12 bg-blue-400 rounded-xl flex items-center justify-center"><span class="text-2xl">🤖</span></div>
+                            <div><h3 class="font-bold text-blue-800">Bot</h3><p class="text-xs text-blue-600">获客服务BOT</p></div>
+                        </div>
+                        <div class="space-y-1">
+                            <span class="attribute-tag pk-tag">bot_id PK</span>
+                            <span class="attribute-tag fk-tag">tenant_id FK</span>
+                            <span class="attribute-tag normal-tag">bot_name</span>
+                            <span class="attribute-tag normal-tag">bot_language</span>
+                            <span class="attribute-tag fk-tag">business_analysis_id FK</span>
+                            <span class="attribute-tag normal-tag">icp_model_vector</span>
+                            <span class="attribute-tag normal-tag">automation_enabled</span>
+                            <span class="attribute-tag normal-tag">status</span>
+                        </div>
+                        <p class="text-xs text-blue-700 mt-4">业务隔离单元，每个BOT对应一个独立站或业务线的获客引擎实例</p>
+                    </div>
+
+                    <div class="entity-card bg-gradient-to-br from-sky-50 to-blue-50 rounded-2xl border-2 border-sky-300 p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-12 h-12 bg-sky-400 rounded-xl flex items-center justify-center"><span class="text-2xl">🔍</span></div>
+                            <div><h3 class="font-bold text-sky-800">SearchRecord</h3><p class="text-xs text-sky-600">搜客记录</p></div>
+                        </div>
+                        <div class="space-y-1">
+                            <span class="attribute-tag pk-tag">search_record_id PK</span>
+                            <span class="attribute-tag fk-tag">bot_id FK</span>
+                            <span class="attribute-tag normal-tag">task_name</span>
+                            <span class="attribute-tag normal-tag">query</span>
+                            <span class="attribute-tag normal-tag">target_count</span>
+                            <span class="attribute-tag normal-tag">result_count</span>
+                            <span class="attribute-tag normal-tag">credits_used</span>
+                            <span class="attribute-tag normal-tag">data_sources</span>
+                            <span class="attribute-tag normal-tag">status</span>
+                        </div>
+                        <p class="text-xs text-sky-700 mt-4">搜客任务记录，追踪每次搜客的需求、消耗和结果</p>
+                    </div>
+
+                    <div class="entity-card bg-gradient-to-br from-emerald-50 to-green-50 rounded-2xl border-2 border-emerald-300 p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-12 h-12 bg-emerald-400 rounded-xl flex items-center justify-center"><span class="text-2xl">📊</span></div>
+                            <div><h3 class="font-bold text-emerald-800">BusinessAnalysis</h3><p class="text-xs text-emerald-600">业务分析报告</p></div>
+                        </div>
+                        <div class="space-y-1">
+                            <span class="attribute-tag pk-tag">analysis_id PK</span>
+                            <span class="attribute-tag fk-tag">bot_id FK</span>
+                            <span class="attribute-tag normal-tag">industry_type</span>
+                            <span class="attribute-tag normal-tag">upstream_industries</span>
+                            <span class="attribute-tag normal-tag">downstream_industries</span>
+                            <span class="attribute-tag normal-tag">icp_profile</span>
+                            <span class="attribute-tag normal-tag">feature_vectors</span>
+                            <span class="attribute-tag normal-tag">analysis_report</span>
+                        </div>
+                        <p class="text-xs text-emerald-700 mt-4">AI生成的业务分析报告，包含行业定位、ICP画像、特征向量等</p>
+                    </div>
+
+                    <div class="entity-card bg-gradient-to-br from-purple-50 to-violet-50 rounded-2xl border-2 border-purple-300 p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-12 h-12 bg-purple-400 rounded-xl flex items-center justify-center"><span class="text-2xl">📁</span></div>
+                            <div><h3 class="font-bold text-purple-800">StaticLead</h3><p class="text-xs text-purple-600">静态线索</p></div>
+                        </div>
+                        <div class="space-y-1">
+                            <span class="attribute-tag pk-tag">static_lead_id PK</span>
+                            <span class="attribute-tag fk-tag">bot_id FK</span>
+                            <span class="attribute-tag fk-tag">search_record_id FK</span>
+                            <span class="attribute-tag normal-tag">company_name</span>
+                            <span class="attribute-tag normal-tag">company_domain</span>
+                            <span class="attribute-tag normal-tag">match_score</span>
+                            <span class="attribute-tag normal-tag">lead_grade</span>
+                            <span class="attribute-tag normal-tag">contact_list</span>
+                            <span class="attribute-tag normal-tag">source_channel</span>
+                        </div>
+                        <p class="text-xs text-purple-700 mt-4">通过全网搜客获取的潜在客户线索，来源于海关数据、社媒数据等</p>
+                    </div>
+
+                    <div class="entity-card bg-gradient-to-br from-rose-50 to-pink-50 rounded-2xl border-2 border-rose-300 p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-12 h-12 bg-rose-400 rounded-xl flex items-center justify-center"><span class="text-2xl">🔥</span></div>
+                            <div><h3 class="font-bold text-rose-800">DynamicLead</h3><p class="text-xs text-rose-600">动态线索</p></div>
+                        </div>
+                        <div class="space-y-1">
+                            <span class="attribute-tag pk-tag">dynamic_lead_id PK</span>
+                            <span class="attribute-tag fk-tag">bot_id FK</span>
+                            <span class="attribute-tag fk-tag">visitor_id FK</span>
+                            <span class="attribute-tag normal-tag">company_name</span>
+                            <span class="attribute-tag normal-tag">intent_score</span>
+                            <span class="attribute-tag normal-tag">behavior_summary</span>
+                            <span class="attribute-tag normal-tag">contact_list</span>
+                            <span class="attribute-tag normal-tag">status</span>
+                        </div>
+                        <p class="text-xs text-rose-700 mt-4">通过访客行为分析挖掘的高意向线索，来源于独立站访客追踪</p>
+                    </div>
+
+                    <div class="entity-card bg-gradient-to-br from-cyan-50 to-teal-50 rounded-2xl border-2 border-cyan-300 p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-12 h-12 bg-cyan-400 rounded-xl flex items-center justify-center"><span class="text-2xl">👤</span></div>
+                            <div><h3 class="font-bold text-cyan-800">Contact</h3><p class="text-xs text-cyan-600">联系人</p></div>
+                        </div>
+                        <div class="space-y-1">
+                            <span class="attribute-tag pk-tag">contact_id PK</span>
+                            <span class="attribute-tag fk-tag">lead_id FK</span>
+                            <span class="attribute-tag normal-tag">lead_type</span>
+                            <span class="attribute-tag normal-tag">full_name</span>
+                            <span class="attribute-tag normal-tag">job_title</span>
+                            <span class="attribute-tag normal-tag">email</span>
+                            <span class="attribute-tag normal-tag">linkedin_url</span>
+                            <span class="attribute-tag normal-tag">is_primary</span>
+                        </div>
+                        <p class="text-xs text-cyan-700 mt-4">企业关键联系人，通过Apollo API挖掘获取</p>
+                    </div>
+
+                    <div class="entity-card bg-gradient-to-br from-orange-50 to-amber-50 rounded-2xl border-2 border-orange-300 p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-12 h-12 bg-orange-400 rounded-xl flex items-center justify-center"><span class="text-2xl">👀</span></div>
+                            <div><h3 class="font-bold text-orange-800">Visitor</h3><p class="text-xs text-orange-600">访客</p></div>
+                        </div>
+                        <div class="space-y-1">
+                            <span class="attribute-tag pk-tag">visitor_id PK</span>
+                            <span class="attribute-tag fk-tag">bot_id FK</span>
+                            <span class="attribute-tag fk-tag">website_id FK</span>
+                            <span class="attribute-tag normal-tag">ip_address</span>
+                            <span class="attribute-tag normal-tag">geo_location</span>
+                            <span class="attribute-tag normal-tag">total_engagement_score</span>
+                            <span class="attribute-tag normal-tag">visit_count</span>
+                            <span class="attribute-tag normal-tag">status</span>
+                        </div>
+                        <p class="text-xs text-orange-700 mt-4">独立站匿名访客，通过JS探针采集行为数据</p>
+                    </div>
+
+                    <div class="entity-card bg-gradient-to-br from-slate-50 to-gray-50 rounded-2xl border-2 border-slate-300 p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-12 h-12 bg-slate-400 rounded-xl flex items-center justify-center"><span class="text-2xl">🎯</span></div>
+                            <div><h3 class="font-bold text-slate-800">VisitorBehavior</h3><p class="text-xs text-slate-600">访客行为</p></div>
+                        </div>
+                        <div class="space-y-1">
+                            <span class="attribute-tag pk-tag">behavior_id PK</span>
+                            <span class="attribute-tag fk-tag">visitor_id FK</span>
+                            <span class="attribute-tag fk-tag">bot_id FK</span>
+                            <span class="attribute-tag normal-tag">event_type</span>
+                            <span class="attribute-tag normal-tag">event_target</span>
+                            <span class="attribute-tag normal-tag">page_url</span>
+                            <span class="attribute-tag normal-tag">session_id</span>
+                            <span class="attribute-tag normal-tag">context_data</span>
+                        </div>
+                        <p class="text-xs text-slate-700 mt-4">访客微观行为事件，包括页面浏览、复制、悬停、表单交互等</p>
+                    </div>
+
+                    <div class="entity-card bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl border-2 border-green-300 p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-12 h-12 bg-green-400 rounded-xl flex items-center justify-center"><span class="text-2xl">🌍</span></div>
+                            <div><h3 class="font-bold text-green-800">Website</h3><p class="text-xs text-green-600">独立站</p></div>
+                        </div>
+                        <div class="space-y-1">
+                            <span class="attribute-tag pk-tag">website_id PK</span>
+                            <span class="attribute-tag fk-tag">bot_id FK</span>
+                            <span class="attribute-tag normal-tag">domain_name</span>
+                            <span class="attribute-tag normal-tag">site_name</span>
+                            <span class="attribute-tag normal-tag">js_probe_code</span>
+                            <span class="attribute-tag normal-tag">probe_installed</span>
+                            <span class="attribute-tag normal-tag">authorized_at</span>
+                        </div>
+                        <p class="text-xs text-green-700 mt-4">企业独立站配置，用于部署JS探针采集访客数据</p>
+                    </div>
+
+                    <div class="entity-card bg-gradient-to-br from-indigo-50 to-blue-50 rounded-2xl border-2 border-indigo-300 p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-12 h-12 bg-indigo-400 rounded-xl flex items-center justify-center"><span class="text-2xl">👤</span></div>
+                            <div><h3 class="font-bold text-indigo-800">User</h3><p class="text-xs text-indigo-600">用户</p></div>
+                        </div>
+                        <div class="space-y-1">
+                            <span class="attribute-tag pk-tag">user_id PK</span>
+                            <span class="attribute-tag fk-tag">tenant_id FK</span>
+                            <span class="attribute-tag normal-tag">role_type</span>
+                            <span class="attribute-tag normal-tag">username</span>
+                            <span class="attribute-tag normal-tag">email</span>
+                            <span class="attribute-tag normal-tag">permissions</span>
+                        </div>
+                        <p class="text-xs text-indigo-700 mt-4">系统用户，区分Admin和Member角色</p>
+                    </div>
+
+                    <div class="entity-card bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl border-2 border-yellow-300 p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-12 h-12 bg-yellow-400 rounded-xl flex items-center justify-center"><span class="text-2xl">💰</span></div>
+                            <div><h3 class="font-bold text-yellow-800">CreditTransaction</h3><p class="text-xs text-yellow-600">积分流水</p></div>
+                        </div>
+                        <div class="space-y-1">
+                            <span class="attribute-tag pk-tag">transaction_id PK</span>
+                            <span class="attribute-tag fk-tag">tenant_id FK</span>
+                            <span class="attribute-tag normal-tag">transaction_type</span>
+                            <span class="attribute-tag normal-tag">amount</span>
+                            <span class="attribute-tag normal-tag">balance_after</span>
+                            <span class="attribute-tag normal-tag">used_by_bot_id</span>
+                            <span class="attribute-tag normal-tag">used_for_action</span>
+                        </div>
+                        <p class="text-xs text-yellow-700 mt-4">积分消费记录，追踪每次积分变动</p>
+                    </div>
+
+                    <div class="entity-card bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl border-2 border-teal-300 p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-12 h-12 bg-teal-400 rounded-xl flex items-center justify-center"><span class="text-2xl">📦</span></div>
+                            <div><h3 class="font-bold text-teal-800">ResourcePackage</h3><p class="text-xs text-teal-600">资源包</p></div>
+                        </div>
+                        <div class="space-y-1">
+                            <span class="attribute-tag pk-tag">package_id PK</span>
+                            <span class="attribute-tag fk-tag">tenant_id FK</span>
+                            <span class="attribute-tag normal-tag">package_type</span>
+                            <span class="attribute-tag normal-tag">credits_amount</span>
+                            <span class="attribute-tag normal-tag">bot_seats</span>
+                            <span class="attribute-tag normal-tag">purchase_date</span>
+                            <span class="attribute-tag normal-tag">expiry_date</span>
+                        </div>
+                        <p class="text-xs text-teal-700 mt-4">购买的资源包，包含积分和BOT席位</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-relations" class="view-content hidden">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="section-card bg-white rounded-2xl border border-slate-200 p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center"><span class="text-lg">🏢</span></div>
+                            <h3 class="font-semibold text-slate-700">租户层级关系</h3>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3 p-3 bg-amber-50 rounded-lg"><span class="text-amber-600 font-mono text-sm">1:N</span><span class="text-slate-600">Tenant → Bot（一个租户可创建多个BOT实例）</span></div>
+                            <div class="flex items-center gap-3 p-3 bg-amber-50 rounded-lg"><span class="text-amber-600 font-mono text-sm">1:N</span><span class="text-slate-600">Tenant → User（一个租户可拥有多个用户）</span></div>
+                            <div class="flex items-center gap-3 p-3 bg-amber-50 rounded-lg"><span class="text-amber-600 font-mono text-sm">1:N</span><span class="text-slate-600">Tenant → CreditTransaction（积分流水记录）</span></div>
+                            <div class="flex items-center gap-3 p-3 bg-amber-50 rounded-lg"><span class="text-amber-600 font-mono text-sm">1:N</span><span class="text-slate-600">Tenant → ResourcePackage（资源包购买记录）</span></div>
+                        </div>
+                    </div>
+
+                    <div class="section-card bg-white rounded-2xl border border-slate-200 p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center"><span class="text-lg">🤖</span></div>
+                            <h3 class="font-semibold text-slate-700">BOT 业务隔离关系</h3>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3 p-3 bg-blue-50 rounded-lg"><span class="text-blue-600 font-mono text-sm">1:1</span><span class="text-slate-600">Bot → BusinessAnalysis（专属业务分析报告）</span></div>
+                            <div class="flex items-center gap-3 p-3 bg-blue-50 rounded-lg"><span class="text-blue-600 font-mono text-sm">1:1</span><span class="text-slate-600">Bot → Website（绑定一个独立站）</span></div>
+                            <div class="flex items-center gap-3 p-3 bg-blue-50 rounded-lg"><span class="text-blue-600 font-mono text-sm">1:N</span><span class="text-slate-600">Bot → BusinessMaterial（多个业务材料）</span></div>
+                            <div class="flex items-center gap-3 p-3 bg-sky-50 rounded-lg"><span class="text-sky-600 font-mono text-sm">1:N</span><span class="text-slate-600">Bot → SearchRecord（多条搜客记录）</span></div>
+                            <div class="flex items-center gap-3 p-3 bg-blue-50 rounded-lg"><span class="text-blue-600 font-mono text-sm">1:N</span><span class="text-slate-600">Bot → StaticLead/DynamicLead（产生线索）</span></div>
+                        </div>
+                    </div>
+
+                    <div class="section-card bg-white rounded-2xl border border-slate-200 p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center"><span class="text-lg">📁</span></div>
+                            <h3 class="font-semibold text-slate-700">线索关系</h3>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3 p-3 bg-sky-50 rounded-lg"><span class="text-sky-600 font-mono text-sm">1:N</span><span class="text-slate-600">SearchRecord → StaticLead（产生多条静态线索）</span></div>
+                            <div class="flex items-center gap-3 p-3 bg-purple-50 rounded-lg"><span class="text-purple-600 font-mono text-sm">1:N</span><span class="text-slate-600">StaticLead → Contact（包含多个联系人）</span></div>
+                            <div class="flex items-center gap-3 p-3 bg-purple-50 rounded-lg"><span class="text-purple-600 font-mono text-sm">1:N</span><span class="text-slate-600">DynamicLead → Contact（包含多个联系人）</span></div>
+                            <div class="flex items-center gap-3 p-3 bg-rose-50 rounded-lg"><span class="text-rose-600 font-mono text-sm">转化</span><span class="text-slate-600">Visitor → DynamicLead（访客转化为动态线索）</span></div>
+                        </div>
+                    </div>
+
+                    <div class="section-card bg-white rounded-2xl border border-slate-200 p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center"><span class="text-lg">👀</span></div>
+                            <h3 class="font-semibold text-slate-700">访客追踪关系</h3>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3 p-3 bg-orange-50 rounded-lg"><span class="text-orange-600 font-mono text-sm">1:N</span><span class="text-slate-600">Website → Visitor（接待多个访客）</span></div>
+                            <div class="flex items-center gap-3 p-3 bg-orange-50 rounded-lg"><span class="text-orange-600 font-mono text-sm">1:N</span><span class="text-slate-600">Visitor → VisitorBehavior（产生多个行为事件）</span></div>
+                            <div class="flex items-center gap-3 p-3 bg-rose-50 rounded-lg"><span class="text-rose-600 font-mono text-sm">转化</span><span class="text-slate-600">Visitor → DynamicLead（挖掘后转化为动态线索）</span></div>
+                        </div>
+                    </div>
+
+                    <div class="section-card bg-white rounded-2xl border border-slate-200 p-6 md:col-span-2">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center"><span class="text-lg">⚡</span></div>
+                            <h3 class="font-semibold text-slate-700">核心业务规则</h3>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-3">
+                            <div class="p-3 bg-emerald-50 rounded-lg"><p class="text-sm text-emerald-700"><strong>账号级资源隔离</strong>：Global Credits 全账号共享，BOT Seats 限制并发BOT数量</p></div>
+                            <div class="p-3 bg-emerald-50 rounded-lg"><p class="text-sm text-emerald-700"><strong>BOT级数据隔离</strong>：每个BOT的业务数据、线索、访客等严格隔离</p></div>
+                            <div class="p-3 bg-emerald-50 rounded-lg"><p class="text-sm text-emerald-700"><strong>线索类型区分</strong>：静态线索来源于全网搜索，动态线索来源于访客追踪</p></div>
+                            <div class="p-3 bg-emerald-50 rounded-lg"><p class="text-sm text-emerald-700"><strong>访客数据分离</strong>：访客数据独立存储，仅在挖掘成功后才提拔至线索池</p></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card bg-white rounded-2xl border border-slate-200 p-8 mt-8">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 bg-purple-50 rounded-xl flex items-center justify-center">
+                        <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <h2 class="text-xl font-semibold text-slate-700">数据模型设计说明</h2>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-medium text-slate-700 mb-3">架构特点</h4>
+                        <ul class="text-sm text-slate-600 space-y-2">
+                            <li class="flex items-start gap-2"><span class="text-primary">●</span>采用"账号级统管算力资金池 + BOT级绝对隔离业务数据"架构</li>
+                            <li class="flex items-start gap-2"><span class="text-primary">●</span>支撑多品牌、多产品线的企业级客户场景</li>
+                            <li class="flex items-start gap-2"><span class="text-primary">●</span>两种线索类型（静态/动态）独立存储，通过domain关联</li>
+                            <li class="flex items-start gap-2"><span class="text-primary">●</span>访客数据与线索数据分离，仅在挖掘成功后才提拔至线索池</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-medium text-slate-700 mb-3">核心服务映射</h4>
+                        <ul class="text-sm text-slate-600 space-y-2">
+                            <li class="flex items-start gap-2"><span class="text-emerald-500">●</span><strong>企业分析服务(EAI)</strong>：生成BusinessAnalysis和ICPModel</li>
+                            <li class="flex items-start gap-2"><span class="text-sky-500">●</span><strong>搜客服务(SDA)</strong>：生成SearchRecord、StaticLead和Contact</li>
+                            <li class="flex items-start gap-2"><span class="text-orange-500">●</span><strong>动态数据分析服务(DDA)</strong>：生成Visitor、VisitorBehavior、DynamicLead</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-center gap-4 mt-8">
+                <a href="LeadFinder修订日志.html" class="px-6 py-3 bg-slate-100 border border-slate-200 text-slate-600 rounded-xl hover:bg-slate-200 transition-all font-medium">← 修订日志</a>
+                <a href="LeadFinder业务流设计.html" class="px-6 py-3 bg-primary text-white rounded-xl hover:shadow-lg transition-all font-medium">查看 业务流设计 →</a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-slate-200 py-6">
+        <div class="max-w-7xl mx-auto px-4 text-center text-sm text-slate-400">LeadFinder · 实体关系图 · 版本管理</div>
+    </footer>
+
+    <script src="prototype/catalog-panel.js"></script>
+    <script>
+        let panZoomInstance = null;
+
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            er: {
+                useMaxWidth: false,
+                diagramPadding: 20,
+                layoutDirection: 'TB',
+                minEntityWidth: 180,
+                minEntityHeight: 120,
+                entityPadding: 20,
+                stroke: '#3B82F6',
+                fill: '#FFFFFF',
+                fontSize: 14
+            }
+        });
+
+        mermaid.run().then(() => {
+            initPanZoom();
+        });
+
+        function initPanZoom() {
+            const container = document.getElementById('mermaid-container');
+            const svg = container.querySelector('svg');
+            if (svg) {
+                svg.style.width = '2000px';
+                svg.style.height = '1400px';
+                
+                panZoomInstance = svgPanZoom(svg, {
+                    zoomEnabled: true,
+                    controlIconsEnabled: false,
+                    fit: true,
+                    center: true,
+                    minZoom: 0.3,
+                    maxZoom: 3,
+                    zoomScaleSensitivity: 0.3,
+                    beforePan: function(oldPan, newPan) {
+                        return newPan;
+                    },
+                    onZoom: function(scale) {
+                        updateZoomLevel(scale);
+                    }
+                });
+                
+                updateZoomLevel(panZoomInstance.getZoom());
+            }
+        }
+
+        function updateZoomLevel(scale) {
+            const zoomPercent = Math.round(scale * 100);
+            document.getElementById('zoom-level').textContent = zoomPercent + '%';
+        }
+
+        function zoomIn() {
+            if (panZoomInstance) {
+                panZoomInstance.zoomIn();
+            }
+        }
+
+        function zoomOut() {
+            if (panZoomInstance) {
+                panZoomInstance.zoomOut();
+            }
+        }
+
+        function resetZoom() {
+            if (panZoomInstance) {
+                panZoomInstance.resetZoom();
+                panZoomInstance.center();
+            }
+        }
+
+        function fitToScreen() {
+            if (panZoomInstance) {
+                panZoomInstance.fit();
+                panZoomInstance.center();
+            }
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.classList.add('bg-white', 'border', 'border-slate-200', 'text-slate-600');
+            });
+            document.querySelectorAll('.view-content').forEach(view => { view.classList.add('hidden'); });
+            
+            const activeBtn = document.getElementById('tab-' + tab);
+            activeBtn.classList.add('active');
+            activeBtn.classList.remove('bg-white', 'border', 'border-slate-200', 'text-slate-600');
+            document.getElementById('view-' + tab).classList.remove('hidden');
+            
+            if (tab === 'diagram' && panZoomInstance) {
+                setTimeout(() => {
+                    panZoomInstance.resize();
+                    panZoomInstance.fit();
+                    panZoomInstance.center();
+                }, 100);
+            }
+        }
+    </script>
+</body>
+</html>
