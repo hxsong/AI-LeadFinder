@@ -12,11 +12,13 @@
 
 **Goal:** 重建文档目录结构，按工作流阶段（概念设计→产品模块→原型规格）组织，统一阅读体验。
 
+**Progress:** Phase 6 (目录结构规范设计) ✅ + Phase 7 (内容迁移) ✅ → Phase 8 (索引同步与验收) 进行中
+
 **Target features:**
-- 设计并落地新目录结构规范
-- 将现有 docs/、prd-md/、prototype/ 全部内容迁移到新结构（内容不变，仅移动位置）
-- 同步更新所有索引引用（各层 README.md、三向映射表）
-- 更新顶层 README.md
+- [x] 设计并落地新目录结构规范 (Phase 6)
+- [x] 将现有 docs/、prd-md/、prototype/ 全部内容迁移到新结构（内容不变，仅移动位置）(Phase 7)
+- [ ] 同步更新所有索引引用（各层 README.md、三向映射表）(Phase 8)
+- [ ] 更新顶层 README.md (Phase 8)
 
 ## Requirements
 
@@ -46,25 +48,37 @@
 
 ## Context
 
-### 文档体系（v1.0.0 已交付）
+### 文档体系（v1.1 已迁移）
 
 ```
 AI-leadfinder/
-├── docs/
-│   ├── README.md
-│   ├── changelog/
-│   │   ├── v1.0.0.md  (17 条历史变更记录)
-│   │   └── v1.1.0.md  (本次重构变更记录)
-│   └── design/        (概念设计 HTML 统一收纳)
-├── prd-md/
-│   ├── api-specs/     (API 规范总览，10 章节)
-│   └── [按产品阶段分目录，含 README 索引]
-└── prototype/
-    ├── README.md      (原型页面 ↔ PRD 节点双向映射表)
-    ├── styles/        (global.css 设计 Token)
-    ├── pages/         (20 个 HTML 原型页面)
-    └── docs/          (21 个 Markdown 功能说明文档)
+├── 01-concept/          (原 docs/design/ 概念设计)
+│   └── design/          (LeadFinder实体关系图.html, LeadFinder业务流设计.html)
+├── 02-modules/          (原 prd-md/ — 子目录重命名为模块名)
+│   ├── 00-概述与定义/  (原 00-概述与定义)
+│   ├── 01-账号/        (原 01-账号与资源管理)
+│   ├── 02-静态数据/    (原 02-静态数据获客)
+│   ├── 03-企业管理/    (原 03-动态流量获客)
+│   ├── 04-AILead管理/  (原 04-全景画像与触达)
+│   ├── 05-销售线索/    (原 05-运营与合规)
+│   ├── 06-任务协作/    (原 06-非功能需求)
+│   ├── 07-全局规范/    (原 07-全局规范)
+│   ├── api-specs/      (API 规范总览)
+│   └── README.md + 产品核心规则和实现思路.md
+├── 03-prototypes/       (原 prototype/pages/ + styles/)
+│   ├── pages/          (20 个 HTML 原型页面)
+│   └── styles/         (global.css)
+├── 04-specs/           (原 prototype/docs/ — 21 个功能说明文档)
+├── 05-shared/          (共享内容)
+│   ├── changelog/      (原 docs/changelog/ — v1.0.0, v1.1.0)
+│   └── misc/           (原 docs/ 根目录文件)
+└── docs/               (原位置，Phase 8 清理)
+    prd-md/             (原位置，Phase 8 清理)
+    prototype/          (原位置，Phase 8 清理)
 ```
+
+> 注：docs/、prd-md/、prototype/ 迁移后保留原位，Phase 8 清理删除。
+
 
 ### 已验证成果（来源：UAT 9/9 通过）
 
@@ -100,5 +114,5 @@ This document evolves at phase transitions and milestone boundaries.
 3. 更新 Context 中的当前状态
 
 ---
-*Last updated: 2026-04-17 after v1.0.0 milestone shipped*
-*In progress: v1.1 文档体系重构*
+*Last updated: 2026-04-17 after Phase 7 migration complete*
+*Milestone: v1.1 文档体系重构 — Phase 8 in progress*
