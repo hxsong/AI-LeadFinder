@@ -12,77 +12,67 @@
 
 ### Validated
 
-(None yet — 需完成重构验证)
+- ✅ **DOC-01**: 完成目录结构重组（prd-md/ 按产品阶段分目录，docs/design/ 收纳扁平设计文档） — v1.0.0
+- ✅ **DOC-02**: 重写 21 个功能说明文档，按新模板统一格式（元数据 5→10 字段，新增 AI Prompt 引用章节） — v1.0.0
+- ✅ **DOC-03**: 建立 prototype/ 与 prd-md/ 完整双向索引映射表，PRD 节点与原型页面双向可追溯 — v1.0.0
+- ✅ **DOC-04**: 统一 20 个原型页面样式规范，全部引用 global.css — v1.0.0
+- ✅ **DOC-05**: 建立 changelog 体系（v1.0.0 历史变更 + v1.1.0 规划），共 17 条记录 — v1.0.0
+- ✅ **DOC-06**: 完善 API 规范总览（10 章节，含调用流程图、依赖关系、错误码、限流说明） — v1.0.0
 
 ### Active
 
-- [ ] **DOC-01**: 完成文档结构重构（建立目录层级、清理重复文件）
-- [ ] **DOC-02**: 重写 21 个功能说明文档（prototype/docs/），按新模板统一格式
-- [ ] **DOC-03**: 建立 prototype/ 与 prd-md/ 的完整双向索引映射表
-- [ ] **DOC-04**: 统一 22 个原型页面样式（已部分完成 global.css）
-- [ ] **DOC-05**: 整理修订日志体系（changelog/v1.x.md）
-- [ ] **DOC-06**: 建立 API 规范总览（api-specs/README.md，已部分完成）
+- [ ] **DOC-07**: 文档质量持续监控机制（定期检查索引完整性）
+- [ ] **DOC-08**: PRD 文档内容深化（按产品阶段逐阶段完善字段映射和使用说明）
 
 ### Out of Scope
 
-- **代码开发** — 本项目仅涉及文档结构和内容梳理，不包含任何代码编写
-- **新功能设计** — 不新增产品功能，只整理和重构现有内容
-- **设计稿输出** — 不输出高保真设计稿，只维护现有 HTML 原型
+| Feature | Reason |
+|---------|--------|
+| 代码开发 | 本项目仅涉及文档结构和内容梳理 |
+| 新功能设计 | 不新增产品功能，只整理和重构现有内容 |
+| 设计稿输出 | 不输出高保真设计稿，只维护现有 HTML 原型 |
+| 移动端原型 | 当前只维护 Web 端原型 |
+| 多语言支持 | 文档统一使用中文 |
 
 ## Context
 
-### 现有文档体系
+### 文档体系（v1.0.0 已交付）
 
 ```
-AI-leadfinder/          (109 files, 已 commit)
-├── docs/               # 设计文档（修订日志、ER图、业务流图）
-├── prd-md/             # PRD 需求文档（按产品阶段组织）
-├── prototype/          # 产品原型（22个HTML页面 + 22个说明文档）
-│   ├── pages/          # 原型页面
-│   ├── docs/           # 功能说明文档（面向研发）
-│   └── styles/         # 全局样式（global.css）
+AI-leadfinder/
+├── docs/
+│   ├── README.md
+│   ├── changelog/
+│   │   ├── v1.0.0.md  (17 条历史变更记录)
+│   │   └── v1.1.0.md  (本次重构变更记录)
+│   └── design/        (概念设计 HTML 统一收纳)
+├── prd-md/
+│   ├── api-specs/     (API 规范总览，10 章节)
+│   └── [按产品阶段分目录，含 README 索引]
+└── prototype/
+    ├── README.md      (原型页面 ↔ PRD 节点双向映射表)
+    ├── styles/        (global.css 设计 Token)
+    ├── pages/         (20 个 HTML 原型页面)
+    └── docs/          (21 个 Markdown 功能说明文档)
 ```
 
-### 已完成的优化（来源：产品原型结构分析报告.md 第六章）
+### 已验证成果（来源：UAT 9/9 通过）
 
-| 优化项 | 状态 |
-|--------|------|
-| prototype/README.md（PRD节点映射表） | ✅ 完成 |
-| prd-md/ 目录重组（按产品阶段分目录） | ✅ 完成 |
-| prd-md/07-全局规范/（4个规范文件） | ✅ 完成 |
-| prototype/styles/global.css（设计Token） | ✅ 完成 |
-| prototype/nav-config.json（导航配置化） | ✅ 完成 |
-| docs/design/（概念设计HTML统一收纳） | ✅ 完成 |
-| docs/changelog/v1.0.0.md（Markdown修订日志） | ✅ 完成 |
-| 功能说明文档 HTML→Markdown 转换 | ✅ 完成 |
-| 功能说明文档按新模板重写（21个文件） | ⏳ 待处理 |
-| prototype/ 与 prd-md/ 双向索引映射表 | ⏳ 待处理 |
-| 修订日志体系 v1.1.0 | ⏳ 待处理 |
-
-### 核心问题（来源：产品原型结构分析报告.md）
-
-1. **🔴 高优先级**: PRD 单文件过大（P01-P80 挤在一个文件）→ 已拆分
-2. **🔴 高优先级**: 原型页面与 PRD 节点没有映射 → 已建映射表
-3. **🔴 高优先级**: 功能说明文档与 PRD 内容重复、职责不清 → 待重写
-4. **🟡 中优先级**: 功能说明文档缺少字段数据映射 → 待补全
-5. **🟡 中优先级**: 功能说明文档缺少版本元数据 → 待补全
-6. **🟢 低优先级**: 修订日志体系不完整 → 待整理
-
-## Constraints
-
-- **文件格式**: 文档使用 Markdown（.md），原型使用 HTML，两者职责分离
-- **不破坏已有内容**: 重写时保留所有原始功能描述、API 示例、边界规则
-- **无 Git 历史要求**: 当前 commit 为初始状态，重构后的新结构直接提交
-- **维护便利性**: 任何变更只需更新一处，通过交叉索引传递到其他引用位置
+- 链路 A（原型页 → 功能说明 → PRD 节点）：3 条子链路完整追溯
+- 链路 B（PRD 节点 → 原型页 → 功能说明）：双向索引正确建立
+- 链路 C（Changelog → 功能说明 → 原型页）：引用链路完整
+- 引用路径有效性：25/25 条 100% 存在
+- 冗余清理：删除 23 个 HTML/docx 文件（16.7KB）
 
 ## Key Decisions
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| 文档用 Markdown，原型用 HTML | Markdown 便于 Git diff 和多人协作；HTML 原型独立展示 | — Pending |
-| prd-md/ 面向产品评审，prototype/docs/ 面向研发实现 | 职责分离避免重复，减少同步遗漏风险 | — Pending |
-| 通过节点编号（P01-P80）建立双向索引 | PRD 节点是现有唯一标识符，直接复用无需新建体系 | — Pending |
-| 功能说明文档转为 Markdown 格式 | 与 PRD 文档格式统一，便于 Git 管理和内容检索 | — Pending |
+| 文档用 Markdown，原型用 HTML | Markdown 便于 Git diff 和多人协作；HTML 原型独立展示 | ✅ 验证有效，职责分离清晰 |
+| prd-md/ 面向产品评审，prototype/docs/ 面向研发实现 | 职责分离避免重复，减少同步遗漏风险 | ✅ UAT 验证 3 步内可定位 |
+| 通过节点编号（P01-P80）建立双向索引 | PRD 节点是现有唯一标识符，复用无需新建体系 | ✅ 索引命中率 100% |
+| 功能说明文档转为 Markdown 格式 | 与 PRD 文档格式统一，便于 Git 管理和内容检索 | ✅ 21 个文档均已转换 |
+| Phase 5 冗余文件清理作为独立 phase | 去除已替代文件避免混淆，是验收的必要条件 | ✅ 清理 23 个冗余文件 |
 
 ## Evolution
 
@@ -100,4 +90,4 @@ This document evolves at phase transitions and milestone boundaries.
 3. 更新 Context 中的当前状态
 
 ---
-*Last updated: 2026-04-16 after project initialization*
+*Last updated: 2026-04-17 after v1.0.0 milestone shipped*
