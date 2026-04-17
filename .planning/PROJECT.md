@@ -8,6 +8,16 @@
 
 建立一套**职责分明、双向索引、自我更新**的产品文档结构，让产品经理、研发、测试在任何时候都能快速定位所需信息，且任何一处变更都能追溯影响范围。
 
+## Current Milestone: v1.1 文档体系重构
+
+**Goal:** 重建文档目录结构，按工作流阶段（概念设计→产品模块→原型规格）组织，统一阅读体验。
+
+**Target features:**
+- 设计并落地新目录结构规范
+- 将现有 docs/、prd-md/、prototype/ 全部内容迁移到新结构（内容不变，仅移动位置）
+- 同步更新所有索引引用（各层 README.md、三向映射表）
+- 更新顶层 README.md
+
 ## Requirements
 
 ### Validated
@@ -91,3 +101,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ---
 *Last updated: 2026-04-17 after v1.0.0 milestone shipped*
+*In progress: v1.1 文档体系重构*
