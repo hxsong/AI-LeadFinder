@@ -123,6 +123,10 @@ Full details: [.planning/milestones/v1.0.0-ROADMAP.md](./milestones/v1.0.0-ROADM
 3. 01-concept/ README.md 和 glossary.md 创建完成 ✅
 4. 发现的问题记录到 BACKLOG.md（待后续 phase 处理）✅
 
+> 注：Phase 9 原计划包含"01-concept/ 拆分重组"和"03-prototypes/components/ JS 组件补回"，
+> 经确认这两项工作已分别在 Phase 6/7 和 Phase 9 执行阶段处理完毕，不再重复执行。
+> 来源：BACKLOG.md B-01
+
 **Plans:**
 
 | Plan | Description | Status |
@@ -145,5 +149,5 @@ Full details: [.planning/milestones/v1.0.0-ROADMAP.md](./milestones/v1.0.0-ROADM
 ---
 
 *Roadmap created: 2026-04-16*
-*Last updated: 2026-04-17 after Phase 9 completion*
+*Last updated: 2026-04-17 after Phase 9 completion (B-01 note added in Phase 10)*
 

@@ -17,6 +17,10 @@
 
 **建议处理方式:** 更新 ROADMAP.md 的 Phase 9 Success Criteria，移除上述两条不符内容，或标注为已通过其他 phase 完成。
 
+**处理状态:** ✅ 已处理（Phase 10 Plan 05）
+**处理方式:** 直接修正 ROADMAP.md Phase 9 Success Criteria，移除不符内容，替换为实际完成工作；在末尾添加 B-01 来源注脚
+**ROADMAP 更新位置:** .planning/ROADMAP.md §Phase 9 Success Criteria
+
 **优先级:** 中（不影响功能，仅文档准确性）
 **来源:** Phase 9 D-09
 
