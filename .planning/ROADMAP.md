@@ -22,7 +22,7 @@ Full details: [.planning/milestones/v1.0.0-ROADMAP.md](./milestones/v1.0.0-ROADM
 
 ### 🚧 v1.1 文档体系重构 (In Progress)
 
-- [ ] Phase 6: 目录结构规范设计 (2 plans)
+- [x] Phase 6: 目录结构规范设计 (2/2 plans) — completed 2026-04-17
 - [ ] Phase 7: 内容迁移 (4 plans)
 - [ ] Phase 8: 索引同步与验收 (2 plans)
 
@@ -37,7 +37,7 @@ Full details: [.planning/milestones/v1.0.0-ROADMAP.md](./milestones/v1.0.0-ROADM
 | 3. 修订日志体系 | v1.0.0 | 3/3 | Complete | 2026-04-16 |
 | 4. 最终清理与验收 | v1.0.0 | 4/4 | Complete | 2026-04-16 |
 | 5. 冗余文件清理 | v1.0.0 | 1/1 | Complete | 2026-04-17 |
-| 6. 目录结构规范设计 | v1.1 | 0/2 | Not started | — |
+| 6. 目录结构规范设计 | v1.1 | 2/2 | Complete | 2026-04-17 |
 | 7. 内容迁移 | v1.1 | 0/4 | Not started | — |
 | 8. 索引同步与验收 | v1.1 | 0/2 | Not started | — |
 
