@@ -13,10 +13,10 @@
 
 ### 内容迁移 (MIGRATE)
 
-- [ ] **MIGRATE-01**: 将 docs/ 内容拆分迁移到 01-concept 和 05-shared
-- [ ] **MIGRATE-02**: 将 prd-md/ 迁移到 02-modules
-- [ ] **MIGRATE-03**: 将 prototype/pages/ 迁移到 03-prototypes/pages/
-- [ ] **MIGRATE-04**: 将 prototype/docs/ 迁移到 04-specs/
+- [x] **MIGRATE-01**: 将 docs/ 内容拆分迁移到 01-concept 和 05-shared
+- [x] **MIGRATE-02**: 将 prd-md/ 迁移到 02-modules
+- [x] **MIGRATE-03**: 将 prototype/pages/ 迁移到 03-prototypes/pages/
+- [x] **MIGRATE-04**: 将 prototype/docs/ 迁移到 04-specs/
 
 ### 索引同步 (INDEX)
 
@@ -37,10 +37,10 @@
 |-------------|-------|--------|
 | STRUCT-01 | Phase 6 | Pending |
 | STRUCT-02 | Phase 6 | Pending |
-| MIGRATE-01 | Phase 7 | Pending |
-| MIGRATE-02 | Phase 7 | Pending |
-| MIGRATE-03 | Phase 7 | Pending |
-| MIGRATE-04 | Phase 7 | Pending |
+| MIGRATE-01 | Phase 7 | Complete |
+| MIGRATE-02 | Phase 7 | Complete |
+| MIGRATE-03 | Phase 7 | Complete |
+| MIGRATE-04 | Phase 7 | Complete |
 | INDEX-01 | Phase 8 | Pending |
 | INDEX-02 | Phase 8 | Pending |
 
