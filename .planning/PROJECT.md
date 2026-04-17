@@ -12,13 +12,15 @@
 
 **Goal:** 重建文档目录结构，按工作流阶段（概念设计→产品模块→原型规格）组织，统一阅读体验。
 
-**Progress:** Phase 6 (目录结构规范设计) ✅ + Phase 7 (内容迁移) ✅ → Phase 8 (索引同步与验收) 进行中
+**Progress:** Phase 6 (目录结构规范设计) ✅ + Phase 7 (内容迁移) ✅ + Phase 8 (索引同步与验收) ✅ + Phase 9 (内容修正和文档清理) ✅ → v1.1 完成
 
 **Target features:**
 - [x] 设计并落地新目录结构规范 (Phase 6)
 - [x] 将现有 docs/、prd-md/、prototype/ 全部内容迁移到新结构（内容不变，仅移动位置）(Phase 7)
-- [ ] 同步更新所有索引引用（各层 README.md、三向映射表）(Phase 8)
-- [ ] 更新顶层 README.md (Phase 8)
+- [x] 同步更新所有索引引用（各层 README.md、三向映射表）(Phase 8)
+- [x] 更新顶层 README.md (Phase 8)
+- [x] 清理空目录和审核人元数据 (Phase 9)
+- [x] 创建 01-concept/README.md 和 glossary.md，完善入口导航 (Phase 9)
 
 ## Requirements
 
