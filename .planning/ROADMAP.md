@@ -23,8 +23,9 @@ Full details: [.planning/milestones/v1.0.0-ROADMAP.md](./milestones/v1.0.0-ROADM
 ### 🚧 v1.1 文档体系重构 (In Progress)
 
 - [x] Phase 6: 目录结构规范设计 (2/2 plans) — completed 2026-04-17
-- [ ] Phase 7: 内容迁移 (4 plans)
-- [ ] Phase 8: 索引同步与验收 (2 plans)
+- [x] Phase 7: 内容迁移 (1/1 plan) — completed 2026-04-17
+- [x] Phase 8: 索引同步与验收 (2/2 plans) — completed 2026-04-17
+- [ ] Phase 9: 内容修正和文档清理 (pending)
 
 ---
 
@@ -38,8 +39,9 @@ Full details: [.planning/milestones/v1.0.0-ROADMAP.md](./milestones/v1.0.0-ROADM
 | 4. 最终清理与验收 | v1.0.0 | 4/4 | Complete | 2026-04-16 |
 | 5. 冗余文件清理 | v1.0.0 | 1/1 | Complete | 2026-04-17 |
 | 6. 目录结构规范设计 | v1.1 | 2/2 | Complete | 2026-04-17 |
-| 7. 内容迁移 | v1.1 | 0/4 | Not started | — |
-| 8. 索引同步与验收 | v1.1 | 0/2 | Not started | — |
+| 7. 内容迁移 | v1.1 | 1/1 | Complete | 2026-04-17 |
+| 8. 索引同步与验收 | v1.1 | 2/2 | Complete | 2026-04-17 |
+| 9. 内容修正和文档清理 | v1.1 | 0/? | Pending | — |
 
 ---
 
@@ -107,6 +109,22 @@ Full details: [.planning/milestones/v1.0.0-ROADMAP.md](./milestones/v1.0.0-ROADM
 |------|-------------|
 | P8.1 | 更新各层 README.md 三向映射表（02-modules/、03-prototypes/、04-specs/） |
 | P8.2 | 验收：验证所有内部引用路径有效，三向映射表完整可追溯 |
+
+### Phase 9: 内容修正和文档清理
+
+**Goal:** 修正文档内容细节问题，清理冗余文件，优化文档体系结构。
+
+**Depends on:** Phase 8
+
+**Success Criteria:**
+1. 04-specs/ 下空目录全部删除
+2. 功能说明文档中审核人/审核日期元数据全部移除
+3. 01-concept/ 按照目录结构规范拆分重组（概念设计、商业化说明等模块）
+4. 03-pages/components/ 补回原有公用 JS 组件
+5. 其他发现的问题全部修正
+
+**Plans:**
+- [ ] TBD (run /gsd-plan-phase 9 to break down)
 
 ---
 
