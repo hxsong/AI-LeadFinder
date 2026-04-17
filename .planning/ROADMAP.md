@@ -26,6 +26,7 @@ Full details: [.planning/milestones/v1.0.0-ROADMAP.md](./milestones/v1.0.0-ROADM
 - [x] Phase 7: 内容迁移 (1/1 plan) — completed 2026-04-17
 - [x] Phase 8: 索引同步与验收 (2/2 plans) — completed 2026-04-17
 - [x] Phase 9: 内容修正和文档清理 (3/3 plans) — completed 2026-04-17
+- [ ] Phase 10: 目录规范完善与原型规范建设
 
 ---
 
@@ -129,6 +130,17 @@ Full details: [.planning/milestones/v1.0.0-ROADMAP.md](./milestones/v1.0.0-ROADM
 | P01 | 清理 9 个空目录（04-specs/ 8 个、03-prototypes/components/ 1 个），评估 01-concept/design/ 2 个占位目录 | ✅ Complete |
 | P02 | 清理 04-specs/ 下 21 个 .md 文件的审核人/审核日期元数据 | ✅ Complete |
 | P03 | 创建 01-concept/README.md 和 glossary.md，完善目录入口；扫描并记录遗留问题 | ✅ Complete |
+
+### Phase 10: 目录规范完善与原型规范建设
+
+**Goal:** 继续优化文档目录问题，建设通用的产品原型目录规范说明，完善文档体系的长期可维护性。
+
+**Depends on:** Phase 9
+
+**Success Criteria:**
+1. 原型目录规范说明文档创建完成
+2. 文档目录遗留问题得到优化或记录
+3. 各层目录索引导航保持完整
 
 ---
 
