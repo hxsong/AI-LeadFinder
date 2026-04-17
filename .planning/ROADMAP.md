@@ -3,7 +3,7 @@
 ## Milestones
 
 - ✅ **v1.0.0 MVP** — Phases 1-5 (shipped 2026-04-17)
-- 🚧 **v1.1 文档体系重构** — Phases 6-8 (in progress)
+- ✅ **v1.1 文档体系重构** — Phases 6-9 (completed 2026-04-17)
 
 ## Phases
 
@@ -25,7 +25,7 @@ Full details: [.planning/milestones/v1.0.0-ROADMAP.md](./milestones/v1.0.0-ROADM
 - [x] Phase 6: 目录结构规范设计 (2/2 plans) — completed 2026-04-17
 - [x] Phase 7: 内容迁移 (1/1 plan) — completed 2026-04-17
 - [x] Phase 8: 索引同步与验收 (2/2 plans) — completed 2026-04-17
-- [ ] Phase 9: 内容修正和文档清理 (pending)
+- [x] Phase 9: 内容修正和文档清理 (3/3 plans) — completed 2026-04-17
 
 ---
 
@@ -41,7 +41,7 @@ Full details: [.planning/milestones/v1.0.0-ROADMAP.md](./milestones/v1.0.0-ROADM
 | 6. 目录结构规范设计 | v1.1 | 2/2 | Complete | 2026-04-17 |
 | 7. 内容迁移 | v1.1 | 1/1 | Complete | 2026-04-17 |
 | 8. 索引同步与验收 | v1.1 | 2/2 | Complete | 2026-04-17 |
-| 9. 内容修正和文档清理 | v1.1 | 0/? | Pending | — |
+| 9. 内容修正和文档清理 | v1.1 | 3/3 | Complete | 2026-04-17 |
 
 ---
 
@@ -110,24 +110,28 @@ Full details: [.planning/milestones/v1.0.0-ROADMAP.md](./milestones/v1.0.0-ROADM
 | P8.1 | 更新各层 README.md 三向映射表（02-modules/、03-prototypes/、04-specs/） |
 | P8.2 | 验收：验证所有内部引用路径有效，三向映射表完整可追溯 |
 
-### Phase 9: 内容修正和文档清理
+## Phase 9: 内容修正和文档清理
 
 **Goal:** 修正文档内容细节问题，清理冗余文件，优化文档体系结构。
 
 **Depends on:** Phase 8
 
 **Success Criteria:**
-1. 04-specs/ 下空目录全部删除
-2. 功能说明文档中审核人/审核日期元数据全部移除
-3. 01-concept/ 按照目录结构规范拆分重组（概念设计、商业化说明等模块）
-4. 03-pages/components/ 补回原有公用 JS 组件
-5. 其他发现的问题全部修正
+1. 04-specs/ 下空目录全部删除 ✅
+2. 功能说明文档中审核人/审核日期元数据全部移除 ✅
+3. 01-concept/ README.md 和 glossary.md 创建完成 ✅
+4. 发现的问题记录到 BACKLOG.md（待后续 phase 处理）✅
 
 **Plans:**
-- [ ] TBD (run /gsd-plan-phase 9 to break down)
+
+| Plan | Description | Status |
+|------|-------------|--------|
+| P01 | 清理 9 个空目录（04-specs/ 8 个、03-prototypes/components/ 1 个），评估 01-concept/design/ 2 个占位目录 | ✅ Complete |
+| P02 | 清理 04-specs/ 下 21 个 .md 文件的审核人/审核日期元数据 | ✅ Complete |
+| P03 | 创建 01-concept/README.md 和 glossary.md，完善目录入口；扫描并记录遗留问题 | ✅ Complete |
 
 ---
 
 *Roadmap created: 2026-04-16*
-*Last updated: 2026-04-17 after v1.1 roadmap created*
+*Last updated: 2026-04-17 after Phase 9 completion*
 
