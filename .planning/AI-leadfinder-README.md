@@ -13,7 +13,6 @@
 | [04-specs/](04-specs/) | 功能说明文档 | [文档索引](04-specs/) |
 | [05-shared/](05-shared/) | 共享知识资产 | [变更历史](05-shared/changelog/) · [杂项](05-shared/misc/) |
 | [resources/](resources/) | 图片、字体等资源 | [images/](resources/images/) · [fonts/](resources/fonts/) |
-| [resources/](resources/) | 图片、字体等资源 | [images/](resources/images/) · [fonts/](resources/fonts/) |
 
 ## 新目录结构说明
 
