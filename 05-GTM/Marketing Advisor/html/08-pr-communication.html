@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI LeadFinder - 公关传播手册</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        primary: '#3B82F6', secondary: '#60A5FA', accent: '#10B981',
+                        cta: '#F97316', dark: '#1E293B', light: '#F8FAFC',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="shared/styles.css">
+</head>
+<body class="antialiased font-sans">
+
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-3">
+                    <a href="index.html" class="text-xl font-bold text-primary tracking-tight">AI LeadFinder</a>
+                    <span class="text-gray-300">|</span>
+                    <span class="text-sm text-gray-600">公关传播手册</span>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#strategy" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">传播策略</a>
+                    <a href="#media" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">媒体关系</a>
+                    <a href="#crisis" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">危机公关</a>
+                    <a href="#evaluation" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">效果评估</a>
+                </div>
+                <div class="nav-dropdown">
+                    <button class="text-gray-600 hover:text-primary transition-colors text-sm font-medium flex items-center gap-1">
+                        更多资料
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="nav-dropdown-content">
+                        <a href="01-brand-positioning.html" class="nav-dropdown-item">01-品牌定位与调性</a>
+                        <a href="02-selling-points.html" class="nav-dropdown-item">02-产品卖点提炼</a>
+                        <a href="03-content-marketing.html" class="nav-dropdown-item">03-内容营销指南</a>
+                        <a href="04-social-media.html" class="nav-dropdown-item">04-社交媒体运营</a>
+                        <a href="05-event-operations.html" class="nav-dropdown-item">05-活动运营手册</a>
+                        <a href="06-advertising.html" class="nav-dropdown-item">06-广告投放指南</a>
+                        <a href="07-seo-sem.html" class="nav-dropdown-item">07-SEO-SEM策略</a>
+                        <a href="08-pr-communication.html" class="nav-dropdown-item font-medium text-primary">08-公关传播手册</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="relative min-h-[50vh] flex items-center justify-center pt-16 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
+            <div class="absolute top-20 right-10 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
+            <div class="absolute -bottom-8 left-20 w-72 h-72 bg-green-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
+        </div>
+        <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-primary text-xs font-semibold tracking-wide uppercase mb-6 animate-fade-in-up">
+                PR & Communication
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold text-dark mb-6 leading-tight animate-fade-in-up delay-100">
+                AI LeadFinder<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">公关传播手册</span>
+            </h1>
+            <p class="text-xl text-gray-600 mb-4 max-w-3xl mx-auto animate-fade-in-up delay-200">
+                构建品牌信任，扩大行业影响力
+            </p>
+        </div>
+    </section>
+
+    <section id="strategy" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">PR Strategy</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">公关传播策略</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer text-center">
+                    <div class="w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center mb-4 text-purple-600 mx-auto">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-dark mb-2">品牌传播</h3>
+                    <p class="text-gray-600 text-sm">提升品牌知名度和美誉度</p>
+                    <div class="tooltip-content">
+                        <strong>品牌传播</strong><br><br>
+                        目标：提升品牌知名度和美誉度<br>
+                        策略：媒体报道、行业奖项、品牌活动<br>
+                        渠道：主流媒体、行业媒体、社交媒体
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer text-center">
+                    <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-4 text-primary mx-auto">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-dark mb-2">产品传播</h3>
+                    <p class="text-gray-600 text-sm">产品发布和功能更新传播</p>
+                    <div class="tooltip-content">
+                        <strong>产品传播</strong><br><br>
+                        目标：产品发布和功能更新传播<br>
+                        策略：产品发布会、媒体评测、KOL 体验<br>
+                        渠道：科技媒体、行业媒体、社交媒体
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer text-center">
+                    <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mb-4 text-accent mx-auto">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-dark mb-2">人物传播</h3>
+                    <p class="text-gray-600 text-sm">创始人/高管个人品牌建设</p>
+                    <div class="tooltip-content">
+                        <strong>人物传播</strong><br><br>
+                        目标：创始人/高管个人品牌建设<br>
+                        策略：行业演讲、媒体采访、专栏文章<br>
+                        渠道：行业峰会、主流媒体、LinkedIn
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer text-center">
+                    <div class="w-14 h-14 bg-orange-100 rounded-xl flex items-center justify-center mb-4 text-cta mx-auto">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-dark mb-2">信任传播</h3>
+                    <p class="text-gray-600 text-sm">客户案例和口碑传播</p>
+                    <div class="tooltip-content">
+                        <strong>信任传播</strong><br><br>
+                        目标：客户案例和口碑传播<br>
+                        策略：客户成功案例、行业认证、第三方评测<br>
+                        渠道：官网、社交媒体、行业媒体
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                <div class="p-4 bg-gray-50 border-b border-gray-100">
+                    <h3 class="font-bold text-dark">公关传播矩阵</h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>传播类型</th>
+                                <th>目标受众</th>
+                                <th>传播渠道</th>
+                                <th>内容形式</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">品牌传播</td>
+                                <td>行业人群、潜在客户</td>
+                                <td>主流媒体、行业媒体</td>
+                                <td>新闻稿、专访、报道</td>
+                                <div class="tooltip-content">
+                                    <strong>品牌传播</strong><br><br>
+                                    目标受众：行业人群、潜在客户<br>
+                                    传播渠道：主流媒体、行业媒体<br>
+                                    内容形式：新闻稿、专访、报道
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">产品传播</td>
+                                <td>潜在客户、现有客户</td>
+                                <td>科技媒体、行业媒体</td>
+                                <td>产品评测、体验文章</td>
+                                <div class="tooltip-content">
+                                    <strong>产品传播</strong><br><br>
+                                    目标受众：潜在客户、现有客户<br>
+                                    传播渠道：科技媒体、行业媒体<br>
+                                    内容形式：产品评测、体验文章
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">人物传播</td>
+                                <td>行业从业者、投资人</td>
+                                <td>行业峰会、媒体采访</td>
+                                <td>演讲、专栏、采访</td>
+                                <div class="tooltip-content">
+                                    <strong>人物传播</strong><br><br>
+                                    目标受众：行业从业者、投资人<br>
+                                    传播渠道：行业峰会、媒体采访<br>
+                                    内容形式：演讲、专栏、采访
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">信任传播</td>
+                                <td>潜在客户、合作伙伴</td>
+                                <td>官网、社交媒体、媒体</td>
+                                <td>案例、认证、评测</td>
+                                <div class="tooltip-content">
+                                    <strong>信任传播</strong><br><br>
+                                    目标受众：潜在客户、合作伙伴<br>
+                                    传播渠道：官网、社交媒体、媒体<br>
+                                    内容形式：案例、认证、评测
+                                </div>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="media" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Media Relations</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">媒体关系</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-4">重点媒体清单</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold text-sm text-gray-500 mb-2">主流媒体</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>• 36氪、虎嗅、钛媒体</li>
+                                <li>• 亿邦动力、雨果网</li>
+                                <li>• 第一财经、财经杂志</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-sm text-gray-500 mb-2">行业媒体</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>• 福步外贸网、环球资源</li>
+                                <li>• 中国贸易报、国际商报</li>
+                                <li>• 各行业协会媒体</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-sm text-gray-500 mb-2">海外媒体</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>• TechCrunch、VentureBeat</li>
+                                <li>• SaaStr、SaaS Mag</li>
+                                <li>• 行业垂直媒体</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>重点媒体清单</strong><br><br>
+                        <strong>主流媒体：</strong><br>
+                        • 36氪、虎嗅、钛媒体<br>
+                        • 亿邦动力、雨果网<br>
+                        • 第一财经、财经杂志<br><br>
+                        <strong>行业媒体：</strong><br>
+                        • 福步外贸网、环球资源<br>
+                        • 中国贸易报、国际商报<br><br>
+                        <strong>海外媒体：</strong><br>
+                        • TechCrunch、VentureBeat<br>
+                        • SaaStr、SaaS Mag
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-4">媒体合作方式</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold text-sm text-gray-500 mb-2">内容合作</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>• 独家新闻稿发布</li>
+                                <li>• 深度专访</li>
+                                <li>• 行业报告联合发布</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-sm text-gray-500 mb-2">活动合作</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>• 联合举办行业峰会</li>
+                                <li>• 媒体赞助</li>
+                                <li>• 嘉宾邀请</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-sm text-gray-500 mb-2">长期合作</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>• 媒体专栏</li>
+                                <li>• 年度合作伙伴</li>
+                                <li>• 内容共创</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>媒体合作方式</strong><br><br>
+                        <strong>内容合作：</strong><br>
+                        • 独家新闻稿发布<br>
+                        • 深度专访<br>
+                        • 行业报告联合发布<br><br>
+                        <strong>活动合作：</strong><br>
+                        • 联合举办行业峰会<br>
+                        • 媒体赞助<br>
+                        • 嘉宾邀请<br><br>
+                        <strong>长期合作：</strong><br>
+                        • 媒体专栏<br>
+                        • 年度合作伙伴<br>
+                        • 内容共创
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                <div class="p-4 bg-gray-50 border-b border-gray-100">
+                    <h3 class="font-bold text-dark">新闻稿发布流程</h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>步骤</th>
+                                <th>时间</th>
+                                <th>事项</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">1. 策划</td>
+                                <td>发布前 1 周</td>
+                                <td>确定新闻角度、撰写新闻稿</td>
+                                <div class="tooltip-content">
+                                    <strong>新闻稿策划</strong><br><br>
+                                    时间：发布前 1 周<br>
+                                    事项：确定新闻角度、撰写新闻稿、准备配图
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">2. 审核</td>
+                                <td>发布前 3 天</td>
+                                <td>内部审核、法务审核</td>
+                                <div class="tooltip-content">
+                                    <strong>新闻稿审核</strong><br><br>
+                                    时间：发布前 3 天<br>
+                                    事项：内部审核、法务审核、高管确认
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">3. 发布</td>
+                                <td>发布当天</td>
+                                <td>媒体发布、社交媒体同步</td>
+                                <div class="tooltip-content">
+                                    <strong>新闻稿发布</strong><br><br>
+                                    时间：发布当天<br>
+                                    事项：媒体发布、社交媒体同步、官网更新
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">4. 跟进</td>
+                                <td>发布后 1 周</td>
+                                <td>收集报道、效果评估</td>
+                                <div class="tooltip-content">
+                                    <strong>新闻稿跟进</strong><br><br>
+                                    时间：发布后 1 周<br>
+                                    事项：收集报道、效果评估、感谢媒体
+                                </div>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="crisis" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Crisis Management</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">危机公关</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-4">危机预警</h3>
+                    <div class="space-y-3 text-sm text-gray-600">
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>舆情监控：实时监测品牌提及</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>竞品监控：关注竞品动态</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>行业监控：关注行业政策变化</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>客户反馈：及时处理客户投诉</span>
+                        </div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>危机预警</strong><br><br>
+                        • 舆情监控：实时监测品牌提及<br>
+                        • 竞品监控：关注竞品动态<br>
+                        • 行业监控：关注行业政策变化<br>
+                        • 客户反馈：及时处理客户投诉<br>
+                        • 建立危机预警机制
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-4">危机应对</h3>
+                    <div class="space-y-3 text-sm text-gray-600">
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>快速响应：24 小时内回应</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>真诚沟通：坦诚面对问题</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>解决方案：提出具体解决措施</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>持续跟进：直到问题解决</span>
+                        </div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>危机应对</strong><br><br>
+                        • 快速响应：24 小时内回应<br>
+                        • 真诚沟通：坦诚面对问题<br>
+                        • 解决方案：提出具体解决措施<br>
+                        • 持续跟进：直到问题解决<br>
+                        • 总结复盘：避免类似问题再次发生
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card p-8 rounded-2xl border-l-4 border-red-500">
+                <h3 class="text-lg font-bold text-dark mb-4">危机公关原则</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold text-red-500 mb-2">DO（应该做）</h4>
+                        <ul class="space-y-1 text-sm text-gray-600">
+                            <li>• 快速响应，及时发声</li>
+                            <li>• 真诚道歉，承担责任</li>
+                            <li>• 提供解决方案</li>
+                            <li>• 保持透明沟通</li>
+                            <li>• 持续跟进进展</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-red-500 mb-2">DON'T（不应该做）</h4>
+                        <ul class="space-y-1 text-sm text-gray-600">
+                            <li>• 删除负面评论</li>
+                            <li>• 推卸责任</li>
+                            <li>• 沉默不回应</li>
+                            <li>• 与网友争论</li>
+                            <li>• 发布虚假信息</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="evaluation" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Evaluation</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">效果评估</h2>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>指标</th>
+                                <th>定义</th>
+                                <th>目标值</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">媒体曝光量</td>
+                                <td>媒体报道的数量和覆盖面</td>
+                                <td class="text-primary font-semibold">持续增长</td>
+                                <div class="tooltip-content">
+                                    <strong>媒体曝光量</strong><br><br>
+                                    定义：媒体报道的数量和覆盖面<br>
+                                    目标值：持续增长<br>
+                                    优化方向：拓展媒体合作
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">品牌提及量</td>
+                                <td>品牌被提及的次数</td>
+                                <td class="text-primary font-semibold">月增长 > 10%</td>
+                                <div class="tooltip-content">
+                                    <strong>品牌提及量</strong><br><br>
+                                    定义：品牌被提及的次数<br>
+                                    目标值：月增长 > 10%<br>
+                                    优化方向：提升品牌活动频率
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold"> sentiment 分析</td>
+                                <td>品牌舆情正负面占比</td>
+                                <td class="text-primary font-semibold">正面 > 80%</td>
+                                <div class="tooltip-content">
+                                    <strong>Sentiment 分析</strong><br><br>
+                                    定义：品牌舆情正负面占比<br>
+                                    目标值：正面 > 80%<br>
+                                    优化方向：及时处理负面舆情
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">高管影响力</td>
+                                <td>创始人/高管的行业影响力</td>
+                                <td class="text-primary font-semibold">持续提升</td>
+                                <div class="tooltip-content">
+                                    <strong>高管影响力</strong><br><br>
+                                    定义：创始人/高管的行业影响力<br>
+                                    目标值：持续提升<br>
+                                    优化方向：增加行业曝光
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">危机响应时间</td>
+                                <td>从危机发生到首次回应的时间</td>
+                                <td class="text-primary font-semibold">< 4 小时</td>
+                                <div class="tooltip-content">
+                                    <strong>危机响应时间</strong><br><br>
+                                    定义：从危机发生到首次回应的时间<br>
+                                    目标值：< 4 小时<br>
+                                    优化方向：建立快速响应机制
+                                </div>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-dark border-t border-white/10 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <span class="text-xl font-bold text-white tracking-tight">AI <span class="text-primary">LeadFinder</span></span>
+                <p class="text-gray-500 text-sm mt-1">Marketing Advisor - 公关传播手册</p>
+            </div>
+            <div class="text-gray-500 text-sm">
+                &copy; 2026 AI LeadFinder. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

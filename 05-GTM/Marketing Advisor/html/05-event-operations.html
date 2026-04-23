@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI LeadFinder - 活动运营手册</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        primary: '#3B82F6', secondary: '#60A5FA', accent: '#10B981',
+                        cta: '#F97316', dark: '#1E293B', light: '#F8FAFC',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="shared/styles.css">
+    <style>
+        .timeline-item { position: relative; padding-left: 3rem; padding-bottom: 2rem; }
+        .timeline-item::before { content: ''; position: absolute; left: 1rem; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--primary), var(--accent)); }
+        .timeline-item::after { content: ''; position: absolute; left: 0.625rem; top: 0.25rem; width: 0.75rem; height: 0.75rem; border-radius: 50%; background: var(--primary); }
+        .timeline-item:last-child::before { display: none; }
+    </style>
+</head>
+<body class="antialiased font-sans">
+
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-3">
+                    <a href="index.html" class="text-xl font-bold text-primary tracking-tight">AI LeadFinder</a>
+                    <span class="text-gray-300">|</span>
+                    <span class="text-sm text-gray-600">活动运营手册</span>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#online" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">线上活动</a>
+                    <a href="#offline" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">线下活动</a>
+                    <a href="#process" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">活动流程</a>
+                    <a href="#evaluation" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">效果评估</a>
+                </div>
+                <div class="nav-dropdown">
+                    <button class="text-gray-600 hover:text-primary transition-colors text-sm font-medium flex items-center gap-1">
+                        更多资料
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="nav-dropdown-content">
+                        <a href="01-brand-positioning.html" class="nav-dropdown-item">01-品牌定位与调性</a>
+                        <a href="02-selling-points.html" class="nav-dropdown-item">02-产品卖点提炼</a>
+                        <a href="03-content-marketing.html" class="nav-dropdown-item">03-内容营销指南</a>
+                        <a href="04-social-media.html" class="nav-dropdown-item">04-社交媒体运营</a>
+                        <a href="05-event-operations.html" class="nav-dropdown-item font-medium text-primary">05-活动运营手册</a>
+                        <a href="06-advertising.html" class="nav-dropdown-item">06-广告投放指南</a>
+                        <a href="07-seo-sem.html" class="nav-dropdown-item">07-SEO-SEM策略</a>
+                        <a href="08-pr-communication.html" class="nav-dropdown-item">08-公关传播手册</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="relative min-h-[50vh] flex items-center justify-center pt-16 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
+            <div class="absolute top-20 right-10 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
+            <div class="absolute -bottom-8 left-20 w-72 h-72 bg-green-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
+        </div>
+        <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-primary text-xs font-semibold tracking-wide uppercase mb-6 animate-fade-in-up">
+                Event Operations
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold text-dark mb-6 leading-tight animate-fade-in-up delay-100">
+                AI LeadFinder<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">活动运营手册</span>
+            </h1>
+            <p class="text-xl text-gray-600 mb-4 max-w-3xl mx-auto animate-fade-in-up delay-200">
+                从策划到执行，打造高转化营销活动
+            </p>
+        </div>
+    </section>
+
+    <section id="online" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Online Events</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">线上活动</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer">
+                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4 text-primary">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-dark mb-2">线上研讨会 (Webinar)</h3>
+                    <p class="text-gray-600 text-sm mb-3">深度内容分享，建立专业形象</p>
+                    <div class="text-xs text-gray-500">
+                        <div>频率：每月 1-2 场</div>
+                        <div>时长：45-60 分钟</div>
+                        <div>规模：50-200 人</div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>线上研讨会 (Webinar)</strong><br><br>
+                        目标：深度内容分享，建立专业形象<br>
+                        频率：每月 1-2 场<br>
+                        时长：45-60 分钟<br>
+                        规模：50-200 人<br><br>
+                        <strong>主题示例：</strong><br>
+                        • AI 驱动的 B2B 获客新范式<br>
+                        • 独立站访客转化实战技巧<br>
+                        • 2026 年外贸获客趋势解读
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer">
+                    <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4 text-accent">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-dark mb-2">直播活动</h3>
+                    <p class="text-gray-600 text-sm mb-3">实时互动，提升参与感</p>
+                    <div class="text-xs text-gray-500">
+                        <div>频率：每月 2-4 场</div>
+                        <div>时长：30-60 分钟</div>
+                        <div>平台：视频号、抖音、B站</div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>直播活动</strong><br><br>
+                        目标：实时互动，提升参与感<br>
+                        频率：每月 2-4 场<br>
+                        时长：30-60 分钟<br>
+                        平台：视频号、抖音、B站<br><br>
+                        <strong>直播主题：</strong><br>
+                        • 产品功能演示直播<br>
+                        • 客户成功案例分享<br>
+                        • 行业专家对话
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer">
+                    <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4 text-purple-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-dark mb-2">线上培训</h3>
+                    <p class="text-gray-600 text-sm mb-3">产品使用培训，提升客户满意度</p>
+                    <div class="text-xs text-gray-500">
+                        <div>频率：每月 1-2 场</div>
+                        <div>时长：30-45 分钟</div>
+                        <div>对象：现有客户</div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>线上培训</strong><br><br>
+                        目标：产品使用培训，提升客户满意度<br>
+                        频率：每月 1-2 场<br>
+                        时长：30-45 分钟<br>
+                        对象：现有客户<br><br>
+                        <strong>培训内容：</strong><br>
+                        • 新手入门培训<br>
+                        • 进阶功能培训<br>
+                        • 最佳实践分享
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                <div class="p-4 bg-gray-50 border-b border-gray-100">
+                    <h3 class="font-bold text-dark">线上活动筹备清单</h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>阶段</th>
+                                <th>时间</th>
+                                <th>事项</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">策划</td>
+                                <td>活动前 4 周</td>
+                                <td>确定主题、目标、预算、嘉宾</td>
+                                <div class="tooltip-content">
+                                    <strong>策划阶段</strong><br><br>
+                                    时间：活动前 4 周<br>
+                                    事项：确定主题、目标、预算、嘉宾、形式
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">宣传</td>
+                                <td>活动前 2-3 周</td>
+                                <td>制作海报、文案，多渠道推广</td>
+                                <div class="tooltip-content">
+                                    <strong>宣传阶段</strong><br><br>
+                                    时间：活动前 2-3 周<br>
+                                    事项：制作海报、文案，多渠道推广，报名收集
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">准备</td>
+                                <td>活动前 1 周</td>
+                                <td>测试设备、彩排、发送提醒</td>
+                                <div class="tooltip-content">
+                                    <strong>准备阶段</strong><br><br>
+                                    时间：活动前 1 周<br>
+                                    事项：测试设备、彩排、发送提醒、准备资料
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">执行</td>
+                                <td>活动当天</td>
+                                <td>签到、主持、互动、答疑</td>
+                                <div class="tooltip-content">
+                                    <strong>执行阶段</strong><br><br>
+                                    时间：活动当天<br>
+                                    事项：签到、主持、互动、答疑、录制
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">跟进</td>
+                                <td>活动后 1 周</td>
+                                <td>发送回放、资料、跟进线索</td>
+                                <div class="tooltip-content">
+                                    <strong>跟进阶段</strong><br><br>
+                                    时间：活动后 1 周<br>
+                                    事项：发送回放、资料、跟进线索、收集反馈
+                                </div>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="offline" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Offline Events</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">线下活动</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer">
+                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4 text-primary">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-dark mb-2">行业展会</h3>
+                    <p class="text-gray-600 text-sm mb-3">展示产品，获取高质量线索</p>
+                    <div class="text-xs text-gray-500">
+                        <div>频率：每季度 1-2 场</div>
+                        <div>规模：根据展会而定</div>
+                        <div>目标：品牌曝光 + 线索获取</div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>行业展会</strong><br><br>
+                        目标：展示产品，获取高质量线索<br>
+                        频率：每季度 1-2 场<br>
+                        目标：品牌曝光 + 线索获取<br><br>
+                        <strong>重点展会：</strong><br>
+                        • 广交会<br>
+                        • 行业垂直展会<br>
+                        • 跨境电商展会
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer">
+                    <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4 text-accent">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-dark mb-2">客户沙龙</h3>
+                    <p class="text-gray-600 text-sm mb-3">深度交流，提升客户粘性</p>
+                    <div class="text-xs text-gray-500">
+                        <div>频率：每月 1 场</div>
+                        <div>规模：20-50 人</div>
+                        <div>对象：现有客户 + 高意向潜在客户</div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>客户沙龙</strong><br><br>
+                        目标：深度交流，提升客户粘性<br>
+                        频率：每月 1 场<br>
+                        规模：20-50 人<br>
+                        对象：现有客户 + 高意向潜在客户<br><br>
+                        <strong>沙龙形式：</strong><br>
+                        • 主题分享 + 自由交流<br>
+                        • 客户成功案例分享<br>
+                        • 产品新功能预览
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer">
+                    <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4 text-purple-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-dark mb-2">合作伙伴活动</h3>
+                    <p class="text-gray-600 text-sm mb-3">联合营销，扩大影响力</p>
+                    <div class="text-xs text-gray-500">
+                        <div>频率：每季度 1 场</div>
+                        <div>规模：50-100 人</div>
+                        <div>合作伙伴：行业协会、媒体、互补产品</div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>合作伙伴活动</strong><br><br>
+                        目标：联合营销，扩大影响力<br>
+                        频率：每季度 1 场<br>
+                        规模：50-100 人<br>
+                        合作伙伴：行业协会、媒体、互补产品<br><br>
+                        <strong>合作形式：</strong><br>
+                        • 联合举办行业峰会<br>
+                        • 联合发布行业报告<br>
+                        • 产品集成发布会
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="process" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Event Process</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">活动执行流程</h2>
+            </div>
+
+            <div class="max-w-3xl mx-auto">
+                <div class="timeline-item tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-2">1. 活动策划</h3>
+                    <p class="text-gray-600 text-sm">确定活动目标、主题、形式、预算、时间</p>
+                    <div class="tooltip-content">
+                        <strong>活动策划</strong><br><br>
+                        • 确定活动目标（品牌曝光/线索获取/客户教育）<br>
+                        • 确定活动主题和形式<br>
+                        • 制定活动预算<br>
+                        • 确定活动时间和地点<br>
+                        • 组建活动团队
+                    </div>
+                </div>
+                <div class="timeline-item tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-2">2. 内容准备</h3>
+                    <p class="text-gray-600 text-sm">准备演讲稿、PPT、演示材料、宣传物料</p>
+                    <div class="tooltip-content">
+                        <strong>内容准备</strong><br><br>
+                        • 准备演讲稿和 PPT<br>
+                        • 准备产品演示环境<br>
+                        • 制作宣传物料（海报、邀请函）<br>
+                        • 准备活动资料包<br>
+                        • 准备互动环节
+                    </div>
+                </div>
+                <div class="timeline-item tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-2">3. 活动宣传</h3>
+                    <p class="text-gray-600 text-sm">多渠道推广，收集报名</p>
+                    <div class="tooltip-content">
+                        <strong>活动宣传</strong><br><br>
+                        • 官网和公众号发布活动信息<br>
+                        • LinkedIn 和微信群推广<br>
+                        • 邮件邀请目标客户<br>
+                        • 销售团队一对一邀请<br>
+                        • 合作伙伴联合推广
+                    </div>
+                </div>
+                <div class="timeline-item tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-2">4. 活动执行</h3>
+                    <p class="text-gray-600 text-sm">现场/线上执行，确保活动顺利进行</p>
+                    <div class="tooltip-content">
+                        <strong>活动执行</strong><br><br>
+                        • 签到和接待<br>
+                        • 活动主持和演讲<br>
+                        • 产品演示和互动<br>
+                        • 答疑和交流<br>
+                        • 资料收集和拍照
+                    </div>
+                </div>
+                <div class="timeline-item tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-2">5. 活动跟进</h3>
+                    <p class="text-gray-600 text-sm">发送感谢信、资料、跟进线索</p>
+                    <div class="tooltip-content">
+                        <strong>活动跟进</strong><br><br>
+                        • 发送感谢信和活动回放<br>
+                        • 发送活动资料和 PPT<br>
+                        • 跟进高意向线索<br>
+                        • 收集活动反馈<br>
+                        • 活动总结和复盘
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="evaluation" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Evaluation</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">活动效果评估</h2>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>指标</th>
+                                <th>定义</th>
+                                <th>目标值</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">报名率</td>
+                                <td>报名人数 / 触达人数</td>
+                                <td class="text-primary font-semibold">> 5%</td>
+                                <div class="tooltip-content">
+                                    <strong>报名率</strong><br><br>
+                                    定义：报名人数 / 触达人数<br>
+                                    目标值：> 5%<br>
+                                    优化方向：优化宣传文案和渠道
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">到场率</td>
+                                <td>到场人数 / 报名人数</td>
+                                <td class="text-primary font-semibold">> 40%</td>
+                                <div class="tooltip-content">
+                                    <strong>到场率</strong><br><br>
+                                    定义：到场人数 / 报名人数<br>
+                                    目标值：> 40%<br>
+                                    优化方向：加强提醒和确认
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">互动率</td>
+                                <td>互动人数 / 到场人数</td>
+                                <td class="text-primary font-semibold">> 30%</td>
+                                <div class="tooltip-content">
+                                    <strong>互动率</strong><br><br>
+                                    定义：互动人数 / 到场人数<br>
+                                    目标值：> 30%<br>
+                                    优化方向：设计互动环节
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">线索转化率</td>
+                                <td>线索数 / 到场人数</td>
+                                <td class="text-primary font-semibold">> 50%</td>
+                                <div class="tooltip-content">
+                                    <strong>线索转化率</strong><br><br>
+                                    定义：线索数 / 到场人数<br>
+                                    目标值：> 50%<br>
+                                    优化方向：优化活动内容和 CTA
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">试用转化率</td>
+                                <td>试用数 / 线索数</td>
+                                <td class="text-primary font-semibold">> 20%</td>
+                                <div class="tooltip-content">
+                                    <strong>试用转化率</strong><br><br>
+                                    定义：试用数 / 线索数<br>
+                                    目标值：> 20%<br>
+                                    优化方向：加强跟进和培育
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">ROI</td>
+                                <td>活动收入 / 活动成本</td>
+                                <td class="text-primary font-semibold">> 300%</td>
+                                <div class="tooltip-content">
+                                    <strong>ROI</strong><br><br>
+                                    定义：活动收入 / 活动成本<br>
+                                    目标值：> 300%<br>
+                                    优化方向：控制成本，提升转化
+                                </div>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-dark border-t border-white/10 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <span class="text-xl font-bold text-white tracking-tight">AI <span class="text-primary">LeadFinder</span></span>
+                <p class="text-gray-500 text-sm mt-1">Marketing Advisor - 活动运营手册</p>
+            </div>
+            <div class="text-gray-500 text-sm">
+                &copy; 2026 AI LeadFinder. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

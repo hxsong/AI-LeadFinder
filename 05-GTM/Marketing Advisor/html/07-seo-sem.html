@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI LeadFinder - SEO-SEM策略</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        primary: '#3B82F6', secondary: '#60A5FA', accent: '#10B981',
+                        cta: '#F97316', dark: '#1E293B', light: '#F8FAFC',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="shared/styles.css">
+    <style>
+        .seo-pyramid-level-1 { width: 45%; background: linear-gradient(135deg, #8B5CF6, #7C3AED); clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%); }
+        .seo-pyramid-level-2 { width: 65%; background: linear-gradient(135deg, #3B82F6, #2563EB); clip-path: polygon(8% 0%, 92% 0%, 100% 100%, 0% 100%); }
+        .seo-pyramid-level-3 { width: 85%; background: linear-gradient(135deg, #10B981, #059669); clip-path: polygon(6% 0%, 94% 0%, 100% 100%, 0% 100%); }
+        .seo-pyramid-level-4 { width: 100%; background: linear-gradient(135deg, #F97316, #EA580C); clip-path: polygon(5% 0%, 95% 0%, 100% 100%, 0% 100%); }
+    </style>
+</head>
+<body class="antialiased font-sans">
+
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-3">
+                    <a href="index.html" class="text-xl font-bold text-primary tracking-tight">AI LeadFinder</a>
+                    <span class="text-gray-300">|</span>
+                    <span class="text-sm text-gray-600">SEO-SEM策略</span>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#seo" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">SEO策略</a>
+                    <a href="#sem" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">SEM策略</a>
+                    <a href="#keywords" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">关键词</a>
+                    <a href="#evaluation" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">效果评估</a>
+                </div>
+                <div class="nav-dropdown">
+                    <button class="text-gray-600 hover:text-primary transition-colors text-sm font-medium flex items-center gap-1">
+                        更多资料
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="nav-dropdown-content">
+                        <a href="01-brand-positioning.html" class="nav-dropdown-item">01-品牌定位与调性</a>
+                        <a href="02-selling-points.html" class="nav-dropdown-item">02-产品卖点提炼</a>
+                        <a href="03-content-marketing.html" class="nav-dropdown-item">03-内容营销指南</a>
+                        <a href="04-social-media.html" class="nav-dropdown-item">04-社交媒体运营</a>
+                        <a href="05-event-operations.html" class="nav-dropdown-item">05-活动运营手册</a>
+                        <a href="06-advertising.html" class="nav-dropdown-item">06-广告投放指南</a>
+                        <a href="07-seo-sem.html" class="nav-dropdown-item font-medium text-primary">07-SEO-SEM策略</a>
+                        <a href="08-pr-communication.html" class="nav-dropdown-item">08-公关传播手册</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="relative min-h-[50vh] flex items-center justify-center pt-16 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
+            <div class="absolute top-20 right-10 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
+            <div class="absolute -bottom-8 left-20 w-72 h-72 bg-green-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
+        </div>
+        <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-primary text-xs font-semibold tracking-wide uppercase mb-6 animate-fade-in-up">
+                SEO & SEM
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold text-dark mb-6 leading-tight animate-fade-in-up delay-100">
+                AI LeadFinder<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">SEO-SEM策略</span>
+            </h1>
+            <p class="text-xl text-gray-600 mb-4 max-w-3xl mx-auto animate-fade-in-up delay-200">
+                搜索营销双引擎，驱动可持续获客增长
+            </p>
+        </div>
+    </section>
+
+    <section id="seo" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">SEO Strategy</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">SEO 策略</h2>
+            </div>
+
+            <div class="text-center mb-8">
+                <h3 class="text-xl font-bold text-dark mb-6">SEO 优化金字塔</h3>
+            </div>
+            <div class="max-w-lg mx-auto mb-12">
+                <div class="pyramid-level seo-pyramid-level-1 tooltip-container cursor-pointer">
+                    <div class="text-sm md:text-base">
+                        <div class="font-bold">内容层</div>
+                        <div class="text-white/80 text-xs md:text-sm">高质量原创内容</div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>内容层</strong><br><br>
+                        高质量原创内容是 SEO 的核心。<br>
+                        • 行业报告和白皮书<br>
+                        • 深度方法论文章<br>
+                        • 客户案例和成功故事<br>
+                        • 产品使用教程<br>
+                        • 常见问题解答
+                    </div>
+                </div>
+                <div class="pyramid-connector"></div>
+                <div class="pyramid-level seo-pyramid-level-2 tooltip-container cursor-pointer">
+                    <div class="text-sm md:text-base">
+                        <div class="font-bold">技术层</div>
+                        <div class="text-white/80 text-xs md:text-sm">网站技术优化</div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>技术层</strong><br><br>
+                        网站技术优化是 SEO 的基础。<br>
+                        • 网站速度优化<br>
+                        • 移动端适配<br>
+                        • 结构化数据标记<br>
+                        • URL 优化<br>
+                        • 网站地图
+                    </div>
+                </div>
+                <div class="pyramid-connector"></div>
+                <div class="pyramid-level seo-pyramid-level-3 tooltip-container cursor-pointer">
+                    <div class="text-sm md:text-base">
+                        <div class="font-bold">外链层</div>
+                        <div class="text-white/80 text-xs md:text-sm">高质量外链建设</div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>外链层</strong><br><br>
+                        高质量外链提升网站权威性。<br>
+                        • 行业媒体投稿<br>
+                        • 合作伙伴链接<br>
+                        • 社交媒体分享<br>
+                        • 行业目录提交<br>
+                        • 客座博客
+                    </div>
+                </div>
+                <div class="pyramid-connector"></div>
+                <div class="pyramid-level seo-pyramid-level-4 tooltip-container cursor-pointer">
+                    <div class="text-sm md:text-base">
+                        <div class="font-bold">数据层</div>
+                        <div class="text-white/80 text-xs md:text-sm">数据分析与优化</div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>数据层</strong><br><br>
+                        数据分析驱动持续优化。<br>
+                        • 关键词排名监控<br>
+                        • 流量分析<br>
+                        • 转化率分析<br>
+                        • 用户行为分析<br>
+                        • A/B 测试
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-4">站内优化</h3>
+                    <div class="space-y-3 text-sm text-gray-600">
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>标题优化：包含核心关键词，吸引点击</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>内容优化：原创、深度、有价值</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>内链优化：合理的内部链接结构</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>图片优化：ALT 标签、压缩</span>
+                        </div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>站内优化</strong><br><br>
+                        • 标题优化：包含核心关键词，吸引点击<br>
+                        • 内容优化：原创、深度、有价值<br>
+                        • 内链优化：合理的内部链接结构<br>
+                        • 图片优化：ALT 标签、压缩<br>
+                        • URL 优化：简洁、包含关键词
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-4">站外优化</h3>
+                    <div class="space-y-3 text-sm text-gray-600">
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>外链建设：高质量外链</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>社交媒体：分享和互动</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>行业媒体：投稿和合作</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>口碑管理：评价和推荐</span>
+                        </div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>站外优化</strong><br><br>
+                        • 外链建设：高质量外链<br>
+                        • 社交媒体：分享和互动<br>
+                        • 行业媒体：投稿和合作<br>
+                        • 口碑管理：评价和推荐<br>
+                        • 品牌建设：提升品牌搜索量
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="sem" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">SEM Strategy</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">SEM 策略</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-4">账户结构</h3>
+                    <div class="space-y-3 text-sm text-gray-600">
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>广告系列：按产品/地域/目标分组</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>广告组：按关键词主题分组</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>关键词：核心词+长尾词+否定词</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>广告文案：多版本测试</span>
+                        </div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>账户结构</strong><br><br>
+                        • 广告系列：按产品/地域/目标分组<br>
+                        • 广告组：按关键词主题分组<br>
+                        • 关键词：核心词+长尾词+否定词<br>
+                        • 广告文案：多版本测试<br>
+                        • 落地页：与广告内容匹配
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-4">出价策略</h3>
+                    <div class="space-y-3 text-sm text-gray-600">
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>手动出价：精准控制</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>自动出价：目标 CPA/ROAS</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>分时段出价：高峰时段加价</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>分地域出价：重点地域加价</span>
+                        </div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>出价策略</strong><br><br>
+                        • 手动出价：精准控制每个关键词出价<br>
+                        • 自动出价：目标 CPA/ROAS<br>
+                        • 分时段出价：高峰时段加价<br>
+                        • 分地域出价：重点地域加价<br>
+                        • 设备出价：移动端/桌面端差异化
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                <div class="p-4 bg-gray-50 border-b border-gray-100">
+                    <h3 class="font-bold text-dark">SEM 优化清单</h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>优化项</th>
+                                <th>频率</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">关键词优化</td>
+                                <td>每周</td>
+                                <td>添加新词、剔除无效词、调整出价</td>
+                                <div class="tooltip-content">
+                                    <strong>关键词优化</strong><br><br>
+                                    频率：每周<br>
+                                    操作：添加新词、剔除无效词、调整出价、添加否定词
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">广告文案测试</td>
+                                <td>每两周</td>
+                                <td>A/B 测试标题和描述</td>
+                                <div class="tooltip-content">
+                                    <strong>广告文案测试</strong><br><br>
+                                    频率：每两周<br>
+                                    操作：A/B 测试标题和描述，保留高 CTR 版本
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">落地页优化</td>
+                                <td>每月</td>
+                                <td>测试不同页面版本</td>
+                                <div class="tooltip-content">
+                                    <strong>落地页优化</strong><br><br>
+                                    频率：每月<br>
+                                    操作：测试不同页面版本，优化转化率
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">质量度优化</td>
+                                <td>每月</td>
+                                <td>提升关键词质量度</td>
+                                <div class="tooltip-content">
+                                    <strong>质量度优化</strong><br><br>
+                                    频率：每月<br>
+                                    操作：提升关键词质量度，降低 CPC
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">数据分析</td>
+                                <td>每周</td>
+                                <td>分析数据，调整策略</td>
+                                <div class="tooltip-content">
+                                    <strong>数据分析</strong><br><br>
+                                    频率：每周<br>
+                                    操作：分析数据，调整策略，优化 ROI
+                                </div>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="keywords" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Keywords</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">关键词策略</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
+                <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                    <div class="p-4 bg-gray-50 border-b border-gray-100">
+                        <h3 class="font-bold text-dark">核心关键词</h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>关键词</th>
+                                    <th>搜索量</th>
+                                    <th>竞争度</th>
+                                    <th>优先级</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="tooltip-container group cursor-pointer">
+                                    <td class="font-semibold">B2B 获客</td>
+                                    <td>5000+</td>
+                                    <td>高</td>
+                                    <td><span class="text-cta">⭐⭐⭐⭐⭐</span></td>
+                                    <div class="tooltip-content">
+                                        <strong>B2B 获客</strong><br><br>
+                                        搜索量：5000+<br>
+                                        竞争度：高<br>
+                                        优先级：最高<br>
+                                        策略：SEO + SEM 同时布局
+                                    </div>
+                                </tr>
+                                <tr class="tooltip-container group cursor-pointer">
+                                    <td class="font-semibold">外贸获客</td>
+                                    <td>4000+</td>
+                                    <td>高</td>
+                                    <td><span class="text-cta">⭐⭐⭐⭐⭐</span></td>
+                                    <div class="tooltip-content">
+                                        <strong>外贸获客</strong><br><br>
+                                        搜索量：4000+<br>
+                                        竞争度：高<br>
+                                        优先级：最高
+                                    </div>
+                                </tr>
+                                <tr class="tooltip-container group cursor-pointer">
+                                    <td class="font-semibold">获客工具</td>
+                                    <td>3000+</td>
+                                    <td>中</td>
+                                    <td><span class="text-cta">⭐⭐⭐⭐</span></td>
+                                    <div class="tooltip-content">
+                                        <strong>获客工具</strong><br><br>
+                                        搜索量：3000+<br>
+                                        竞争度：中<br>
+                                        优先级：高
+                                    </div>
+                                </tr>
+                                <tr class="tooltip-container group cursor-pointer">
+                                    <td class="font-semibold">独立站转化</td>
+                                    <td>2000+</td>
+                                    <td>低</td>
+                                    <td><span class="text-cta">⭐⭐⭐⭐⭐</span></td>
+                                    <div class="tooltip-content">
+                                        <strong>独立站转化</strong><br><br>
+                                        搜索量：2000+<br>
+                                        竞争度：低<br>
+                                        优先级：最高（机会大）
+                                    </div>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                    <div class="p-4 bg-gray-50 border-b border-gray-100">
+                        <h3 class="font-bold text-dark">长尾关键词</h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>关键词</th>
+                                    <th>搜索量</th>
+                                    <th>竞争度</th>
+                                    <th>内容类型</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="tooltip-container group cursor-pointer">
+                                    <td class="font-semibold">B2B 外贸怎么找客户</td>
+                                    <td>800+</td>
+                                    <td>低</td>
+                                    <td>教程</td>
+                                    <div class="tooltip-content">
+                                        <strong>B2B 外贸怎么找客户</strong><br><br>
+                                        搜索量：800+<br>
+                                        竞争度：低<br>
+                                        内容类型：教程文章
+                                    </div>
+                                </tr>
+                                <tr class="tooltip-container group cursor-pointer">
+                                    <td class="font-semibold">独立站访客识别工具</td>
+                                    <td>600+</td>
+                                    <td>低</td>
+                                    <td>产品页</td>
+                                    <div class="tooltip-content">
+                                        <strong>独立站访客识别工具</strong><br><br>
+                                        搜索量：600+<br>
+                                        竞争度：低<br>
+                                        内容类型：产品页
+                                    </div>
+                                </tr>
+                                <tr class="tooltip-container group cursor-pointer">
+                                    <td class="font-semibold">海关数据获客方法</td>
+                                    <td>500+</td>
+                                    <td>低</td>
+                                    <td>方法论</td>
+                                    <div class="tooltip-content">
+                                        <strong>海关数据获客方法</strong><br><br>
+                                        搜索量：500+<br>
+                                        竞争度：低<br>
+                                        内容类型：方法论
+                                    </div>
+                                </tr>
+                                <tr class="tooltip-container group cursor-pointer">
+                                    <td class="font-semibold">外贸开发信怎么写</td>
+                                    <td>700+</td>
+                                    <td>低</td>
+                                    <td>教程</td>
+                                    <div class="tooltip-content">
+                                        <strong>外贸开发信怎么写</strong><br><br>
+                                        搜索量：700+<br>
+                                        竞争度：低<br>
+                                        内容类型：教程文章
+                                    </div>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="evaluation" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Evaluation</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">效果评估</h2>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>指标</th>
+                                <th>定义</th>
+                                <th>目标值</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">自然流量</td>
+                                <td>SEO 带来的访问量</td>
+                                <td class="text-primary font-semibold">月增长 > 10%</td>
+                                <div class="tooltip-content">
+                                    <strong>自然流量</strong><br><br>
+                                    定义：SEO 带来的访问量<br>
+                                    目标值：月增长 > 10%<br>
+                                    优化方向：持续产出优质内容
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">关键词排名</td>
+                                <td>核心词首页占比</td>
+                                <td class="text-primary font-semibold">> 50%</td>
+                                <div class="tooltip-content">
+                                    <strong>关键词排名</strong><br><br>
+                                    定义：核心词首页占比<br>
+                                    目标值：> 50%<br>
+                                    优化方向：持续优化内容和外链
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">SEM ROI</td>
+                                <td>广告收入 / 广告成本</td>
+                                <td class="text-primary font-semibold">> 300%</td>
+                                <div class="tooltip-content">
+                                    <strong>SEM ROI</strong><br><br>
+                                    定义：广告收入 / 广告成本<br>
+                                    目标值：> 300%<br>
+                                    优化方向：优化关键词和落地页
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">综合获客成本</td>
+                                <td>总营销成本 / 总线索数</td>
+                                <td class="text-primary font-semibold">< ¥150</td>
+                                <div class="tooltip-content">
+                                    <strong>综合获客成本</strong><br><br>
+                                    定义：总营销成本 / 总线索数<br>
+                                    目标值：< ¥150<br>
+                                    优化方向：SEO 和 SEM 协同优化
+                                </div>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-dark border-t border-white/10 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <span class="text-xl font-bold text-white tracking-tight">AI <span class="text-primary">LeadFinder</span></span>
+                <p class="text-gray-500 text-sm mt-1">Marketing Advisor - SEO-SEM策略</p>
+            </div>
+            <div class="text-gray-500 text-sm">
+                &copy; 2026 AI LeadFinder. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

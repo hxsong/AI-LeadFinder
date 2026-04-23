@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI LeadFinder - 品牌定位与调性</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        primary: '#3B82F6', secondary: '#60A5FA', accent: '#10B981',
+                        cta: '#F97316', dark: '#1E293B', light: '#F8FAFC',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="shared/styles.css">
+    <style>
+        .pyramid-container { max-width: 500px; margin: 0 auto; }
+        .pyramid-level-1 { width: 50%; background: linear-gradient(135deg, #8B5CF6, #7C3AED); clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%); }
+        .pyramid-level-2 { width: 65%; background: linear-gradient(135deg, #3B82F6, #2563EB); clip-path: polygon(8% 0%, 92% 0%, 100% 100%, 0% 100%); }
+        .pyramid-level-3 { width: 80%; background: linear-gradient(135deg, #10B981, #059669); clip-path: polygon(6% 0%, 94% 0%, 100% 100%, 0% 100%); }
+        .pyramid-level-4 { width: 100%; background: linear-gradient(135deg, #F97316, #EA580C); clip-path: polygon(5% 0%, 95% 0%, 100% 100%, 0% 100%); }
+
+        .personality-diagram { position: relative; width: 300px; height: 300px; margin: 0 auto; }
+        .personality-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80px; height: 80px; background: linear-gradient(135deg, #3B82F6, #8B5CF6); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; z-index: 10; }
+        .personality-axis { position: absolute; background: #E2E8F0; }
+        .personality-axis.h { width: 100%; height: 2px; top: 50%; left: 0; transform: translateY(-50%); }
+        .personality-axis.v { width: 2px; height: 100%; left: 50%; top: 0; transform: translateX(-50%); }
+        .personality-label { position: absolute; font-weight: 600; color: #475569; padding: 0.5rem 1rem; background: white; border-radius: 9999px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .personality-label.top { top: 0; left: 50%; transform: translateX(-50%); }
+        .personality-label.bottom { bottom: 0; left: 50%; transform: translateX(-50%); }
+        .personality-label.left { left: 0; top: 50%; transform: translateY(-50%); }
+        .personality-label.right { right: 0; top: 50%; transform: translateY(-50%); }
+    </style>
+</head>
+<body class="antialiased font-sans">
+
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-3">
+                    <a href="index.html" class="text-xl font-bold text-primary tracking-tight">AI LeadFinder</a>
+                    <span class="text-gray-300">|</span>
+                    <span class="text-sm text-gray-600">品牌定位与调性</span>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#positioning" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">品牌定位</a>
+                    <a href="#personality" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">品牌人格</a>
+                    <a href="#voice" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">品牌声音</a>
+                    <a href="#visual" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">视觉调性</a>
+                </div>
+                <div class="nav-dropdown">
+                    <button class="text-gray-600 hover:text-primary transition-colors text-sm font-medium flex items-center gap-1">
+                        更多资料
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="nav-dropdown-content">
+                        <a href="01-brand-positioning.html" class="nav-dropdown-item font-medium text-primary">01-品牌定位与调性</a>
+                        <a href="02-selling-points.html" class="nav-dropdown-item">02-产品卖点提炼</a>
+                        <a href="03-content-marketing.html" class="nav-dropdown-item">03-内容营销指南</a>
+                        <a href="04-social-media.html" class="nav-dropdown-item">04-社交媒体运营</a>
+                        <a href="05-event-operations.html" class="nav-dropdown-item">05-活动运营手册</a>
+                        <a href="06-advertising.html" class="nav-dropdown-item">06-广告投放指南</a>
+                        <a href="07-seo-sem.html" class="nav-dropdown-item">07-SEO-SEM策略</a>
+                        <a href="08-pr-communication.html" class="nav-dropdown-item">08-公关传播手册</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="relative min-h-[50vh] flex items-center justify-center pt-16 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
+            <div class="absolute top-20 right-10 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
+            <div class="absolute -bottom-8 left-20 w-72 h-72 bg-green-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
+        </div>
+        <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-primary text-xs font-semibold tracking-wide uppercase mb-6 animate-fade-in-up">
+                Brand Positioning
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold text-dark mb-6 leading-tight animate-fade-in-up delay-100">
+                AI LeadFinder<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">品牌定位与调性</span>
+            </h1>
+            <p class="text-xl text-gray-600 mb-4 max-w-3xl mx-auto animate-fade-in-up delay-200">
+                构建一致、专业、可信赖的品牌形象，让 B2B 获客像呼吸一样简单
+            </p>
+        </div>
+    </section>
+
+    <section id="positioning" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Positioning</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">品牌定位</h2>
+            </div>
+
+            <div class="glass-card p-8 rounded-2xl border-l-4 border-primary mb-12">
+                <h3 class="text-sm font-semibold text-primary uppercase tracking-wide mb-3">一句话品牌定位</h3>
+                <p class="text-xl md:text-2xl font-bold text-dark leading-relaxed">
+                    AI LeadFinder 是 B2B 外贸企业的 AI 获客专家，通过智能自动化获客系统，助力企业提升获客效率。
+                </p>
+            </div>
+
+            <div class="text-center mb-8">
+                <h3 class="text-xl font-bold text-dark mb-6">品牌定位金字塔</h3>
+            </div>
+            <div class="pyramid-container mb-12">
+                <div class="pyramid-level pyramid-level-1 tooltip-container cursor-pointer">
+                    <div class="text-sm md:text-base">
+                        <div class="font-bold">品牌愿景</div>
+                        <div class="text-white/80 text-xs md:text-sm">让 B2B 获客像呼吸一样简单</div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>品牌愿景</strong><br><br>
+                        让 B2B 获客像呼吸一样简单<br><br>
+                        我们致力于消除 B2B 外贸企业获客的复杂性，通过 AI 技术让获客成为企业运营的自然而然的一部分。
+                    </div>
+                </div>
+                <div class="pyramid-connector"></div>
+                <div class="pyramid-level pyramid-level-2 tooltip-container cursor-pointer">
+                    <div class="text-sm md:text-base">
+                        <div class="font-bold">品牌使命</div>
+                        <div class="text-white/80 text-xs md:text-sm">用 AI 技术赋能 B2B 外贸企业实现智能获客</div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>品牌使命</strong><br><br>
+                        用 AI 技术赋能 B2B 外贸企业实现智能获客<br><br>
+                        通过先进的 AI 技术，帮助 B2B 外贸企业实现获客流程的智能化、自动化，提升整体获客效率和效果。
+                    </div>
+                </div>
+                <div class="pyramid-connector"></div>
+                <div class="pyramid-level pyramid-level-3 tooltip-container cursor-pointer">
+                    <div class="text-sm md:text-base">
+                        <div class="font-bold">品牌价值</div>
+                        <div class="text-white/80 text-xs md:text-sm">智能自动化 / 双引擎精准 / 智能决策辅助</div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>品牌价值</strong><br><br>
+                        • 智能自动化：全流程 AI 驱动，减少人工干预<br>
+                        • 双引擎精准：静态数据 + 动态数据双轮驱动<br>
+                        • 智能决策辅助：数据驱动的获客决策支持
+                    </div>
+                </div>
+                <div class="pyramid-connector"></div>
+                <div class="pyramid-level pyramid-level-4 tooltip-container cursor-pointer">
+                    <div class="text-sm md:text-base">
+                        <div class="font-bold">品牌功能</div>
+                        <div class="text-white/80 text-xs md:text-sm">AI 数据搜客 / AI 访客分析 / AI 智能触达</div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>品牌功能</strong><br><br>
+                        • AI 数据搜客：基于海关、展会、地图等多维数据，AI 全网搜寻精准潜在客户<br>
+                        • AI 访客分析：识别独立站访客身份，通过行为分析找出高意向采购者<br>
+                        • AI 智能触达：自动生成个性化开发信，实现精准触达
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>维度</th>
+                                <th>核心主张</th>
+                                <th>支撑点</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold text-dark">效率</td>
+                                <td>获客效率显著提升</td>
+                                <td>AI 自动化执行，减少人工筛选</td>
+                                <div class="tooltip-content">
+                                    <strong>效率维度</strong><br><br>
+                                    核心主张：获客效率显著提升<br>
+                                    支撑点：AI 自动化执行获客流程，大幅减少人工筛选和整理时间，让销售团队专注高价值活动。
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold text-dark">精准</td>
+                                <td>线索质量有效提升</td>
+                                <td>四维评分模型，智能筛选</td>
+                                <div class="tooltip-content">
+                                    <strong>精准维度</strong><br><br>
+                                    核心主张：线索质量有效提升<br>
+                                    支撑点：四维评分模型从需求匹配、购买能力、采购意向、活跃意向四个维度智能评估线索质量。
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold text-dark">智能</td>
+                                <td>全流程 AI 驱动</td>
+                                <td>业务分析、策略生成、内容生成</td>
+                                <div class="tooltip-content">
+                                    <strong>智能维度</strong><br><br>
+                                    核心主张：全流程 AI 驱动<br>
+                                    支撑点：从业务分析、策略生成到内容生成，全流程由 AI 驱动，实现真正的智能化获客。
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold text-dark">闭环</td>
+                                <td>从流量到转化一站式</td>
+                                <td>搜客 + 访客分析 + 触达完整链路</td>
+                                <div class="tooltip-content">
+                                    <strong>闭环维度</strong><br><br>
+                                    核心主张：从流量到转化一站式<br>
+                                    支撑点：覆盖搜客、访客分析、智能触达的完整获客链路，实现从流量获取到线索转化的闭环管理。
+                                </div>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="personality" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Brand Personality</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">品牌人格</h2>
+                <p class="text-lg text-gray-600">AI LeadFinder 的品牌人格：专业、智能、高效、可信赖</p>
+            </div>
+
+            <div class="personality-diagram mb-12">
+                <div class="personality-axis h"></div>
+                <div class="personality-axis v"></div>
+                <div class="personality-label top text-primary">专业</div>
+                <div class="personality-label bottom text-accent">智能</div>
+                <div class="personality-label left text-purple-600">可信赖</div>
+                <div class="personality-label right text-cta">高效</div>
+                <div class="personality-center">AI<br>Lead<br>Finder</div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden mb-12">
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>维度</th>
+                                <th>是</th>
+                                <th>不是</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold text-dark">专业</td>
+                                <td class="text-green-600">数据驱动、方法论、行业洞察</td>
+                                <td class="text-red-500">空洞口号、过度承诺</td>
+                                <div class="tooltip-content">
+                                    <strong>专业维度</strong><br><br>
+                                    是：数据驱动决策、系统化方法论、深度行业洞察<br>
+                                    不是：空洞的营销口号、无法兑现的过度承诺
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold text-dark">智能</td>
+                                <td class="text-green-600">AI 技术、自动化、智能决策</td>
+                                <td class="text-red-500">人工替代、冷冰冰的机器</td>
+                                <div class="tooltip-content">
+                                    <strong>智能维度</strong><br><br>
+                                    是：先进的 AI 技术、流程自动化、智能决策辅助<br>
+                                    不是：简单的人工替代、缺乏温度的机器感
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold text-dark">高效</td>
+                                <td class="text-green-600">快速见效、节省时间、提升产出</td>
+                                <td class="text-red-500">急功近利、牺牲质量</td>
+                                <div class="tooltip-content">
+                                    <strong>高效维度</strong><br><br>
+                                    是：快速见效的解决方案、节省时间的工具、提升产出的方法<br>
+                                    不是：急功近利的心态、牺牲质量的 shortcuts
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold text-dark">可信赖</td>
+                                <td class="text-green-600">透明、安全、客户成功导向</td>
+                                <td class="text-red-500">隐瞒风险、过度推销</td>
+                                <div class="tooltip-content">
+                                    <strong>可信赖维度</strong><br><br>
+                                    是：透明的流程和数据、安全的系统架构、客户成功导向的服务<br>
+                                    不是：隐瞒潜在风险、过度推销产品
+                                </div>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glass-card p-6 rounded-2xl">
+                    <h3 class="text-lg font-bold text-dark mb-4">语言风格 - 语气</h3>
+                    <ul class="space-y-2 text-gray-600">
+                        <li class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span><strong>正式但友好</strong>：专业但不生硬</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span><strong>积极正向</strong>：强调价值而非问题</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span><strong>数据支撑</strong>：用数字说话</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="glass-card p-6 rounded-2xl">
+                    <h3 class="text-lg font-bold text-dark mb-4">用词偏好</h3>
+                    <div class="overflow-x-auto">
+                        <table class="data-table text-sm">
+                            <thead>
+                                <tr>
+                                    <th class="text-green-600">推荐用词</th>
+                                    <th class="text-red-500">避免用词</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>赋能</td><td>替代</td></tr>
+                                <tr><td>提升</td><td>颠覆</td></tr>
+                                <tr><td>智能</td><td>人工智能（过于技术）</td></tr>
+                                <tr><td>获客</td><td>拉新（过于互联网）</td></tr>
+                                <tr><td>线索</td><td>leads（中英混杂）</td></tr>
+                                <tr><td>效率</td><td>效能（过于抽象）</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="voice" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Brand Voice</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">品牌声音模板</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer">
+                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4 text-primary">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-dark mb-2">官网文案风格</h3>
+                    <p class="text-gray-600 text-sm">首页 Hero、产品页、解决方案页</p>
+                    <div class="tooltip-content">
+                        <strong>官网文案风格</strong><br><br>
+                        <strong>首页 Hero：</strong><br>
+                        AI LeadFinder —— B2B 外贸企业的 AI 获客专家<br>
+                        智能自动化获客系统，助力企业获客效率显著提升<br><br>
+                        <strong>产品页：</strong><br>
+                        AI 数据搜客：基于海关、展会、地图等多维数据，AI 全网搜寻精准潜在客户<br>
+                        AI 访客分析：识别独立站访客身份，通过行为分析找出高意向采购者<br>
+                        AI 智能触达：自动生成个性化开发信，实现精准触达
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer">
+                    <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4 text-accent">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-dark mb-2">社交媒体风格</h3>
+                    <p class="text-gray-600 text-sm">LinkedIn、微信公众号</p>
+                    <div class="tooltip-content">
+                        <strong>社交媒体风格</strong><br><br>
+                        <strong>LinkedIn：</strong><br>
+                        【数据说话】使用 AI LeadFinder 后，客户普遍反馈：<br>
+                        • 获客效率显著提升<br>
+                        • 线索质量有效提升<br>
+                        • 转化率明显改善<br><br>
+                        <strong>微信公众号：</strong><br>
+                        标题：B2B 外贸获客难？试试这个 AI 神器<br>
+                        正文：痛点引入 → 案例故事 → 产品介绍 → CTA：免费试用
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer">
+                    <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4 text-purple-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-dark mb-2">广告文案风格</h3>
+                    <p class="text-gray-600 text-sm">搜索广告、信息流广告</p>
+                    <div class="tooltip-content">
+                        <strong>广告文案风格</strong><br><br>
+                        <strong>搜索广告：</strong><br>
+                        标题：AI 获客系统 | 助力企业提升获客效率 | 免费试用<br>
+                        描述：AI LeadFinder 帮助 B2B 外贸企业自动获客，14 天免费试用<br><br>
+                        <strong>信息流广告：</strong><br>
+                        还在手动找客户？<br>
+                        AI LeadFinder 让 AI 帮你自动获客<br>
+                        已帮助众多企业提升获客效率<br>
+                        [立即试用]
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card p-8 rounded-2xl border-l-4 border-primary mb-8">
+                <h3 class="text-lg font-bold text-dark mb-4">品牌信息屋</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold text-primary mb-2">品牌口号</h4>
+                        <p class="text-2xl font-bold text-dark">"AI 获客，智胜全球"</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-primary mb-2">品牌标语</h4>
+                        <p class="text-2xl font-bold text-dark">"让 B2B 获客像呼吸一样简单"</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>层级</th>
+                                <th>信息点</th>
+                                <th>使用场景</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold text-primary">核心</td>
+                                <td>AI 获客专家</td>
+                                <td>品牌介绍</td>
+                                <div class="tooltip-content">
+                                    <strong>核心信息</strong><br><br>
+                                    信息点：AI 获客专家<br>
+                                    使用场景：品牌介绍、企业简介、名片等所有品牌露出场景
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold text-secondary">功能</td>
+                                <td>搜客 + 访客分析 + 智能触达</td>
+                                <td>产品说明</td>
+                                <div class="tooltip-content">
+                                    <strong>功能信息</strong><br><br>
+                                    信息点：搜客 + 访客分析 + 智能触达<br>
+                                    使用场景：产品说明、功能介绍、销售话术
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold text-accent">价值</td>
+                                <td>效率 5-10 倍，质量提升 60%</td>
+                                <td>效果展示</td>
+                                <div class="tooltip-content">
+                                    <strong>价值信息</strong><br><br>
+                                    信息点：效率 5-10 倍，质量提升 60%<br>
+                                    使用场景：效果展示、案例分享、数据报告<br>
+                                    *注：具体效果因企业情况而异
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold text-purple-600">差异</td>
+                                <td>智能 AI Agent 获客系统</td>
+                                <td>竞品对比</td>
+                                <div class="tooltip-content">
+                                    <strong>差异信息</strong><br><br>
+                                    信息点：智能 AI Agent 获客系统<br>
+                                    使用场景：竞品对比、差异化定位、销售话术
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold text-cta">信任</td>
+                                <td>服务 X 家企业，获取 X 万线索</td>
+                                <td>建立信任</td>
+                                <div class="tooltip-content">
+                                    <strong>信任信息</strong><br><br>
+                                    信息点：服务 X 家企业，获取 X 万线索<br>
+                                    使用场景：建立信任、客户证言、品牌背书
+                                </div>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="visual" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Visual Identity</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">品牌视觉调性</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div class="glass-card p-6 rounded-2xl">
+                    <h3 class="text-lg font-bold text-dark mb-4">色彩系统</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg" style="background: #2563EB;"></div>
+                            <div>
+                                <div class="font-medium text-sm">品牌蓝</div>
+                                <div class="text-xs text-gray-500">#2563EB - 专业、科技</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg" style="background: #1E40AF;"></div>
+                            <div>
+                                <div class="font-medium text-sm">深蓝</div>
+                                <div class="text-xs text-gray-500">#1E40AF - 稳重、可信赖</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg" style="background: #10B981;"></div>
+                            <div>
+                                <div class="font-medium text-sm">成功绿</div>
+                                <div class="text-xs text-gray-500">#10B981 - 增长、正向</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg" style="background: #F59E0B;"></div>
+                            <div>
+                                <div class="font-medium text-sm">活力橙</div>
+                                <div class="text-xs text-gray-500">#F59E0B - 行动、转化</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg" style="background: #EF4444;"></div>
+                            <div>
+                                <div class="font-medium text-sm">警示红</div>
+                                <div class="text-xs text-gray-500">#EF4444 - 重要提示</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl">
+                    <h3 class="text-lg font-bold text-dark mb-4">字体规范</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <h4 class="font-semibold text-sm text-gray-500 mb-2">中文</h4>
+                            <div class="space-y-1 text-sm">
+                                <div class="flex justify-between"><span>标题</span><span class="font-bold">思源黑体 Bold</span></div>
+                                <div class="flex justify-between"><span>正文</span><span>思源黑体 Regular</span></div>
+                                <div class="flex justify-between"><span>数字</span><span class="font-bold">DIN Alternate Bold</span></div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-sm text-gray-500 mb-2">英文</h4>
+                            <div class="space-y-1 text-sm">
+                                <div class="flex justify-between"><span>标题</span><span class="font-bold">Inter Bold</span></div>
+                                <div class="flex justify-between"><span>正文</span><span>Inter Regular</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl">
+                    <h3 class="text-lg font-bold text-dark mb-4">图像风格</h3>
+                    <ul class="space-y-2 text-sm text-gray-600">
+                        <li class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span><strong>商务专业</strong>：B2B 场景、办公环境</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span><strong>科技感</strong>：数据可视化、AI 元素</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span><strong>全球化</strong>：世界地图、多语言元素</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span><strong>人物真实</strong>：真实客户、真实场景</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="glass-card p-8 rounded-2xl border-l-4 border-red-500">
+                <h3 class="text-lg font-bold text-dark mb-4">品牌禁忌</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold text-red-500 mb-2">禁止行为</h4>
+                        <ul class="space-y-1 text-sm text-gray-600">
+                            <li>夸大效果（如"保证成交"）</li>
+                            <li>贬低竞品（如"XX 产品很差"）</li>
+                            <li>过度技术化（如堆砌技术术语）</li>
+                            <li>不专业表达（如网络 slang）</li>
+                            <li>误导性信息（如虚假数据）</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-red-500 mb-2">敏感话题</h4>
+                        <ul class="space-y-1 text-sm text-gray-600">
+                            <li>避免承诺具体成交数字</li>
+                            <li>避免涉及政治敏感内容</li>
+                            <li>避免侵犯客户隐私的案例</li>
+                            <li>避免未经验证的数据</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-dark border-t border-white/10 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <span class="text-xl font-bold text-white tracking-tight">AI <span class="text-primary">LeadFinder</span></span>
+                <p class="text-gray-500 text-sm mt-1">Marketing Advisor - 品牌定位与调性</p>
+            </div>
+            <div class="text-gray-500 text-sm">
+                &copy; 2026 AI LeadFinder. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

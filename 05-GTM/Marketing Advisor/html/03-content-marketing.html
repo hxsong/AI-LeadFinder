@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI LeadFinder - 内容营销指南</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        primary: '#3B82F6', secondary: '#60A5FA', accent: '#10B981',
+                        cta: '#F97316', dark: '#1E293B', light: '#F8FAFC',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="shared/styles.css">
+    <style>
+        .funnel-level-1 { width: 50%; background: linear-gradient(135deg, #8B5CF6, #7C3AED); clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%); }
+        .funnel-level-2 { width: 65%; background: linear-gradient(135deg, #3B82F6, #2563EB); clip-path: polygon(8% 0%, 92% 0%, 100% 100%, 0% 100%); }
+        .funnel-level-3 { width: 80%; background: linear-gradient(135deg, #10B981, #059669); clip-path: polygon(6% 0%, 94% 0%, 100% 100%, 0% 100%); }
+        .funnel-level-4 { width: 100%; background: linear-gradient(135deg, #F97316, #EA580C); clip-path: polygon(5% 0%, 95% 0%, 100% 100%, 0% 100%); }
+    </style>
+</head>
+<body class="antialiased font-sans">
+
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-3">
+                    <a href="index.html" class="text-xl font-bold text-primary tracking-tight">AI LeadFinder</a>
+                    <span class="text-gray-300">|</span>
+                    <span class="text-sm text-gray-600">内容营销指南</span>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#strategy" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">营销策略</a>
+                    <a href="#topics" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">选题方向</a>
+                    <a href="#calendar" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">内容日历</a>
+                    <a href="#seo" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">SEO策略</a>
+                </div>
+                <div class="nav-dropdown">
+                    <button class="text-gray-600 hover:text-primary transition-colors text-sm font-medium flex items-center gap-1">
+                        更多资料
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="nav-dropdown-content">
+                        <a href="01-brand-positioning.html" class="nav-dropdown-item">01-品牌定位与调性</a>
+                        <a href="02-selling-points.html" class="nav-dropdown-item">02-产品卖点提炼</a>
+                        <a href="03-content-marketing.html" class="nav-dropdown-item font-medium text-primary">03-内容营销指南</a>
+                        <a href="04-social-media.html" class="nav-dropdown-item">04-社交媒体运营</a>
+                        <a href="05-event-operations.html" class="nav-dropdown-item">05-活动运营手册</a>
+                        <a href="06-advertising.html" class="nav-dropdown-item">06-广告投放指南</a>
+                        <a href="07-seo-sem.html" class="nav-dropdown-item">07-SEO-SEM策略</a>
+                        <a href="08-pr-communication.html" class="nav-dropdown-item">08-公关传播手册</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="relative min-h-[50vh] flex items-center justify-center pt-16 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
+            <div class="absolute top-20 right-10 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
+            <div class="absolute -bottom-8 left-20 w-72 h-72 bg-green-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
+        </div>
+        <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-primary text-xs font-semibold tracking-wide uppercase mb-6 animate-fade-in-up">
+                Content Marketing
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold text-dark mb-6 leading-tight animate-fade-in-up delay-100">
+                AI LeadFinder<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">内容营销指南</span>
+            </h1>
+            <p class="text-xl text-gray-600 mb-4 max-w-3xl mx-auto animate-fade-in-up delay-200">
+                从策略到执行，构建完整的内容营销体系
+            </p>
+        </div>
+    </section>
+
+    <section id="strategy" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Strategy</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">内容营销策略</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer text-center">
+                    <div class="w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center mb-4 text-purple-600 mx-auto">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-dark mb-2">品牌认知</h3>
+                    <p class="text-gray-600 text-sm">提升品牌知名度</p>
+                    <div class="mt-3 text-xs text-gray-500">衡量：曝光量、品牌搜索量</div>
+                    <div class="tooltip-content">
+                        <strong>品牌认知目标</strong><br><br>
+                        具体目标：提升品牌知名度<br>
+                        衡量指标：曝光量、品牌搜索量<br><br>
+                        通过行业趋势、痛点共鸣类内容，让潜在客户了解 AI LeadFinder。
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer text-center">
+                    <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-4 text-primary mx-auto">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-dark mb-2">需求激发</h3>
+                    <p class="text-gray-600 text-sm">让潜在客户意识到痛点</p>
+                    <div class="mt-3 text-xs text-gray-500">衡量：内容阅读量、停留时长</div>
+                    <div class="tooltip-content">
+                        <strong>需求激发目标</strong><br><br>
+                        具体目标：让潜在客户意识到痛点<br>
+                        衡量指标：内容阅读量、停留时长<br><br>
+                        通过痛点共鸣类内容，激发潜在客户对获客问题的关注。
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer text-center">
+                    <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center mb-4 text-accent mx-auto">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-dark mb-2">产品教育</h3>
+                    <p class="text-gray-600 text-sm">让潜在客户了解解决方案</p>
+                    <div class="mt-3 text-xs text-gray-500">衡量：产品页访问量、试用申请</div>
+                    <div class="tooltip-content">
+                        <strong>产品教育目标</strong><br><br>
+                        具体目标：让潜在客户了解解决方案<br>
+                        衡量指标：产品页访问量、试用申请<br><br>
+                        通过解决方案、方法论类内容，让潜在客户了解 AI LeadFinder 的价值。
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer text-center">
+                    <div class="w-14 h-14 bg-orange-100 rounded-xl flex items-center justify-center mb-4 text-cta mx-auto">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                    </div>
+                    <h3 class="text-lg font-bold text-dark mb-2">转化促进</h3>
+                    <p class="text-gray-600 text-sm">推动试用和购买</p>
+                    <div class="mt-3 text-xs text-gray-500">衡量：试用转化率、付费转化率</div>
+                    <div class="tooltip-content">
+                        <strong>转化促进目标</strong><br><br>
+                        具体目标：推动试用和购买<br>
+                        衡量指标：试用转化率、付费转化率<br><br>
+                        通过产品对比、客户案例类内容，推动潜在客户完成转化。
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mb-8">
+                <h3 class="text-xl font-bold text-dark mb-6">内容漏斗</h3>
+            </div>
+            <div class="max-w-lg mx-auto mb-12">
+                <div class="funnel-level funnel-level-1 tooltip-container cursor-pointer">
+                    <div class="text-sm md:text-base">
+                        <div class="font-bold">认知阶段</div>
+                        <div class="text-white/80 text-xs md:text-sm">行业趋势 / 痛点共鸣</div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>认知阶段</strong><br><br>
+                        内容类型：行业趋势、痛点共鸣<br><br>
+                        <strong>选题示例：</strong><br>
+                        • 2026 年 B2B 外贸获客趋势报告<br>
+                        • AI 如何改变外贸获客方式<br>
+                        • 为什么你的展会获客效果越来越差？
+                    </div>
+                </div>
+                <div class="pyramid-connector"></div>
+                <div class="funnel-level funnel-level-2 tooltip-container cursor-pointer">
+                    <div class="text-sm md:text-base">
+                        <div class="font-bold">考虑阶段</div>
+                        <div class="text-white/80 text-xs md:text-sm">解决方案 / 方法论</div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>考虑阶段</strong><br><br>
+                        内容类型：解决方案、方法论<br><br>
+                        <strong>选题示例：</strong><br>
+                        • B2B 外贸获客智能解决方案<br>
+                        • 如何用 AI 提升获客效率 5 倍<br>
+                        • ICP 画像构建方法论
+                    </div>
+                </div>
+                <div class="pyramid-connector"></div>
+                <div class="funnel-level funnel-level-3 tooltip-container cursor-pointer">
+                    <div class="text-sm md:text-base">
+                        <div class="font-bold">决策阶段</div>
+                        <div class="text-white/80 text-xs md:text-sm">产品对比 / 客户案例</div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>决策阶段</strong><br><br>
+                        内容类型：产品对比、客户案例<br><br>
+                        <strong>选题示例：</strong><br>
+                        • AI LeadFinder vs 传统获客方式<br>
+                        • 某电子企业 3 个月成交 23 家客户的故事<br>
+                        • 获客工具 ROI 计算指南
+                    </div>
+                </div>
+                <div class="pyramid-connector"></div>
+                <div class="funnel-level funnel-level-4 tooltip-container cursor-pointer">
+                    <div class="text-sm md:text-base">
+                        <div class="font-bold">忠诚阶段</div>
+                        <div class="text-white/80 text-xs md:text-sm">使用教程 / 优秀实践</div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>忠诚阶段</strong><br><br>
+                        内容类型：使用教程、优秀实践<br><br>
+                        <strong>选题示例：</strong><br>
+                        • AI LeadFinder 新手入门指南<br>
+                        • 高转化开发信的 10 个技巧<br>
+                        • 多 BOT 管理优秀实践
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="topics" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Content Topics</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">内容选题方向</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 font-bold">1</div>
+                        <h3 class="text-lg font-bold text-dark">认知阶段选题</h3>
+                    </div>
+                    <div class="space-y-3">
+                        <div>
+                            <h4 class="font-semibold text-sm text-gray-500 mb-1">行业趋势类</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>• 2026 年 B2B 外贸获客趋势报告</li>
+                                <li>• AI 如何改变外贸获客方式</li>
+                                <li>• 独立站运营的未来趋势</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-sm text-gray-500 mb-1">痛点共鸣类</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>• 为什么你的展会获客效果越来越差？</li>
+                                <li>• 独立站流量高转化率低的 5 个原因</li>
+                                <li>• 销售团队效率低的根本原因</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>认知阶段选题</strong><br><br>
+                        目标：提升品牌知名度，让潜在客户意识到痛点<br>
+                        内容特点：行业洞察、数据报告、痛点分析<br>
+                        渠道：官网博客、LinkedIn、知乎
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-primary font-bold">2</div>
+                        <h3 class="text-lg font-bold text-dark">考虑阶段选题</h3>
+                    </div>
+                    <div class="space-y-3">
+                        <div>
+                            <h4 class="font-semibold text-sm text-gray-500 mb-1">解决方案类</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>• B2B 外贸获客智能解决方案</li>
+                                <li>• 如何用 AI 提升获客效率 5 倍</li>
+                                <li>• 独立站访客转化完整指南</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-sm text-gray-500 mb-1">方法论类</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>• ICP 画像构建方法论</li>
+                                <li>• 四维评分模型详解</li>
+                                <li>• 外贸开发信写作指南</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>考虑阶段选题</strong><br><br>
+                        目标：让潜在客户了解解决方案<br>
+                        内容特点：方法论、解决方案、实操指南<br>
+                        渠道：官网博客、微信公众号、知乎专栏
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center text-accent font-bold">3</div>
+                        <h3 class="text-lg font-bold text-dark">决策阶段选题</h3>
+                    </div>
+                    <div class="space-y-3">
+                        <div>
+                            <h4 class="font-semibold text-sm text-gray-500 mb-1">产品对比类</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>• AI LeadFinder vs 传统获客方式</li>
+                                <li>• 如何选择合适的获客工具</li>
+                                <li>• 获客工具 ROI 计算指南</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-sm text-gray-500 mb-1">客户案例类</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>• 某电子企业 3 个月成交 23 家客户的故事</li>
+                                <li>• 某制造企业独立站转化率提升 8 倍的经验</li>
+                                <li>• 某贸易公司销售效率提升 4 倍的实践</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>决策阶段选题</strong><br><br>
+                        目标：推动试用和购买<br>
+                        内容特点：产品对比、客户案例、ROI 分析<br>
+                        渠道：官网、微信公众号、销售物料
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center text-cta font-bold">4</div>
+                        <h3 class="text-lg font-bold text-dark">忠诚阶段选题</h3>
+                    </div>
+                    <div class="space-y-3">
+                        <div>
+                            <h4 class="font-semibold text-sm text-gray-500 mb-1">使用教程类</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>• AI LeadFinder 新手入门指南</li>
+                                <li>• 如何优化 ICP 画像提升搜客效果</li>
+                                <li>• 访客雷达使用技巧</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-sm text-gray-500 mb-1">优秀实践类</h4>
+                            <ul class="text-sm text-gray-600 space-y-1">
+                                <li>• 高转化开发信的 10 个技巧</li>
+                                <li>• 如何建立高效的销售跟进流程</li>
+                                <li>• 多 BOT 管理优秀实践</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>忠诚阶段选题</strong><br><br>
+                        目标：提升客户满意度和续约率<br>
+                        内容特点：使用教程、最佳实践、进阶技巧<br>
+                        渠道：帮助中心、客户社群、邮件推送
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                <div class="p-4 bg-gray-50 border-b border-gray-100">
+                    <h3 class="font-bold text-dark">内容类型与渠道匹配</h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>内容类型</th>
+                                <th>适用渠道</th>
+                                <th>内容形式</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">长文内容（1500-3000 字）</td>
+                                <td>官网博客、微信公众号、知乎专栏、LinkedIn Articles</td>
+                                <td>行业报告、深度方法论、客户案例、产品教程</td>
+                                <div class="tooltip-content">
+                                    <strong>长文内容</strong><br><br>
+                                    字数：1500-3000 字<br>
+                                    适用渠道：官网博客、微信公众号、知乎专栏、LinkedIn Articles<br>
+                                    内容类型：行业报告、深度方法论、客户案例、产品教程
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">短内容（300-800 字）</td>
+                                <td>LinkedIn Posts、微博、小红书</td>
+                                <td>行业洞察、数据分享、观点输出、产品更新</td>
+                                <div class="tooltip-content">
+                                    <strong>短内容</strong><br><br>
+                                    字数：300-800 字<br>
+                                    适用渠道：LinkedIn Posts、微博、小红书<br>
+                                    内容类型：行业洞察、数据分享、观点输出、产品更新
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">视频内容</td>
+                                <td>抖音/视频号、B站、YouTube</td>
+                                <td>产品演示（3-5 分钟）、客户证言（2-3 分钟）、教程视频（5-10 分钟）</td>
+                                <div class="tooltip-content">
+                                    <strong>视频内容</strong><br><br>
+                                    适用渠道：抖音/视频号、B站、YouTube<br>
+                                    内容类型：产品演示（3-5 分钟）、客户证言（2-3 分钟）、教程视频（5-10 分钟）、行业访谈（15-30 分钟）
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">图文内容</td>
+                                <td>微信公众号、小红书、LinkedIn</td>
+                                <td>信息图、数据可视化、流程图、对比图</td>
+                                <div class="tooltip-content">
+                                    <strong>图文内容</strong><br><br>
+                                    适用渠道：微信公众号、小红书、LinkedIn<br>
+                                    内容类型：信息图、数据可视化、流程图、对比图
+                                </div>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="calendar" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Content Calendar</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">内容日历模板</h2>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden mb-12">
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>周次</th>
+                                <th>主题</th>
+                                <th>长文</th>
+                                <th>短文</th>
+                                <th>视频</th>
+                                <th>活动</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">Week 1</td>
+                                <td>新市场拓展</td>
+                                <td>1 篇</td>
+                                <td>3 篇</td>
+                                <td>1 个</td>
+                                <td>-</td>
+                                <div class="tooltip-content">
+                                    <strong>Week 1：新市场拓展</strong><br><br>
+                                    长文：1 篇（如"如何用 AI 快速开拓东南亚市场"）<br>
+                                    短文：3 篇（LinkedIn/微信）<br>
+                                    视频：1 个（产品演示或案例）
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">Week 2</td>
+                                <td>独立站转化</td>
+                                <td>1 篇</td>
+                                <td>3 篇</td>
+                                <td>1 个</td>
+                                <td>webinar</td>
+                                <div class="tooltip-content">
+                                    <strong>Week 2：独立站转化</strong><br><br>
+                                    长文：1 篇（如"独立站访客转化完整指南"）<br>
+                                    短文：3 篇<br>
+                                    视频：1 个<br>
+                                    活动：webinar（主题：独立站转化技巧）
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">Week 3</td>
+                                <td>销售赋能</td>
+                                <td>1 篇</td>
+                                <td>3 篇</td>
+                                <td>1 个</td>
+                                <td>-</td>
+                                <div class="tooltip-content">
+                                    <strong>Week 3：销售赋能</strong><br><br>
+                                    长文：1 篇（如"AI 如何赋能销售团队提升产出"）<br>
+                                    短文：3 篇<br>
+                                    视频：1 个
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">Week 4</td>
+                                <td>客户案例</td>
+                                <td>1 篇</td>
+                                <td>3 篇</td>
+                                <td>1 个</td>
+                                <td>线上分享</td>
+                                <div class="tooltip-content">
+                                    <strong>Week 4：客户案例</strong><br><br>
+                                    长文：1 篇（深度客户案例）<br>
+                                    短文：3 篇<br>
+                                    视频：1 个（客户证言）<br>
+                                    活动：线上分享会
+                                </div>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-3">微信公众号</h3>
+                    <div class="space-y-2 text-sm text-gray-600">
+                        <div class="flex justify-between"><span>频率</span><span class="font-medium">每周 2 篇</span></div>
+                        <div class="flex justify-between"><span>时间</span><span class="font-medium">周二、周四 20:00</span></div>
+                        <div class="flex justify-between"><span>类型</span><span class="font-medium">1 干货 + 1 案例/产品</span></div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>微信公众号发布节奏</strong><br><br>
+                        频率：每周 2 篇<br>
+                        发布时间：周二、周四 20:00<br>
+                        内容类型：1 篇干货文章 + 1 篇案例/产品介绍
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-3">LinkedIn</h3>
+                    <div class="space-y-2 text-sm text-gray-600">
+                        <div class="flex justify-between"><span>频率</span><span class="font-medium">每周 3-5 篇</span></div>
+                        <div class="flex justify-between"><span>时间</span><span class="font-medium">工作日上午 9:00-10:00</span></div>
+                        <div class="flex justify-between"><span>类型</span><span class="font-medium">数据分享、行业洞察</span></div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>LinkedIn 发布节奏</strong><br><br>
+                        频率：每周 3-5 篇<br>
+                        发布时间：工作日上午 9:00-10:00<br>
+                        内容类型：数据分享、行业洞察、产品更新
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-3">知乎</h3>
+                    <div class="space-y-2 text-sm text-gray-600">
+                        <div class="flex justify-between"><span>频率</span><span class="font-medium">每周 1-2 篇</span></div>
+                        <div class="flex justify-between"><span>类型</span><span class="font-medium">专业回答、专栏文章</span></div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>知乎发布节奏</strong><br><br>
+                        频率：每周 1-2 篇<br>
+                        内容类型：专业回答、专栏文章<br>
+                        关注话题：B2B 获客、外贸营销、独立站运营
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-3">抖音/视频号</h3>
+                    <div class="space-y-2 text-sm text-gray-600">
+                        <div class="flex justify-between"><span>频率</span><span class="font-medium">每周 2-3 个</span></div>
+                        <div class="flex justify-between"><span>时间</span><span class="font-medium">晚上 19:00-21:00</span></div>
+                        <div class="flex justify-between"><span>类型</span><span class="font-medium">产品演示、客户证言</span></div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>抖音/视频号发布节奏</strong><br><br>
+                        频率：每周 2-3 个<br>
+                        发布时间：晚上 19:00-21:00<br>
+                        内容类型：产品演示、客户证言、教程
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="seo" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">SEO Strategy</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">SEO 内容策略</h2>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
+                <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                    <div class="p-4 bg-gray-50 border-b border-gray-100">
+                        <h3 class="font-bold text-dark">核心关键词（高搜索量）</h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>关键词</th>
+                                    <th>月搜索量</th>
+                                    <th>竞争度</th>
+                                    <th>优先级</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="tooltip-container group cursor-pointer">
+                                    <td class="font-semibold">B2B 获客</td>
+                                    <td>5000+</td>
+                                    <td>高</td>
+                                    <td><span class="text-cta">⭐⭐⭐⭐⭐</span></td>
+                                    <div class="tooltip-content">
+                                        <strong>B2B 获客</strong><br><br>
+                                        月搜索量：5000+<br>
+                                        竞争度：高<br>
+                                        优先级：最高<br>
+                                        内容策略：支柱页面 + 多篇支撑文章
+                                    </div>
+                                </tr>
+                                <tr class="tooltip-container group cursor-pointer">
+                                    <td class="font-semibold">外贸获客</td>
+                                    <td>4000+</td>
+                                    <td>高</td>
+                                    <td><span class="text-cta">⭐⭐⭐⭐⭐</span></td>
+                                    <div class="tooltip-content">
+                                        <strong>外贸获客</strong><br><br>
+                                        月搜索量：4000+<br>
+                                        竞争度：高<br>
+                                        优先级：最高
+                                    </div>
+                                </tr>
+                                <tr class="tooltip-container group cursor-pointer">
+                                    <td class="font-semibold">获客工具</td>
+                                    <td>3000+</td>
+                                    <td>中</td>
+                                    <td><span class="text-cta">⭐⭐⭐⭐</span></td>
+                                    <div class="tooltip-content">
+                                        <strong>获客工具</strong><br><br>
+                                        月搜索量：3000+<br>
+                                        竞争度：中<br>
+                                        优先级：高
+                                    </div>
+                                </tr>
+                                <tr class="tooltip-container group cursor-pointer">
+                                    <td class="font-semibold">销售线索</td>
+                                    <td>2500+</td>
+                                    <td>中</td>
+                                    <td><span class="text-cta">⭐⭐⭐⭐</span></td>
+                                    <div class="tooltip-content">
+                                        <strong>销售线索</strong><br><br>
+                                        月搜索量：2500+<br>
+                                        竞争度：中<br>
+                                        优先级：高
+                                    </div>
+                                </tr>
+                                <tr class="tooltip-container group cursor-pointer">
+                                    <td class="font-semibold">独立站转化</td>
+                                    <td>2000+</td>
+                                    <td>低</td>
+                                    <td><span class="text-cta">⭐⭐⭐⭐⭐</span></td>
+                                    <div class="tooltip-content">
+                                        <strong>独立站转化</strong><br><br>
+                                        月搜索量：2000+<br>
+                                        竞争度：低<br>
+                                        优先级：最高（竞争低，机会大）
+                                    </div>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                    <div class="p-4 bg-gray-50 border-b border-gray-100">
+                        <h3 class="font-bold text-dark">长尾关键词（高转化）</h3>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>关键词</th>
+                                    <th>月搜索量</th>
+                                    <th>竞争度</th>
+                                    <th>内容类型</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="tooltip-container group cursor-pointer">
+                                    <td class="font-semibold">B2B 外贸怎么找客户</td>
+                                    <td>800+</td>
+                                    <td>低</td>
+                                    <td>教程文章</td>
+                                    <div class="tooltip-content">
+                                        <strong>B2B 外贸怎么找客户</strong><br><br>
+                                        月搜索量：800+<br>
+                                        竞争度：低<br>
+                                        内容类型：教程文章
+                                    </div>
+                                </tr>
+                                <tr class="tooltip-container group cursor-pointer">
+                                    <td class="font-semibold">独立站访客识别工具</td>
+                                    <td>600+</td>
+                                    <td>低</td>
+                                    <td>产品页</td>
+                                    <div class="tooltip-content">
+                                        <strong>独立站访客识别工具</strong><br><br>
+                                        月搜索量：600+<br>
+                                        竞争度：低<br>
+                                        内容类型：产品页
+                                    </div>
+                                </tr>
+                                <tr class="tooltip-container group cursor-pointer">
+                                    <td class="font-semibold">海关数据获客方法</td>
+                                    <td>500+</td>
+                                    <td>低</td>
+                                    <td>方法论</td>
+                                    <div class="tooltip-content">
+                                        <strong>海关数据获客方法</strong><br><br>
+                                        月搜索量：500+<br>
+                                        竞争度：低<br>
+                                        内容类型：方法论
+                                    </div>
+                                </tr>
+                                <tr class="tooltip-container group cursor-pointer">
+                                    <td class="font-semibold">展会客户跟进技巧</td>
+                                    <td>400+</td>
+                                    <td>低</td>
+                                    <td>教程文章</td>
+                                    <div class="tooltip-content">
+                                        <strong>展会客户跟进技巧</strong><br><br>
+                                        月搜索量：400+<br>
+                                        竞争度：低<br>
+                                        内容类型：教程文章
+                                    </div>
+                                </tr>
+                                <tr class="tooltip-container group cursor-pointer">
+                                    <td class="font-semibold">外贸开发信怎么写</td>
+                                    <td>700+</td>
+                                    <td>低</td>
+                                    <td>教程文章</td>
+                                    <div class="tooltip-content">
+                                        <strong>外贸开发信怎么写</strong><br><br>
+                                        月搜索量：700+<br>
+                                        竞争度：低<br>
+                                        内容类型：教程文章
+                                    </div>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card p-8 rounded-2xl border-l-4 border-primary">
+                <h3 class="text-lg font-bold text-dark mb-4">内容效果评估</h3>
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>指标</th>
+                                <th>定义</th>
+                                <th>目标值</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">阅读量</td>
+                                <td>内容阅读次数</td>
+                                <td class="text-primary font-semibold">持续增长</td>
+                                <div class="tooltip-content">
+                                    <strong>阅读量</strong><br><br>
+                                    定义：内容阅读次数<br>
+                                    目标值：持续增长<br>
+                                    优化方向：优化标题、提升内容质量
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">分享量</td>
+                                <td>社交分享次数</td>
+                                <td class="text-primary font-semibold">> 阅读量的 5%</td>
+                                <div class="tooltip-content">
+                                    <strong>分享量</strong><br><br>
+                                    定义：社交分享次数<br>
+                                    目标值：> 阅读量的 5%<br>
+                                    优化方向：增加可分享的数据和观点
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">停留时长</td>
+                                <td>平均阅读时间</td>
+                                <td class="text-primary font-semibold">> 3 分钟</td>
+                                <div class="tooltip-content">
+                                    <strong>停留时长</strong><br><br>
+                                    定义：平均阅读时间<br>
+                                    目标值：> 3 分钟<br>
+                                    优化方向：提升内容深度和可读性
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">转化率</td>
+                                <td>内容→试用</td>
+                                <td class="text-primary font-semibold">> 2%</td>
+                                <div class="tooltip-content">
+                                    <strong>转化率</strong><br><br>
+                                    定义：内容到试用的转化率<br>
+                                    目标值：> 2%<br>
+                                    优化方向：优化 CTA、简化试用流程
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">获客成本</td>
+                                <td>内容营销获客成本</td>
+                                <td class="text-primary font-semibold">< ¥200/线索</td>
+                                <div class="tooltip-content">
+                                    <strong>获客成本</strong><br><br>
+                                    定义：内容营销获客成本<br>
+                                    目标值：< ¥200/线索<br>
+                                    优化方向：提升内容转化效率
+                                </div>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-dark border-t border-white/10 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <span class="text-xl font-bold text-white tracking-tight">AI <span class="text-primary">LeadFinder</span></span>
+                <p class="text-gray-500 text-sm mt-1">Marketing Advisor - 内容营销指南</p>
+            </div>
+            <div class="text-gray-500 text-sm">
+                &copy; 2026 AI LeadFinder. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

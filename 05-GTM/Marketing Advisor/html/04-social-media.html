@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI LeadFinder - 社交媒体运营</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        primary: '#3B82F6', secondary: '#60A5FA', accent: '#10B981',
+                        cta: '#F97316', dark: '#1E293B', light: '#F8FAFC',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="shared/styles.css">
+</head>
+<body class="antialiased font-sans">
+
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-3">
+                    <a href="index.html" class="text-xl font-bold text-primary tracking-tight">AI LeadFinder</a>
+                    <span class="text-gray-300">|</span>
+                    <span class="text-sm text-gray-600">社交媒体运营</span>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#linkedin" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">LinkedIn</a>
+                    <a href="#wechat" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">微信</a>
+                    <a href="#zhihu" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">知乎</a>
+                    <a href="#douyin" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">抖音</a>
+                </div>
+                <div class="nav-dropdown">
+                    <button class="text-gray-600 hover:text-primary transition-colors text-sm font-medium flex items-center gap-1">
+                        更多资料
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div class="nav-dropdown-content">
+                        <a href="01-brand-positioning.html" class="nav-dropdown-item">01-品牌定位与调性</a>
+                        <a href="02-selling-points.html" class="nav-dropdown-item">02-产品卖点提炼</a>
+                        <a href="03-content-marketing.html" class="nav-dropdown-item">03-内容营销指南</a>
+                        <a href="04-social-media.html" class="nav-dropdown-item font-medium text-primary">04-社交媒体运营</a>
+                        <a href="05-event-operations.html" class="nav-dropdown-item">05-活动运营手册</a>
+                        <a href="06-advertising.html" class="nav-dropdown-item">06-广告投放指南</a>
+                        <a href="07-seo-sem.html" class="nav-dropdown-item">07-SEO-SEM策略</a>
+                        <a href="08-pr-communication.html" class="nav-dropdown-item">08-公关传播手册</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="relative min-h-[50vh] flex items-center justify-center pt-16 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
+            <div class="absolute top-20 right-10 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
+            <div class="absolute -bottom-8 left-20 w-72 h-72 bg-green-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
+        </div>
+        <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-primary text-xs font-semibold tracking-wide uppercase mb-6 animate-fade-in-up">
+                Social Media
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold text-dark mb-6 leading-tight animate-fade-in-up delay-100">
+                AI LeadFinder<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">社交媒体运营</span>
+            </h1>
+            <p class="text-xl text-gray-600 mb-4 max-w-3xl mx-auto animate-fade-in-up delay-200">
+                多平台矩阵运营，构建全方位社交媒体影响力
+            </p>
+        </div>
+    </section>
+
+    <section id="linkedin" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">LinkedIn</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">LinkedIn 运营</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-4">公司主页运营</h3>
+                    <div class="space-y-3 text-sm text-gray-600">
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>完善公司信息，突出 AI 获客专家定位</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>发布频率：每周 3-5 篇</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>内容类型：数据分享、行业洞察、客户案例</span>
+                        </div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>LinkedIn 公司主页运营</strong><br><br>
+                        • 完善公司信息，突出 AI 获客专家定位<br>
+                        • 发布频率：每周 3-5 篇<br>
+                        • 内容类型：数据分享、行业洞察、客户案例、产品更新<br>
+                        • 最佳发布时间：工作日上午 9:00-10:00
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-4">个人账号运营</h3>
+                    <div class="space-y-3 text-sm text-gray-600">
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>创始人/高管账号：行业观点、创业故事</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>销售团队账号：产品分享、客户互动</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>发布频率：每周 2-3 篇</span>
+                        </div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>LinkedIn 个人账号运营</strong><br><br>
+                        • 创始人/高管账号：行业观点、创业故事、公司动态<br>
+                        • 销售团队账号：产品分享、客户互动、行业洞察<br>
+                        • 发布频率：每周 2-3 篇<br>
+                        • 互动策略：积极回复评论，参与行业话题讨论
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                <div class="p-4 bg-gray-50 border-b border-gray-100">
+                    <h3 class="font-bold text-dark">LinkedIn 内容类型</h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>内容类型</th>
+                                <th>频率</th>
+                                <th>内容示例</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">数据分享</td>
+                                <td>每周 1-2 篇</td>
+                                <td>"本周通过 AI LeadFinder 获取的线索中，电子行业占比 35%..."</td>
+                                <div class="tooltip-content">
+                                    <strong>数据分享</strong><br><br>
+                                    频率：每周 1-2 篇<br><br>
+                                    内容示例："本周通过 AI LeadFinder 获取的线索中，电子行业占比 35%，机械行业占比 28%..."
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">行业洞察</td>
+                                <td>每周 1 篇</td>
+                                <td>"2026 年 B2B 外贸获客的 5 大趋势..."</td>
+                                <div class="tooltip-content">
+                                    <strong>行业洞察</strong><br><br>
+                                    频率：每周 1 篇<br><br>
+                                    内容示例："2026 年 B2B 外贸获客的 5 大趋势：AI 驱动、数据化、个性化..."
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">客户案例</td>
+                                <td>每周 1 篇</td>
+                                <td>"某电子企业通过 AI LeadFinder 3 个月成交 23 家客户..."</td>
+                                <div class="tooltip-content">
+                                    <strong>客户案例</strong><br><br>
+                                    频率：每周 1 篇<br><br>
+                                    内容示例："某电子企业通过 AI LeadFinder 3 个月成交 23 家客户，获客效率提升 5 倍..."
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">产品更新</td>
+                                <td>每月 1-2 篇</td>
+                                <td>"AI LeadFinder 新增访客雷达功能..."</td>
+                                <div class="tooltip-content">
+                                    <strong>产品更新</strong><br><br>
+                                    频率：每月 1-2 篇<br><br>
+                                    内容示例："AI LeadFinder 新增访客雷达功能，实时识别独立站访客身份..."
+                                </div>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="wechat" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">WeChat</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">微信生态运营</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-4">公众号运营</h3>
+                    <div class="space-y-3 text-sm text-gray-600">
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>发布频率：每周 2 篇（周二、周四）</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>内容类型：1 干货 + 1 案例/产品</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>发布时间：晚上 20:00</span>
+                        </div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>公众号运营</strong><br><br>
+                        • 发布频率：每周 2 篇（周二、周四）<br>
+                        • 内容类型：1 篇干货文章 + 1 篇案例/产品介绍<br>
+                        • 发布时间：晚上 20:00<br>
+                        • 文章长度：1500-3000 字
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-4">视频号运营</h3>
+                    <div class="space-y-3 text-sm text-gray-600">
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>发布频率：每周 2-3 个视频</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>内容类型：产品演示、客户证言、教程</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>视频时长：1-3 分钟</span>
+                        </div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>视频号运营</strong><br><br>
+                        • 发布频率：每周 2-3 个视频<br>
+                        • 内容类型：产品演示、客户证言、教程<br>
+                        • 视频时长：1-3 分钟<br>
+                        • 发布时间：晚上 19:00-21:00
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                <div class="p-4 bg-gray-50 border-b border-gray-100">
+                    <h3 class="font-bold text-dark">微信群运营</h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>群类型</th>
+                                <th>目标</th>
+                                <th>运营策略</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">客户群</td>
+                                <td>提升满意度、促进续约</td>
+                                <td>产品更新通知、使用技巧分享、问题解答</td>
+                                <div class="tooltip-content">
+                                    <strong>客户群运营</strong><br><br>
+                                    目标：提升满意度、促进续约<br>
+                                    运营策略：产品更新通知、使用技巧分享、问题解答、优秀案例分享
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">潜在客户群</td>
+                                <td>促进试用、推动转化</td>
+                                <td>行业干货分享、产品演示、限时优惠</td>
+                                <div class="tooltip-content">
+                                    <strong>潜在客户群运营</strong><br><br>
+                                    目标：促进试用、推动转化<br>
+                                    运营策略：行业干货分享、产品演示、限时优惠、案例分享
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">行业交流群</td>
+                                <td>品牌建设、线索获取</td>
+                                <td>行业话题讨论、专业观点输出、软性植入</td>
+                                <div class="tooltip-content">
+                                    <strong>行业交流群运营</strong><br><br>
+                                    目标：品牌建设、线索获取<br>
+                                    运营策略：行业话题讨论、专业观点输出、软性植入、资源对接
+                                </div>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="zhihu" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Zhihu</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">知乎运营</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-4">专业回答</h3>
+                    <div class="space-y-3 text-sm text-gray-600">
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>关注话题：B2B 获客、外贸营销、独立站运营</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>回答策略：专业、客观、有价值</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>频率：每周 3-5 个回答</span>
+                        </div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>知乎专业回答</strong><br><br>
+                        • 关注话题：B2B 获客、外贸营销、独立站运营、销售管理<br>
+                        • 回答策略：专业、客观、有价值，避免硬广<br>
+                        • 频率：每周 3-5 个回答<br>
+                        • 技巧：选择高关注量、低回答量的问题
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-4">专栏文章</h3>
+                    <div class="space-y-3 text-sm text-gray-600">
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>专栏名称：AI 获客方法论</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>发布频率：每周 1-2 篇</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>内容类型：深度方法论、行业分析</span>
+                        </div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>知乎专栏文章</strong><br><br>
+                        • 专栏名称：AI 获客方法论<br>
+                        • 发布频率：每周 1-2 篇<br>
+                        • 内容类型：深度方法论、行业分析、产品解读<br>
+                        • 文章长度：2000-4000 字
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                <div class="p-4 bg-gray-50 border-b border-gray-100">
+                    <h3 class="font-bold text-dark">知乎高价值问题清单</h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>问题</th>
+                                <th>关注量</th>
+                                <th>回答数</th>
+                                <th>优先级</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">B2B 外贸怎么找客户？</td>
+                                <td>5000+</td>
+                                <td>50+</td>
+                                <td><span class="text-cta">⭐⭐⭐⭐⭐</span></td>
+                                <div class="tooltip-content">
+                                    <strong>B2B 外贸怎么找客户？</strong><br><br>
+                                    关注量：5000+<br>
+                                    回答数：50+<br>
+                                    优先级：最高<br>
+                                    回答策略：提供系统方法论，自然植入产品
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">独立站如何提升转化率？</td>
+                                <td>3000+</td>
+                                <td>30+</td>
+                                <td><span class="text-cta">⭐⭐⭐⭐⭐</span></td>
+                                <div class="tooltip-content">
+                                    <strong>独立站如何提升转化率？</strong><br><br>
+                                    关注量：3000+<br>
+                                    回答数：30+<br>
+                                    优先级：最高<br>
+                                    回答策略：分享访客分析方法论
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">外贸开发信怎么写？</td>
+                                <td>4000+</td>
+                                <td>60+</td>
+                                <td><span class="text-cta">⭐⭐⭐⭐</span></td>
+                                <div class="tooltip-content">
+                                    <strong>外贸开发信怎么写？</strong><br><br>
+                                    关注量：4000+<br>
+                                    回答数：60+<br>
+                                    优先级：高<br>
+                                    回答策略：分享 AI 个性化开发信方法
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">海关数据怎么用来获客？</td>
+                                <td>2000+</td>
+                                <td>20+</td>
+                                <td><span class="text-cta">⭐⭐⭐⭐⭐</span></td>
+                                <div class="tooltip-content">
+                                    <strong>海关数据怎么用来获客？</strong><br><br>
+                                    关注量：2000+<br>
+                                    回答数：20+<br>
+                                    优先级：最高（竞争小）<br>
+                                    回答策略：详细方法论 + 工具推荐
+                                </div>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="douyin" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Short Video</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">短视频运营</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-4">抖音</h3>
+                    <div class="space-y-3 text-sm text-gray-600">
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>发布频率：每周 2-3 个</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>视频时长：15-60 秒</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>内容类型：效果对比、产品演示</span>
+                        </div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>抖音运营</strong><br><br>
+                        • 发布频率：每周 2-3 个<br>
+                        • 视频时长：15-60 秒<br>
+                        • 内容类型：效果对比、产品演示、客户证言<br>
+                        • 发布时间：晚上 19:00-21:00
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-4">视频号</h3>
+                    <div class="space-y-3 text-sm text-gray-600">
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>发布频率：每周 2-3 个</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>视频时长：1-3 分钟</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>内容类型：教程、案例、产品</span>
+                        </div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>视频号运营</strong><br><br>
+                        • 发布频率：每周 2-3 个<br>
+                        • 视频时长：1-3 分钟<br>
+                        • 内容类型：教程、案例、产品演示<br>
+                        • 发布时间：晚上 19:00-21:00
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-4">B站</h3>
+                    <div class="space-y-3 text-sm text-gray-600">
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>发布频率：每周 1-2 个</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>视频时长：5-15 分钟</span>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <span>内容类型：深度教程、行业分析</span>
+                        </div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>B站运营</strong><br><br>
+                        • 发布频率：每周 1-2 个<br>
+                        • 视频时长：5-15 分钟<br>
+                        • 内容类型：深度教程、行业分析、产品测评<br>
+                        • 发布时间：周末或晚上
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                <div class="p-4 bg-gray-50 border-b border-gray-100">
+                    <h3 class="font-bold text-dark">短视频内容脚本模板</h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>类型</th>
+                                <th>时长</th>
+                                <th>脚本结构</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">效果对比</td>
+                                <td>30-60 秒</td>
+                                <td>痛点（5s）→ 解决方案（10s）→ 效果展示（10s）→ CTA（5s）</td>
+                                <div class="tooltip-content">
+                                    <strong>效果对比脚本</strong><br><br>
+                                    时长：30-60 秒<br><br>
+                                    脚本结构：<br>
+                                    • 痛点（5s）："还在手动找客户？"<br>
+                                    • 解决方案（10s）："AI LeadFinder 自动获客"<br>
+                                    • 效果展示（10s）："效率提升 5 倍"<br>
+                                    • CTA（5s）："立即试用"
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">产品演示</td>
+                                <td>60-120 秒</td>
+                                <td>场景引入（10s）→ 功能演示（40s）→ 效果展示（20s）→ CTA（10s）</td>
+                                <div class="tooltip-content">
+                                    <strong>产品演示脚本</strong><br><br>
+                                    时长：60-120 秒<br><br>
+                                    脚本结构：<br>
+                                    • 场景引入（10s）<br>
+                                    • 功能演示（40s）<br>
+                                    • 效果展示（20s）<br>
+                                    • CTA（10s）
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">客户证言</td>
+                                <td>60-90 秒</td>
+                                <td>客户介绍（10s）→ 痛点描述（20s）→ 使用体验（30s）→ 效果总结（20s）</td>
+                                <div class="tooltip-content">
+                                    <strong>客户证言脚本</strong><br><br>
+                                    时长：60-90 秒<br><br>
+                                    脚本结构：<br>
+                                    • 客户介绍（10s）<br>
+                                    • 痛点描述（20s）<br>
+                                    • 使用体验（30s）<br>
+                                    • 效果总结（20s）
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">教程</td>
+                                <td>3-5 分钟</td>
+                                <td>目标说明（30s）→ 步骤演示（2-3min）→ 效果展示（30s）→ 总结（30s）</td>
+                                <div class="tooltip-content">
+                                    <strong>教程脚本</strong><br><br>
+                                    时长：3-5 分钟<br><br>
+                                    脚本结构：<br>
+                                    • 目标说明（30s）<br>
+                                    • 步骤演示（2-3min）<br>
+                                    • 效果展示（30s）<br>
+                                    • 总结（30s）
+                                </div>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-dark border-t border-white/10 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <span class="text-xl font-bold text-white tracking-tight">AI <span class="text-primary">LeadFinder</span></span>
+                <p class="text-gray-500 text-sm mt-1">Marketing Advisor - 社交媒体运营</p>
+            </div>
+            <div class="text-gray-500 text-sm">
+                &copy; 2026 AI LeadFinder. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
