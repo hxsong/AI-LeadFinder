@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>服务商系统 - 订单详情</title>
+    <title>服务商系统 - 资源下发确认</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="../styles/global.css">
     <style>
@@ -13,6 +13,41 @@
         }
         .sidebar-item:hover:not(.active) {
             background: #f1f5f9;
+        }
+        .step-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .step-dot {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .step-dot.pending {
+            background: #e2e8f0;
+            color: #94a3b8;
+        }
+        .step-dot.active {
+            background: #3B82F6;
+            color: white;
+        }
+        .step-dot.completed {
+            background: #10B981;
+            color: white;
+        }
+        .step-line {
+            width: 40px;
+            height: 2px;
+            background: #e2e8f0;
+        }
+        .step-line.completed {
+            background: #10B981;
         }
     </style>
 </head>
@@ -65,7 +100,7 @@
                 </div>
                 <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 5a2 2 0 012-2h2a2 2 0 012-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
                     </svg>
                     <span>域名管理</span>
                 </div>
@@ -113,7 +148,7 @@
                 </div>
                 <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
                     </svg>
                     <span>区块管理</span>
                 </div>
@@ -169,112 +204,139 @@
             </div>
         </aside>
 
-        <main class="ml-48 flex-1 p-4">
+        <main class="ml-48 flex-1 p-4 pb-24">
             <div class="flex items-center gap-2 text-xs text-gray-500 mb-4">
                 <span>用户管理</span>
                 <span>/</span>
                 <span>财务管理</span>
                 <span>/</span>
                 <span>独立功能</span>
+                <span>/</span>
+                <span>资源下发确认</span>
             </div>
 
-            <div class="bg-white border border-gray-300 rounded mb-4">
-                <div class="bg-gray-100 px-4 py-2 border-b border-gray-300">
-                    <h2 class="text-sm font-medium text-gray-700">订单信息</h2>
-                </div>
-                <div class="p-4">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                        <div class="flex items-start gap-2">
-                            <span class="text-gray-600">订单号</span>
-                            <span class="text-gray-800">SC2603061131886609</span>
+            <div class="max-w-4xl mx-auto">
+                <!-- 下发状态进度 -->
+                <div class="bg-white rounded-lg border border-gray-200 p-6 mb-4">
+                    <div class="flex items-center justify-center gap-2">
+                        <div class="step-item">
+                            <div class="step-dot completed">1</div>
+                            <span class="text-sm text-gray-700">下发中</span>
                         </div>
-                        <div class="flex items-start gap-2">
-                            <span class="text-red-600">*</span>
-                            <span class="text-gray-600">产品总价</span>
-                            <span class="text-gray-800">110589.00</span>
+                        <div class="step-line completed"></div>
+                        <div class="step-item">
+                            <div class="step-dot active">2</div>
+                            <span class="text-sm font-medium text-gray-800">已确认</span>
                         </div>
-                        <div class="flex items-start gap-2">
-                            <span class="text-gray-600">买家用户名</span>
-                            <span class="text-gray-800">zouna@leadong.com</span>
-                        </div>
-                        <div class="flex items-start gap-2">
-                            <span class="text-gray-600">订单总额</span>
-                            <span class="text-red-600 text-lg font-medium">110589.00</span>
-                        </div>
-                        <div class="flex items-start gap-2">
-                            <span class="text-gray-600">下单时间</span>
-                            <span class="text-gray-800">(GMT+6:30)2026-03-06 10:01</span>
-                        </div>
-                        <div></div>
-                        <div class="flex items-start gap-2">
-                            <span class="text-gray-600">订单状态</span>
-                            <span class="text-gray-800">已支付</span>
-                        </div>
-                        <div></div>
-                        <div class="flex items-start gap-2">
-                            <span class="text-gray-600">买家留言</span>
-                            <span class="text-gray-800"></span>
-                        </div>
-                        <div></div>
-                        <div class="flex items-start gap-2">
-                            <span class="text-red-600">*</span>
-                            <span class="text-gray-600">订单备注</span>
-                            <span class="text-gray-800"></span>
+                        <div class="step-line"></div>
+                        <div class="step-item">
+                            <div class="step-dot pending">3</div>
+                            <span class="text-sm text-gray-500">已生效</span>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="bg-white border border-gray-300 rounded mb-4">
-                <div class="bg-gray-100 px-4 py-2 border-b border-gray-300 flex items-center gap-2">
-                    <h2 class="text-sm font-medium text-gray-700">商品清单</h2>
-                    <span class="text-sm text-gray-600">用户：mic-szzhouyu</span>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-sm">
-                        <thead class="bg-gray-50">
-                            <tr class="border-b border-gray-300">
-                                <th class="text-left px-4 py-2 font-medium text-gray-700">名称</th>
-                                <th class="text-left px-4 py-2 font-medium text-gray-700">时长</th>
-                                <th class="text-left px-4 py-2 font-medium text-gray-700">详细</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="border-b border-gray-200">
-                                <td class="px-4 py-3 text-gray-800">增长引擎 GEO运营套餐</td>
-                                <td class="px-4 py-3 text-gray-600">12个月</td>
-                                <td class="px-4 py-3 text-gray-600">增长引擎：授权网站数10个；产品功能：关键词管理、关键词探索、关键词排名抓取、竞争对手研究</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="bg-gray-200 h-24 mb-4"></div>
-
-            <div>
-                <h3 class="text-sm font-medium text-gray-700 mb-2">订单日志：</h3>
-                <div class="space-y-3">
-                    <div class="flex items-start gap-3">
-                        <div class="w-4 h-4 rounded-full border-2 border-blue-500 mt-0.5 flex-shrink-0">
-                            <div class="w-2 h-2 bg-blue-500 rounded-full m-0.5"></div>
+                <!-- 下发详情 -->
+                <div class="bg-white rounded-lg border border-gray-200 p-6 mb-4">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-4">资源下发详情</h2>
+                    
+                    <div class="space-y-4">
+                        <!-- 租户信息 -->
+                        <div class="border-b border-gray-100 pb-4">
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-gray-500">租户名称：</span>
+                                    <span class="text-gray-800 font-medium">A企业</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-gray-500">Tenant ID：</span>
+                                    <span class="text-gray-800">tenant_001</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-gray-500">交易流水号：</span>
+                                    <span class="text-gray-800">TXN-202401-001</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-gray-500">当前系统到期时间：</span>
+                                    <span class="text-gray-800">2027-03-15</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="text-sm text-gray-600">
-                            <span class="text-gray-800">2026-03-06 11:31:37</span>
-                            <span class="mx-2 text-gray-800 font-medium">[zouna@leadong.com]</span>
-                            <span class="text-gray-800">已支付</span>
-                            <span class="ml-2 text-gray-600">买家可见:否</span>
+
+                        <!-- 系统服务费 -->
+                        <div class="border-b border-gray-100 pb-4">
+                            <h3 class="text-sm font-medium text-gray-700 mb-3">系统服务费</h3>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-gray-500">新增年数：</span>
+                                    <span class="text-gray-800 font-medium">2 年</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-gray-500">当前 BOT 席位数：</span>
+                                    <span class="text-gray-800 font-medium">3 个</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-gray-500">增购 BOT 席位：</span>
+                                    <span class="text-gray-800 font-medium">2 个</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-gray-500">计费年数：</span>
+                                    <span class="text-gray-800 font-medium">4 年</span>
+                                    <span class="text-xs text-gray-400">(1.9+2,向上取整)</span>
+                                </div>
+                            </div>
+                            <div class="mt-3 p-3 bg-gray-50 rounded text-sm">
+                                <div class="text-gray-600 mb-1">计算逻辑：</div>
+                                <div class="text-gray-800">(3 × 2 + 2 × 4) × 3,000 = <span class="text-orange-500 font-bold">42,000</span> 元</div>
+                            </div>
+                            <div class="mt-2 text-sm text-gray-600">
+                                <span class="text-gray-500">续费后到期时间：</span>
+                                <span class="text-green-600 font-medium">2029-03-15</span>
+                            </div>
+                        </div>
+
+                        <!-- Credits 资源包 -->
+                        <div class="pb-4">
+                            <h3 class="text-sm font-medium text-gray-700 mb-3">Credits 资源包</h3>
+                            <div class="space-y-2">
+                                <div class="flex items-center justify-between text-sm bg-gray-50 rounded p-3">
+                                    <div class="flex items-center gap-4">
+                                        <span class="text-gray-700 font-medium">标准包</span>
+                                        <span class="text-gray-500">5,000 Credits</span>
+                                        <span class="text-xs text-red-500">9折</span>
+                                    </div>
+                                    <span class="text-orange-500 font-medium">4,500 元</span>
+                                </div>
+                                <div class="flex items-center justify-between text-sm bg-gray-50 rounded p-3">
+                                    <div class="flex items-center gap-4">
+                                        <span class="text-gray-700 font-medium">基础包</span>
+                                        <span class="text-gray-500">1,000 Credits</span>
+                                    </div>
+                                    <span class="text-orange-500 font-medium">1,000 元</span>
+                                </div>
+                            </div>
+                            <div class="mt-3 text-sm text-gray-600 text-right">
+                                Credits 费用合计：<span class="text-orange-500 font-medium">5,500 元</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="flex items-start gap-3">
-                        <div class="w-4 h-4 rounded-full border-2 border-blue-500 mt-0.5 flex-shrink-0">
-                            <div class="w-2 h-2 bg-blue-500 rounded-full m-0.5"></div>
+                </div>
+
+                <!-- 费用汇总 -->
+                <div class="bg-white rounded-lg border border-gray-200 p-6 mb-4">
+                    <h2 class="text-lg font-semibold text-gray-800 mb-4">费用汇总</h2>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">系统服务费</span>
+                            <span class="text-gray-800">42,000 元</span>
                         </div>
-                        <div class="text-sm text-gray-600">
-                            <span class="text-gray-800">2026-03-06 11:31:36</span>
-                            <span class="mx-2 text-gray-800 font-medium">[zouna@leadong.com]</span>
-                            <span class="text-gray-800">已下单</span>
-                            <span class="ml-2 text-gray-600">买家可见:否</span>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Credits 资源包费</span>
+                            <span class="text-gray-800">5,500 元</span>
+                        </div>
+                        <div class="border-t border-gray-200 pt-2 mt-2 flex justify-between">
+                            <span class="text-gray-800 font-medium">总计</span>
+                            <span class="text-xl font-bold text-orange-500">47,500 元</span>
                         </div>
                     </div>
                 </div>
@@ -285,10 +347,33 @@
     <footer class="fixed bottom-0 left-48 right-0 bg-white border-t border-gray-200 py-4 px-6">
         <div class="flex items-center justify-between">
             <button onclick="window.location.href='租户资源充值.html'" class="px-8 py-2 border border-gray-300 rounded text-sm text-gray-600 hover:bg-gray-50">
-                返回
+                返回修改
             </button>
+            <div class="flex items-center gap-4">
+                <button onclick="cancelProvision()" class="px-6 py-2 border border-red-300 text-red-500 rounded text-sm hover:bg-red-50">
+                    取消下发
+                </button>
+                <button onclick="confirmProvision()" class="px-6 py-2 bg-blue-500 text-white rounded text-sm hover:bg-blue-600">
+                    确认生效
+                </button>
+            </div>
         </div>
     </footer>
 
+    <script>
+        function confirmProvision() {
+            if (confirm('确认资源下发生效？生效后费用将不可撤销。')) {
+                alert('资源下发已生效，租户余额已更新');
+                window.location.href = '多BOT工作台.html';
+            }
+        }
+
+        function cancelProvision() {
+            if (confirm('确认取消本次资源下发？取消后不会扣除任何费用。')) {
+                alert('资源下发已取消');
+                window.location.href = '租户资源充值.html';
+            }
+        }
+    </script>
 </body>
 </html>

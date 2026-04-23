@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI LeadFinder - 技术FAQ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        primary: '#3B82F6', secondary: '#60A5FA', accent: '#10B981',
+                        cta: '#F97316', dark: '#1E293B', light: '#F8FAFC',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #F8FAFC; color: #1E293B; }
+        .glass-card {
+            background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards; opacity: 0; transform: translateY(20px);
+        }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
+        .delay-500 { animation-delay: 500ms; }
+        .tooltip-container { position: relative; }
+        .tooltip-content {
+            visibility: hidden; opacity: 0; position: absolute; bottom: 100%; left: 50%;
+            transform: translateX(-50%) translateY(10px); width: max-content; max-width: 450px;
+            padding: 1.5rem; background: rgba(30,41,59,0.98); color: white; border-radius: 0.75rem;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            z-index: 100; font-size: 0.875rem; line-height: 1.6; text-align: left;
+            border: 1px solid rgba(255,255,255,0.1); margin-bottom: 1rem;
+        }
+        .tooltip-content::after {
+            content: ""; position: absolute; top: 100%; left: 50%; margin-left: -8px;
+            border-width: 8px; border-style: solid; border-color: rgba(30,41,59,0.98) transparent transparent transparent;
+        }
+        .tooltip-container:hover .tooltip-content {
+            visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0);
+        }
+        .faq-item {
+            border-left: 4px solid #3B82F6;
+            background: #F8FAFC;
+            padding: 1.5rem;
+            border-radius: 0 0.75rem 0.75rem 0;
+            margin-bottom: 1rem;
+        }
+        .faq-item.data { border-left-color: #3B82F6; }
+        .faq-item.ai { border-left-color: #8B5CF6; }
+        .faq-item.probe { border-left-color: #10B981; }
+        .faq-item.performance { border-left-color: #F97316; }
+        .data-table { width: 100%; border-collapse: collapse; }
+        .data-table th { background: #F1F5F9; padding: 0.75rem 1rem; text-align: left; font-weight: 600; color: #475569; border-bottom: 2px solid #E2E8F0; }
+        .data-table td { padding: 0.75rem 1rem; border-bottom: 1px solid #E2E8F0; }
+        .data-table tr:hover { background: #F8FAFC; }
+    </style>
+</head>
+<body class="antialiased font-sans">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-3">
+                    <a href="00-index.html" class="text-xl font-bold text-primary tracking-tight">AI LeadFinder</a>
+                    <span class="text-gray-300">|</span>
+                    <span class="text-sm text-gray-600">技术FAQ</span>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#data" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">数据相关</a>
+                    <a href="#ai" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">AI相关</a>
+                    <a href="#probe" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">探针与性能</a>
+                    <a href="#performance" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">性能与稳定性</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-[50vh] flex items-center justify-center pt-16 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
+            <div class="absolute top-20 right-10 w-72 h-72 bg-green-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
+            <div class="absolute -bottom-8 left-20 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
+        </div>
+        <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-primary text-xs font-semibold tracking-wide uppercase mb-6 animate-fade-in-up">
+                Technical FAQ
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold text-dark mb-6 leading-tight animate-fade-in-up delay-100">
+                AI LeadFinder<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">技术FAQ</span>
+            </h1>
+            <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto animate-fade-in-up delay-200">
+                数据、AI、探针、性能的技术问题解答
+            </p>
+        </div>
+    </section>
+
+    <!-- Data Related -->
+    <section id="data" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Data Related</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">数据相关</h2>
+            </div>
+
+            <div class="space-y-6">
+                <div class="faq-item data tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-3">Q1：数据来源有哪些？覆盖范围如何？</h3>
+                    <p class="text-gray-600 mb-4">AI LeadFinder 整合多维度数据源，形成<strong>双引擎数据体系</strong>：</p>
+                    <p class="font-semibold text-dark mb-2">静态数据引擎（历史数据）：</p>
+                    <div class="overflow-x-auto mb-4">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>数据类型</th>
+                                    <th>来源</th>
+                                    <th>更新频率</th>
+                                    <th>覆盖范围</th>
+                                    <th>核心价值</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>海关数据</td>
+                                    <td>官方进出口报关数据</td>
+                                    <td>月度更新</td>
+                                    <td>全球 100+ 国家</td>
+                                    <td>识别有真实进出口记录的企业</td>
+                                </tr>
+                                <tr>
+                                    <td>展会数据</td>
+                                    <td>全球主流展会参展商</td>
+                                    <td>实时更新</td>
+                                    <td>年度 5000+ 展会</td>
+                                    <td>定位活跃的行业参与者</td>
+                                </tr>
+                                <tr>
+                                    <td>地图数据</td>
+                                    <td>Google Maps、Bing Maps</td>
+                                    <td>实时更新</td>
+                                    <td>全球企业 POI</td>
+                                    <td>验证企业实体存在和规模</td>
+                                </tr>
+                                <tr>
+                                    <td>网页数据</td>
+                                    <td>企业官网公开信息</td>
+                                    <td>实时抓取</td>
+                                    <td>全球企业网站</td>
+                                    <td>获取企业业务和产品信息</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="font-semibold text-dark mb-2">动态数据引擎（实时意向）：</p>
+                    <div class="overflow-x-auto mb-4">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>数据类型</th>
+                                    <th>来源</th>
+                                    <th>更新频率</th>
+                                    <th>核心价值</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>访客行为</td>
+                                    <td>独立站 JS 探针采集</td>
+                                    <td>实时</td>
+                                    <td>识别高意向采购者和最佳跟进时机</td>
+                                </tr>
+                                <tr>
+                                    <td>社媒数据</td>
+                                    <td>LinkedIn、Twitter 等</td>
+                                    <td>实时更新</td>
+                                    <td>补充联系人信息和社交动态</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="font-semibold text-dark mb-2">多源数据融合优势：</p>
+                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                        <li>静态历史数据完成初次触达和背景调研</li>
+                        <li>动态实时行为判断客户意向和跟进时机</li>
+                        <li>双引擎结合生成全景客户画像，显著提高线索质量和转化成功率</li>
+                    </ul>
+                    <div class="tooltip-content">
+                        <strong>数据来源与覆盖</strong><br><br>
+                        双引擎数据体系：静态历史数据（海关、展会、地图、网页）+ 动态实时数据（访客行为、社媒）。
+                    </div>
+                </div>
+
+                <div class="faq-item data tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-3">Q2：数据准确性如何保证？</h3>
+                    <p class="text-gray-600 mb-4">多层数据质量保证机制：</p>
+                    <ol class="list-decimal list-inside text-gray-600 space-y-1 mb-4">
+                        <li><strong>数据源验证</strong>：只接入权威数据源</li>
+                        <li><strong>交叉验证</strong>：多源数据交叉比对（如海关记录 vs 展会记录 vs 地图信息）</li>
+                        <li><strong>时效管理</strong>：超期数据自动标记，近期数据权重更高</li>
+                        <li><strong>用户反馈</strong>：错误数据可一键反馈修正</li>
+                        <li><strong>联系人验证</strong>：邮箱 SMTP 实时验证，确保可送达</li>
+                    </ol>
+                    <p class="font-semibold text-dark mb-2">准确率指标：</p>
+                    <div class="overflow-x-auto">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>数据类型</th>
+                                    <th>准确率</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>企业基础信息</td>
+                                    <td class="text-primary font-bold">95%+</td>
+                                </tr>
+                                <tr>
+                                    <td>海关数据</td>
+                                    <td class="text-primary font-bold">98%+</td>
+                                </tr>
+                                <tr>
+                                    <td>联系人邮箱（验证后）</td>
+                                    <td class="text-primary font-bold">90%+</td>
+                                </tr>
+                                <tr>
+                                    <td>地图位置</td>
+                                    <td class="text-primary font-bold">95%+</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>数据准确性</strong><br><br>
+                        5层质量保证：数据源验证、交叉验证、时效管理、用户反馈、联系人验证。
+                    </div>
+                </div>
+
+                <div class="faq-item data tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-3">Q3：数据更新频率如何？</h3>
+                    <div class="overflow-x-auto">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>数据类型</th>
+                                    <th>更新频率</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>访客数据、网页数据</td>
+                                    <td class="text-primary font-bold">实时</td>
+                                </tr>
+                                <tr>
+                                    <td>社媒数据、地图数据</td>
+                                    <td class="text-primary font-bold">每日</td>
+                                </tr>
+                                <tr>
+                                    <td>海关数据、工商数据</td>
+                                    <td class="text-primary font-bold">每月</td>
+                                </tr>
+                                <tr>
+                                    <td>展会历史数据</td>
+                                    <td class="text-primary font-bold">每季度</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>数据更新频率</strong><br><br>
+                        访客/网页实时更新，社媒/地图每日更新，海关/工商每月更新，展会每季度更新。
+                    </div>
+                </div>
+
+                <div class="faq-item data tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-3">Q4：是否支持特定国家/地区数据？</h3>
+                    <p class="text-gray-600 mb-4">支持全球主要贸易国家和地区：</p>
+                    <p class="font-semibold text-dark mb-2">重点覆盖：</p>
+                    <ul class="list-disc list-inside text-gray-600 space-y-1 mb-4">
+                        <li>北美：美国、加拿大、墨西哥</li>
+                        <li>欧洲：德国、英国、法国、意大利、荷兰等</li>
+                        <li>亚太：中国、日本、韩国、印度、东南亚各国</li>
+                        <li>其他：澳大利亚、巴西、中东等</li>
+                    </ul>
+                    <p class="text-gray-600"><strong>海关数据覆盖</strong>：全球 100+ 国家进出口数据</p>
+                    <div class="tooltip-content">
+                        <strong>国家/地区覆盖</strong><br><br>
+                        覆盖全球主要贸易国家，海关数据覆盖 100+ 国家。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Related -->
+    <section id="ai" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">AI Related</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">AI相关</h2>
+            </div>
+
+            <div class="space-y-6">
+                <div class="faq-item ai tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-3">Q5：AI 业务建模是如何工作的？</h3>
+                    <p class="text-gray-600 mb-4">AI 业务建模分为两个阶段：</p>
+                    <p class="font-semibold text-dark mb-2">阶段 1：文本提取与结构化（P07-P08）</p>
+                    <ul class="list-disc list-inside text-gray-600 space-y-1 mb-4">
+                        <li>解析上传文档（PDF/Word/TXT/图片）</li>
+                        <li>提取关键信息：产品、服务、优势、客户群体</li>
+                        <li>结构化存储为机器可读格式</li>
+                        <li>使用模型：GPT-4o-mini / Gemini 1.5 Flash</li>
+                    </ul>
+                    <p class="font-semibold text-dark mb-2">阶段 2：深度分析与 ICP 建模（P09）</p>
+                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                        <li>基于提取信息分析企业定位</li>
+                        <li>识别业务类型（外贸/生产/服务/渠道）</li>
+                        <li>生成理想客户画像（ICP）</li>
+                        <li>输出四维评分权重配置</li>
+                        <li>使用模型：Claude 3.5 Sonnet / GPT-4o</li>
+                    </ul>
+                    <div class="tooltip-content">
+                        <strong>AI 业务建模</strong><br><br>
+                        两阶段建模：文本提取与结构化 → 深度分析与 ICP 建模。
+                    </div>
+                </div>
+
+                <div class="faq-item ai tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-3">Q6：四维评分模型是如何计算的？</h3>
+                    <div class="bg-gray-100 rounded-lg p-4 mb-4 font-mono text-sm">
+                        潜在客户得分 = 需求匹配度 × W1<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ 购买能力 × W2<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ 采购意向 × W3<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;+ 活跃意向 × W4
+                    </div>
+                    <p class="font-semibold text-dark mb-2">各维度计算逻辑：</p>
+                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                        <li><strong>需求匹配度</strong>：AI 模型判断候选企业是否是潜在客户（供需关系分析）</li>
+                        <li><strong>购买能力</strong>：企业规模评分（60%）+ 地理评分（40%）</li>
+                        <li><strong>采购意向</strong>：海关 HS Code 匹配度 × 时间衰减系数</li>
+                        <li><strong>活跃意向</strong>：展会记录 × 时间衰减系数</li>
+                    </ul>
+                    <div class="tooltip-content">
+                        <strong>四维评分模型</strong><br><br>
+                        需求匹配度、购买能力、采购意向、活跃意向加权计算。
+                    </div>
+                </div>
+
+                <div class="faq-item ai tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-3">Q7：AI 生成的内容可以编辑吗？</h3>
+                    <p class="text-gray-600 mb-4">完全可以。</p>
+                    <p class="font-semibold text-dark mb-2">工作流程：</p>
+                    <ol class="list-decimal list-inside text-gray-600 space-y-1 mb-4">
+                        <li>AI 生成初稿（基于客户数据和模板）</li>
+                        <li>用户在编辑器中查看</li>
+                        <li>可手动修改任何内容</li>
+                        <li>确认后使用</li>
+                    </ol>
+                    <p class="font-semibold text-dark mb-2">内容类型：</p>
+                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                        <li>开发信</li>
+                        <li>跟进邮件</li>
+                        <li>LinkedIn 消息</li>
+                        <li>产品推荐</li>
+                    </ul>
+                    <div class="tooltip-content">
+                        <strong>AI 内容编辑</strong><br><br>
+                        AI 生成初稿后，用户可完全编辑修改。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Probe & Performance -->
+    <section id="probe" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Probe & Performance</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">探针与性能</h2>
+            </div>
+
+            <div class="space-y-6">
+                <div class="faq-item probe tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-3">Q8：独立站探针会影响网站性能吗？</h3>
+                    <p class="text-gray-600 mb-4">不会。</p>
+                    <p class="font-semibold text-dark mb-2">技术特性：</p>
+                    <ul class="list-disc list-inside text-gray-600 space-y-1 mb-4">
+                        <li><strong>异步加载</strong>：不会阻塞页面渲染</li>
+                        <li><strong>体积小巧</strong>：< 10KB（gzip 压缩后）</li>
+                        <li><strong>CDN 分发</strong>：全球加速</li>
+                        <li><strong>懒加载</strong>：只在需要时执行</li>
+                    </ul>
+                    <p class="font-semibold text-dark mb-2">性能指标：</p>
+                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                        <li>加载时间：< 50ms</li>
+                        <li>对页面加载影响：< 1%</li>
+                        <li>99.9% 可用性保障</li>
+                    </ul>
+                    <div class="tooltip-content">
+                        <strong>探针性能</strong><br><br>
+                        异步加载，<10KB，对页面影响<1%，99.9%可用性。
+                    </div>
+                </div>
+
+                <div class="faq-item probe tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-3">Q9：探针支持哪些建站平台？</h3>
+                    <div class="overflow-x-auto">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>平台</th>
+                                    <th>支持方式</th>
+                                    <th>难度</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>WordPress</td>
+                                    <td>插件/手动嵌入</td>
+                                    <td class="text-accent font-bold">简单</td>
+                                </tr>
+                                <tr>
+                                    <td>Wix</td>
+                                    <td>手动嵌入</td>
+                                    <td class="text-accent font-bold">简单</td>
+                                </tr>
+                                <tr>
+                                    <td>自建站（React/Vue）</td>
+                                    <td>手动嵌入</td>
+                                    <td class="text-accent font-bold">简单</td>
+                                </tr>
+                                <tr>
+                                    <td>静态网站</td>
+                                    <td>手动嵌入</td>
+                                    <td class="text-accent font-bold">简单</td>
+                                </tr>
+                                <tr>
+                                    <td>其他 CMS</td>
+                                    <td>手动嵌入</td>
+                                    <td class="text-accent font-bold">简单</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>建站平台支持</strong><br><br>
+                        支持 WordPress、Wix、自建站、静态网站等所有主流平台。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Performance & Stability -->
+    <section id="performance" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Performance & Stability</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">性能与稳定性</h2>
+            </div>
+
+            <div class="space-y-6">
+                <div class="faq-item performance tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-3">Q10：系统可用性如何？</h3>
+                    <p class="text-gray-600 mb-4"><strong>99.9% SLA 保障</strong>。</p>
+                    <p class="font-semibold text-dark mb-2">架构保障：</p>
+                    <ul class="list-disc list-inside text-gray-600 space-y-1 mb-4">
+                        <li>多可用区部署</li>
+                        <li>自动故障转移</li>
+                        <li>实时数据备份</li>
+                        <li>7×24 监控告警</li>
+                    </ul>
+                    <p class="font-semibold text-dark mb-2">历史数据：</p>
+                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                        <li>2024 年平均可用性：99.95%</li>
+                        <li>平均故障恢复时间：< 5 分钟</li>
+                    </ul>
+                    <div class="tooltip-content">
+                        <strong>系统可用性</strong><br><br>
+                        99.9% SLA，多可用区部署，99.95%历史可用性。
+                    </div>
+                </div>
+
+                <div class="faq-item performance tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-3">Q11：搜客任务执行时间多长？</h3>
+                    <div class="overflow-x-auto mb-4">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>任务规模</th>
+                                    <th>预计时间</th>
+                                    <th>说明</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>20-50 家企业</td>
+                                    <td class="text-primary font-bold">2-5 分钟</td>
+                                    <td>快速任务</td>
+                                </tr>
+                                <tr>
+                                    <td>50-100 家企业</td>
+                                    <td class="text-primary font-bold">5-10 分钟</td>
+                                    <td>常规任务</td>
+                                </tr>
+                                <tr>
+                                    <td>100-200 家企业</td>
+                                    <td class="text-primary font-bold">10-20 分钟</td>
+                                    <td>大规模任务</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="font-semibold text-dark mb-2">优化机制：</p>
+                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                        <li>并行查询</li>
+                        <li>缓存加速</li>
+                        <li>异步执行</li>
+                        <li>进度实时推送</li>
+                    </ul>
+                    <div class="tooltip-content">
+                        <strong>搜客执行时间</strong><br><br>
+                        20-50家2-5分钟，50-100家5-10分钟，100-200家10-20分钟。
+                    </div>
+                </div>
+
+                <div class="faq-item performance tooltip-container group cursor-pointer">
+                    <h3 class="text-lg font-bold text-dark mb-3">Q12：数据可以导出吗？</h3>
+                    <p class="text-gray-600 mb-4">支持多种格式导出：</p>
+                    <div class="overflow-x-auto">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>导出类型</th>
+                                    <th>格式</th>
+                                    <th>范围</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>线索列表</td>
+                                    <td>CSV / Excel</td>
+                                    <td>全部或筛选后</td>
+                                </tr>
+                                <tr>
+                                    <td>访客记录</td>
+                                    <td>CSV / JSON</td>
+                                    <td>指定时间范围</td>
+                                </tr>
+                                <tr>
+                                    <td>业务报告</td>
+                                    <td>PDF</td>
+                                    <td>完整报告</td>
+                                </tr>
+                                <tr>
+                                    <td>原始数据</td>
+                                    <td>JSON</td>
+                                    <td>单条线索详情</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>数据导出</strong><br><br>
+                        支持 CSV/Excel/JSON/PDF 多种格式导出。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark border-t border-white/10 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <span class="text-xl font-bold text-white tracking-tight">AI <span class="text-primary">LeadFinder</span></span>
+                <p class="text-gray-500 text-sm mt-1">让 AI 成为您的获客专家</p>
+            </div>
+            <div class="text-gray-500 text-sm">
+                &copy; 2026 AI LeadFinder. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

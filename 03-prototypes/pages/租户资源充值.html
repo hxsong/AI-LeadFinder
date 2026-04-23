@@ -14,8 +14,9 @@
         .sidebar-item:hover:not(.active) {
             background: #f1f5f9;
         }
-        .slider-track {
-            background: linear-gradient(to right, #3B82F6 0%, #3B82F6 0%, #e2e8f0 0%, #e2e8f0 100%);
+        .package-card.selected {
+            border-color: #3B82F6;
+            background: #EFF6FF;
         }
         input[type="range"] {
             -webkit-appearance: none;
@@ -35,9 +36,17 @@
             border: 2px solid white;
             box-shadow: 0 2px 6px rgba(0,0,0,0.2);
         }
-        .package-card.selected {
-            border-color: #3B82F6;
-            background: #EFF6FF;
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-overlay.active {
+            display: flex;
         }
     </style>
 </head>
@@ -96,7 +105,7 @@
                 </div>
                 <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13V6a2 2 0 112 2h2v2zm0-5.5A4.5 4.5 0 017.5 9h-2v2h2a4.5 4.5 0 104.5-4.5z"/>
                     </svg>
                     <span>订单管理</span>
                 </div>
@@ -162,7 +171,7 @@
                 </div>
                 <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002-2h2a2 2 0 012-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2V14a2 2 0 01-2 2h-2a2 2 0 01-2-2V5z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 012 2v10m-6 0a2 2 0 002-2h2a2 2 0 012-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2V14a2 2 0 01-2 2h-2a2 2 0 01-2-2V5z"/>
                     </svg>
                     <span>流量点卡</span>
                 </div>
@@ -174,7 +183,7 @@
                 </div>
                 <div class="sidebar-item flex items-center gap-2 px-3 py-2 text-sm text-gray-700 cursor-pointer">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002-2h2a2 2 0 012-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2V14a2 2 0 01-2 2h-2a2 2 0 01-2-2V5z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 012 2v10m-6 0a2 2 0 002-2h2a2 2 0 012-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2V14a2 2 0 01-2 2h-2a2 2 0 01-2-2V5z"/>
                     </svg>
                     <span>SEO测评管理</span>
                 </div>
@@ -194,7 +203,7 @@
             </div>
         </aside>
 
-        <main class="ml-48 flex-1 p-4">
+        <main class="ml-48 flex-1 p-4 pb-24">
             <div class="flex items-center gap-2 text-xs text-gray-500 mb-4">
                 <span>用户管理</span>
                 <span>/</span>
@@ -230,85 +239,102 @@
                     </div>
                 </div>
 
-                <div class="flex items-center gap-2 mb-6">
-                    <span class="text-sm text-blue-500">AI-LeadFinder</span>
-                    <div class="relative inline-block w-10 h-5 bg-green-500 rounded-full">
-                        <div class="absolute right-0.5 top-0.5 w-4 h-4 bg-white rounded-full shadow"></div>
+                <!-- 功能开关 + 减少席位 -->
+                <div class="flex items-center gap-4 mb-6">
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm text-blue-500 font-medium">AI-LeadFinder</span>
+                        <div class="relative inline-block w-10 h-5 bg-green-500 rounded-full cursor-pointer" id="featureToggle" onclick="toggleFeature()">
+                            <div class="absolute right-0.5 top-0.5 w-4 h-4 bg-white rounded-full shadow transition-all" id="toggleDot"></div>
+                        </div>
+                        <span class="text-xs text-gray-500" id="toggleStatus">已开启</span>
+                    </div>
+                    <button onclick="openReduceModal()" class="text-xs text-red-500 border border-red-300 rounded px-2 py-1 hover:bg-red-50">
+                        减少席位
+                    </button>
+                    <span class="text-xs text-gray-400">到期时间：2027-03-15</span>
+                </div>
+
+                <!-- 系统服务费 -->
+                <div class="border border-gray-200 rounded-lg p-4 mb-4">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm font-medium text-gray-800">系统服务费</span>
+                            <span class="text-xs text-gray-400">3,000 元/年/BOT</span>
+                        </div>
+                        <div class="flex items-center gap-4 text-xs text-gray-500">
+                            <span>当前 BOT 席位：<span class="font-medium text-gray-700" id="currentBotSeats">3</span> 个</span>
+                            <span>剩余服务年数：<span class="font-medium text-gray-700" id="remainingYearsDisplay">2</span> 年</span>
+                            <span>增购后席位：<span class="font-medium text-green-600" id="totalSeatsAfterAdd">3</span> 个</span>
+                            <span>增购后到期时间：<span class="font-medium text-green-600" id="newExpiryDate">2027-03-15</span></span>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-8">
+                        <!-- 系统服务年限 -->
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm text-gray-600">新增年数：</span>
+                            <div class="flex items-center border border-gray-300 rounded">
+                                <button onclick="adjustYears(-1)" class="px-2 py-1 text-gray-500 hover:bg-gray-100">-</button>
+                                <input type="text" id="serviceYears" value="0" class="w-10 text-center text-sm border-x border-gray-300 py-1" readonly>
+                                <button onclick="adjustYears(1)" class="px-2 py-1 text-gray-500 hover:bg-gray-100">+</button>
+                            </div>
+                            <span class="text-sm text-gray-500">年</span>
+                        </div>
+                        <!-- BOT 席位增购 -->
+                        <div class="flex items-center gap-2">
+                            <span class="text-sm text-gray-600">增购 BOT 席位：</span>
+                            <div class="flex items-center border border-gray-300 rounded">
+                                <button onclick="adjustBotAdd(-1)" class="px-2 py-1 text-gray-500 hover:bg-gray-100">-</button>
+                                <input type="text" id="botAddInput" value="0" class="w-10 text-center text-sm border-x border-gray-300 py-1" readonly>
+                                <button onclick="adjustBotAdd(1)" class="px-2 py-1 text-gray-500 hover:bg-gray-100">+</button>
+                            </div>
+                            <span class="text-sm text-gray-500">个</span>
+                        </div>
+                        <!-- 系统服务费汇总 -->
+                        <div class="flex flex-col gap-1">
+                            <div class="text-sm text-gray-600">
+                                系统服务费：<span class="text-orange-500 font-bold text-lg" id="serviceCost">0</span> 元
+                            </div>
+                            <div class="text-xs text-gray-400" id="serviceCostFormula">
+                                (当前席位3个×新增0年 + 增购0个×总年数2年) × 3,000 = 0
+                            </div>
+                        </div>
                     </div>
                 </div>
 
+                <!-- Credits 资源包 -->
                 <div class="border border-gray-200 rounded-lg p-4 mb-4">
-                    <div class="flex items-start gap-4">
-                        <div class="text-sm text-gray-700 font-medium mt-1">选择套餐：</div>
-                        <div class="flex-1 grid md:grid-cols-2 gap-4">
-                            <div class="package-card border-2 border-gray-200 rounded-lg p-4 cursor-pointer" onclick="togglePackage(this, 'basic')">
-                                <h3 class="text-sm font-medium text-gray-800 mb-1">LeadFinder 旗舰版基础包</h3>
-                                <p class="text-xs text-gray-500 mb-2">适合初次开通的企业客户</p>
-                                <p class="text-sm text-gray-700">· 3 个 BOT 席位</p>
-                                <p class="text-sm text-gray-700">· 50,000 Global Credits</p>
-                            </div>
-                            <div class="package-card border-2 border-gray-200 rounded-lg p-4 cursor-pointer" onclick="togglePackage(this, 'credits')">
-                                <h3 class="text-sm font-medium text-gray-800 mb-1">LeadFinder 算力加油包</h3>
-                                <p class="text-xs text-gray-500 mb-2">额外补充算力积分</p>
-                                <p class="text-sm text-gray-700">· 10,000 Global Credits</p>
-                            </div>
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="text-sm font-medium text-gray-800">Credits 资源包</span>
+                        <span class="text-xs text-gray-400">永久有效，不清零</span>
+                    </div>
+                    <div class="grid md:grid-cols-4 gap-3">
+                        <div class="package-card border-2 border-gray-200 rounded-lg p-3 cursor-pointer text-center" onclick="toggleCreditPackage(this, 'basic')">
+                            <h3 class="text-sm font-medium text-gray-800 mb-1">基础包</h3>
+                            <p class="text-lg font-bold text-blue-600">1,000</p>
+                            <p class="text-xs text-gray-500">Credits</p>
+                            <p class="text-sm text-gray-700 mt-1">1,000 元</p>
+                        </div>
+                        <div class="package-card border-2 border-gray-200 rounded-lg p-3 cursor-pointer text-center" onclick="toggleCreditPackage(this, 'standard')">
+                            <h3 class="text-sm font-medium text-gray-800 mb-1">标准包</h3>
+                            <p class="text-lg font-bold text-blue-600">5,000</p>
+                            <p class="text-xs text-gray-500">Credits</p>
+                            <p class="text-sm text-gray-700 mt-1">4,500 元 <span class="text-xs text-red-500">9折</span></p>
+                        </div>
+                        <div class="package-card border-2 border-gray-200 rounded-lg p-3 cursor-pointer text-center" onclick="toggleCreditPackage(this, 'professional')">
+                            <h3 class="text-sm font-medium text-gray-800 mb-1">专业包</h3>
+                            <p class="text-lg font-bold text-blue-600">20,000</p>
+                            <p class="text-xs text-gray-500">Credits</p>
+                            <p class="text-sm text-gray-700 mt-1">16,000 元 <span class="text-xs text-red-500">8折</span></p>
+                        </div>
+                        <div class="package-card border-2 border-gray-200 rounded-lg p-3 cursor-pointer text-center" onclick="toggleCreditPackage(this, 'enterprise')">
+                            <h3 class="text-sm font-medium text-gray-800 mb-1">企业包</h3>
+                            <p class="text-lg font-bold text-blue-600">100,000</p>
+                            <p class="text-xs text-gray-500">Credits</p>
+                            <p class="text-sm text-gray-700 mt-1">70,000 元 <span class="text-xs text-red-500">7折</span></p>
                         </div>
                     </div>
-                </div>
-
-                <div class="border border-gray-200 rounded-lg p-4 mb-4">
-                    <div class="mb-6">
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="text-sm text-gray-700">Global Credits:</span>
-                            <div class="flex items-center gap-2">
-                                <div class="bg-gray-100 px-2 py-1 rounded text-xs text-gray-600">5 000点</div>
-                                <span class="text-xs text-gray-500">已选：<input type="text" id="creditsInput" value="0" class="w-12 border border-gray-300 rounded px-1 text-center text-xs" onchange="updateSliderFromInput('credits')"></span>
-                                <span class="text-xs text-gray-500">剩余：13500点</span>
-                            </div>
-                        </div>
-                        <div class="relative">
-                            <input type="range" id="creditsSlider" min="0" max="10" value="0" class="w-full" oninput="updateCredits(this.value)">
-                            <div class="flex justify-between text-xs text-gray-400 mt-1">
-                                <span>0</span>
-                                <span>500</span>
-                                <span>1 000</span>
-                                <span>1 500</span>
-                                <span>2 000</span>
-                                <span>2 500</span>
-                                <span>3 000</span>
-                                <span>3 500</span>
-                                <span>4 000</span>
-                                <span>4 500</span>
-                                <span>5 000</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="flex items-center justify-between mb-2">
-                            <span class="text-sm text-gray-700">BOT数量：</span>
-                            <div class="flex items-center gap-2">
-                                <div class="bg-gray-100 px-2 py-1 rounded text-xs text-gray-600">100个</div>
-                                <span class="text-xs text-gray-500">已选：<input type="text" id="botInput" value="0" class="w-12 border border-gray-300 rounded px-1 text-center text-xs" onchange="updateSliderFromInput('bot')"></span>
-                                <span class="text-xs text-gray-500">已开通：3</span>
-                            </div>
-                        </div>
-                        <div class="relative">
-                            <input type="range" id="botSlider" min="0" max="50" value="0" class="w-full" oninput="updateBots(this.value)">
-                            <div class="flex justify-between text-xs text-gray-400 mt-1">
-                                <span>0</span>
-                                <span>5</span>
-                                <span>10</span>
-                                <span>15</span>
-                                <span>20</span>
-                                <span>25</span>
-                                <span>30</span>
-                                <span>35</span>
-                                <span>40</span>
-                                <span>45</span>
-                                <span>50</span>
-                            </div>
-                        </div>
+                    <div class="mt-3 text-sm text-gray-600">
+                        Credits 费用：<span class="text-orange-500 font-medium" id="creditsCost">0</span> 元
                     </div>
                 </div>
             </div>
@@ -321,25 +347,120 @@
                 返回
             </button>
             <div class="flex items-center gap-6">
-                <div class="flex items-center gap-2">
-                    <span class="text-sm text-gray-600">总计费用：</span>
-                    <span class="text-lg font-bold text-orange-500" id="totalCost">0</span>
+                <div class="flex items-center gap-4 text-sm text-gray-600">
+                    <div>系统服务费：<span class="text-orange-500 font-medium" id="footerServiceCost">0</span> 元</div>
+                    <div>Credits 费：<span class="text-orange-500 font-medium" id="footerCreditsCost">0</span> 元</div>
+                    <div class="border-l border-gray-300 pl-4">
+                        总计：<span class="text-lg font-bold text-orange-500" id="totalCost">0</span> 元
+                    </div>
                 </div>
-                <button id="submitBtn" class="px-6 py-2 bg-gray-400 text-white rounded text-sm cursor-not-allowed">
+                <button id="submitBtn" class="px-6 py-2 bg-gray-400 text-white rounded text-sm cursor-not-allowed" disabled onclick="confirmPurchase()">
                     确认购买
                 </button>
             </div>
         </div>
     </footer>
 
-    <script>
-        let selectedPackages = { basic: false, credits: false };
-        let totalCredits = 0;
-        let totalBots = 0;
+    <!-- 减少席位弹窗 -->
+    <div class="modal-overlay" id="reduceModal">
+        <div class="bg-white rounded-lg shadow-lg w-[600px] max-h-[80vh] flex flex-col">
+            <div class="p-6 border-b border-gray-200">
+                <h3 class="text-lg font-medium text-gray-800">减少 BOT 席位</h3>
+            </div>
+            <div class="p-6 overflow-y-auto flex-1">
+                <!-- 当前状态 -->
+                <div class="flex items-center gap-6 mb-4 text-sm">
+                    <span class="text-gray-600">当前席位：<span class="font-medium text-gray-800" id="modalCurrentSeats">3</span> 个</span>
+                    <span class="text-gray-600">已创建 BOT：<span class="font-medium text-gray-800" id="modalCreatedBots">2</span> 个</span>
+                    <span class="text-gray-600">目标席位：<span class="font-medium text-orange-500" id="modalTargetSeats">-</span></span>
+                </div>
 
-        function togglePackage(element, pkg) {
-            selectedPackages[pkg] = !selectedPackages[pkg];
-            if (selectedPackages[pkg]) {
+                <!-- 目标席位数输入 -->
+                <div class="mb-4">
+                    <label class="block text-sm text-gray-700 mb-2">设置目标席位数</label>
+                    <div class="flex items-center gap-3">
+                        <input type="number" id="reduceTargetInput" min="0" class="w-32 border border-gray-300 rounded px-3 py-2 text-sm" placeholder="输入目标席位数" oninput="updateTargetSeats()">
+                        <span class="text-xs text-gray-400">该操作不会自动退费</span>
+                    </div>
+                </div>
+
+                <!-- 提示信息 -->
+                <div class="hidden mb-4 p-3 bg-red-50 border border-red-200 rounded" id="reduceWarning">
+                    <p class="text-sm text-red-600">目标席位（<span id="warningTarget">0</span>）小于已创建 BOT 数量（<span id="warningCreated">2</span>），需先删除 <span id="warningNeedDelete">0</span> 个 BOT 才能减少席位</p>
+                </div>
+
+                <!-- BOT 列表 -->
+                <div class="border border-gray-200 rounded-lg">
+                    <div class="bg-gray-50 px-4 py-2 border-b border-gray-200 flex items-center justify-between">
+                        <span class="text-sm font-medium text-gray-700">已创建 BOT 列表</span>
+                        <span class="text-xs text-gray-500">勾选需要删除的 BOT</span>
+                    </div>
+                    <div class="divide-y divide-gray-100" id="botListContainer">
+                        <!-- BOT 列表项由 JS 生成 -->
+                    </div>
+                </div>
+            </div>
+            <div class="p-6 border-t border-gray-200 flex justify-end gap-3">
+                <button onclick="closeReduceModal()" class="px-4 py-2 border border-gray-300 rounded text-sm text-gray-600 hover:bg-gray-50">取消</button>
+                <button onclick="confirmReduce()" id="confirmReduceBtn" class="px-4 py-2 bg-red-500 text-white rounded text-sm hover:bg-red-600 disabled:bg-gray-300 disabled:cursor-not-allowed" disabled>确认减少</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 模拟数据
+        const currentBotSeats = 3; // 当前BOT席位总数
+        const currentBots = 2; // 已开通BOT数
+        const remainingYears = 1.9; // 当前系统服务剩余年数
+        const currentExpiryDate = new Date('2027-03-15'); // 当前系统到期时间
+        const servicePricePerYear = 3000;
+        const botPricePerYear = 3000;
+
+        let serviceYears = 0;
+        let botAddCount = 0;
+        let selectedCreditPackages = {
+            basic: { selected: false, credits: 1000, price: 1000 },
+            standard: { selected: false, credits: 5000, price: 4500 },
+            professional: { selected: false, credits: 20000, price: 16000 },
+            enterprise: { selected: false, credits: 100000, price: 70000 }
+        };
+        let featureEnabled = true;
+
+        function toggleFeature() {
+            featureEnabled = !featureEnabled;
+            const toggle = document.getElementById('featureToggle');
+            const dot = document.getElementById('toggleDot');
+            const status = document.getElementById('toggleStatus');
+            if (featureEnabled) {
+                toggle.classList.remove('bg-gray-400');
+                toggle.classList.add('bg-green-500');
+                dot.style.right = '2px';
+                dot.style.left = 'auto';
+                status.textContent = '已开启';
+            } else {
+                toggle.classList.remove('bg-green-500');
+                toggle.classList.add('bg-gray-400');
+                dot.style.left = '2px';
+                dot.style.right = 'auto';
+                status.textContent = '已关闭';
+            }
+        }
+
+        function adjustYears(delta) {
+            serviceYears = Math.max(0, Math.min(5, serviceYears + delta));
+            document.getElementById('serviceYears').value = serviceYears;
+            updateTotals();
+        }
+
+        function adjustBotAdd(delta) {
+            botAddCount = Math.max(0, botAddCount + delta);
+            document.getElementById('botAddInput').value = botAddCount;
+            updateTotals();
+        }
+
+        function toggleCreditPackage(element, pkg) {
+            selectedCreditPackages[pkg].selected = !selectedCreditPackages[pkg].selected;
+            if (selectedCreditPackages[pkg].selected) {
                 element.classList.add('selected');
             } else {
                 element.classList.remove('selected');
@@ -347,54 +468,49 @@
             updateTotals();
         }
 
-        function updateCredits(value) {
-            totalCredits = value * 500;
-            document.getElementById('creditsInput').value = totalCredits;
-            updateTotals();
-        }
-
-        function updateBots(value) {
-            totalBots = parseInt(value);
-            document.getElementById('botInput').value = totalBots;
-            updateTotals();
-        }
-
-        function updateSliderFromInput(type) {
-            if (type === 'credits') {
-                const value = parseInt(document.getElementById('creditsInput').value) || 0;
-                const sliderValue = Math.min(Math.max(Math.round(value / 500), 0), 10);
-                document.getElementById('creditsSlider').value = sliderValue;
-                totalCredits = sliderValue * 500;
-            } else if (type === 'bot') {
-                const value = parseInt(document.getElementById('botInput').value) || 0;
-                const sliderValue = Math.min(Math.max(value, 0), 50);
-                document.getElementById('botSlider').value = sliderValue;
-                totalBots = sliderValue;
-            }
-            updateTotals();
-        }
-
         function updateTotals() {
-            let credits = 0;
-            let seats = 0;
+            // 计算总服务年数（向上取整）
+            const totalYears = Math.ceil(remainingYears + serviceYears);
+            const remainingYearsCeil = Math.ceil(remainingYears);
             
-            if (selectedPackages.basic) {
-                seats += 3;
-                credits += 50000;
+            // 系统服务费 = (当前BOT席位数 × 新增年数 + 新增BOT席位数 × 总年数) × 单价
+            const existingBotFee = currentBotSeats * serviceYears;
+            const newBotFee = botAddCount * totalYears;
+            const serviceCost = (existingBotFee + newBotFee) * servicePricePerYear;
+            
+            let creditsCost = 0;
+            for (const pkg in selectedCreditPackages) {
+                if (selectedCreditPackages[pkg].selected) {
+                    creditsCost += selectedCreditPackages[pkg].price;
+                }
             }
-            if (selectedPackages.credits) {
-                credits += 10000;
-            }
+            const total = serviceCost + creditsCost;
+
+            document.getElementById('serviceCost').textContent = serviceCost.toLocaleString();
+            document.getElementById('creditsCost').textContent = creditsCost.toLocaleString();
+            document.getElementById('footerServiceCost').textContent = serviceCost.toLocaleString();
+            document.getElementById('footerCreditsCost').textContent = creditsCost.toLocaleString();
+            document.getElementById('totalCost').textContent = total.toLocaleString();
+
+            // 更新剩余年数显示（向上取整）
+            document.getElementById('remainingYearsDisplay').textContent = remainingYearsCeil;
             
-            credits += totalCredits;
-            seats += totalBots;
-            
-            const cost = (credits * 0.01 + seats * 100).toFixed(0);
-            document.getElementById('totalCost').textContent = cost;
-            
+            // 更新增购后席位显示
+            const totalSeatsAfterAdd = currentBotSeats + botAddCount;
+            document.getElementById('totalSeatsAfterAdd').textContent = totalSeatsAfterAdd;
+
+            // 显示计算逻辑公式（带中文说明）
+            const formulaText = `(当前席位${currentBotSeats}个×新增${serviceYears}年 + 增购${botAddCount}个×总年数${totalYears}年) × 3,000 = ${serviceCost.toLocaleString()}`;
+            document.getElementById('serviceCostFormula').textContent = formulaText;
+
+            // 计算并显示购买后的到期时间
+            const newExpiryDate = new Date(currentExpiryDate);
+            newExpiryDate.setFullYear(newExpiryDate.getFullYear() + serviceYears);
+            const formattedDate = newExpiryDate.toISOString().split('T')[0];
+            document.getElementById('newExpiryDate').textContent = formattedDate;
+
             const btn = document.getElementById('submitBtn');
-            const hasSelection = selectedPackages.basic || selectedPackages.credits || totalCredits > 0 || totalBots > 0;
-            
+            const hasSelection = serviceYears > 0 || botAddCount > 0 || creditsCost > 0;
             if (hasSelection) {
                 btn.disabled = false;
                 btn.className = 'px-6 py-2 bg-blue-500 text-white rounded text-sm cursor-pointer hover:bg-blue-600';
@@ -402,6 +518,133 @@
                 btn.disabled = true;
                 btn.className = 'px-6 py-2 bg-gray-400 text-white rounded text-sm cursor-not-allowed';
             }
+        }
+
+        // 模拟已创建的BOT列表
+        let createdBots = [
+            { id: 'bot_001', name: '官网获客BOT', status: 'active', leads: 1250, createdAt: '2024-01-15' },
+            { id: 'bot_002', name: '产品推广BOT', status: 'active', leads: 890, createdAt: '2024-02-20' }
+        ];
+        let selectedBotsToDelete = new Set();
+
+        function openReduceModal() {
+            document.getElementById('reduceModal').classList.add('active');
+            document.getElementById('modalCurrentSeats').textContent = currentBotSeats;
+            document.getElementById('modalCreatedBots').textContent = createdBots.length;
+            document.getElementById('modalTargetSeats').textContent = '-';
+            document.getElementById('reduceTargetInput').value = '';
+            selectedBotsToDelete.clear();
+            renderBotList();
+            updateReduceButton();
+        }
+
+        function closeReduceModal() {
+            document.getElementById('reduceModal').classList.remove('active');
+            document.getElementById('reduceWarning').classList.add('hidden');
+            document.getElementById('reduceTargetInput').value = '';
+            selectedBotsToDelete.clear();
+        }
+
+        function renderBotList() {
+            const container = document.getElementById('botListContainer');
+            container.innerHTML = createdBots.map(bot => `
+                <div class="px-4 py-3 flex items-center justify-between hover:bg-gray-50">
+                    <div class="flex items-center gap-3">
+                        <input type="checkbox" 
+                               class="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-500"
+                               ${selectedBotsToDelete.has(bot.id) ? 'checked' : ''}
+                               onchange="toggleBotDelete('${bot.id}')"
+                               id="bot-${bot.id}">
+                        <div>
+                            <div class="text-sm font-medium text-gray-800">${bot.name}</div>
+                            <div class="text-xs text-gray-500">创建于 ${bot.createdAt} · 线索数 ${bot.leads}</div>
+                        </div>
+                    </div>
+                    <span class="text-xs px-2 py-1 rounded ${bot.status === 'active' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'}">
+                        ${bot.status === 'active' ? '运行中' : '已暂停'}
+                    </span>
+                </div>
+            `).join('');
+        }
+
+        function toggleBotDelete(botId) {
+            if (selectedBotsToDelete.has(botId)) {
+                selectedBotsToDelete.delete(botId);
+            } else {
+                selectedBotsToDelete.add(botId);
+            }
+            updateReduceButton();
+        }
+
+        function updateTargetSeats() {
+            const target = parseInt(document.getElementById('reduceTargetInput').value);
+            const modalTargetSeats = document.getElementById('modalTargetSeats');
+            const warningDiv = document.getElementById('reduceWarning');
+
+            if (isNaN(target) || target < 0) {
+                modalTargetSeats.textContent = '-';
+                warningDiv.classList.add('hidden');
+                updateReduceButton();
+                return;
+            }
+
+            modalTargetSeats.textContent = target;
+
+            // 计算删除后剩余的BOT数量
+            const remainingBotsAfterDelete = createdBots.length - selectedBotsToDelete.size;
+
+            if (target < remainingBotsAfterDelete) {
+                // 目标席位仍小于剩余BOT数，显示警告
+                warningDiv.classList.remove('hidden');
+                document.getElementById('warningTarget').textContent = target;
+                document.getElementById('warningCreated').textContent = remainingBotsAfterDelete;
+                document.getElementById('warningNeedDelete').textContent = remainingBotsAfterDelete - target;
+            } else if (target >= currentBotSeats) {
+                // 目标席位大于等于当前席位
+                warningDiv.classList.add('hidden');
+            } else {
+                // 可以执行减少
+                warningDiv.classList.add('hidden');
+            }
+
+            updateReduceButton();
+        }
+
+        function updateReduceButton() {
+            const target = parseInt(document.getElementById('reduceTargetInput').value);
+            const btn = document.getElementById('confirmReduceBtn');
+            const remainingBotsAfterDelete = createdBots.length - selectedBotsToDelete.size;
+
+            // 启用条件：目标席位有效，且小于当前席位，且大于等于删除后的BOT数量
+            const canReduce = !isNaN(target) &&
+                              target >= 0 &&
+                              target < currentBotSeats &&
+                              target >= remainingBotsAfterDelete;
+
+            btn.disabled = !canReduce;
+        }
+
+        function confirmReduce() {
+            const target = parseInt(document.getElementById('reduceTargetInput').value);
+            const deleteCount = selectedBotsToDelete.size;
+
+            if (deleteCount > 0) {
+                const confirmMsg = `确认删除选中的 ${deleteCount} 个 BOT，并将席位减少至 ${target} 个？\n\n注意：删除的 BOT 数据将无法恢复，且该操作不退费。`;
+                if (!confirm(confirmMsg)) return;
+
+                // 执行删除
+                createdBots = createdBots.filter(bot => !selectedBotsToDelete.has(bot.id));
+                alert(`已删除 ${deleteCount} 个 BOT，席位已减少至 ${target} 个`);
+            } else {
+                if (!confirm(`确认将席位减少至 ${target} 个？\n\n注意：该操作不退费。`)) return;
+                alert(`席位已减少至 ${target} 个`);
+            }
+
+            closeReduceModal();
+        }
+
+        function confirmPurchase() {
+            window.location.href = '资源下发确认.html';
         }
     </script>
 </body>

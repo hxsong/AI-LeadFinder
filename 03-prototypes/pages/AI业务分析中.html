@@ -1,3 +1,13 @@
+<!--
+  ============================================================================
+  LeadFinder - AI 业务分析中页面
+  ============================================================================
+  关联文档：
+    - 模块设计：02-modules/AI分析模块.md
+    - 功能说明：AI业务分析流程展示，包括文本提取、深度分析、报告生成三个阶段
+    - 交互规范：03-prototypes-README.md
+  ============================================================================
+-->
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -7,17 +17,18 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Fira Sans', 'sans-serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
                     },
                     colors: {
-                        primary: '#3B82F6',
-                        secondary: '#60A5FA',
+                        primary: '#0F172A',
+                        secondary: '#1E293B',
+                        accent: '#3B82F6',
                         cta: '#F97316',
                     }
                 }
@@ -25,7 +36,26 @@
         }
     </script>
     <link rel="stylesheet" href="../styles/global.css">
-    <script src="../entry-nav.js"></script>
+    <script src="../scripts/entry-nav.js"></script>
+    <style>
+        .animate-spin-slow {
+            animation: spin 3s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .glow {
+            box-shadow: 0 0 60px rgba(15, 23, 42, 0.15);
+        }
+    </style>
 </head>
 <body class="bg-slate-50 min-h-screen font-sans">
     <!-- Navigation -->
@@ -40,15 +70,15 @@
                     </div>
                     <div>
                         <h1 class="text-lg font-semibold text-primary">AI-LeadFinder</h1>
-                        <p class="text-xs text-muted">智能获客引擎</p>
+                        <p class="text-xs text-slate-500">智能获客引擎</p>
                     </div>
                 </div>
                 <div class="flex items-center gap-4">
-                    <div class="flex items-center gap-2 px-3 py-1.5 bg-accent/10 rounded-lg">
-                        <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="flex items-center gap-2 px-3 py-1.5 bg-orange-50 rounded-lg">
+                        <svg class="w-4 h-4 text-cta" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                         </svg>
-                        <span class="text-sm font-medium text-accent">60,000 Credits</span>
+                        <span class="text-sm font-medium text-cta">60,000 Credits</span>
                     </div>
                     <div class="w-9 h-9 bg-secondary rounded-full flex items-center justify-center">
                         <span class="text-sm font-medium text-white">O</span>
@@ -134,7 +164,7 @@
                                     <span class="text-xs font-medium text-primary" id="step1Progress">0%</span>
                                 </div>
                                 <div class="h-2 bg-slate-200 rounded-full overflow-hidden">
-                                    <div class="h-full bg-gradient-to-r from-primary to-secondary rounded-full transition-all duration-500" id="step1Bar" style="width: 0%"></div>
+                                    <div class="h-full bg-primary rounded-full transition-all duration-500" id="step1Bar" style="width: 0%"></div>
                                 </div>
                             </div>
                         </div>
@@ -188,59 +218,8 @@
                 </div>
             </div>
 
-            <!-- Processing Details -->
-            <div class="grid md:grid-cols-2 gap-6 mb-8">
-                <div class="bg-white rounded-2xl border border-slate-200 p-6">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center">
-                            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-slate-700">AI 模型</h3>
-                            <p class="text-sm text-slate-400">Claude 3.5 Sonnet</p>
-                        </div>
-                    </div>
-                    <div class="space-y-2">
-                        <div class="flex items-center justify-between text-sm">
-                            <span class="text-slate-500">推理能力</span>
-                            <span class="text-primary font-medium">B2B 产业链专家级</span>
-                        </div>
-                        <div class="flex items-center justify-between text-sm">
-                            <span class="text-slate-500">评分维度</span>
-                            <span class="text-slate-700">4 维评分框架</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-2xl border border-slate-200 p-6">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center">
-                            <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-slate-700">预计剩余时间</h3>
-                            <p class="text-sm text-slate-400" id="remainingTime">约 2-3 分钟</p>
-                        </div>
-                    </div>
-                    <div class="space-y-2">
-                        <div class="flex items-center justify-between text-sm">
-                            <span class="text-slate-500">已处理</span>
-                            <span class="text-slate-700" id="processedItems">0 / 2 阶段</span>
-                        </div>
-                        <div class="flex items-center justify-between text-sm">
-                            <span class="text-slate-500">任务 ID</span>
-                            <span class="text-slate-400 font-mono text-xs">TASK-2024-001</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <!-- Tips -->
-            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl border border-blue-100 p-6">
+            <div class="bg-gradient-to-r from-slate-50 to-slate-100 rounded-2xl border border-slate-200 p-6">
                 <div class="flex items-start gap-4">
                     <div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center flex-shrink-0">
                         <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -323,8 +302,7 @@
             badge1.classList.add('bg-green-100', 'text-green-600');
             line1.classList.remove('bg-primary');
             line1.classList.add('bg-green-500');
-            
-            document.getElementById('processedItems').textContent = '1 / 2 阶段';
+
             document.getElementById('statusText').textContent = '正在进行深度业务分析...';
         }
 
@@ -343,7 +321,7 @@
             badge2.classList.add('bg-blue-100', 'text-blue-600');
             progressContainer.classList.remove('opacity-50');
             document.getElementById('step2Bar').classList.remove('bg-slate-300');
-            document.getElementById('step2Bar').classList.add('bg-gradient-to-r', 'from-primary', 'to-secondary');
+            document.getElementById('step2Bar').classList.add('bg-primary');
             
             currentStep = 2;
         }
@@ -352,7 +330,6 @@
             step2Progress = progress;
             document.getElementById('step2Progress').textContent = progress + '%';
             document.getElementById('step2Bar').style.width = progress + '%';
-            document.getElementById('remainingTime').textContent = '约 ' + Math.ceil((100 - progress) * 0.02) + ' 分钟';
         }
 
         function completeStep2() {
@@ -367,8 +344,6 @@
             badge2.textContent = '已完成';
             badge2.classList.remove('bg-blue-100', 'text-blue-600');
             badge2.classList.add('bg-green-100', 'text-green-600');
-            
-            document.getElementById('processedItems').textContent = '2 / 2 阶段';
         }
 
         function startStep3() {
@@ -390,7 +365,6 @@
             desc3.classList.add('text-slate-500');
             
             document.getElementById('statusText').textContent = '正在生成分析报告...';
-            document.getElementById('remainingTime').textContent = '即将完成';
         }
 
         function completeAll() {

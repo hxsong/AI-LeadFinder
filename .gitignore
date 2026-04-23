@@ -1,0 +1,20 @@
+# 忽略所有文件和文件夹
+*
+
+# 但跟踪以下五个文件夹
+!01-concept/
+!01-concept/**
+!02-modules/
+!02-modules/**
+!03-prototypes/
+!03-prototypes/**
+!04-specs/
+!04-specs/**
+!05-GTM/
+!05-GTM/**
+
+# 保留 .gitignore 本身
+!.gitignore
+
+# 忽略系统文件
+.DS_Store

@@ -1,3 +1,8 @@
+<!--
+  关联文档：
+    - [模块设计](../../02-modules/03-静态数据获客.md)
+    - [功能说明](../../04-specs/搜客需求输入-说明.md)
+-->
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -43,7 +48,20 @@
             animation: pulse-slow 2s ease-in-out infinite;
         }
     </style>
-    <script src="../entry-nav.js"></script>
+    <script src="../scripts/entry-nav.js"></script>
+    <!-- 状态切换器配置 -->
+    <script>
+        window.STATE_SWITCHER_CONFIG = {
+            states: [
+                { key: 'normal', label: '默认状态', color: 'bg-success' },
+                { key: 'loading', label: '策略生成中', color: 'bg-cta' },
+                { key: 'empty', label: '未输入需求', color: 'bg-slate-400' },
+                { key: 'error', label: '输入校验失败', color: 'bg-red-500' },
+                { key: 'network-error', label: '网络错误', color: 'bg-orange-500' }
+            ]
+        };
+    </script>
+    <script src="../scripts/state-switcher.js"></script>
 </head>
 <body class="bg-background font-sans min-h-screen">
     <!-- Navigation -->
@@ -155,25 +173,86 @@
             </div>
 
             <!-- Search Input Form -->
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-6 opacity-0 animate-fade-in-up animate-delay-200">
-                <div class="mb-6">
-                    <label class="block text-sm font-medium text-primary mb-2">
-                        补充搜客需求
-                        <span class="text-muted font-normal">（可选）</span>
-                    </label>
-                    <div class="relative">
-                        <textarea 
-                            id="searchQuery"
-                            rows="4"
-                            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-primary placeholder-muted focus:outline-none focus:ring-2 focus:ring-cta/20 focus:border-cta transition-all resize-none"
-                            placeholder="例如：找一下加州的音视频集成商，优先考虑有展会记录的企业..."
-                        ></textarea>
-                        <div class="absolute bottom-3 right-3 text-xs text-muted">
-                            <span id="charCount">0</span>/500
+            <div id="searchFormContainer" class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-6 opacity-0 animate-fade-in-up animate-delay-200">
+                <!-- 加载状态 - 策略生成中 -->
+                <div id="loadingState" class="hidden py-12">
+                    <div class="flex flex-col items-center justify-center">
+                        <div class="w-16 h-16 bg-cta/10 rounded-2xl flex items-center justify-center mb-4">
+                            <svg class="w-8 h-8 text-cta animate-spin" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-primary mb-2">AI 正在规划搜客策略</h3>
+                        <p class="text-sm text-muted text-center max-w-md">正在分析您的需求并匹配 ICP 画像，预计需要 10-30 秒...</p>
+                        <div class="mt-6 w-64 h-2 bg-slate-100 rounded-full overflow-hidden">
+                            <div class="h-full bg-cta rounded-full animate-pulse" style="width: 60%"></div>
                         </div>
                     </div>
-                    <p class="mt-2 text-xs text-muted">输入自然语言描述，AI 将结合 ICP 画像智能规划搜客策略。留空则完全使用 ICP 画像作为搜索指令。</p>
                 </div>
+
+                <!-- 空状态 - 未输入需求提示 -->
+                <div id="emptyState" class="hidden py-8">
+                    <div class="flex flex-col items-center justify-center text-center">
+                        <div class="w-14 h-14 bg-slate-100 rounded-2xl flex items-center justify-center mb-3">
+                            <svg class="w-7 h-7 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-base font-medium text-primary mb-1">您还没有输入搜客需求</h3>
+                        <p class="text-sm text-muted">可以直接使用 ICP 画像进行默认搜索，或输入具体需求</p>
+                    </div>
+                </div>
+
+                <!-- 错误状态 - 输入校验失败 -->
+                <div id="errorState" class="hidden mb-4 p-4 bg-red-50 border border-red-200 rounded-xl">
+                    <div class="flex items-start gap-3">
+                        <svg class="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <div>
+                            <h4 class="text-sm font-medium text-red-700">输入内容不符合要求</h4>
+                            <p id="errorMessage" class="text-xs text-red-600 mt-1">请输入有效的搜索需求，或直接使用默认 ICP 画像搜索</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 网络错误状态 -->
+                <div id="networkErrorState" class="hidden mb-4 p-4 bg-orange-50 border border-orange-200 rounded-xl">
+                    <div class="flex items-start gap-3">
+                        <svg class="w-5 h-5 text-orange-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
+                        <div class="flex-1">
+                            <h4 class="text-sm font-medium text-orange-700">网络连接异常</h4>
+                            <p class="text-xs text-orange-600 mt-1">无法连接到服务器，请检查网络后重试</p>
+                            <button onclick="retrySubmit()" class="mt-2 px-3 py-1.5 bg-orange-100 hover:bg-orange-200 text-orange-700 text-xs font-medium rounded-lg transition-colors">
+                                重新提交
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 正常表单内容 -->
+                <div id="formContent">
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-primary mb-2">
+                            补充搜客需求
+                            <span class="text-muted font-normal">（可选）</span>
+                        </label>
+                        <div class="relative">
+                            <textarea
+                                id="searchQuery"
+                                rows="4"
+                                class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-primary placeholder-muted focus:outline-none focus:ring-2 focus:ring-cta/20 focus:border-cta transition-all resize-none"
+                                placeholder="例如：找一下加州的音视频集成商，优先考虑有展会记录的企业..."
+                            ></textarea>
+                            <div class="absolute bottom-3 right-3 text-xs text-muted">
+                                <span id="charCount">0</span>/500
+                            </div>
+                        </div>
+                        <p class="mt-2 text-xs text-muted">输入自然语言描述，AI 将结合 ICP 画像智能规划搜客策略。留空则完全使用 ICP 画像作为搜索指令。</p>
+                    </div>
 
                 <!-- Quick Tags -->
                 <div class="mb-6">
@@ -197,21 +276,22 @@
                     </div>
                 </div>
 
-                <!-- Target Count -->
-                <div>
-                    <label class="block text-sm font-medium text-primary mb-2">目标企业数量</label>
-                    <div class="flex items-center gap-4">
-                        <input 
-                            type="range" 
-                            id="targetCount" 
-                            min="20" 
-                            max="200" 
-                            value="100" 
-                            class="flex-1 h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-cta"
-                        >
-                        <div class="w-20 px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-center">
-                            <span id="countDisplay" class="font-semibold text-primary">100</span>
-                            <span class="text-muted text-sm">家</span>
+                    <!-- Target Count -->
+                    <div>
+                        <label class="block text-sm font-medium text-primary mb-2">目标企业数量</label>
+                        <div class="flex items-center gap-4">
+                            <input
+                                type="range"
+                                id="targetCount"
+                                min="20"
+                                max="200"
+                                value="100"
+                                class="flex-1 h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-cta"
+                            >
+                            <div class="w-20 px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-center">
+                                <span id="countDisplay" class="font-semibold text-primary">100</span>
+                                <span class="text-muted text-sm">家</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -287,10 +367,77 @@
             });
         });
 
+        // 状态管理
+        function showState(state) {
+            const loadingState = document.getElementById('loadingState');
+            const emptyState = document.getElementById('emptyState');
+            const errorState = document.getElementById('errorState');
+            const networkErrorState = document.getElementById('networkErrorState');
+            const formContent = document.getElementById('formContent');
+
+            // 隐藏所有状态
+            loadingState.classList.add('hidden');
+            emptyState.classList.add('hidden');
+            errorState.classList.add('hidden');
+            networkErrorState.classList.add('hidden');
+            formContent.classList.remove('hidden');
+
+            switch(state) {
+                case 'loading':
+                    loadingState.classList.remove('hidden');
+                    formContent.classList.add('hidden');
+                    break;
+                case 'empty':
+                    emptyState.classList.remove('hidden');
+                    break;
+                case 'error':
+                    errorState.classList.remove('hidden');
+                    break;
+                case 'network-error':
+                    networkErrorState.classList.remove('hidden');
+                    break;
+                default:
+                    // normal state, show form content
+                    break;
+            }
+        }
+
         function submitSearch() {
-            const query = textarea.value;
+            const query = textarea.value.trim();
             const count = targetCount.value;
             const btn = document.querySelector('footer button:last-child');
+
+            // 模拟不同的错误场景（通过 URL 参数控制，用于演示）
+            const urlParams = new URLSearchParams(window.location.search);
+            const demoError = urlParams.get('demo');
+
+            if (demoError === 'network-error') {
+                // 演示网络错误
+                showState('network-error');
+                btn.innerHTML = `
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                    </svg>
+                    重新提交
+                `;
+                return;
+            }
+
+            if (demoError === 'error') {
+                // 演示输入校验错误
+                showState('error');
+                document.getElementById('errorMessage').textContent = '输入内容包含敏感词，请修改后重试';
+                return;
+            }
+
+            if (demoError === 'empty') {
+                // 演示空状态
+                showState('empty');
+                return;
+            }
+
+            // 正常提交流程
+            showState('loading');
             btn.innerHTML = `
                 <svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -299,11 +446,32 @@
                 AI 规划中...
             `;
             btn.disabled = true;
-            
+
             setTimeout(() => {
                 window.location.href = '搜客策略预览.html';
-            }, 1500);
+            }, 2000);
         }
+
+        function retrySubmit() {
+            showState('normal');
+            const btn = document.querySelector('footer button:last-child');
+            btn.innerHTML = `
+                生成搜客策略
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                </svg>
+            `;
+            btn.disabled = false;
+        }
+
+        // 页面加载时检查 URL 参数，自动切换状态
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const state = urlParams.get('state');
+            if (state) {
+                showState(state);
+            }
+        });
     </script>
 
 </body>

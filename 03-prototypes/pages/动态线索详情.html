@@ -1,3 +1,8 @@
+<!--
+  关联文档：
+    - [模块设计](../../02-modules/04-动态数据获客.md)
+    - [功能说明](../../04-specs/动态线索详情-说明.md)
+-->
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -39,6 +44,16 @@
         }
     </script>
     <link rel="stylesheet" href="../styles/global.css">
+    <script>
+        window.STATE_SWITCHER_CONFIG = {
+            states: [
+                { key: 'normal', label: '正常状态', color: 'bg-success' },
+                { key: 'loading', label: '加载状态', color: 'bg-accent' },
+                { key: 'empty', label: '空状态', color: 'bg-muted' },
+                { key: 'error', label: '错误状态', color: 'bg-danger' }
+            ]
+        };
+    </script>
     <style>
         .animate-delay-100 { animation-delay: 0.1s; }
         .animate-delay-200 { animation-delay: 0.2s; }
@@ -54,7 +69,8 @@
             background: linear-gradient(to bottom, #E2E8F0, transparent);
         }
     </style>
-    <script src="../entry-nav.js"></script>
+    <script src="../scripts/entry-nav.js"></script>
+    <script src="../scripts/state-switcher.js"></script>
 </head>
 <body class="bg-background font-sans min-h-screen">
     <nav class="fixed top-4 left-4 right-4 z-50">
@@ -88,6 +104,8 @@
 
     <main class="pt-28 pb-32 px-4">
         <div class="max-w-5xl mx-auto">
+
+
             <div class="mb-6">
                 <div class="flex items-center gap-2 mb-2">
                     <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -98,35 +116,129 @@
                 <p class="text-muted text-sm">查看动态线索的完整分析报告和联系人信息</p>
             </div>
 
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-6 mb-6 opacity-0 animate-fade-in-up">
-                <div class="flex items-start gap-4">
-                    <div class="flex-1">
-                        <div class="flex items-center gap-3 mb-2">
-                            <h2 class="text-2xl font-bold text-primary">Orlando Mega Stage AV</h2>
-                        </div>
-                        <div class="flex items-center gap-4 text-sm text-muted mb-3">
-                            <a href="#" class="text-accent hover:underline flex items-center gap-1">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
-                                </svg>
-                                www.orlando-av.com
-                            </a>
-                            <span class="flex items-center gap-1">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                                </svg>
-                                Florida, USA
-                            </span>
-                            <span class="flex items-center gap-1">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
-                                </svg>
-                                50-200 人
-                            </span>
+            <!-- Loading State -->
+            <div id="loadingState" class="hidden space-y-6">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-6">
+                    <div class="flex items-start gap-4">
+                        <div class="flex-1 space-y-3">
+                            <div class="h-7 bg-slate-200 rounded w-1/3 animate-shimmer"></div>
+                            <div class="flex gap-4">
+                                <div class="h-4 bg-slate-200 rounded w-32 animate-shimmer"></div>
+                                <div class="h-4 bg-slate-200 rounded w-24 animate-shimmer"></div>
+                                <div class="h-4 bg-slate-200 rounded w-28 animate-shimmer"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-6">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-slate-200 rounded-xl animate-shimmer"></div>
+                        <div class="space-y-2">
+                            <div class="h-5 bg-slate-200 rounded w-32 animate-shimmer"></div>
+                            <div class="h-4 bg-slate-200 rounded w-48 animate-shimmer"></div>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="border border-slate-200 rounded-xl p-5 space-y-3">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 bg-slate-200 rounded-full animate-shimmer"></div>
+                                <div class="flex-1 space-y-2">
+                                    <div class="h-5 bg-slate-200 rounded w-1/4 animate-shimmer"></div>
+                                    <div class="h-4 bg-slate-200 rounded w-1/2 animate-shimmer"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border border-slate-200 rounded-xl p-5 space-y-3">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 bg-slate-200 rounded-full animate-shimmer"></div>
+                                <div class="flex-1 space-y-2">
+                                    <div class="h-5 bg-slate-200 rounded w-1/4 animate-shimmer"></div>
+                                    <div class="h-4 bg-slate-200 rounded w-1/2 animate-shimmer"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center justify-center py-8">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-cta animate-spin" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <span class="text-sm text-muted">正在加载线索详情...</span>
+                    </div>
+                </div>
             </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="hidden">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-12 text-center">
+                    <div class="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-primary mb-2">暂无线索详情</h3>
+                    <p class="text-sm text-muted mb-6 max-w-md mx-auto">该线索暂无详细数据，可能正在挖掘解析中，请稍后查看。</p>
+                    <a href="动态线索池.html" class="inline-flex items-center gap-2 px-6 py-3 bg-cta hover:bg-cta/90 text-white rounded-xl font-medium transition-all hover:shadow-lg hover:shadow-cta/20 cursor-pointer">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                        </svg>
+                        返回线索列表
+                    </a>
+                </div>
+            </div>
+
+            <!-- Error State -->
+            <div id="errorState" class="hidden">
+                <div class="bg-white rounded-2xl shadow-sm border border-danger/20 p-12 text-center">
+                    <div class="w-16 h-16 bg-danger/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-danger" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-primary mb-2">数据加载失败</h3>
+                    <p class="text-sm text-muted mb-6 max-w-md mx-auto">网络请求超时，无法获取线索详情。请检查网络连接后重试。</p>
+                    <button onclick="location.reload()" class="inline-flex items-center gap-2 px-6 py-3 bg-cta hover:bg-cta/90 text-white rounded-xl font-medium transition-all hover:shadow-lg hover:shadow-cta/20 cursor-pointer">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                        </svg>
+                        重新加载
+                    </button>
+                </div>
+            </div>
+
+            <!-- Normal State -->
+            <div id="normalState">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-6 mb-6 opacity-0 animate-fade-in-up">
+                    <div class="flex items-start gap-4">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-3 mb-2">
+                                <h2 class="text-2xl font-bold text-primary">Orlando Mega Stage AV</h2>
+                            </div>
+                            <div class="flex items-center gap-4 text-sm text-muted mb-3">
+                                <a href="#" class="text-accent hover:underline flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+                                    </svg>
+                                    www.orlando-av.com
+                                </a>
+                                <span class="flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                                    </svg>
+                                    Florida, USA
+                                </span>
+                                <span class="flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                    </svg>
+                                    50-200 人
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-6 mb-6 opacity-0 animate-fade-in-up animate-delay-100">
                 <div class="flex items-center justify-between mb-6">
@@ -470,18 +582,7 @@
                     </div>
                 </div>
 
-                <div class="mt-4 p-4 bg-grade_s/5 rounded-xl border border-grade_s/20">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm font-medium text-primary">评分计算说明</p>
-                            <p class="text-xs text-muted mt-1">最终动态线索分</p>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-sm text-muted">基础行为分</p>
-                            <p class="text-lg font-bold text-grade_s">95</p>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
     </main>
@@ -504,15 +605,39 @@
     </footer>
 
     <script>
-        function showToast() {
+        function showToast(msg = "敬请期待上线") {
             const toast = document.createElement("div");
             toast.className = "fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-slate-800 text-white px-6 py-3 rounded-xl shadow-2xl z-[100] animate-fade-in-up";
-            toast.textContent = "敬请期待上线";
+            toast.textContent = msg;
             document.body.appendChild(toast);
             setTimeout(() => {
                 toast.remove();
             }, 2000);
         }
+
+        // State switcher using state-switcher.js
+        window.addEventListener('statechange', function(e) {
+            const state = e.detail.state;
+
+            // 动态获取所有状态元素
+            const availableStates = window.StateSwitcher ? window.StateSwitcher.getAvailableStates() : ['normal', 'loading', 'empty', 'error'];
+            const stateElements = {};
+
+            availableStates.forEach(stateKey => {
+                stateElements[stateKey] = document.getElementById(stateKey + 'State');
+            });
+
+            // 隐藏所有状态
+            Object.values(stateElements).forEach(el => {
+                if (el) el.classList.add('hidden');
+            });
+
+            // 显示当前状态
+            const targetEl = stateElements[state];
+            if (targetEl) {
+                targetEl.classList.remove('hidden');
+            }
+        });
     </script>
 </body>
 </html>

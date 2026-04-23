@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI LeadFinder - 竞品对比分析</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        primary: '#3B82F6', secondary: '#60A5FA', accent: '#10B981',
+                        cta: '#F97316', dark: '#1E293B', light: '#F8FAFC',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #F8FAFC; color: #1E293B; }
+        .glass-card {
+            background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards; opacity: 0; transform: translateY(20px);
+        }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
+        .delay-500 { animation-delay: 500ms; }
+        .tooltip-container { position: relative; }
+        .tooltip-content {
+            visibility: hidden; opacity: 0; position: absolute; bottom: 100%; left: 50%;
+            transform: translateX(-50%) translateY(10px); width: max-content; max-width: 450px;
+            padding: 1.5rem; background: rgba(30,41,59,0.98); color: white; border-radius: 0.75rem;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            z-index: 100; font-size: 0.875rem; line-height: 1.6; text-align: left;
+            border: 1px solid rgba(255,255,255,0.1); margin-bottom: 1rem;
+        }
+        .tooltip-content::after {
+            content: ""; position: absolute; top: 100%; left: 50%; margin-left: -8px;
+            border-width: 8px; border-style: solid; border-color: rgba(30,41,59,0.98) transparent transparent transparent;
+        }
+        .tooltip-container:hover .tooltip-content {
+            visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0);
+        }
+        .data-table { width: 100%; border-collapse: collapse; }
+        .data-table th { background: #F1F5F9; padding: 0.75rem 1rem; text-align: left; font-weight: 600; color: #475569; border-bottom: 2px solid #E2E8F0; }
+        .data-table td { padding: 0.75rem 1rem; border-bottom: 1px solid #E2E8F0; }
+        .data-table tr:hover { background: #F8FAFC; }
+        .check-yes { color: #10B981; font-weight: bold; }
+        .check-no { color: #EF4444; }
+        .check-partial { color: #F59E0B; }
+    </style>
+</head>
+<body class="antialiased font-sans">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-3">
+                    <a href="00-index.html" class="text-xl font-bold text-primary tracking-tight">AI LeadFinder</a>
+                    <span class="text-gray-300">|</span>
+                    <span class="text-sm text-gray-600">竞品对比分析</span>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#landscape" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">竞争格局</a>
+                    <a href="#direct" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">直接竞品</a>
+                    <a href="#matrix" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">对比矩阵</a>
+                    <a href="#differentiation" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">差异化优势</a>
+                    <a href="#strategy" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">竞争策略</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-[50vh] flex items-center justify-center pt-16 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
+            <div class="absolute top-20 right-10 w-72 h-72 bg-green-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
+            <div class="absolute -bottom-8 left-20 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
+        </div>
+        <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-primary text-xs font-semibold tracking-wide uppercase mb-6 animate-fade-in-up">
+                Competitive Analysis
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold text-dark mb-6 leading-tight animate-fade-in-up delay-100">
+                AI LeadFinder<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">竞品对比分析</span>
+            </h1>
+            <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto animate-fade-in-up delay-200">
+                竞争定位、差异化话术、应对策略
+            </p>
+        </div>
+    </section>
+
+    <!-- Market Landscape -->
+    <section id="landscape" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Market Landscape</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">竞争格局概览</h2>
+            </div>
+
+            <div class="glass-card p-8 rounded-2xl">
+                <h3 class="text-xl font-bold text-dark mb-6">市场定位矩阵</h3>
+                <div class="relative h-96 bg-gray-50 rounded-xl p-8">
+                    <!-- Axes -->
+                    <div class="absolute left-1/2 top-4 bottom-4 w-0.5 bg-gray-300 transform -translate-x-1/2"></div>
+                    <div class="absolute left-4 right-4 top-1/2 h-0.5 bg-gray-300 transform -translate-y-1/2"></div>
+                    
+                    <!-- Labels -->
+                    <div class="absolute top-2 left-1/2 transform -translate-x-1/2 text-sm text-gray-500">功能完整性 ↑</div>
+                    <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-sm text-gray-500">易上手 → 难上手</div>
+                    <div class="absolute left-2 top-1/2 transform -translate-y-1/2 -rotate-90 text-sm text-gray-500">易上手</div>
+                    <div class="absolute right-2 top-1/2 transform -translate-y-1/2 rotate-90 text-sm text-gray-500">难上手</div>
+
+                    <!-- Quadrant Labels -->
+                    <div class="absolute top-6 left-[15%] text-xs text-gray-400">
+                        <div class="bg-gray-600 text-white px-3 py-1 rounded-lg shadow text-xs whitespace-nowrap inline-block">
+                            企业级营销套件<br>HubSpot/Marketo
+                        </div>
+                    </div>
+                    <div class="absolute top-12 right-[12%] text-xs text-gray-400">
+                        <div class="bg-gray-600 text-white px-3 py-1 rounded-lg shadow text-xs whitespace-nowrap inline-block">
+                            传统 CRM<br>Salesforce
+                        </div>
+                    </div>
+                    <div class="absolute bottom-16 left-[10%] text-xs text-gray-400">
+                        <div class="bg-gray-600 text-white px-3 py-1 rounded-lg shadow text-xs whitespace-nowrap inline-block">
+                            独立站分析工具<br>Leadfeeder等
+                        </div>
+                    </div>
+                    <div class="absolute bottom-10 right-[8%] text-xs text-gray-400">
+                        <div class="bg-gray-600 text-white px-3 py-1 rounded-lg shadow text-xs whitespace-nowrap inline-block">
+                            单一功能工具<br>Apollo等
+                        </div>
+                    </div>
+
+                    <!-- AI LeadFinder Position -->
+                    <div class="absolute left-[28%] top-[35%] transform -translate-x-1/2 -translate-y-1/2">
+                        <div class="bg-primary text-white px-4 py-2 rounded-lg shadow-lg font-bold text-sm whitespace-nowrap">
+                            AI LeadFinder
+                            <div class="text-xs font-normal">全链路 AI 获客</div>
+                        </div>
+                    </div>
+
+                    <!-- Data Services -->
+                    <div class="absolute left-[65%] top-[25%] transform -translate-x-1/2 -translate-y-1/2">
+                        <div class="bg-gray-600 text-white px-3 py-1 rounded-lg shadow text-xs whitespace-nowrap">
+                            数据服务商<br>ZoomInfo
+                        </div>
+                    </div>
+
+                    <!-- Additional Competitors -->
+                    <div class="absolute left-[55%] top-[55%] transform -translate-x-1/2 -translate-y-1/2">
+                        <div class="bg-gray-500 text-white px-2 py-1 rounded shadow text-xs whitespace-nowrap">
+                            Lusha
+                        </div>
+                    </div>
+                    <div class="absolute left-[75%] top-[45%] transform -translate-x-1/2 -translate-y-1/2">
+                        <div class="bg-gray-500 text-white px-2 py-1 rounded shadow text-xs whitespace-nowrap">
+                            Cognism
+                        </div>
+                    </div>
+                    <div class="absolute left-[20%] top-[65%] transform -translate-x-1/2 -translate-y-1/2">
+                        <div class="bg-gray-500 text-white px-2 py-1 rounded shadow text-xs whitespace-nowrap">
+                            Clearbit
+                        </div>
+                    </div>
+                    <div class="absolute left-[40%] top-[70%] transform -translate-x-1/2 -translate-y-1/2">
+                        <div class="bg-gray-500 text-white px-2 py-1 rounded shadow text-xs whitespace-nowrap">
+                            6sense
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Direct Competitors -->
+    <section id="direct" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Direct Competitors</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">直接竞品分析</h2>
+            </div>
+
+            <div class="space-y-8">
+                <!-- ZoomInfo / Lusha -->
+                <div class="glass-card p-8 rounded-2xl tooltip-container group cursor-pointer">
+                    <h3 class="text-xl font-bold text-dark mb-4">1. ZoomInfo / Lusha（数据服务商）</h3>
+                    <div class="overflow-x-auto mb-6">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>维度</th>
+                                    <th>ZoomInfo</th>
+                                    <th>Lusha</th>
+                                    <th>AI LeadFinder</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-semibold">核心功能</td>
+                                    <td>B2B 企业数据库</td>
+                                    <td>联系人信息查询</td>
+                                    <td class="text-primary font-semibold">AI 获客全流程</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">数据覆盖</td>
+                                    <td>2.6亿+ 企业</td>
+                                    <td>1亿+ 联系人</td>
+                                    <td class="text-primary font-semibold">海关+展会+地图+网页</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">AI 能力</td>
+                                    <td>基础筛选</td>
+                                    <td>无</td>
+                                    <td class="text-primary font-semibold">全流程 AI Agent</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">目标用户</td>
+                                    <td>大企业销售团队</td>
+                                    <td>中小销售团队</td>
+                                    <td class="text-primary font-semibold">B2B 外贸企业</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">优势</td>
+                                    <td>数据量大、成熟</td>
+                                    <td>使用简单</td>
+                                    <td class="text-primary font-semibold">自动化、AI 驱动</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="bg-blue-50 rounded-lg p-4">
+                        <p class="font-semibold text-dark mb-2">差异化策略：</p>
+                        <p class="text-gray-600">强调 AI 自动化能力，而非单纯数据提供；专注外贸场景深度优化。</p>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>vs ZoomInfo / Lusha</strong><br><br>
+                        强调 AI 自动化能力，而非单纯数据提供；专注外贸场景深度优化。
+                    </div>
+                </div>
+
+                <!-- Apollo.io / Hunter.io -->
+                <div class="glass-card p-8 rounded-2xl tooltip-container group cursor-pointer">
+                    <h3 class="text-xl font-bold text-dark mb-4">2. Apollo.io / Hunter.io（单一功能工具）</h3>
+                    <div class="overflow-x-auto mb-6">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>维度</th>
+                                    <th>Apollo.io</th>
+                                    <th>Hunter.io</th>
+                                    <th>AI LeadFinder</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-semibold">核心功能</td>
+                                    <td>邮箱查找+触达</td>
+                                    <td>邮箱验证查找</td>
+                                    <td class="text-primary font-semibold">全链路获客</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">数据源</td>
+                                    <td>公开网络数据</td>
+                                    <td>域名邮箱猜测</td>
+                                    <td class="text-primary font-semibold">多维度数据融合</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">AI 能力</td>
+                                    <td>基础序列</td>
+                                    <td>无</td>
+                                    <td class="text-primary font-semibold">深度 AI 分析</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">功能范围</td>
+                                    <td>找邮箱+发邮件</td>
+                                    <td>仅找邮箱</td>
+                                    <td class="text-primary font-semibold">搜客+访客分析</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">优势</td>
+                                    <td>功能专注、易用</td>
+                                    <td>简单直接</td>
+                                    <td class="text-primary font-semibold">功能完整、自动化</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="bg-green-50 rounded-lg p-4">
+                        <p class="font-semibold text-dark mb-2">差异化策略：</p>
+                        <p class="text-gray-600">强调一站式解决方案；突出访客分析差异化功能；展示自动化效率优势。</p>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>vs Apollo.io / Hunter.io</strong><br><br>
+                        强调一站式解决方案；突出访客分析差异化功能；展示自动化效率优势。
+                    </div>
+                </div>
+
+                <!-- Leadfeeder / Albacross -->
+                <div class="glass-card p-8 rounded-2xl tooltip-container group cursor-pointer">
+                    <h3 class="text-xl font-bold text-dark mb-4">3. Leadfeeder / Albacross（独立站分析工具）</h3>
+                    <div class="overflow-x-auto mb-6">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>维度</th>
+                                    <th>Leadfeeder</th>
+                                    <th>Albacross</th>
+                                    <th>AI LeadFinder</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-semibold">核心功能</td>
+                                    <td>访客识别</td>
+                                    <td>访客识别+ABM</td>
+                                    <td class="text-primary font-semibold">访客分析+搜客</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">识别技术</td>
+                                    <td>IP 解析</td>
+                                    <td>IP 解析</td>
+                                    <td class="text-primary font-semibold">IP+行为分析</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">AI 能力</td>
+                                    <td>基础评分</td>
+                                    <td>基础评分</td>
+                                    <td class="text-primary font-semibold">四维深度评分</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">功能范围</td>
+                                    <td>仅访客识别</td>
+                                    <td>访客+轻量 ABM</td>
+                                    <td class="text-primary font-semibold">完整获客闭环</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">优势</td>
+                                    <td>专注访客、易用</td>
+                                    <td>营销自动化</td>
+                                    <td class="text-primary font-semibold">功能完整</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="bg-purple-50 rounded-lg p-4">
+                        <p class="font-semibold text-dark mb-2">差异化策略：</p>
+                        <p class="text-gray-600">强调双引擎获客（主动+被动）；突出 AI 评分深度；展示完整获客闭环。</p>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>vs Leadfeeder / Albacross</strong><br><br>
+                        强调双引擎获客（主动+被动）；突出 AI 评分深度；展示完整获客闭环。
+                    </div>
+                </div>
+
+                <!-- HubSpot / Salesforce -->
+                <div class="glass-card p-8 rounded-2xl tooltip-container group cursor-pointer">
+                    <h3 class="text-xl font-bold text-dark mb-4">4. HubSpot / Salesforce（企业级 CRM/营销套件）</h3>
+                    <div class="overflow-x-auto mb-6">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>维度</th>
+                                    <th>HubSpot</th>
+                                    <th>Salesforce</th>
+                                    <th>AI LeadFinder</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-semibold">核心功能</td>
+                                    <td>营销自动化 CRM</td>
+                                    <td>企业级 CRM</td>
+                                    <td class="text-primary font-semibold">AI 获客专家</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">获客能力</td>
+                                    <td>中等</td>
+                                    <td>依赖集成</td>
+                                    <td class="text-primary font-semibold">专业深度</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">AI 能力</td>
+                                    <td>基础</td>
+                                    <td>Einstein AI</td>
+                                    <td class="text-primary font-semibold">专注获客 AI</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">实施周期</td>
+                                    <td>3-6 个月</td>
+                                    <td>6-12 个月</td>
+                                    <td class="text-primary font-semibold">1-2 周</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold">优势</td>
+                                    <td>功能全面、品牌强</td>
+                                    <td>企业级功能</td>
+                                    <td class="text-primary font-semibold">专注、易用</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="bg-orange-50 rounded-lg p-4">
+                        <p class="font-semibold text-dark mb-2">差异化策略：</p>
+                        <p class="text-gray-600">强调专注获客环节，不做冗余功能；突出快速上线、开箱即用。</p>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>vs HubSpot / Salesforce</strong><br><br>
+                        强调专注获客环节，不做冗余功能；突出快速上线、开箱即用。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Matrix -->
+    <section id="matrix" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Comparison Matrix</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">竞品功能对比矩阵</h2>
+            </div>
+
+            <!-- Core Function Comparison -->
+            <div class="glass-card p-8 rounded-2xl mb-12">
+                <h3 class="text-xl font-bold text-dark mb-6">核心功能对比</h3>
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>功能</th>
+                                <th>ZoomInfo</th>
+                                <th>Apollo</th>
+                                <th>Leadfeeder</th>
+                                <th>HubSpot</th>
+                                <th>AI LeadFinder</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">企业数据库</td>
+                                <td class="check-yes">✅✅✅</td>
+                                <td class="check-yes">✅✅</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-yes">✅</td>
+                                <td class="check-yes">✅✅</td>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">联系人查找</td>
+                                <td class="check-yes">✅✅✅</td>
+                                <td class="check-yes">✅✅</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-yes">✅</td>
+                                <td class="check-yes">✅✅</td>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">AI 智能搜客</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-yes">✅✅✅</td>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">独立站访客识别</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-yes">✅✅✅</td>
+                                <td class="check-yes">✅</td>
+                                <td class="check-yes">✅✅✅</td>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">访客行为分析</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-yes">✅✅</td>
+                                <td class="check-yes">✅</td>
+                                <td class="check-yes">✅✅✅</td>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">AI 线索评分</td>
+                                <td class="check-yes">✅</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-yes">✅</td>
+                                <td class="check-yes">✅</td>
+                                <td class="check-yes">✅✅✅</td>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">AI 内容生成</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-yes">✅</td>
+                                <td class="check-partial">待上线</td>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">自动化触达</td>
+                                <td class="check-yes">✅</td>
+                                <td class="check-yes">✅✅</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-yes">✅✅✅</td>
+                                <td class="check-partial">待上线</td>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">多 BOT 管理</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-yes">✅✅✅</td>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">海关数据</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-yes">✅✅</td>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">展会数据</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-yes">✅✅</td>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">Credits 计费</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-yes">✅✅</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Data Capability Comparison -->
+            <div class="glass-card p-8 rounded-2xl mb-12">
+                <h3 class="text-xl font-bold text-dark mb-6">数据能力对比</h3>
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>数据源</th>
+                                <th>ZoomInfo</th>
+                                <th>Apollo</th>
+                                <th>Leadfeeder</th>
+                                <th>AI LeadFinder</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">海关进出口数据</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-yes">✅✅✅</td>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">展会参展数据</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-yes">✅✅</td>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">地图/POI 数据</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-yes">✅✅</td>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">独立站访客数据</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-yes">✅✅✅</td>
+                                <td class="check-yes">✅✅✅</td>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">社交媒体数据</td>
+                                <td class="check-yes">✅✅</td>
+                                <td class="check-yes">✅</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-yes">✅</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- AI Capability Comparison -->
+            <div class="glass-card p-8 rounded-2xl">
+                <h3 class="text-xl font-bold text-dark mb-6">AI 能力对比</h3>
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>AI 功能</th>
+                                <th>ZoomInfo</th>
+                                <th>Apollo</th>
+                                <th>Leadfeeder</th>
+                                <th>HubSpot</th>
+                                <th>AI LeadFinder</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">业务分析/ICP</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-yes">✅</td>
+                                <td class="check-yes">✅✅✅</td>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">搜客策略生成</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-yes">✅✅✅</td>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">线索评分</td>
+                                <td class="check-yes">✅</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-yes">✅</td>
+                                <td class="check-yes">✅</td>
+                                <td class="check-yes">✅✅✅</td>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">内容生成</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-no">❌</td>
+                                <td class="check-yes">✅</td>
+                                <td class="check-partial">待上线</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Differentiation Advantages -->
+    <section id="differentiation" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Differentiation</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">差异化优势总结</h2>
+            </div>
+
+            <!-- Core Differentiation -->
+            <div class="mb-12">
+                <h3 class="text-xl font-bold text-dark mb-6">核心差异化（3个唯一）</h3>
+                <div class="space-y-6">
+                    <div class="glass-card p-8 rounded-2xl border-l-4 border-primary tooltip-container group cursor-pointer">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-primary font-bold flex-shrink-0">01</div>
+                            <div class="flex-1">
+                                <h4 class="text-lg font-bold text-dark mb-2">唯一全链路 AI Agent 获客系统</h4>
+                                <p class="text-gray-600">从业务分析 → 搜客 → 访客分析 → 线索评分，全流程 AI 驱动，非单点工具。</p>
+                            </div>
+                        </div>
+                        <div class="tooltip-content">
+                            <strong>唯一全链路 AI Agent 获客系统</strong><br><br>
+                            从业务分析、搜客、访客分析到线索评分，全流程 AI 驱动，非单点工具。
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-8 rounded-2xl border-l-4 border-accent tooltip-container group cursor-pointer">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center text-accent font-bold flex-shrink-0">02</div>
+                            <div class="flex-1">
+                                <h4 class="text-lg font-bold text-dark mb-2">唯一双引擎获客（核心优势）</h4>
+                                <p class="text-gray-600 mb-2"><strong>静态数据获客</strong>：基于海关、展会、地图、网页等多源历史数据，完成初次触达和背景调研</p>
+                                <p class="text-gray-600 mb-2"><strong>动态数据获客</strong>：基于独立站访客实时行为分析，识别高意向采购者和最佳跟进时机</p>
+                                <p class="text-gray-600"><strong>双引擎融合</strong>：静态历史数据+动态实时意向，生成全景客户画像，显著提高线索质量和转化成功率</p>
+                            </div>
+                        </div>
+                        <div class="tooltip-content">
+                            <strong>唯一双引擎获客</strong><br><br>
+                            静态历史数据（初次触达）+ 动态实时意向（访客行为），双引擎提高线索质量和成功率。
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-8 rounded-2xl border-l-4 border-purple-500 tooltip-container group cursor-pointer">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600 font-bold flex-shrink-0">03</div>
+                            <div class="flex-1">
+                                <h4 class="text-lg font-bold text-dark mb-2">唯一四维动态评分</h4>
+                                <p class="text-gray-600">需求匹配度、购买能力、采购意向、活跃意向，根据业务类型动态调整权重，精准筛选 S/A/B/C 级线索。</p>
+                            </div>
+                        </div>
+                        <div class="tooltip-content">
+                            <strong>唯一四维动态评分</strong><br><br>
+                            需求匹配度、购买能力、采购意向、活跃意向，根据业务类型动态调整权重，精准筛选 S/A/B/C 级线索。
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Secondary Differentiation -->
+            <div>
+                <h3 class="text-xl font-bold text-dark mb-6">次要差异化（5个领先）</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                    <div class="glass-card p-6 rounded-2xl text-center tooltip-container group cursor-pointer">
+                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-primary mx-auto mb-4">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                        </div>
+                        <h4 class="font-bold text-dark mb-2">数据</h4>
+                        <p class="text-sm text-gray-600">海关+展会+地图+网页多源数据融合，覆盖全球主要贸易国家</p>
+                        <div class="tooltip-content">
+                            <strong>数据领先</strong><br><br>
+                            海关+展会+地图+网页多源数据融合，覆盖全球主要贸易国家。
+                        </div>
+                    </div>
+                    <div class="glass-card p-6 rounded-2xl text-center tooltip-container group cursor-pointer">
+                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center text-accent mx-auto mb-4">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        </div>
+                        <h4 class="font-bold text-dark mb-2">双引擎</h4>
+                        <p class="text-sm text-gray-600">静态历史数据（初次触达）+动态实时意向（访客行为），双引擎提高线索质量和成功率</p>
+                        <div class="tooltip-content">
+                            <strong>双引擎领先</strong><br><br>
+                            静态历史数据（初次触达）+动态实时意向（访客行为），双引擎提高线索质量和成功率。
+                        </div>
+                    </div>
+                    <div class="glass-card p-6 rounded-2xl text-center tooltip-container group cursor-pointer">
+                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 mx-auto mb-4">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                        </div>
+                        <h4 class="font-bold text-dark mb-2">AI</h4>
+                        <p class="text-sm text-gray-600">业务分析、策略生成全流程</p>
+                        <div class="tooltip-content">
+                            <strong>AI 领先</strong><br><br>
+                            业务分析、策略生成全流程 AI 驱动。
+                        </div>
+                    </div>
+                    <div class="glass-card p-6 rounded-2xl text-center tooltip-container group cursor-pointer">
+                        <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center text-cta mx-auto mb-4">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                        </div>
+                        <h4 class="font-bold text-dark mb-2">架构</h4>
+                        <p class="text-sm text-gray-600">多 BOT 多业务线隔离管理</p>
+                        <div class="tooltip-content">
+                            <strong>架构领先</strong><br><br>
+                            多 BOT 多业务线隔离管理，支持集团型企业。
+                        </div>
+                    </div>
+                    <div class="glass-card p-6 rounded-2xl text-center tooltip-container group cursor-pointer">
+                        <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center text-red-600 mx-auto mb-4">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <h4 class="font-bold text-dark mb-2">场景</h4>
+                        <p class="text-sm text-gray-600">专注 B2B 外贸深度优化</p>
+                        <div class="tooltip-content">
+                            <strong>场景领先</strong><br><br>
+                            专注 B2B 外贸深度优化，场景理解更深。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Competition Strategy -->
+    <section id="strategy" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Competition Strategy</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">竞争策略与应对话术</h2>
+            </div>
+
+            <div class="space-y-8">
+                <!-- vs ZoomInfo -->
+                <div class="glass-card p-8 rounded-2xl tooltip-container group cursor-pointer">
+                    <h3 class="text-xl font-bold text-dark mb-4">vs ZoomInfo / Lusha（数据服务商）</h3>
+                    <div class="bg-red-50 rounded-lg p-4 mb-4">
+                        <p class="font-semibold text-dark mb-2">客户疑虑：</p>
+                        <p class="text-gray-600">"ZoomInfo 数据更全面，为什么要选你们？"</p>
+                    </div>
+                    <div class="bg-blue-50 rounded-lg p-4">
+                        <p class="font-semibold text-dark mb-2">应对话术：</p>
+                        <p class="text-gray-600 italic">"ZoomInfo 确实数据量大，但有两个核心局限：一是只提供单一数据源，缺乏海关、展会等外贸关键数据；二是没有动态访客分析能力，无法识别客户实时意向。</p>
+                        <p class="text-gray-600 italic mt-2">AI LeadFinder 的核心优势是<strong>双引擎获客</strong>：</p>
+                        <ol class="list-decimal list-inside text-gray-600 mt-2 space-y-1">
+                            <li><strong>多源静态数据</strong>：海关+展会+地图+网页数据融合，精准定位潜在客户</li>
+                            <li><strong>动态访客分析</strong>：实时识别独立站高意向访客，捕捉最佳跟进时机</li>
+                            <li>双引擎数据融合，生成全景客户画像，显著提高线索质量和转化成功率</li>
+                        </ol>
+                        <p class="text-gray-600 italic mt-2">我们的客户反馈，使用 AI LeadFinder 后销售效率提升 3-5 倍，线索转化率提升 2 倍。"</p>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>vs ZoomInfo / Lusha</strong><br><br>
+                        强调双引擎获客优势，多源静态数据+动态访客分析，生成全景客户画像。
+                    </div>
+                </div>
+
+                <!-- vs Apollo -->
+                <div class="glass-card p-8 rounded-2xl tooltip-container group cursor-pointer">
+                    <h3 class="text-xl font-bold text-dark mb-4">vs Apollo.io / Hunter.io（单一工具）</h3>
+                    <div class="bg-red-50 rounded-lg p-4 mb-4">
+                        <p class="font-semibold text-dark mb-2">客户疑虑：</p>
+                        <p class="text-gray-600">"Apollo 也能找邮箱，你们有什么不一样？"</p>
+                    </div>
+                    <div class="bg-green-50 rounded-lg p-4">
+                        <p class="font-semibold text-dark mb-2">应对话术：</p>
+                        <p class="text-gray-600 italic">"Apollo 是找邮箱的好工具，但只是获客环节中的一个点。B2B 获客的核心流程是：找客户 → 识别访客 → 评估质量。</p>
+                        <p class="text-gray-600 italic mt-2">AI LeadFinder 提供的是完整解决方案：</p>
+                        <ol class="list-decimal list-inside text-gray-600 mt-2 space-y-1">
+                            <li><strong>找客户</strong>：AI 全网搜客，一次获取 20-200 家企业</li>
+                            <li><strong>识别访客</strong>：独立站访客分析，识别高意向采购者</li>
+                            <li><strong>评估质量</strong>：四维评分模型，自动筛选优质线索</li>
+                        </ol>
+                        <p class="text-gray-600 italic mt-2">用 Apollo 您需要搭配多个工具，数据不互通，效率低。AI LeadFinder 一站式解决，数据闭环。"</p>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>vs Apollo.io / Hunter.io</strong><br><br>
+                        强调一站式解决方案，完整获客闭环，数据互通。
+                    </div>
+                </div>
+
+                <!-- vs Leadfeeder -->
+                <div class="glass-card p-8 rounded-2xl tooltip-container group cursor-pointer">
+                    <h3 class="text-xl font-bold text-dark mb-4">vs Leadfeeder / Albacross（访客分析）</h3>
+                    <div class="bg-red-50 rounded-lg p-4 mb-4">
+                        <p class="font-semibold text-dark mb-2">客户疑虑：</p>
+                        <p class="text-gray-600">"Leadfeeder 访客识别做得很好，为什么要换？"</p>
+                    </div>
+                    <div class="bg-purple-50 rounded-lg p-4">
+                        <p class="font-semibold text-dark mb-2">应对话术：</p>
+                        <p class="text-gray-600 italic">"Leadfeeder 在访客识别上确实专业，但它只能解决'被动获客'的问题——等客户上门，而且缺乏多源数据支撑。</p>
+                        <p class="text-gray-600 italic mt-2">AI LeadFinder 的核心优势是<strong>双引擎获客</strong>：</p>
+                        <ul class="list-disc list-inside text-gray-600 mt-2 space-y-1">
+                            <li><strong>动态引擎</strong>：独立站访客实时行为分析，识别高意向采购者（和 Leadfeeder 类似但更深入）</li>
+                            <li><strong>静态引擎</strong>：海关+展会+地图+网页多源数据，主动挖掘潜在客户（这是 Leadfeeder 没有的）</li>
+                        </ul>
+                        <p class="text-gray-600 italic mt-2">双引擎结合的价值：</p>
+                        <ol class="list-decimal list-inside text-gray-600 mt-2 space-y-1">
+                            <li>静态数据完成初次触达和背景调研</li>
+                            <li>动态访客行为判断实时意向和跟进时机</li>
+                            <li>数据融合生成全景画像，线索质量更高、转化成功率更大</li>
+                        </ol>
+                        <p class="text-gray-600 italic mt-2">很多客户是 Leadfeeder + AI LeadFinder 一起用，但如果您只能选一个，AI LeadFinder 的双引擎模式功能更全面、效果更显著。"</p>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>vs Leadfeeder / Albacross</strong><br><br>
+                        强调双引擎获客，静态+动态结合，功能更全面。
+                    </div>
+                </div>
+
+                <!-- vs HubSpot -->
+                <div class="glass-card p-8 rounded-2xl tooltip-container group cursor-pointer">
+                    <h3 class="text-xl font-bold text-dark mb-4">vs HubSpot / Salesforce（企业套件）</h3>
+                    <div class="bg-red-50 rounded-lg p-4 mb-4">
+                        <p class="font-semibold text-dark mb-2">客户疑虑：</p>
+                        <p class="text-gray-600">"我们已经在用 HubSpot，为什么还要用你们？"</p>
+                    </div>
+                    <div class="bg-orange-50 rounded-lg p-4">
+                        <p class="font-semibold text-dark mb-2">应对话术：</p>
+                        <p class="text-gray-600 italic">"HubSpot 是优秀的 CRM 和营销套件，但在<strong>专业获客</strong>这个环节上，AI LeadFinder 做了深度优化：</p>
+                        <ol class="list-decimal list-inside text-gray-600 mt-2 space-y-1">
+                            <li><strong>数据更专业</strong>：海关+展会数据是外贸获客的关键，HubSpot 不具备</li>
+                            <li><strong>AI 更专注</strong>：从业务建模到线索评分，全流程 AI 驱动</li>
+                            <li><strong>上线更快</strong>：1-2 周即可产生效果，HubSpot 需要 3-6 个月实施</li>
+                            <li><strong>成本更低</strong>：专注获客，不做冗余功能，性价比更高</li>
+                        </ol>
+                        <p class="text-gray-600 italic mt-2">我们很多企业客户是将 AI LeadFinder 作为 HubSpot 的<strong>获客前端</strong>，用 AI LeadFinder 获取高质量线索，再导入 HubSpot 做后续管理。两者是互补关系，而非替代关系。"</p>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>vs HubSpot / Salesforce</strong><br><br>
+                        强调专业获客深度优化，与 HubSpot/Salesforce 互补而非替代。
+                    </div>
+                </div>
+            </div>
+
+            <!-- Positioning Statement -->
+            <div class="mt-12 glass-card p-8 rounded-2xl border-l-4 border-primary">
+                <h3 class="text-xl font-bold text-dark mb-4">竞争定位陈述</h3>
+                <div class="bg-blue-50 rounded-lg p-6 mb-6">
+                    <p class="font-semibold text-dark mb-2">对外定位：</p>
+                    <p class="text-gray-700 italic">"AI LeadFinder 是市场上<strong>唯一</strong>提供'全链路 AI Agent 获客'的解决方案。我们不是数据提供商，不是单一工具，而是您的 AI 获客助手——从业务分析到线索转化，全程自动化。"</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-gray-50 rounded-lg p-4 text-center">
+                        <p class="font-semibold text-dark">vs 数据服务商</p>
+                        <p class="text-sm text-gray-600">更智能、更便宜、更自动化</p>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-4 text-center">
+                        <p class="font-semibold text-dark">vs 单一工具</p>
+                        <p class="text-sm text-gray-600">功能完整、数据闭环</p>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-4 text-center">
+                        <p class="font-semibold text-dark">vs 访客分析</p>
+                        <p class="text-sm text-gray-600">双引擎、更深度</p>
+                    </div>
+                    <div class="bg-gray-50 rounded-lg p-4 text-center">
+                        <p class="font-semibold text-dark">vs 企业套件</p>
+                        <p class="text-sm text-gray-600">专注获客、快速上线</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark border-t border-white/10 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <span class="text-xl font-bold text-white tracking-tight">AI <span class="text-primary">LeadFinder</span></span>
+                <p class="text-gray-500 text-sm mt-1">让 AI 成为您的获客专家</p>
+            </div>
+            <div class="text-gray-500 text-sm">
+                &copy; 2026 AI LeadFinder. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

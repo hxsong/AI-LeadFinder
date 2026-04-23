@@ -1,3 +1,8 @@
+<!--
+  关联文档：
+    - [模块设计](../../02-modules/03-静态数据获客.md)
+    - [功能说明](../../04-specs/搜客策略预览-说明.md)
+-->
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -44,7 +49,18 @@
             animation: slideIn 0.3s ease-out forwards;
         }
     </style>
-    <script src="../entry-nav.js"></script>
+    <script src="../scripts/entry-nav.js"></script>
+    <script>
+        window.STATE_SWITCHER_CONFIG = {
+            states: [
+                { key: 'normal', label: '正常状态', color: 'bg-success' },
+                { key: 'loading', label: '策略生成中', color: 'bg-accent' },
+                { key: 'empty', label: '无策略数据', color: 'bg-muted' },
+                { key: 'error', label: '生成失败', color: 'bg-red-500' }
+            ]
+        };
+    </script>
+    <script src="../scripts/state-switcher.js"></script>
 </head>
 <body class="bg-background font-sans min-h-screen">
     <!-- Navigation -->
@@ -80,6 +96,158 @@
     <!-- Main Content -->
     <main class="pt-28 pb-24 px-4">
         <div class="max-w-4xl mx-auto">
+            <!-- Loading State -->
+            <div id="loadingState" class="hidden">
+                <!-- Progress Steps -->
+                <div class="mb-10">
+                    <div class="flex items-center justify-center gap-2">
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 rounded-full bg-success text-white flex items-center justify-center text-sm font-medium">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                            </div>
+                            <span class="text-sm font-medium text-success hidden sm:inline">业务分析</span>
+                        </div>
+                        <div class="w-8 sm:w-16 h-0.5 bg-success"></div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 rounded-full bg-cta text-white flex items-center justify-center text-sm font-medium animate-pulse">2</div>
+                            <span class="text-sm font-medium text-cta hidden sm:inline">搜客配置</span>
+                        </div>
+                        <div class="w-8 sm:w-16 h-0.5 bg-slate-200"></div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 rounded-full bg-slate-200 text-muted flex items-center justify-center text-sm font-medium">3</div>
+                            <span class="text-sm text-muted hidden sm:inline">执行搜客</span>
+                        </div>
+                        <div class="w-8 sm:w-16 h-0.5 bg-slate-200"></div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 rounded-full bg-slate-200 text-muted flex items-center justify-center text-sm font-medium">4</div>
+                            <span class="text-sm text-muted hidden sm:inline">结果分析</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="min-h-[50vh] flex items-center justify-center">
+                    <div class="text-center">
+                        <div class="relative w-20 h-20 mx-auto mb-6">
+                            <div class="absolute inset-0 border-4 border-slate-100 rounded-full"></div>
+                            <div class="absolute inset-0 border-4 border-accent border-t-transparent rounded-full animate-spin"></div>
+                            <svg class="absolute inset-0 m-auto w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-primary mb-2">AI 正在生成搜客策略</h3>
+                        <p class="text-muted text-sm mb-4">分析业务特征，规划最优数据获取路径...</p>
+                        <div class="flex items-center justify-center gap-2 text-xs text-muted">
+                            <span class="w-2 h-2 bg-accent rounded-full animate-pulse"></span>
+                            <span>预计需要 10-30 秒</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="hidden">
+                <!-- Progress Steps -->
+                <div class="mb-10">
+                    <div class="flex items-center justify-center gap-2">
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 rounded-full bg-success text-white flex items-center justify-center text-sm font-medium">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                            </div>
+                            <span class="text-sm font-medium text-success hidden sm:inline">业务分析</span>
+                        </div>
+                        <div class="w-8 sm:w-16 h-0.5 bg-success"></div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 rounded-full bg-cta text-white flex items-center justify-center text-sm font-medium">2</div>
+                            <span class="text-sm font-medium text-cta hidden sm:inline">搜客配置</span>
+                        </div>
+                        <div class="w-8 sm:w-16 h-0.5 bg-slate-200"></div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 rounded-full bg-slate-200 text-muted flex items-center justify-center text-sm font-medium">3</div>
+                            <span class="text-sm text-muted hidden sm:inline">执行搜客</span>
+                        </div>
+                        <div class="w-8 sm:w-16 h-0.5 bg-slate-200"></div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 rounded-full bg-slate-200 text-muted flex items-center justify-center text-sm font-medium">4</div>
+                            <span class="text-sm text-muted hidden sm:inline">结果分析</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="min-h-[50vh] flex items-center justify-center">
+                    <div class="text-center max-w-md mx-auto">
+                        <div class="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <svg class="w-10 h-10 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-primary mb-2">暂无策略数据</h3>
+                        <p class="text-muted text-sm mb-6">系统无法根据当前业务信息生成有效的搜客策略，请返回补充更多业务细节。</p>
+                        <button onclick="window.location.href='搜客需求输入.html'" class="px-6 py-2.5 bg-cta text-white rounded-xl font-medium hover:bg-cta/90 transition-all">
+                            返回补充信息
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error State -->
+            <div id="errorState" class="hidden">
+                <!-- Progress Steps -->
+                <div class="mb-10">
+                    <div class="flex items-center justify-center gap-2">
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 rounded-full bg-success text-white flex items-center justify-center text-sm font-medium">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                            </div>
+                            <span class="text-sm font-medium text-success hidden sm:inline">业务分析</span>
+                        </div>
+                        <div class="w-8 sm:w-16 h-0.5 bg-success"></div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 rounded-full bg-cta text-white flex items-center justify-center text-sm font-medium">2</div>
+                            <span class="text-sm font-medium text-cta hidden sm:inline">搜客配置</span>
+                        </div>
+                        <div class="w-8 sm:w-16 h-0.5 bg-slate-200"></div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 rounded-full bg-slate-200 text-muted flex items-center justify-center text-sm font-medium">3</div>
+                            <span class="text-sm text-muted hidden sm:inline">执行搜客</span>
+                        </div>
+                        <div class="w-8 sm:w-16 h-0.5 bg-slate-200"></div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-8 h-8 rounded-full bg-slate-200 text-muted flex items-center justify-center text-sm font-medium">4</div>
+                            <span class="text-sm text-muted hidden sm:inline">结果分析</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="min-h-[50vh] flex items-center justify-center">
+                    <div class="text-center max-w-md mx-auto">
+                        <div class="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <svg class="w-10 h-10 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-primary mb-2">策略生成失败</h3>
+                        <p class="text-muted text-sm mb-2">AI 服务暂时不可用，请稍后重试。</p>
+                        <p class="text-xs text-muted mb-6">错误代码: AI_TIMEOUT_001</p>
+                        <div class="flex items-center justify-center gap-3">
+                            <button onclick="location.reload()" class="px-6 py-2.5 bg-cta text-white rounded-xl font-medium hover:bg-cta/90 transition-all flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                </svg>
+                                重新生成
+                            </button>
+                            <button onclick="window.location.href='搜客需求输入.html'" class="px-6 py-2.5 text-muted hover:text-primary transition-colors">
+                                返回修改
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Normal Content -->
+            <div id="normalContent">
             <!-- Progress Steps -->
             <div class="mb-10">
                 <div class="flex items-center justify-center gap-2">
@@ -338,6 +506,7 @@
                     </div>
                 </div>
             </div>
+            </div><!-- /normalContent -->
         </div>
     </main>
 
@@ -363,8 +532,58 @@
     </footer>
 
     <script>
+        // 状态切换逻辑
+        function updatePageState(state) {
+            const loadingState = document.getElementById('loadingState');
+            const emptyState = document.getElementById('emptyState');
+            const errorState = document.getElementById('errorState');
+            const normalContent = document.getElementById('normalContent');
+            const footerActions = document.querySelector('footer');
+
+            // 隐藏所有状态
+            loadingState.classList.add('hidden');
+            emptyState.classList.add('hidden');
+            errorState.classList.add('hidden');
+            normalContent.classList.add('hidden');
+            if (footerActions) footerActions.style.display = 'none';
+
+            // 显示对应状态
+            switch(state) {
+                case 'loading':
+                    loadingState.classList.remove('hidden');
+                    break;
+                case 'empty':
+                    emptyState.classList.remove('hidden');
+                    break;
+                case 'error':
+                    errorState.classList.remove('hidden');
+                    break;
+                case 'normal':
+                default:
+                    normalContent.classList.remove('hidden');
+                    if (footerActions) footerActions.style.display = 'block';
+                    break;
+            }
+        }
+
+        // 监听状态切换器事件
+        window.addEventListener('statechange', function(e) {
+            updatePageState(e.detail.state);
+        });
+
+        // 初始化状态
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const initialState = urlParams.get('state') || 'normal';
+            updatePageState(initialState);
+        });
+
+        // 确认执行按钮状态变化
         function confirmExecute() {
             const btn = document.querySelector('footer button:last-child');
+            const originalContent = btn.innerHTML;
+            
+            // 状态1：冻结中
             btn.innerHTML = `
                 <svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -373,10 +592,22 @@
                 冻结 Credits...
             `;
             btn.disabled = true;
+            btn.classList.add('opacity-80', 'cursor-not-allowed');
             
             setTimeout(() => {
-                window.location.href = '搜客执行中.html';
-            }, 1000);
+                // 状态2：跳转中
+                btn.innerHTML = `
+                    <svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    启动搜客任务...
+                `;
+                
+                setTimeout(() => {
+                    window.location.href = '搜客执行中.html';
+                }, 800);
+            }, 1200);
         }
     </script>
 

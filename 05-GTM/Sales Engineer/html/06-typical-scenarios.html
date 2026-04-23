@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI LeadFinder - 典型场景方案</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        primary: '#3B82F6', secondary: '#60A5FA', accent: '#10B981',
+                        cta: '#F97316', dark: '#1E293B', light: '#F8FAFC',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #F8FAFC; color: #1E293B; }
+        .glass-card {
+            background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards; opacity: 0; transform: translateY(20px);
+        }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
+        .delay-500 { animation-delay: 500ms; }
+        .tooltip-container { position: relative; }
+        .tooltip-content {
+            visibility: hidden; opacity: 0; position: absolute; bottom: 100%; left: 50%;
+            transform: translateX(-50%) translateY(10px); width: max-content; max-width: 450px;
+            padding: 1.5rem; background: rgba(30,41,59,0.98); color: white; border-radius: 0.75rem;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            z-index: 100; font-size: 0.875rem; line-height: 1.6; text-align: left;
+            border: 1px solid rgba(255,255,255,0.1); margin-bottom: 1rem;
+        }
+        .tooltip-content::after {
+            content: ""; position: absolute; top: 100%; left: 50%; margin-left: -8px;
+            border-width: 8px; border-style: solid; border-color: rgba(30,41,59,0.98) transparent transparent transparent;
+        }
+        .tooltip-container:hover .tooltip-content {
+            visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0);
+        }
+        .data-table { width: 100%; border-collapse: collapse; }
+        .data-table th { background: #F1F5F9; padding: 0.75rem 1rem; text-align: left; font-weight: 600; color: #475569; border-bottom: 2px solid #E2E8F0; }
+        .data-table td { padding: 0.75rem 1rem; border-bottom: 1px solid #E2E8F0; }
+        .data-table tr:hover { background: #F8FAFC; }
+        .scenario-flow {
+            display: flex; flex-direction: column; gap: 1rem;
+        }
+        .flow-step {
+            position: relative; padding: 1.5rem; border-radius: 0.75rem;
+            background: white; border: 2px solid #E2E8F0;
+        }
+        .flow-step::after {
+            content: "▼"; position: absolute; bottom: -1.5rem; left: 50%;
+            transform: translateX(-50%); color: #CBD5E1; font-size: 1.2rem;
+        }
+        .flow-step:last-child::after { display: none; }
+        .flow-step-primary { border-color: #3B82F6; background: #EFF6FF; }
+        .flow-step-accent { border-color: #10B981; background: #ECFDF5; }
+        .flow-step-purple { border-color: #8B5CF6; background: #F5F3FF; }
+        .flow-step-orange { border-color: #F97316; background: #FFF7ED; }
+        .scenario-badge {
+            display: inline-block; padding: 0.25rem 0.75rem; border-radius: 9999px;
+            font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+        }
+        .badge-blue { background: #DBEAFE; color: #1D4ED8; }
+        .badge-green { background: #D1FAE5; color: #047857; }
+        .badge-purple { background: #EDE9FE; color: #6D28D9; }
+        .badge-orange { background: #FFEDD5; color: #C2410C; }
+        .badge-red { background: #FEE2E2; color: #B91C1C; }
+    </style>
+</head>
+<body class="antialiased font-sans">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-3">
+                    <a href="00-index.html" class="text-xl font-bold text-primary tracking-tight">AI LeadFinder</a>
+                    <span class="text-gray-300">|</span>
+                    <span class="text-sm text-gray-600">典型场景方案</span>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#guide" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">方案选择</a>
+                    <a href="#scenario1" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">新市场拓展</a>
+                    <a href="#scenario2" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">独立站转化</a>
+                    <a href="#scenario3" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">销售赋能</a>
+                    <a href="#scenario4" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">多业务管理</a>
+                    <a href="#scenario5" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">展会增效</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-[50vh] flex items-center justify-center pt-16 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
+            <div class="absolute top-20 right-10 w-72 h-72 bg-green-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
+            <div class="absolute -bottom-8 left-20 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
+        </div>
+        <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-primary text-xs font-semibold tracking-wide uppercase mb-6 animate-fade-in-up">
+                Typical Scenarios
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold text-dark mb-6 leading-tight animate-fade-in-up delay-100">
+                AI LeadFinder<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">典型场景方案</span>
+            </h1>
+            <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto animate-fade-in-up delay-200">
+                五大核心场景，覆盖 B2B 外贸获客全链路
+            </p>
+        </div>
+    </section>
+
+    <!-- Scenario Guide -->
+    <section id="guide" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Scenario Guide</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">场景方案选择指南</h2>
+            </div>
+
+            <!-- Pain Point to Scenario -->
+            <div class="glass-card p-8 rounded-2xl mb-12">
+                <h3 class="text-xl font-bold text-dark mb-6">按痛点选方案</h3>
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>客户痛点</th>
+                                <th>推荐方案</th>
+                                <th>核心功能</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">新市场没客户</td>
+                                <td><span class="scenario-badge badge-blue">场景一</span></td>
+                                <td>AI 搜客 + 海关数据</td>
+                                <div class="tooltip-content">
+                                    <strong>场景一：新市场拓展</strong><br><br>
+                                    针对计划拓展新市场但缺乏客户资源的企业，通过 AI 搜客和海关数据精准定位潜在客户。
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">独立站没转化</td>
+                                <td><span class="scenario-badge badge-green">场景二</span></td>
+                                <td>访客识别 + 行为分析</td>
+                                <div class="tooltip-content">
+                                    <strong>场景二：独立站流量转化</strong><br><br>
+                                    针对有独立站流量但转化率低的企业，通过访客识别和行为分析提升转化。
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">销售效率低</td>
+                                <td><span class="scenario-badge badge-purple">场景三</span></td>
+                                <td>自动评分 + 线索管理</td>
+                                <div class="tooltip-content">
+                                    <strong>场景三：销售团队赋能</strong><br><br>
+                                    针对销售团队效率低、线索质量差的企业，通过自动化评分和线索管理提升效率。
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">多业务难管理</td>
+                                <td><span class="scenario-badge badge-orange">场景四</span></td>
+                                <td>多 BOT + 数据隔离</td>
+                                <div class="tooltip-content">
+                                    <strong>场景四：多业务线管理</strong><br><br>
+                                    针对多元化集团企业，通过多 BOT 和数据隔离实现统一管理。
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">展会效果差</td>
+                                <td><span class="scenario-badge badge-red">场景五</span></td>
+                                <td>展前搜客 + 展后跟进</td>
+                                <div class="tooltip-content">
+                                    <strong>场景五：展会营销增效</strong><br><br>
+                                    针对展会依赖型企业，通过展前精准邀约和展后高效转化提升效果。
+                                </div>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Combination Suggestions -->
+            <div class="glass-card p-8 rounded-2xl">
+                <h3 class="text-xl font-bold text-dark mb-6">方案组合建议</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-blue-50 rounded-xl p-6 tooltip-container group cursor-pointer">
+                        <h4 class="font-bold text-dark mb-2">初创外贸企业</h4>
+                        <p class="text-sm text-gray-600 mb-3">场景一 + 场景二</p>
+                        <p class="text-xs text-gray-500">快速获客 + 流量转化</p>
+                        <div class="tooltip-content">
+                            <strong>初创外贸企业</strong><br><br>
+                            推荐场景一（新市场拓展）+ 场景二（独立站转化），实现快速获客和流量转化。
+                        </div>
+                    </div>
+                    <div class="bg-green-50 rounded-xl p-6 tooltip-container group cursor-pointer">
+                        <h4 class="font-bold text-dark mb-2">成长型企业</h4>
+                        <p class="text-sm text-gray-600 mb-3">场景一 + 场景二 + 场景三</p>
+                        <p class="text-xs text-gray-500">全面获客 + 销售赋能</p>
+                        <div class="tooltip-content">
+                            <strong>成长型企业</strong><br><br>
+                            推荐场景一 + 场景二 + 场景三，实现全面获客和销售赋能。
+                        </div>
+                    </div>
+                    <div class="bg-purple-50 rounded-xl p-6 tooltip-container group cursor-pointer">
+                        <h4 class="font-bold text-dark mb-2">集团企业</h4>
+                        <p class="text-sm text-gray-600 mb-3">场景四 + 场景一/二/三</p>
+                        <p class="text-xs text-gray-500">统一管理 + 业务定制</p>
+                        <div class="tooltip-content">
+                            <strong>集团企业</strong><br><br>
+                            推荐场景四（多业务管理）+ 场景一/二/三，实现统一管理和业务定制。
+                        </div>
+                    </div>
+                    <div class="bg-orange-50 rounded-xl p-6 tooltip-container group cursor-pointer">
+                        <h4 class="font-bold text-dark mb-2">展会依赖型企业</h4>
+                        <p class="text-sm text-gray-600 mb-3">场景五 + 场景一</p>
+                        <p class="text-xs text-gray-500">展会增效 + 日常获客</p>
+                        <div class="tooltip-content">
+                            <strong>展会依赖型企业</strong><br><br>
+                            推荐场景五（展会增效）+ 场景一，实现展会增效和日常获客。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scenario 1: New Market Expansion -->
+    <section id="scenario1" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="scenario-badge badge-blue mb-4 inline-block">场景一</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">新市场拓展</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">针对计划拓展新市场但缺乏客户资源的企业，通过 AI 搜客和海关数据精准定位潜在客户</p>
+            </div>
+
+            <!-- Customer Background -->
+            <div class="glass-card p-8 rounded-2xl mb-12">
+                <h3 class="text-xl font-bold text-dark mb-6">客户背景</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-primary font-bold flex-shrink-0 text-sm">类</div>
+                            <div>
+                                <p class="font-semibold text-dark">客户类型</p>
+                                <p class="text-gray-600">制造业出口企业</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-primary font-bold flex-shrink-0 text-sm">状</div>
+                            <div>
+                                <p class="font-semibold text-dark">当前状态</p>
+                                <p class="text-gray-600">主要市场在欧美，计划拓展东南亚市场</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center text-red-600 font-bold flex-shrink-0 text-sm">痛</div>
+                            <div>
+                                <p class="font-semibold text-dark">核心痛点</p>
+                                <p class="text-gray-600">缺乏东南亚客户资源，展会成本高且效果不确定</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center text-accent font-bold flex-shrink-0 text-sm">标</div>
+                            <div>
+                                <p class="font-semibold text-dark">目标</p>
+                                <p class="text-gray-600">3 个月内获取 500+ 东南亚潜在客户</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Solution Flow -->
+            <div class="glass-card p-8 rounded-2xl mb-12">
+                <h3 class="text-xl font-bold text-dark mb-6">解决方案流程</h3>
+                <div class="scenario-flow">
+                    <div class="flow-step flow-step-primary tooltip-container group cursor-pointer">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="scenario-badge badge-blue">阶段一</span>
+                            <h4 class="font-bold text-dark">业务建模 (1-2天)</h4>
+                        </div>
+                        <ul class="space-y-2 text-gray-600">
+                            <li>• 上传企业产品目录、官网资料</li>
+                            <li>• AI 分析企业定位：制造业 / OEM出口 / 电子产品</li>
+                            <li>• 生成 ICP 画像：东南亚电子品牌商、贸易商</li>
+                            <li>• 四维评分权重：外贸型配置（需求32%/购买20%/意向35%/活跃13%）</li>
+                        </ul>
+                        <div class="tooltip-content">
+                            <strong>业务建模阶段</strong><br><br>
+                            上传企业资料后，AI 自动分析企业定位并生成 ICP 画像，配置四维评分权重。
+                        </div>
+                    </div>
+                    <div class="flow-step flow-step-accent tooltip-container group cursor-pointer">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="scenario-badge badge-green">阶段二</span>
+                            <h4 class="font-bold text-dark">AI 搜客 - 静态数据获客 (每周执行)</h4>
+                        </div>
+                        <ul class="space-y-2 text-gray-600">
+                            <li>• 多源数据融合：海关数据 + 展会数据 + 地图数据</li>
+                            <li>• 输入需求："东南亚电子产品进口商，有海关记录"</li>
+                            <li>• 目标数量：每次 100-200 家企业</li>
+                            <li>• AI 策略：优先有进口记录的企业</li>
+                            <li>• 价值：基于历史进出口和展会数据，精准定位潜在客户</li>
+                        </ul>
+                        <div class="tooltip-content">
+                            <strong>AI 搜客阶段</strong><br><br>
+                            基于多源数据融合，AI 自动执行搜客任务，每次获取 100-200 家企业。
+                        </div>
+                    </div>
+                    <div class="flow-step flow-step-purple tooltip-container group cursor-pointer">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="scenario-badge badge-purple">阶段三</span>
+                            <h4 class="font-bold text-dark">线索筛选 (自动)</h4>
+                        </div>
+                        <ul class="space-y-2 text-gray-600">
+                            <li>• 四维评分筛选 S/A 级线索 (≥60分)</li>
+                            <li>• 联系人挖掘：获取采购负责人邮箱</li>
+                            <li>• 线索入库：静态线索池管理</li>
+                        </ul>
+                        <div class="tooltip-content">
+                            <strong>线索筛选阶段</strong><br><br>
+                            自动筛选 S/A 级高质量线索，挖掘联系人信息。
+                        </div>
+                    </div>
+                    <div class="flow-step flow-step-orange tooltip-container group cursor-pointer">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="scenario-badge badge-orange">阶段四</span>
+                            <h4 class="font-bold text-dark">销售跟进</h4>
+                        </div>
+                        <ul class="space-y-2 text-gray-600">
+                            <li>• 销售基于线索评分和 AI 判词跟进 S/A 级客户</li>
+                            <li>• 获取联系人信息（邮箱+社媒）</li>
+                            <li>• 基于企业海关记录和展会背景精准沟通</li>
+                        </ul>
+                        <div class="tooltip-content">
+                            <strong>销售跟进阶段</strong><br><br>
+                            销售基于 AI 评分和判词精准跟进高质量客户。
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Metrics -->
+            <div class="glass-card p-8 rounded-2xl">
+                <h3 class="text-xl font-bold text-dark mb-6">关键效果指标</h3>
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>指标</th>
+                                <th>传统方式</th>
+                                <th>AI LeadFinder</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">获客周期</td>
+                                <td>4-8 周</td>
+                                <td class="text-primary font-bold">1-2 周</td>
+                                <div class="tooltip-content">
+                                    <strong>获客周期对比</strong><br><br>
+                                    AI LeadFinder 将获客周期从 4-8 周缩短至 1-2 周。
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">单次获客成本</td>
+                                <td>800-1500 元/家</td>
+                                <td class="text-primary font-bold">200-500 元/家</td>
+                                <div class="tooltip-content">
+                                    <strong>获客成本对比</strong><br><br>
+                                    AI LeadFinder 将单次获客成本降低 60-70%。
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">3 个月获取线索</td>
+                                <td>150 家</td>
+                                <td class="text-primary font-bold">500+ 家</td>
+                                <div class="tooltip-content">
+                                    <strong>线索数量对比</strong><br><br>
+                                    AI LeadFinder 3 个月可获取 500+ 条线索，是传统方式的 3 倍以上。
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">人力投入</td>
+                                <td>2 名销售全职搜索</td>
+                                <td class="text-primary font-bold">1 名销售跟进</td>
+                                <div class="tooltip-content">
+                                    <strong>人力投入对比</strong><br><br>
+                                    AI LeadFinder 将人力投入从 2 名销售减少至 1 名销售。
+                                </div>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scenario 2: Website Conversion -->
+    <section id="scenario2" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="scenario-badge badge-green mb-4 inline-block">场景二</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">独立站流量转化</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">针对有独立站流量但转化率低的企业，通过访客识别和行为分析提升转化</p>
+            </div>
+
+            <!-- Customer Background -->
+            <div class="glass-card p-8 rounded-2xl mb-12">
+                <h3 class="text-xl font-bold text-dark mb-6">客户背景</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-primary font-bold flex-shrink-0 text-sm">类</div>
+                            <div>
+                                <p class="font-semibold text-dark">客户类型</p>
+                                <p class="text-gray-600">B2B 工业品企业</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-primary font-bold flex-shrink-0 text-sm">状</div>
+                            <div>
+                                <p class="font-semibold text-dark">当前状态</p>
+                                <p class="text-gray-600">独立站月访问量 5000+，但转化率 < 0.5%</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center text-red-600 font-bold flex-shrink-0 text-sm">痛</div>
+                            <div>
+                                <p class="font-semibold text-dark">核心痛点</p>
+                                <p class="text-gray-600">不知道访客是谁，高价值访客流失</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center text-accent font-bold flex-shrink-0 text-sm">标</div>
+                            <div>
+                                <p class="font-semibold text-dark">目标</p>
+                                <p class="text-gray-600">识别访客企业，转化高意向访客</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Solution Flow -->
+            <div class="glass-card p-8 rounded-2xl mb-12">
+                <h3 class="text-xl font-bold text-dark mb-6">解决方案流程</h3>
+                <div class="scenario-flow">
+                    <div class="flow-step flow-step-primary tooltip-container group cursor-pointer">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="scenario-badge badge-blue">阶段一</span>
+                            <h4 class="font-bold text-dark">探针部署 (1天)</h4>
+                        </div>
+                        <ul class="space-y-2 text-gray-600">
+                            <li>• 选择核心主站（企业官网）</li>
+                            <li>• 复制 JS 探针代码</li>
+                            <li>• 嵌入网站 &lt;head&gt; 标签</li>
+                            <li>• 验证数据上报正常</li>
+                            <li>• 探针体积 <10KB，对网站性能影响 <1%</li>
+                        </ul>
+                        <div class="tooltip-content">
+                            <strong>探针部署阶段</strong><br><br>
+                            简单几步完成探针部署，对网站性能影响极小。
+                        </div>
+                    </div>
+                    <div class="flow-step flow-step-accent tooltip-container group cursor-pointer">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="scenario-badge badge-green">阶段二</span>
+                            <h4 class="font-bold text-dark">访客识别 - 动态数据获客 (实时)</h4>
+                        </div>
+                        <ul class="space-y-2 text-gray-600">
+                            <li>• IP 地址反查企业信息</li>
+                            <li>• 匹配多源企业数据库（工商、海关、展会）</li>
+                            <li>• 记录访客实时行为（页面、停留时长、访问频次）</li>
+                            <li>• 识别率：15-25% 的访客可识别企业身份</li>
+                            <li>• 价值：实时捕捉客户意向，判断最佳跟进时机</li>
+                        </ul>
+                        <div class="tooltip-content">
+                            <strong>访客识别阶段</strong><br><br>
+                            实时识别访客企业身份，记录行为数据，识别率 15-25%。
+                        </div>
+                    </div>
+                    <div class="flow-step flow-step-purple tooltip-container group cursor-pointer">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="scenario-badge badge-purple">阶段三</span>
+                            <h4 class="font-bold text-dark">行为分析 (自动)</h4>
+                        </div>
+                        <ul class="space-y-2 text-gray-600">
+                            <li>• 访问深度分析：看了哪些页面、停留多久</li>
+                            <li>• 实时意向识别：产品页、价格页、联系页访问</li>
+                            <li>• 四维评分：需求匹配+购买能力+采购意向+活跃意向</li>
+                            <li>• 高意向标记：多次访问、深度浏览、价格页停留</li>
+                            <li>• AI 洞察：复制技术参数=做竞品对比表；表单弃填=有顾虑</li>
+                        </ul>
+                        <div class="tooltip-content">
+                            <strong>行为分析阶段</strong><br><br>
+                            AI 自动分析访客行为，识别高意向访客并生成洞察。
+                        </div>
+                    </div>
+                    <div class="flow-step flow-step-orange tooltip-container group cursor-pointer">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="scenario-badge badge-orange">阶段四</span>
+                            <h4 class="font-bold text-dark">访客转化</h4>
+                        </div>
+                        <ul class="space-y-2 text-gray-600">
+                            <li>• 高意向访客自动转线索</li>
+                            <li>• 消耗 Credits 揭秘企业身份（3 Credits/IP）</li>
+                            <li>• 联系人挖掘：获取访客企业关键人邮箱</li>
+                            <li>• 销售基于访客行为数据主动跟进</li>
+                        </ul>
+                        <div class="tooltip-content">
+                            <strong>访客转化阶段</strong><br><br>
+                            高意向访客自动转线索，揭秘企业身份并挖掘联系人。
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Metrics -->
+            <div class="glass-card p-8 rounded-2xl">
+                <h3 class="text-xl font-bold text-dark mb-6">关键效果指标</h3>
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>指标</th>
+                                <th>使用前</th>
+                                <th>使用后</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">访客识别率</td>
+                                <td>< 5%</td>
+                                <td class="text-primary font-bold">15-25%</td>
+                                <div class="tooltip-content">
+                                    <strong>访客识别率提升</strong><br><br>
+                                    从 <5% 提升至 15-25%，识别率提升 3-5 倍。
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">可识别访客数</td>
+                                <td>250/月</td>
+                                <td class="text-primary font-bold">750-1250/月</td>
+                                <div class="tooltip-content">
+                                    <strong>可识别访客数提升</strong><br><br>
+                                    从 250/月提升至 750-1250/月，增长 3-5 倍。
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">高意向访客</td>
+                                <td>未知</td>
+                                <td class="text-primary font-bold">约 20%</td>
+                                <div class="tooltip-content">
+                                    <strong>高意向访客识别</strong><br><br>
+                                    AI 自动识别约 20% 的高意向访客。
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">转化率</td>
+                                <td>< 0.5%</td>
+                                <td class="text-primary font-bold">3-5%</td>
+                                <div class="tooltip-content">
+                                    <strong>转化率提升</strong><br><br>
+                                    从 <0.5% 提升至 3-5%，转化率提升 6-10 倍。
+                                </div>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scenario 3: Sales Team Empowerment -->
+    <section id="scenario3" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="scenario-badge badge-purple mb-4 inline-block">场景三</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">销售团队赋能</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">针对销售团队效率低、线索质量差的企业，通过自动化评分和线索管理提升效率</p>
+            </div>
+
+            <!-- Customer Background -->
+            <div class="glass-card p-8 rounded-2xl mb-12">
+                <h3 class="text-xl font-bold text-dark mb-6">客户背景</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-primary font-bold flex-shrink-0 text-sm">类</div>
+                            <div>
+                                <p class="font-semibold text-dark">客户类型</p>
+                                <p class="text-gray-600">贸易公司</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-primary font-bold flex-shrink-0 text-sm">状</div>
+                            <div>
+                                <p class="font-semibold text-dark">当前状态</p>
+                                <p class="text-gray-600">销售团队 15 人，人均月产出 8 个有效线索</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center text-red-600 font-bold flex-shrink-0 text-sm">痛</div>
+                            <div>
+                                <p class="font-semibold text-dark">核心痛点</p>
+                                <p class="text-gray-600">销售 70% 时间花在找客户，线索质量差</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center text-accent font-bold flex-shrink-0 text-sm">标</div>
+                            <div>
+                                <p class="font-semibold text-dark">目标</p>
+                                <p class="text-gray-600">提升销售效率，让销售专注跟进高质量客户</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Solution Flow -->
+            <div class="glass-card p-8 rounded-2xl mb-12">
+                <h3 class="text-xl font-bold text-dark mb-6">解决方案流程</h3>
+                <div class="scenario-flow">
+                    <div class="flow-step flow-step-primary tooltip-container group cursor-pointer">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="scenario-badge badge-blue">阶段一</span>
+                            <h4 class="font-bold text-dark">双引擎线索获取自动化 (AI 执行)</h4>
+                        </div>
+                        <ul class="space-y-2 text-gray-600">
+                            <li>• AI 每周自动执行搜客任务</li>
+                            <li>• 多 BOT 配置：不同业务线独立搜客</li>
+                            <li>• 静态获客：基于海关+展会+地图多源数据的精准企业线索</li>
+                            <li>• 动态获客：基于独立站访客行为的实时高意向线索</li>
+                            <li>• 双引擎融合：静态历史数据+动态实时行为，提高线索质量</li>
+                            <li>• 预计：每周新增 200-400 条线索</li>
+                        </ul>
+                        <div class="tooltip-content">
+                            <strong>双引擎线索获取</strong><br><br>
+                            AI 每周自动执行搜客任务，双引擎融合提高线索质量。
+                        </div>
+                    </div>
+                    <div class="flow-step flow-step-accent tooltip-container group cursor-pointer">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="scenario-badge badge-green">阶段二</span>
+                            <h4 class="font-bold text-dark">线索评分自动化 (AI 执行)</h4>
+                        </div>
+                        <ul class="space-y-2 text-gray-600">
+                            <li>• 四维评分模型自动评估</li>
+                            <li>• S级（≥80分）：高优先级，立即跟进</li>
+                            <li>• A级（60-79分）：优质线索，24小时内跟进</li>
+                            <li>• B/C级（<60分）：入培育池，后续跟进</li>
+                            <li>• 预计：S/A级占比 60%+</li>
+                        </ul>
+                        <div class="tooltip-content">
+                            <strong>线索评分自动化</strong><br><br>
+                            四维评分模型自动评估，S/A 级线索占比 60%+。
+                        </div>
+                    </div>
+                    <div class="flow-step flow-step-purple tooltip-container group cursor-pointer">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="scenario-badge badge-purple">阶段三</span>
+                            <h4 class="font-bold text-dark">销售专注跟进 (人工执行)</h4>
+                        </div>
+                        <ul class="space-y-2 text-gray-600">
+                            <li>• 销售只跟进 S/A 级高质量线索</li>
+                            <li>• 线索详情：企业信息、评分、联系人、AI判词</li>
+                            <li>• 智能辅助：AI判词辅助销售理解客户价值</li>
+                            <li>• 跟进记录：系统记录每次沟通</li>
+                        </ul>
+                        <div class="tooltip-content">
+                            <strong>销售专注跟进</strong><br><br>
+                            销售只跟进 S/A 级高质量线索，AI 判词辅助理解客户价值。
+                        </div>
+                    </div>
+                    <div class="flow-step flow-step-orange tooltip-container group cursor-pointer">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="scenario-badge badge-orange">阶段四</span>
+                            <h4 class="font-bold text-dark">效果追踪优化 (数据驱动)</h4>
+                        </div>
+                        <ul class="space-y-2 text-gray-600">
+                            <li>• 线索转化漏斗分析</li>
+                            <li>• 销售绩效排名</li>
+                            <li>• 高转化线索特征分析</li>
+                            <li>• ICP 画像持续优化</li>
+                        </ul>
+                        <div class="tooltip-content">
+                            <strong>效果追踪优化</strong><br><br>
+                            数据驱动持续优化，分析转化漏斗和高转化特征。
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Metrics -->
+            <div class="glass-card p-8 rounded-2xl">
+                <h3 class="text-xl font-bold text-dark mb-6">关键效果指标</h3>
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>指标</th>
+                                <th>使用前</th>
+                                <th>使用后</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">人均月产出</td>
+                                <td>8 条</td>
+                                <td class="text-primary font-bold">30-50 条</td>
+                                <div class="tooltip-content">
+                                    <strong>人均月产出提升</strong><br><br>
+                                    从 8 条提升至 30-50 条，效率提升 3-6 倍。
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">团队月总产出</td>
+                                <td>120 条</td>
+                                <td class="text-primary font-bold">450-750 条</td>
+                                <div class="tooltip-content">
+                                    <strong>团队月总产出提升</strong><br><br>
+                                    从 120 条提升至 450-750 条，总产出提升 3-6 倍。
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">有效线索占比</td>
+                                <td>< 30%</td>
+                                <td class="text-primary font-bold">60%+</td>
+                                <div class="tooltip-content">
+                                    <strong>有效线索占比提升</strong><br><br>
+                                    从 <30% 提升至 60%+，线索质量显著提升。
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">销售找客户时间占比</td>
+                                <td>70%</td>
+                                <td class="text-primary font-bold">20%</td>
+                                <div class="tooltip-content">
+                                    <strong>销售时间优化</strong><br><br>
+                                    销售找客户时间从 70% 降至 20%，更多时间用于跟进。
+                                </div>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scenario 4: Multi-Business Management -->
+    <section id="scenario4" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="scenario-badge badge-orange mb-4 inline-block">场景四</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">多业务线管理</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">针对多元化集团企业，通过多 BOT 和数据隔离实现统一管理</p>
+            </div>
+
+            <!-- Customer Background -->
+            <div class="glass-card p-8 rounded-2xl mb-12">
+                <h3 class="text-xl font-bold text-dark mb-6">客户背景</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-primary font-bold flex-shrink-0 text-sm">类</div>
+                            <div>
+                                <p class="font-semibold text-dark">客户类型</p>
+                                <p class="text-gray-600">多元化集团企业</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-primary font-bold flex-shrink-0 text-sm">状</div>
+                            <div>
+                                <p class="font-semibold text-dark">当前状态</p>
+                                <p class="text-gray-600">3 个业务线：电子、机械、化工，各自独立获客</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center text-red-600 font-bold flex-shrink-0 text-sm">痛</div>
+                            <div>
+                                <p class="font-semibold text-dark">核心痛点</p>
+                                <p class="text-gray-600">数据分散、重复投入、无法统一管理</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center text-accent font-bold flex-shrink-0 text-sm">标</div>
+                            <div>
+                                <p class="font-semibold text-dark">目标</p>
+                                <p class="text-gray-600">统一获客平台，各业务线独立运营</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Solution Architecture -->
+            <div class="glass-card p-8 rounded-2xl mb-12">
+                <h3 class="text-xl font-bold text-dark mb-6">解决方案架构</h3>
+                <div class="bg-gray-50 rounded-xl p-8">
+                    <div class="flex flex-col items-center">
+                        <!-- Admin Level -->
+                        <div class="bg-primary text-white px-6 py-4 rounded-xl shadow-lg mb-8 text-center">
+                            <p class="font-bold">企业管理员</p>
+                            <p class="text-sm opacity-90">全局资源看板</p>
+                        </div>
+                        <!-- Connector -->
+                        <div class="w-0.5 h-8 bg-gray-300 mb-8"></div>
+                        <!-- BOT Level -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-3xl mb-8">
+                            <div class="bg-white border-2 border-blue-200 rounded-xl p-6 text-center tooltip-container group cursor-pointer">
+                                <p class="font-bold text-dark mb-2">BOT-电子</p>
+                                <p class="text-sm text-gray-600">事业部</p>
+                                <ul class="text-xs text-gray-500 mt-3 space-y-1">
+                                    <li>• 独立 ICP 画像</li>
+                                    <li>• 独立线索池</li>
+                                    <li>• 独立 Credits 消耗</li>
+                                    <li>• 数据隔离</li>
+                                </ul>
+                                <div class="tooltip-content">
+                                    <strong>BOT-电子事业部</strong><br><br>
+                                    独立的 ICP 画像、线索池和 Credits 消耗统计，数据完全隔离。
+                                </div>
+                            </div>
+                            <div class="bg-white border-2 border-green-200 rounded-xl p-6 text-center tooltip-container group cursor-pointer">
+                                <p class="font-bold text-dark mb-2">BOT-机械</p>
+                                <p class="text-sm text-gray-600">事业部</p>
+                                <ul class="text-xs text-gray-500 mt-3 space-y-1">
+                                    <li>• 独立 ICP 画像</li>
+                                    <li>• 独立线索池</li>
+                                    <li>• 独立 Credits 消耗</li>
+                                    <li>• 数据隔离</li>
+                                </ul>
+                                <div class="tooltip-content">
+                                    <strong>BOT-机械事业部</strong><br><br>
+                                    独立的 ICP 画像、线索池和 Credits 消耗统计，数据完全隔离。
+                                </div>
+                            </div>
+                            <div class="bg-white border-2 border-purple-200 rounded-xl p-6 text-center tooltip-container group cursor-pointer">
+                                <p class="font-bold text-dark mb-2">BOT-化工</p>
+                                <p class="text-sm text-gray-600">事业部</p>
+                                <ul class="text-xs text-gray-500 mt-3 space-y-1">
+                                    <li>• 独立 ICP 画像</li>
+                                    <li>• 独立线索池</li>
+                                    <li>• 独立 Credits 消耗</li>
+                                    <li>• 数据隔离</li>
+                                </ul>
+                                <div class="tooltip-content">
+                                    <strong>BOT-化工事业部</strong><br><br>
+                                    独立的 ICP 画像、线索池和 Credits 消耗统计，数据完全隔离。
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Shared Resources -->
+                        <div class="bg-orange-50 border border-orange-200 rounded-xl p-4 text-center w-full max-w-2xl">
+                            <p class="font-semibold text-dark">共享资源：Global Credits 资金池</p>
+                            <p class="text-sm text-gray-600">独立资源：各 BOT 独立配置、独立数据、独立线索</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Metrics -->
+            <div class="glass-card p-8 rounded-2xl">
+                <h3 class="text-xl font-bold text-dark mb-6">关键效果指标</h3>
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>指标</th>
+                                <th>使用前</th>
+                                <th>使用后</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">获客工具数量</td>
+                                <td>3 套（各业务线独立）</td>
+                                <td class="text-primary font-bold">1 套统一平台</td>
+                                <div class="tooltip-content">
+                                    <strong>获客工具整合</strong><br><br>
+                                    从 3 套独立工具整合为 1 套统一平台。
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">年工具费用</td>
+                                <td>15-30 万</td>
+                                <td class="text-primary font-bold">8-15 万</td>
+                                <div class="tooltip-content">
+                                    <strong>费用降低</strong><br><br>
+                                    年工具费用从 15-30 万降至 8-15 万，节省 40-50%。
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">数据互通性</td>
+                                <td>无</td>
+                                <td class="text-primary font-bold">全局 Credits 共享</td>
+                                <div class="tooltip-content">
+                                    <strong>数据互通</strong><br><br>
+                                    实现全局 Credits 共享，数据互通性提升。
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">管理效率</td>
+                                <td>低（分散管理）</td>
+                                <td class="text-primary font-bold">高（统一看板）</td>
+                                <div class="tooltip-content">
+                                    <strong>管理效率提升</strong><br><br>
+                                    从分散管理提升至统一看板管理，效率显著提升。
+                                </div>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scenario 5: Trade Show Enhancement -->
+    <section id="scenario5" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="scenario-badge badge-red mb-4 inline-block">场景五</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">展会营销增效</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">针对展会依赖型企业，通过展前精准邀约和展后高效转化提升效果</p>
+            </div>
+
+            <!-- Customer Background -->
+            <div class="glass-card p-8 rounded-2xl mb-12">
+                <h3 class="text-xl font-bold text-dark mb-6">客户背景</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-primary font-bold flex-shrink-0 text-sm">类</div>
+                            <div>
+                                <p class="font-semibold text-dark">客户类型</p>
+                                <p class="text-gray-600">机械设备制造商</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-primary font-bold flex-shrink-0 text-sm">状</div>
+                            <div>
+                                <p class="font-semibold text-dark">当前状态</p>
+                                <p class="text-gray-600">每年参加 4-5 场海外展会，获客成本高昂</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center text-red-600 font-bold flex-shrink-0 text-sm">痛</div>
+                            <div>
+                                <p class="font-semibold text-dark">核心痛点</p>
+                                <p class="text-gray-600">展会前不知道谁会来，展会后跟进效率低</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center text-accent font-bold flex-shrink-0 text-sm">标</div>
+                            <div>
+                                <p class="font-semibold text-dark">目标</p>
+                                <p class="text-gray-600">展会前精准邀约，展会后高效转化</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Solution Flow -->
+            <div class="glass-card p-8 rounded-2xl mb-12">
+                <h3 class="text-xl font-bold text-dark mb-6">解决方案流程</h3>
+                <div class="scenario-flow">
+                    <div class="flow-step flow-step-primary tooltip-container group cursor-pointer">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="scenario-badge badge-blue">展前准备 (T-30天)</span>
+                            <h4 class="font-bold text-dark">精准邀约</h4>
+                        </div>
+                        <ul class="space-y-2 text-gray-600">
+                            <li>• AI 搜客：获取历史参展商名单</li>
+                            <li>• 筛选：有采购意向的潜在客户</li>
+                            <li>• 联系人挖掘：获取关键人邮箱</li>
+                            <li>• 销售发送个性化邀约邮件</li>
+                        </ul>
+                        <div class="tooltip-content">
+                            <strong>展前准备</strong><br><br>
+                            通过 AI 搜客获取历史参展商名单，筛选有采购意向的潜在客户。
+                        </div>
+                    </div>
+                    <div class="flow-step flow-step-accent tooltip-container group cursor-pointer">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="scenario-badge badge-green">展中执行 (展会期间)</span>
+                            <h4 class="font-bold text-dark">实时跟进</h4>
+                        </div>
+                        <ul class="space-y-2 text-gray-600">
+                            <li>• 访客识别：扫描名片快速录入</li>
+                            <li>• 实时评分：AI 评估访客意向</li>
+                            <li>• 优先级排序：S/A级客户优先接待</li>
+                            <li>• 现场跟进：基于 AI 判词精准沟通</li>
+                        </ul>
+                        <div class="tooltip-content">
+                            <strong>展中执行</strong><br><br>
+                            实时评分和优先级排序，S/A 级客户优先接待。
+                        </div>
+                    </div>
+                    <div class="flow-step flow-step-purple tooltip-container group cursor-pointer">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="scenario-badge badge-purple">展后跟进 (T+1-30天)</span>
+                            <h4 class="font-bold text-dark">高效转化</h4>
+                        </div>
+                        <ul class="space-y-2 text-gray-600">
+                            <li>• 线索整理：展会线索统一入库</li>
+                            <li>• 智能分级：AI 评分筛选高意向客户</li>
+                            <li>• 销售跟进和培育</li>
+                        </ul>
+                        <div class="tooltip-content">
+                            <strong>展后跟进</strong><br><br>
+                            展会线索统一入库，AI 评分筛选高意向客户。
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Metrics -->
+            <div class="glass-card p-8 rounded-2xl">
+                <h3 class="text-xl font-bold text-dark mb-6">关键效果指标</h3>
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>指标</th>
+                                <th>传统方式</th>
+                                <th>AI LeadFinder 辅助</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">展前邀约精准度</td>
+                                <td>盲发邮件</td>
+                                <td class="text-primary font-bold">基于海关数据精准筛选</td>
+                                <div class="tooltip-content">
+                                    <strong>展前邀约精准度</strong><br><br>
+                                    从盲发邮件提升至基于海关数据精准筛选。
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">展会现场识别</td>
+                                <td>名片收集</td>
+                                <td class="text-primary font-bold">AI 实时评分+优先级</td>
+                                <div class="tooltip-content">
+                                    <strong>展会现场识别</strong><br><br>
+                                    从名片收集提升至 AI 实时评分和优先级排序。
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">展后跟进效率</td>
+                                <td>2 周整理</td>
+                                <td class="text-primary font-bold">当日入库+自动分级</td>
+                                <div class="tooltip-content">
+                                    <strong>展后跟进效率</strong><br><br>
+                                    从 2 周整理缩短至当日入库+自动分级。
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">单场展会获客成本</td>
+                                <td>5-20 万</td>
+                                <td class="text-primary font-bold">3-12 万</td>
+                                <div class="tooltip-content">
+                                    <strong>获客成本降低</strong><br><br>
+                                    单场展会获客成本从 5-20 万降至 3-12 万。
+                                </div>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark border-t border-white/10 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <span class="text-xl font-bold text-white tracking-tight">AI <span class="text-primary">LeadFinder</span></span>
+                <p class="text-gray-500 text-sm mt-1">让 AI 成为您的获客专家</p>
+            </div>
+            <div class="text-gray-500 text-sm">
+                &copy; 2026 AI LeadFinder. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,3 +1,8 @@
+<!--
+  关联文档：
+    - [模块设计](../../02-modules/03-静态数据获客.md)
+    - [功能说明](../../04-specs/线索详情-说明.md)
+-->
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -35,13 +40,32 @@
         }
     </script>
     <link rel="stylesheet" href="../styles/global.css">
+    <script>
+        window.STATE_SWITCHER_CONFIG = {
+            states: [
+                { key: 'normal', label: '正常状态', color: 'bg-success' },
+                { key: 'loading', label: '加载状态', color: 'bg-accent' },
+                { key: 'error', label: '错误状态', color: 'bg-danger' }
+            ]
+        };
+    </script>
     <style>
         .animate-delay-100 { animation-delay: 0.1s; }
         .animate-delay-200 { animation-delay: 0.2s; }
         .animate-delay-300 { animation-delay: 0.3s; }
         .animate-delay-400 { animation-delay: 0.4s; }
+        .animate-shimmer {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
     </style>
-    <script src="../entry-nav.js"></script>
+    <script src="../scripts/entry-nav.js"></script>
+    <script src="../scripts/state-switcher.js"></script>
 </head>
 <body class="bg-background font-sans min-h-screen">
     <nav class="fixed top-4 left-4 right-4 z-50">
@@ -85,6 +109,81 @@
                 <p class="text-muted text-sm">查看线索的完整分析报告和联系人信息</p>
             </div>
 
+            <!-- Loading State -->
+            <div id="loadingState" class="hidden space-y-6">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-6">
+                    <div class="flex items-start gap-4">
+                        <div class="flex-1 space-y-3">
+                            <div class="h-7 bg-slate-200 rounded w-1/3 animate-shimmer"></div>
+                            <div class="flex gap-4">
+                                <div class="h-4 bg-slate-200 rounded w-32 animate-shimmer"></div>
+                                <div class="h-4 bg-slate-200 rounded w-24 animate-shimmer"></div>
+                                <div class="h-4 bg-slate-200 rounded w-28 animate-shimmer"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-6">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-slate-200 rounded-xl animate-shimmer"></div>
+                        <div class="space-y-2">
+                            <div class="h-5 bg-slate-200 rounded w-32 animate-shimmer"></div>
+                            <div class="h-4 bg-slate-200 rounded w-48 animate-shimmer"></div>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="border border-slate-200 rounded-xl p-5 space-y-3">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 bg-slate-200 rounded-full animate-shimmer"></div>
+                                <div class="flex-1 space-y-2">
+                                    <div class="h-5 bg-slate-200 rounded w-1/4 animate-shimmer"></div>
+                                    <div class="h-4 bg-slate-200 rounded w-1/2 animate-shimmer"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border border-slate-200 rounded-xl p-5 space-y-3">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 bg-slate-200 rounded-full animate-shimmer"></div>
+                                <div class="flex-1 space-y-2">
+                                    <div class="h-5 bg-slate-200 rounded w-1/4 animate-shimmer"></div>
+                                    <div class="h-4 bg-slate-200 rounded w-1/2 animate-shimmer"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center justify-center py-8">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-5 h-5 text-cta animate-spin" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <span class="text-sm text-muted">正在加载线索详情...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error State -->
+            <div id="errorState" class="hidden">
+                <div class="bg-white rounded-2xl shadow-sm border border-red-200 p-12 text-center">
+                    <div class="w-16 h-16 bg-red-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-primary mb-2">数据加载失败</h3>
+                    <p class="text-sm text-muted mb-6 max-w-md mx-auto">网络请求超时，无法获取线索详情。请检查网络连接后重试。</p>
+                    <button onclick="location.reload()" class="inline-flex items-center gap-2 px-6 py-3 bg-cta hover:bg-cta/90 text-white rounded-xl font-medium transition-all hover:shadow-lg hover:shadow-cta/20 cursor-pointer">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                        </svg>
+                        重新加载
+                    </button>
+                </div>
+            </div>
+
+            <!-- Normal State -->
+            <div id="normalState">
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-6 mb-6 opacity-0 animate-fade-in-up">
                 <div class="flex items-start gap-4">
                     <div class="flex-1">
@@ -172,7 +271,7 @@
                                 </div>
                             </div>
                             <div class="flex items-center gap-2">
-                                <button onclick="showToast()" class="px-4 py-2 bg-cta hover:bg-cta/90 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2 cursor-pointer">
+                                <button onclick="showToast('即将上线，敬请期待')" class="px-4 py-2 bg-cta hover:bg-cta/90 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2 cursor-pointer">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                                     </svg>
@@ -203,7 +302,7 @@
                                 </div>
                             </div>
                             <div class="flex items-center gap-2">
-                                <button onclick="showToast()" class="px-4 py-2 border border-slate-200 text-secondary text-sm font-medium rounded-lg hover:bg-slate-50 transition-colors flex items-center gap-2 cursor-pointer">
+                                <button onclick="showToast('即将上线，敬请期待')" class="px-4 py-2 bg-cta hover:bg-cta/90 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2 cursor-pointer">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                                     </svg>
@@ -240,7 +339,7 @@
                                 </div>
                             </div>
                             <div class="flex items-center gap-2">
-                                <button onclick="showToast()" class="px-4 py-2 border border-slate-200 text-secondary text-sm font-medium rounded-lg hover:bg-slate-50 transition-colors flex items-center gap-2 cursor-pointer">
+                                <button onclick="showToast('即将上线，敬请期待')" class="px-4 py-2 bg-cta hover:bg-cta/90 text-white text-sm font-medium rounded-lg transition-colors flex items-center gap-2 cursor-pointer">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                                     </svg>
@@ -414,6 +513,7 @@
                     </div>
                 </div>
             </div>
+            </div>
         </div>
     </main>
 
@@ -425,7 +525,7 @@
                 </svg>
                 返回线索列表
             </a>
-            <button onclick="showToast()" class="px-8 py-3 bg-gradient-to-r from-cta to-accent hover:from-cta/90 hover:to-accent/90 text-white rounded-xl font-medium transition-all flex items-center gap-2 cursor-pointer shadow-lg shadow-cta/25">
+            <button onclick="showToast('即将上线，敬请期待')" class="px-8 py-3 bg-gradient-to-r from-cta to-accent hover:from-cta/90 hover:to-accent/90 text-white rounded-xl font-medium transition-all flex items-center gap-2 cursor-pointer shadow-lg shadow-cta/25">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                 </svg>
@@ -436,15 +536,110 @@
 
 
     <script>
-        function showToast() {
+        function showToast(msg = "敬请期待上线") {
             const toast = document.createElement("div");
             toast.className = "fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-slate-800 text-white px-6 py-3 rounded-xl shadow-2xl z-[100] animate-fade-in-up";
-            toast.textContent = "敬请期待上线";
+            toast.textContent = msg;
             document.body.appendChild(toast);
             setTimeout(() => {
                 toast.remove();
             }, 2000);
         }
+
+        // 智能触达按钮状态变化演示
+        function handleReachOut(btn) {
+            const originalText = document.getElementById('reachBtnText').textContent;
+            const originalIcon = document.getElementById('reachBtnIcon').innerHTML;
+            
+            // 提交中状态
+            btn.disabled = true;
+            document.getElementById('reachBtnText').textContent = '提交中...';
+            document.getElementById('reachBtnIcon').innerHTML = '<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>';
+            document.getElementById('reachBtnIcon').classList.add('animate-spin');
+            
+            // 模拟提交过程
+            setTimeout(() => {
+                // 提交成功状态
+                document.getElementById('reachBtnText').textContent = '提交成功';
+                document.getElementById('reachBtnIcon').classList.remove('animate-spin');
+                document.getElementById('reachBtnIcon').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>';
+                btn.classList.remove('from-cta', 'to-accent');
+                btn.classList.add('from-success', 'to-green-500');
+                
+                showToast('触达任务已创建成功');
+                
+                // 3秒后恢复原始状态
+                setTimeout(() => {
+                    btn.disabled = false;
+                    document.getElementById('reachBtnText').textContent = originalText;
+                    document.getElementById('reachBtnIcon').innerHTML = originalIcon;
+                    btn.classList.remove('from-success', 'to-green-500');
+                    btn.classList.add('from-cta', 'to-accent');
+                }, 3000);
+            }, 1500);
+        }
+
+        // 立即触达按钮状态变化演示
+        function handleContact(btn) {
+            const originalContent = btn.innerHTML;
+            
+            // 提交中状态
+            btn.disabled = true;
+            btn.innerHTML = `
+                <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span>提交中...</span>
+            `;
+            
+            // 模拟提交过程
+            setTimeout(() => {
+                // 提交成功状态
+                btn.innerHTML = `
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span>已发送</span>
+                `;
+                btn.classList.remove('bg-cta', 'hover:bg-cta/90');
+                btn.classList.add('bg-success', 'hover:bg-success/90');
+                
+                showToast('触达邮件已发送');
+                
+                // 3秒后恢复原始状态
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = originalContent;
+                    btn.classList.remove('bg-success', 'hover:bg-success/90');
+                    btn.classList.add('bg-cta', 'hover:bg-cta/90');
+                }, 3000);
+            }, 1500);
+        }
+
+        // State switcher using state-switcher.js
+        window.addEventListener('statechange', function(e) {
+            const state = e.detail.state;
+
+            // 动态获取所有状态元素
+            const availableStates = window.StateSwitcher ? window.StateSwitcher.getAvailableStates() : ['normal', 'loading', 'empty', 'error'];
+            const stateElements = {};
+
+            availableStates.forEach(stateKey => {
+                stateElements[stateKey] = document.getElementById(stateKey + 'State');
+            });
+
+            // 隐藏所有状态
+            Object.values(stateElements).forEach(el => {
+                if (el) el.classList.add('hidden');
+            });
+
+            // 显示当前状态
+            const targetEl = stateElements[state];
+            if (targetEl) {
+                targetEl.classList.remove('hidden');
+            }
+        });
     </script>
 </body>
 </html>

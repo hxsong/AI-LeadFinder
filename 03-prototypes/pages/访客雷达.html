@@ -1,3 +1,8 @@
+<!--
+  关联文档：
+    - [模块设计](../../02-modules/04-动态数据获客.md)
+    - [功能说明](../../04-specs/访客雷达-说明.md)
+-->
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -67,7 +72,18 @@
             background: linear-gradient(to bottom, #E2E8F0, transparent);
         }
     </style>
-    <script src="../entry-nav.js"></script>
+    <script>
+        window.STATE_SWITCHER_CONFIG = {
+            states: [
+                { key: 'normal', label: '正常状态', color: 'bg-success' },
+                { key: 'loading', label: '加载状态', color: 'bg-accent' },
+                { key: 'empty', label: '空状态', color: 'bg-muted' },
+                { key: 'error', label: '错误状态', color: 'bg-danger' }
+            ]
+        };
+    </script>
+    <script src="../scripts/entry-nav.js"></script>
+    <script src="../scripts/state-switcher.js"></script>
 </head>
 <body class="bg-background font-sans min-h-screen">
     <nav class="fixed top-4 left-4 right-4 z-50">
@@ -602,6 +618,179 @@
         </div>
     </main>
 
+    <!-- 加载状态 -->
+    <div id="loadingState" class="hidden pt-28 pb-24 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="mb-6">
+                <div class="flex items-center gap-2 mb-2">
+                    <div class="relative">
+                        <div class="w-8 h-8 bg-heat_high/10 rounded-lg flex items-center justify-center">
+                            <svg class="w-5 h-5 text-heat_high" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.636 18.364a9 9 0 010-12.728m12.728 0a9 9 0 010 12.728m-9.9-2.829a5 5 0 010-7.07m7.072 0a5 5 0 010 7.07M13 12a1 1 0 11-2 0 1 1 0 012 0z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <h1 class="text-2xl font-bold text-primary">访客雷达</h1>
+                </div>
+                <p class="text-muted text-sm">实时追踪独立站访客行为，AI 智能分析访客意向</p>
+            </div>
+
+            <!-- 加载中提示 -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-12">
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-10 h-10 text-slate-400 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-primary mb-2">数据加载中</h3>
+                    <p class="text-muted text-sm max-w-md mx-auto">正在获取访客数据，请稍候...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 空状态 -->
+    <div id="emptyState" class="hidden pt-28 pb-24 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="mb-6">
+                <div class="flex items-center gap-2 mb-2">
+                    <div class="relative">
+                        <div class="w-8 h-8 bg-heat_high/10 rounded-lg flex items-center justify-center">
+                            <svg class="w-5 h-5 text-heat_high" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.636 18.364a9 9 0 010-12.728m12.728 0a9 9 0 010 12.728m-9.9-2.829a5 5 0 010-7.07m7.072 0a5 5 0 010 7.07M13 12a1 1 0 11-2 0 1 1 0 012 0z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <h1 class="text-2xl font-bold text-primary">访客雷达</h1>
+                </div>
+                <p class="text-muted text-sm">实时追踪独立站访客行为，AI 智能分析访客意向</p>
+            </div>
+
+            <!-- 统计卡片 - 空状态 -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200/50 p-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center">
+                            <svg class="w-5 h-5 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold text-primary">0</p>
+                            <p class="text-xs text-muted">今日访客</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200/50 p-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-heat_high/10 rounded-lg flex items-center justify-center">
+                            <svg class="w-5 h-5 text-heat_high" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold text-heat_high">0</p>
+                            <p class="text-xs text-muted">高热度访客</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200/50 p-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-heat_medium/10 rounded-lg flex items-center justify-center">
+                            <svg class="w-5 h-5 text-heat_medium" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold text-heat_medium">0</p>
+                            <p class="text-xs text-muted">较高热度访客</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200/50 p-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-success/10 rounded-lg flex items-center justify-center">
+                            <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-2xl font-bold text-success">0</p>
+                            <p class="text-xs text-muted">已挖掘企业</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 空状态提示 -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-12">
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-10 h-10 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-primary mb-2">暂无访客数据</h3>
+                    <p class="text-muted text-sm mb-6 max-w-md mx-auto">当前筛选条件下没有找到访客记录。请尝试调整筛选条件，或稍后再查看。</p>
+                    <div class="flex items-center justify-center gap-3">
+                        <button onclick="switchState('normal')" class="px-5 py-2.5 bg-cta text-white text-sm font-medium rounded-xl hover:bg-cta/90 transition-colors">
+                            查看示例数据
+                        </button>
+                        <button class="px-5 py-2.5 border border-slate-200 text-secondary hover:bg-slate-50 text-sm font-medium rounded-xl transition-colors">
+                            刷新数据
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 错误状态 -->
+    <div id="errorState" class="hidden pt-28 pb-24 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="mb-6">
+                <div class="flex items-center gap-2 mb-2">
+                    <div class="relative">
+                        <div class="w-8 h-8 bg-heat_high/10 rounded-lg flex items-center justify-center">
+                            <svg class="w-5 h-5 text-heat_high" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.636 18.364a9 9 0 010-12.728m12.728 0a9 9 0 010 12.728m-9.9-2.829a5 5 0 010-7.07m7.072 0a5 5 0 010 7.07M13 12a1 1 0 11-2 0 1 1 0 012 0z"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <h1 class="text-2xl font-bold text-primary">访客雷达</h1>
+                </div>
+                <p class="text-muted text-sm">实时追踪独立站访客行为，AI 智能分析访客意向</p>
+            </div>
+
+            <!-- 错误提示 -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-12">
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-danger/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-10 h-10 text-danger" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-primary mb-2">数据加载失败</h3>
+                    <p class="text-muted text-sm mb-6 max-w-md mx-auto">无法获取访客数据，请检查网络连接后重试。如果问题持续存在，请联系技术支持。</p>
+                    <div class="flex items-center justify-center gap-3">
+                        <button onclick="StateSwitcher.switch('normal')" class="px-5 py-2.5 bg-danger text-white text-sm font-medium rounded-xl hover:bg-danger/90 transition-colors flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                            </svg>
+                            重新加载
+                        </button>
+                        <button class="px-5 py-2.5 border border-slate-200 text-secondary hover:bg-slate-50 text-sm font-medium rounded-xl transition-colors">
+                            联系支持
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="revealModal" class="fixed inset-0 z-50 hidden">
         <div class="absolute inset-0 bg-primary/50 backdrop-blur-sm" onclick="hideRevealModal()"></div>
         <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg">
@@ -675,8 +864,12 @@
                         <button onclick="hideRevealModal()" class="flex-1 px-6 py-3 border border-slate-200 text-secondary rounded-xl font-medium hover:bg-slate-100 transition-colors cursor-pointer">
                             取消
                         </button>
-                        <button onclick="startReveal()" class="flex-1 px-6 py-3 bg-gradient-to-r from-heat_high to-orange-500 hover:from-heat_high/90 hover:to-orange-500/90 text-white rounded-xl font-medium transition-colors cursor-pointer shadow-lg shadow-heat_high/20">
-                            确认挖掘
+                        <button id="confirmRevealBtn" onclick="startReveal(this)" class="flex-1 px-6 py-3 bg-gradient-to-r from-heat_high to-orange-500 hover:from-heat_high/90 hover:to-orange-500/90 text-white rounded-xl font-medium transition-colors cursor-pointer shadow-lg shadow-heat_high/20 flex items-center justify-center gap-2">
+                            <span class="btn-text">确认挖掘</span>
+                            <svg class="btn-spinner hidden w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
                         </button>
                     </div>
                 </div>
@@ -850,10 +1043,51 @@
             document.body.style.overflow = '';
         }
 
-        function startReveal() {
-            hideRevealModal();
-            window.location.href = '动态线索池.html';
+        function startReveal(btn) {
+            const btnText = btn.querySelector('.btn-text');
+            const btnSpinner = btn.querySelector('.btn-spinner');
+
+            btnText.textContent = '挖掘中...';
+            btnSpinner.classList.remove('hidden');
+            btn.disabled = true;
+            btn.classList.add('opacity-75', 'cursor-not-allowed');
+
+            setTimeout(() => {
+                hideRevealModal();
+                window.location.href = '动态线索池.html';
+            }, 1500);
         }
+
+        // 监听状态切换器事件
+        window.addEventListener('statechange', function(e) {
+            const state = e.detail.state;
+
+            // 动态获取所有状态元素
+            const availableStates = window.StateSwitcher ? window.StateSwitcher.getAvailableStates() : ['normal', 'loading', 'empty', 'error'];
+            const stateElements = {};
+
+            availableStates.forEach(stateKey => {
+                stateElements[stateKey] = document.getElementById(stateKey + 'State');
+            });
+
+            // 主内容区域（访客雷达特殊处理）
+            const mainContent = document.querySelector('main');
+
+            // 隐藏所有状态
+            Object.values(stateElements).forEach(el => {
+                if (el) el.classList.add('hidden');
+            });
+            if (mainContent) mainContent.classList.add('hidden');
+
+            // 显示当前状态
+            if (state === 'normal' && mainContent) {
+                mainContent.classList.remove('hidden');
+            }
+            const targetEl = stateElements[state];
+            if (targetEl) {
+                targetEl.classList.remove('hidden');
+            }
+        });
     </script>
 
 </body>

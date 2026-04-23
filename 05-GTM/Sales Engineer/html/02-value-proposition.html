@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI LeadFinder - 产品价值主张</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        primary: '#3B82F6', secondary: '#60A5FA', accent: '#10B981',
+                        cta: '#F97316', dark: '#1E293B', light: '#F8FAFC',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #F8FAFC; color: #1E293B; }
+        .glass-card {
+            background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards; opacity: 0; transform: translateY(20px);
+        }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
+        .delay-500 { animation-delay: 500ms; }
+        .tooltip-container { position: relative; }
+        .tooltip-content {
+            visibility: hidden; opacity: 0; position: absolute; bottom: 100%; left: 50%;
+            transform: translateX(-50%) translateY(10px); width: max-content; max-width: 450px;
+            padding: 1.5rem; background: rgba(30,41,59,0.98); color: white; border-radius: 0.75rem;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            z-index: 100; font-size: 0.875rem; line-height: 1.6; text-align: left;
+            border: 1px solid rgba(255,255,255,0.1); margin-bottom: 1rem;
+        }
+        .tooltip-content::after {
+            content: ""; position: absolute; top: 100%; left: 50%; margin-left: -8px;
+            border-width: 8px; border-style: solid; border-color: rgba(30,41,59,0.98) transparent transparent transparent;
+        }
+        .tooltip-container:hover .tooltip-content {
+            visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0);
+        }
+        .data-table { width: 100%; border-collapse: collapse; }
+        .data-table th { background: #F1F5F9; padding: 0.75rem 1rem; text-align: left; font-weight: 600; color: #475569; border-bottom: 2px solid #E2E8F0; }
+        .data-table td { padding: 0.75rem 1rem; border-bottom: 1px solid #E2E8F0; }
+        .data-table tr:hover { background: #F8FAFC; }
+        .quote-card {
+            border-left: 4px solid #3B82F6;
+            background: linear-gradient(to right, #EFF6FF, #ffffff);
+        }
+    </style>
+</head>
+<body class="antialiased font-sans">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-3">
+                    <a href="00-index.html" class="text-xl font-bold text-primary tracking-tight">AI LeadFinder</a>
+                    <span class="text-gray-300">|</span>
+                    <span class="text-sm text-gray-600">产品价值主张</span>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#pillars" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">三大支柱</a>
+                    <a href="#painpoints" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">痛点对照</a>
+                    <a href="#elevator" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">电梯演讲</a>
+                    <a href="#scenarios" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">场景价值</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-[50vh] flex items-center justify-center pt-16 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
+            <div class="absolute top-20 right-10 w-72 h-72 bg-green-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
+            <div class="absolute -bottom-8 left-20 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
+        </div>
+        <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-primary text-xs font-semibold tracking-wide uppercase mb-6 animate-fade-in-up">
+                Value Proposition
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold text-dark mb-6 leading-tight animate-fade-in-up delay-100">
+                AI LeadFinder<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">产品价值主张</span>
+            </h1>
+            <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto animate-fade-in-up delay-200">
+                一句话定位：面向 B2B 外贸企业的独立站全链路 AI Agent 获客系统
+            </p>
+        </div>
+    </section>
+
+    <!-- Three Pillars Section -->
+    <section id="pillars" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">3 Core Pillars</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">核心价值主张（3大支柱）</h2>
+            </div>
+
+            <!-- Pillar 1 -->
+            <div class="mb-16">
+                <div class="glass-card p-8 rounded-2xl border-l-4 border-primary">
+                    <div class="flex items-start gap-6">
+                        <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center text-primary text-2xl font-bold flex-shrink-0">01</div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold text-dark mb-4">全链路自动化获客</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <h4 class="font-semibold text-dark mb-2 text-red-600">问题</h4>
+                                    <p class="text-gray-600 mb-4">传统获客流程割裂，从流量获取到线索转化需要人工介入多个环节，效率低下。</p>
+                                    <h4 class="font-semibold text-dark mb-2 text-primary">解决方案</h4>
+                                    <ul class="space-y-2 text-gray-600">
+                                        <li class="flex items-start gap-2">
+                                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                            AI 自动完成客户分析、数据搜客、线索评分全流程
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                            从独立站访客识别到精准客户挖掘，全程自动化
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                            减少 80% 人工筛选工作量
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="bg-blue-50 rounded-xl p-6">
+                                    <h4 class="font-semibold text-dark mb-4">价值量化</h4>
+                                    <div class="space-y-4">
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-gray-600">获客效率提升</span>
+                                            <span class="text-2xl font-bold text-primary">3-5x</span>
+                                        </div>
+                                        <div class="w-full bg-white rounded-full h-2">
+                                            <div class="bg-primary h-2 rounded-full" style="width: 90%"></div>
+                                        </div>
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-gray-600">销售人均产出提升</span>
+                                            <span class="text-2xl font-bold text-primary">3x</span>
+                                        </div>
+                                        <div class="w-full bg-white rounded-full h-2">
+                                            <div class="bg-primary h-2 rounded-full" style="width: 75%"></div>
+                                        </div>
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-gray-600">线索响应时间</span>
+                                            <span class="text-lg font-bold text-primary">分钟级</span>
+                                        </div>
+                                        <p class="text-sm text-gray-500">从小时级缩短至分钟级</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pillar 2 -->
+            <div class="mb-16">
+                <div class="glass-card p-8 rounded-2xl border-l-4 border-accent">
+                    <div class="flex items-start gap-6">
+                        <div class="w-16 h-16 bg-green-100 rounded-xl flex items-center justify-center text-accent text-2xl font-bold flex-shrink-0">02</div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold text-dark mb-4">双引擎精准获客（核心优势）</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <h4 class="font-semibold text-dark mb-2 text-red-600">问题</h4>
+                                    <p class="text-gray-600 mb-4">单一获客渠道效果有限，线索质量参差不齐，无法判断客户实时意向。</p>
+                                    <h4 class="font-semibold text-dark mb-2 text-accent">解决方案</h4>
+                                    <div class="space-y-3">
+                                        <div class="bg-blue-50 rounded-lg p-3">
+                                            <p class="font-semibold text-dark text-sm">静态数据获客（历史数据）</p>
+                                            <p class="text-gray-600 text-sm">全网搜寻潜在企业客户，基于海关、展会、地图、网页等多维数据源，完成初次触达和背景调研</p>
+                                        </div>
+                                        <div class="bg-green-50 rounded-lg p-3">
+                                            <p class="font-semibold text-dark text-sm">动态数据获客（实时意向）</p>
+                                            <p class="text-gray-600 text-sm">独立站访客追踪，基于微观行为分析实时识别高意向 B2B 采购者</p>
+                                        </div>
+                                        <div class="bg-purple-50 rounded-lg p-3">
+                                            <p class="font-semibold text-dark text-sm">双引擎数据融合</p>
+                                            <p class="text-gray-600 text-sm">静态历史数据与动态实时行为结合，生成全景客户画像</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="bg-green-50 rounded-xl p-6">
+                                    <h4 class="font-semibold text-dark mb-4">价值量化</h4>
+                                    <div class="space-y-4">
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-gray-600">线索精准度提升</span>
+                                            <span class="text-2xl font-bold text-accent">50%</span>
+                                        </div>
+                                        <div class="w-full bg-white rounded-full h-2">
+                                            <div class="bg-accent h-2 rounded-full" style="width: 50%"></div>
+                                        </div>
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-gray-600">转化率提升</span>
+                                            <span class="text-2xl font-bold text-accent">2x</span>
+                                        </div>
+                                        <div class="w-full bg-white rounded-full h-2">
+                                            <div class="bg-accent h-2 rounded-full" style="width: 66%"></div>
+                                        </div>
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-gray-600">客户意向判断准确率</span>
+                                            <span class="text-2xl font-bold text-accent">+60%</span>
+                                        </div>
+                                        <div class="w-full bg-white rounded-full h-2">
+                                            <div class="bg-accent h-2 rounded-full" style="width: 60%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pillar 3 -->
+            <div>
+                <div class="glass-card p-8 rounded-2xl border-l-4 border-purple-500">
+                    <div class="flex items-start gap-6">
+                        <div class="w-16 h-16 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600 text-2xl font-bold flex-shrink-0">03</div>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold text-dark mb-4">智能决策辅助</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <h4 class="font-semibold text-dark mb-2 text-red-600">问题</h4>
+                                    <p class="text-gray-600 mb-4">销售团队缺乏数据支撑，决策依赖经验判断。</p>
+                                    <h4 class="font-semibold text-dark mb-2 text-purple-600">解决方案</h4>
+                                    <ul class="space-y-2 text-gray-600">
+                                        <li class="flex items-start gap-2">
+                                            <svg class="w-5 h-5 text-purple-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                            AI 生成业务分析报告、搜客策略
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <svg class="w-5 h-5 text-purple-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                            四维评分模型智能评估线索质量
+                                        </li>
+                                        <li class="flex items-start gap-2">
+                                            <svg class="w-5 h-5 text-purple-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                            AI 判词解释每个线索的价值依据
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="bg-purple-50 rounded-xl p-6">
+                                    <h4 class="font-semibold text-dark mb-4">价值量化</h4>
+                                    <div class="space-y-4">
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-gray-600">决策效率提升</span>
+                                            <span class="text-2xl font-bold text-purple-600">70%</span>
+                                        </div>
+                                        <div class="w-full bg-white rounded-full h-2">
+                                            <div class="bg-purple-500 h-2 rounded-full" style="width: 70%"></div>
+                                        </div>
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-gray-600">销售培训周期缩短</span>
+                                            <span class="text-2xl font-bold text-purple-600">50%</span>
+                                        </div>
+                                        <div class="w-full bg-white rounded-full h-2">
+                                            <div class="bg-purple-500 h-2 rounded-full" style="width: 50%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pain Points Section -->
+    <section id="painpoints" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Pain Points & Solutions</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">目标客户痛点与解决方案对照</h2>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>客户痛点</th>
+                                <th>传统方式</th>
+                                <th>AI LeadFinder 方案</th>
+                                <th>效果</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold text-dark">新市场拓展难</td>
+                                <td class="text-gray-600">手动搜索、展会获客</td>
+                                <td class="text-primary font-semibold">AI 全网搜客，智能匹配</td>
+                                <td><span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-sm font-bold">效率提升 3-5 倍</span></td>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold text-dark">独立站转化率低</td>
+                                <td class="text-gray-600">仅知道流量数据</td>
+                                <td class="text-primary font-semibold">访客身份识别+行为分析</td>
+                                <td><span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-sm font-bold">识别率提升 15-25%</span></td>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold text-dark">线索质量差</td>
+                                <td class="text-gray-600">大量无效线索</td>
+                                <td class="text-primary font-semibold">AI 四维评分筛选</td>
+                                <td><span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-sm font-bold">优质线索占比 50%+</span></td>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold text-dark">销售效率低</td>
+                                <td class="text-gray-600">70% 时间花在找客户</td>
+                                <td class="text-primary font-semibold">AI 自动获客，销售专注跟进</td>
+                                <td><span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-sm font-bold">人均产出提升 3 倍</span></td>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold text-dark">多业务线管理难</td>
+                                <td class="text-gray-600">数据分散、重复投入</td>
+                                <td class="text-primary font-semibold">多 BOT 独立隔离+资源共享</td>
+                                <td><span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-sm font-bold">管理效率提升 50%</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Elevator Pitch Section -->
+    <section id="elevator" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Elevator Pitch</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">电梯演讲</h2>
+            </div>
+
+            <div class="space-y-8">
+                <!-- 30s -->
+                <div class="quote-card p-8 rounded-2xl tooltip-container group cursor-pointer">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-primary text-white px-3 py-1 rounded-full text-sm font-bold">30秒</span>
+                        <h3 class="text-xl font-bold text-dark">快速版本</h3>
+                    </div>
+                    <p class="text-lg text-gray-700 italic leading-relaxed">
+                        "AI LeadFinder 是专为 B2B 外贸企业设计的 AI 获客系统。我们的核心优势是双引擎获客：一是基于海关、展会、地图等多源数据的静态获客，帮您全网精准找到潜在客户；二是基于独立站访客行为的动态分析，实时识别高意向采购者。静态历史数据+动态实时意向，让获客效率提升 3-5 倍，线索质量提升 50%。"
+                    </p>
+                    <div class="tooltip-content">
+                        <strong>30秒电梯演讲</strong><br><br>
+                        适用于展会、沙龙等快速交流场景，突出双引擎获客和核心数据指标。
+                    </div>
+                </div>
+
+                <!-- 60s -->
+                <div class="quote-card p-8 rounded-2xl tooltip-container group cursor-pointer">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-accent text-white px-3 py-1 rounded-full text-sm font-bold">60秒</span>
+                        <h3 class="text-xl font-bold text-dark">标准版本</h3>
+                    </div>
+                    <p class="text-lg text-gray-700 italic leading-relaxed">
+                        "很多 B2B 外贸企业面临获客难、线索质量差的困境。AI LeadFinder 的核心优势是双引擎获客：<br><br>
+                        <strong>第一，静态数据获客引擎</strong>：基于海关、展会、地图、网页等多源数据，全网搜寻精准潜在客户，一次任务可获取 20-200 家企业，完成初次触达和背景调研；<br>
+                        <strong>第二，动态数据获客引擎</strong>：独立站访客实时行为分析，识别高意向采购者，捕捉最佳跟进时机。<br><br>
+                        静态历史数据+动态实时意向的双引擎结合，让客户画像更完整、线索质量更高、转化成功率更大。<br><br>
+                        我们的客户平均获客效率提升 3-5 倍，线索转化率提升 2 倍。"
+                    </p>
+                    <div class="tooltip-content">
+                        <strong>60秒电梯演讲</strong><br><br>
+                        适用于初次客户会议、电话沟通等场景，详细阐述双引擎价值和客户收益。
+                    </div>
+                </div>
+
+                <!-- 120s -->
+                <div class="quote-card p-8 rounded-2xl tooltip-container group cursor-pointer">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-bold">120秒</span>
+                        <h3 class="text-xl font-bold text-dark">完整版本（含差异化）</h3>
+                    </div>
+                    <p class="text-lg text-gray-700 italic leading-relaxed">
+                        "B2B 外贸获客有两个核心挑战：找不到精准客户、识别不出高价值访客。<br><br>
+                        AI LeadFinder 是市场上少有的<strong>全链路 AI Agent 获客系统</strong>：<br><br>
+                        <strong>与传统获客工具相比</strong>：我们不只提供数据，更提供 AI 智能分析和自动化执行；<br>
+                        <strong>与单一功能工具相比</strong>：我们整合搜客、访客分析两大模块，形成获客闭环；<br>
+                        <strong>与通用 CRM 相比</strong>：我们专注获客环节，不做冗余功能，开箱即用。<br><br>
+                        具体效果：<br>
+                        • 静态获客：一次搜客任务可获取 20-200 家精准企业线索<br>
+                        • 动态获客：独立站访客识别率提升 15-25%，高意向客户不再流失<br>
+                        • 智能评分：四维评分模型筛选出 50%+ 优质线索<br><br>
+                        我们采用 SaaS 订阅 + 用量付费的灵活模式，14 天免费试用，让您零风险体验。"
+                    </p>
+                    <div class="tooltip-content">
+                        <strong>120秒完整版本</strong><br><br>
+                        适用于正式商务会议、方案汇报等场景，全面展示产品定位和竞争优势。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Capability Data -->
+    <section class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Capabilities</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">产品能力数据</h2>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="glass-card p-6 rounded-2xl text-center tooltip-container group cursor-pointer">
+                    <p class="text-3xl font-bold text-primary mb-2">4</p>
+                    <p class="text-sm text-gray-600">搜客数据源</p>
+                    <p class="text-xs text-gray-400 mt-1">海关、展会、地图、网页</p>
+                    <div class="tooltip-content">
+                        <strong>多源数据融合</strong><br><br>
+                        海关数据 + 展会数据 + 地图/POI 数据 + 企业网页数据，覆盖全球主要贸易国家。
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl text-center tooltip-container group cursor-pointer">
+                    <p class="text-3xl font-bold text-accent mb-2">200</p>
+                    <p class="text-sm text-gray-600">单次搜客上限</p>
+                    <p class="text-xs text-gray-400 mt-1">支持批量获客</p>
+                    <div class="tooltip-content">
+                        <strong>批量获客能力</strong><br><br>
+                        一次搜客任务可获取 20-200 家企业，支持批量获客需求。
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl text-center tooltip-container group cursor-pointer">
+                    <p class="text-3xl font-bold text-purple-600 mb-2">100+</p>
+                    <p class="text-sm text-gray-600">海关数据覆盖国家</p>
+                    <p class="text-xs text-gray-400 mt-1">月度更新</p>
+                    <div class="tooltip-content">
+                        <strong>全球海关数据</strong><br><br>
+                        覆盖全球 100+ 国家进出口数据，月度更新。
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl text-center tooltip-container group cursor-pointer">
+                    <p class="text-3xl font-bold text-cta mb-2">5000+</p>
+                    <p class="text-sm text-gray-600">年度展会数据</p>
+                    <p class="text-xs text-gray-400 mt-1">实时更新</p>
+                    <div class="tooltip-content">
+                        <strong>展会数据覆盖</strong><br><br>
+                        年度 5000+ 展会参展商数据，实时更新。
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl text-center tooltip-container group cursor-pointer">
+                    <p class="text-3xl font-bold text-primary mb-2">4维</p>
+                    <p class="text-sm text-gray-600">评分维度</p>
+                    <p class="text-xs text-gray-400 mt-1">12 项细分指标</p>
+                    <div class="tooltip-content">
+                        <strong>四维评分模型</strong><br><br>
+                        需求匹配度、购买能力、采购意向、活跃意向，共 12 项细分指标，动态权重配置。
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl text-center tooltip-container group cursor-pointer">
+                    <p class="text-3xl font-bold text-accent mb-2">&lt;1%</p>
+                    <p class="text-sm text-gray-600">探针性能影响</p>
+                    <p class="text-xs text-gray-400 mt-1">异步加载，&lt; 10KB</p>
+                    <div class="tooltip-content">
+                        <strong>探针性能</strong><br><br>
+                        JS 探针异步加载，体积 &lt; 10KB，对网站性能影响 &lt; 1%。
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl text-center tooltip-container group cursor-pointer">
+                    <p class="text-3xl font-bold text-purple-600 mb-2">SMTP</p>
+                    <p class="text-sm text-gray-600">邮箱实时验证</p>
+                    <p class="text-xs text-gray-400 mt-1">确保可送达</p>
+                    <div class="tooltip-content">
+                        <strong>联系人验证</strong><br><br>
+                        邮箱通过 SMTP 实时验证，确保可送达率 90%+。
+                    </div>
+                </div>
+                <div class="glass-card p-6 rounded-2xl text-center tooltip-container group cursor-pointer">
+                    <p class="text-3xl font-bold text-cta mb-2">15-25%</p>
+                    <p class="text-sm text-gray-600">访客识别率</p>
+                    <p class="text-xs text-gray-400 mt-1">IP + 行为 + 时间 + 频次</p>
+                    <div class="tooltip-content">
+                        <strong>访客识别</strong><br><br>
+                        基于 IP + 行为 + 时间 + 频次的微观行为分析，访客识别率 15-25%。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scenario Value Section -->
+    <section id="scenarios" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Use Cases</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">使用场景价值主张</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Scenario 1 -->
+                <div class="glass-card p-8 rounded-2xl tooltip-container group cursor-pointer">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-primary">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-dark">场景一：新市场拓展</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4"><strong>客户挑战：</strong>进入新区域市场，缺乏客户资源，传统展会成本高、效率低。</p>
+                    <div class="bg-blue-50 rounded-lg p-4">
+                        <p class="font-semibold text-dark mb-2">AI LeadFinder 价值：</p>
+                        <ul class="space-y-1 text-sm text-gray-600">
+                            <li>• 基于 ICP 画像，AI 全网搜寻目标客户</li>
+                            <li>• 一次任务获取 20-200 家精准企业清单</li>
+                            <li>• 附带海关数据、展会记录等验证信息</li>
+                            <li>• <span class="text-primary font-bold">获客周期缩短 70%</span></li>
+                        </ul>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>新市场拓展场景</strong><br><br>
+                        进入新区域市场时，AI LeadFinder 基于 ICP 画像全网搜寻目标客户，一次任务获取 20-200 家精准企业清单，附带海关数据、展会记录等验证信息，获客周期缩短 70%。
+                    </div>
+                </div>
+
+                <!-- Scenario 2 -->
+                <div class="glass-card p-8 rounded-2xl tooltip-container group cursor-pointer">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center text-accent">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-dark">场景二：独立站运营优化</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4"><strong>客户挑战：</strong>独立站有流量但转化率低，不知道访客是谁，高价值访客流失。</p>
+                    <div class="bg-green-50 rounded-lg p-4">
+                        <p class="font-semibold text-dark mb-2">AI LeadFinder 价值：</p>
+                        <ul class="space-y-1 text-sm text-gray-600">
+                            <li>• JS 探针实时采集访客行为数据</li>
+                            <li>• IP 解析识别访客企业身份</li>
+                            <li>• AI 行为分析识别高意向采购者</li>
+                            <li>• <span class="text-accent font-bold">访客识别率提升 15-25%</span></li>
+                        </ul>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>独立站运营优化场景</strong><br><br>
+                        通过 JS 探针实时采集访客行为数据，IP 解析识别访客企业身份，AI 行为分析识别高意向采购者，访客识别率提升 15-25%，不再错失商机。
+                    </div>
+                </div>
+
+                <!-- Scenario 3 -->
+                <div class="glass-card p-8 rounded-2xl tooltip-container group cursor-pointer">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-dark">场景三：销售团队赋能</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4"><strong>客户挑战：</strong>销售团队花大量时间在低质量线索上，效率低下。</p>
+                    <div class="bg-purple-50 rounded-lg p-4">
+                        <p class="font-semibold text-dark mb-2">AI LeadFinder 价值：</p>
+                        <ul class="space-y-1 text-sm text-gray-600">
+                            <li>• 四维评分模型自动筛选优质线索</li>
+                            <li>• 销售专注跟进 S/A 级高价值线索</li>
+                            <li>• 人均产出提升 3 倍</li>
+                            <li>• <span class="text-purple-600 font-bold">AI 判词辅助销售理解客户价值</span></li>
+                        </ul>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>销售团队赋能场景</strong><br><br>
+                        四维评分模型自动筛选优质线索，销售专注跟进 S/A 级高价值线索，人均产出提升 3 倍，AI 判词辅助销售理解客户价值。
+                    </div>
+                </div>
+
+                <!-- Scenario 4 -->
+                <div class="glass-card p-8 rounded-2xl tooltip-container group cursor-pointer">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center text-cta">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-dark">场景四：多业务线管理</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4"><strong>客户挑战：</strong>集团企业多产品线/多品牌，数据分散，无法统一管理。</p>
+                    <div class="bg-orange-50 rounded-lg p-4">
+                        <p class="font-semibold text-dark mb-2">AI LeadFinder 价值：</p>
+                        <ul class="space-y-1 text-sm text-gray-600">
+                            <li>• 多 BOT 独立业务空间</li>
+                            <li>• 数据隔离 + Global Credits 资源共享</li>
+                            <li>• 统一管理，独立运营</li>
+                            <li>• <span class="text-cta font-bold">管理效率提升 50%</span></li>
+                        </ul>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>多业务线管理场景</strong><br><br>
+                        多 BOT 独立业务空间，数据隔离 + Global Credits 资源共享，统一管理，独立运营，管理效率提升 50%。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-24 bg-gray-50">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Testimonials</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">客户证言模板</h2>
+            </div>
+
+            <div class="space-y-8">
+                <div class="quote-card p-8 rounded-2xl">
+                    <p class="text-lg text-gray-700 italic mb-4">
+                        "使用 AI LeadFinder 后，我们的获客效率提升了 8 倍。以前需要 2 周才能完成的客户清单整理，现在 2 小时就能搞定。更重要的是，线索质量明显提升，销售团队的转化率提高了 2 倍。"
+                    </p>
+                    <p class="text-sm text-gray-500 font-semibold">—— 某 B2B 外贸企业 市场总监</p>
+                </div>
+
+                <div class="quote-card p-8 rounded-2xl">
+                    <p class="text-lg text-gray-700 italic mb-4">
+                        "AI LeadFinder 的访客分析功能让我们发现了独立站上很多之前不知道的高价值客户。通过 IP 解析和行为分析，我们能精准识别出真正有采购意向的访客，转化率比传统方式高出很多。"
+                    </p>
+                    <p class="text-sm text-gray-500 font-semibold">—— 某制造业企业 销售 VP</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark border-t border-white/10 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <span class="text-xl font-bold text-white tracking-tight">AI <span class="text-primary">LeadFinder</span></span>
+                <p class="text-gray-500 text-sm mt-1">让 AI 成为您的获客专家</p>
+            </div>
+            <div class="text-gray-500 text-sm">
+                &copy; 2026 AI LeadFinder. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

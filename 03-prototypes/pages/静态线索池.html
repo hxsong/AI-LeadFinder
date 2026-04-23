@@ -1,3 +1,8 @@
+<!--
+  关联文档：
+    - [模块设计](../../02-modules/03-静态数据获客.md)
+    - [功能说明](../../04-specs/静态线索池-说明.md)
+-->
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -66,7 +71,19 @@
             animation: progress-flow 2s linear infinite;
         }
     </style>
-    <script src="../entry-nav.js"></script>
+    <script src="../scripts/entry-nav.js"></script>
+    <script>
+        // 状态切换器配置
+        window.STATE_SWITCHER_CONFIG = {
+            states: [
+                { key: 'normal', label: '正常状态', color: 'bg-success' },
+                { key: 'loading', label: '加载中', color: 'bg-accent' },
+                { key: 'empty', label: '空状态', color: 'bg-muted' },
+                { key: 'error', label: '错误状态', color: 'bg-red-500' }
+            ]
+        };
+    </script>
+    <script src="../scripts/state-switcher.js"></script>
 </head>
 <body class="bg-background font-sans min-h-screen">
     <nav class="fixed top-4 left-4 right-4 z-50">
@@ -129,7 +146,177 @@
                 </div>
             </div>
 
-            <div class="space-y-4">
+            <!-- 加载状态 -->
+            <div id="loadingState" class="hidden space-y-4">
+                <!-- 筛选栏骨架屏 -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200/50 p-4">
+                    <div class="flex flex-wrap items-center gap-3">
+                        <div class="flex items-center gap-2">
+                            <div class="w-10 h-4 bg-slate-200 rounded animate-shimmer"></div>
+                            <div class="w-16 h-8 bg-slate-200 rounded-lg animate-shimmer"></div>
+                            <div class="w-16 h-8 bg-slate-200 rounded-lg animate-shimmer"></div>
+                            <div class="w-16 h-8 bg-slate-200 rounded-lg animate-shimmer"></div>
+                        </div>
+                        <div class="ml-auto">
+                            <div class="w-24 h-8 bg-slate-200 rounded-lg animate-shimmer"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 卡片骨架屏 1 -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-6">
+                    <div class="flex items-start gap-4">
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="w-48 h-6 bg-slate-200 rounded animate-shimmer"></div>
+                                <div class="w-20 h-4 bg-slate-200 rounded animate-shimmer"></div>
+                            </div>
+                            <div class="w-full h-4 bg-slate-200 rounded mb-3 animate-shimmer"></div>
+                            <div class="w-2/3 h-4 bg-slate-200 rounded mb-4 animate-shimmer"></div>
+                            <div class="bg-slate-100 rounded-lg p-4 mb-4">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <div class="w-8 h-8 bg-slate-200 rounded-lg animate-shimmer"></div>
+                                    <div class="flex-1">
+                                        <div class="w-40 h-4 bg-slate-200 rounded mb-2 animate-shimmer"></div>
+                                        <div class="w-24 h-3 bg-slate-200 rounded animate-shimmer"></div>
+                                    </div>
+                                </div>
+                                <div class="w-full h-2 bg-slate-200 rounded-full animate-shimmer"></div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="w-24 h-4 bg-slate-200 rounded animate-shimmer"></div>
+                                <div class="w-20 h-4 bg-slate-200 rounded animate-shimmer"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 卡片骨架屏 2 -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-6">
+                    <div class="flex items-start gap-4">
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="w-56 h-6 bg-slate-200 rounded animate-shimmer"></div>
+                                <div class="w-20 h-4 bg-slate-200 rounded animate-shimmer"></div>
+                            </div>
+                            <div class="w-full h-4 bg-slate-200 rounded mb-3 animate-shimmer"></div>
+                            <div class="w-3/4 h-4 bg-slate-200 rounded mb-4 animate-shimmer"></div>
+                            <div class="bg-slate-100 rounded-lg p-4 mb-4">
+                                <div class="flex items-center gap-2 mb-3">
+                                    <div class="w-4 h-4 bg-slate-200 rounded animate-shimmer"></div>
+                                    <div class="w-20 h-4 bg-slate-200 rounded animate-shimmer"></div>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-7 h-7 bg-slate-200 rounded-full animate-shimmer"></div>
+                                        <div>
+                                            <div class="w-24 h-3 bg-slate-200 rounded mb-1 animate-shimmer"></div>
+                                            <div class="w-16 h-3 bg-slate-200 rounded animate-shimmer"></div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-7 h-7 bg-slate-200 rounded-full animate-shimmer"></div>
+                                        <div>
+                                            <div class="w-20 h-3 bg-slate-200 rounded mb-1 animate-shimmer"></div>
+                                            <div class="w-14 h-3 bg-slate-200 rounded animate-shimmer"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-20 h-4 bg-slate-200 rounded animate-shimmer"></div>
+                                    <div class="w-24 h-4 bg-slate-200 rounded animate-shimmer"></div>
+                                </div>
+                                <div class="w-20 h-4 bg-slate-200 rounded animate-shimmer"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 卡片骨架屏 3 -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-6">
+                    <div class="flex items-start gap-4">
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="w-44 h-6 bg-slate-200 rounded animate-shimmer"></div>
+                                <div class="w-16 h-4 bg-slate-200 rounded animate-shimmer"></div>
+                            </div>
+                            <div class="w-full h-4 bg-slate-200 rounded mb-3 animate-shimmer"></div>
+                            <div class="w-4/5 h-4 bg-slate-200 rounded mb-4 animate-shimmer"></div>
+                            <div class="bg-slate-100 rounded-lg p-4 mb-4">
+                                <div class="flex items-center gap-2 mb-3">
+                                    <div class="w-4 h-4 bg-slate-200 rounded animate-shimmer"></div>
+                                    <div class="w-20 h-4 bg-slate-200 rounded animate-shimmer"></div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <div class="w-7 h-7 bg-slate-200 rounded-full animate-shimmer"></div>
+                                    <div>
+                                        <div class="w-28 h-3 bg-slate-200 rounded mb-1 animate-shimmer"></div>
+                                        <div class="w-20 h-3 bg-slate-200 rounded animate-shimmer"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-20 h-4 bg-slate-200 rounded animate-shimmer"></div>
+                                    <div class="w-24 h-4 bg-slate-200 rounded animate-shimmer"></div>
+                                </div>
+                                <div class="w-20 h-4 bg-slate-200 rounded animate-shimmer"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 分页骨架屏 -->
+                <div class="flex items-center justify-between pt-4">
+                    <div class="w-24 h-4 bg-slate-200 rounded animate-shimmer"></div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-9 h-9 bg-slate-200 rounded-lg animate-shimmer"></div>
+                        <div class="w-9 h-9 bg-slate-200 rounded-lg animate-shimmer"></div>
+                        <div class="w-9 h-9 bg-slate-200 rounded-lg animate-shimmer"></div>
+                        <div class="w-9 h-9 bg-slate-200 rounded-lg animate-shimmer"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 空状态 -->
+            <div id="emptyState" class="hidden">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-12 text-center">
+                    <div class="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-10 h-10 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-primary mb-2">暂无静态线索</h3>
+                    <p class="text-sm text-muted mb-6">您还没有挖掘任何企业联系人，从搜客结果列表开始挖掘吧</p>
+                    <a href="搜客结果列表.html" class="inline-flex items-center gap-2 px-6 py-3 bg-cta hover:bg-cta/90 text-white rounded-xl font-medium transition-colors cursor-pointer">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                        去搜客结果页挖掘
+                    </a>
+                </div>
+            </div>
+
+            <!-- 错误状态 -->
+            <div id="errorState" class="hidden">
+                <div class="bg-white rounded-2xl shadow-sm border border-red-200 p-12 text-center">
+                    <div class="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-10 h-10 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-semibold text-primary mb-2">数据加载失败</h3>
+                    <p class="text-sm text-muted mb-2">无法获取静态线索列表，请检查网络连接后重试</p>
+                    <p class="text-xs text-slate-400 mb-6">错误代码：ERR_NETWORK_TIMEOUT</p>
+                    <button onclick="location.reload()" class="inline-flex items-center gap-2 px-6 py-3 bg-cta hover:bg-cta/90 text-white rounded-xl font-medium transition-colors cursor-pointer">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                        </svg>
+                        重新加载
+                    </button>
+                </div>
+            </div>
+
+            <!-- 正常状态：线索列表 -->
+            <div id="normalState" class="space-y-4">
                 <!-- 挖掘中的线索卡片 -->
                 <div class="bg-white rounded-2xl shadow-sm border border-cta/30 p-6 hover:shadow-md transition-all opacity-0 animate-fade-in-up cursor-pointer relative overflow-hidden" onclick="window.location.href='线索详情.html'">
                     <div class="flex items-start gap-4">
@@ -354,6 +541,81 @@
         </div>
     </footer>
 
+    <script>
+        // 页面状态管理
+        (function() {
+            const states = {
+                normal: document.getElementById('normalState'),
+                loading: document.getElementById('loadingState'),
+                empty: document.getElementById('emptyState'),
+                error: document.getElementById('errorState')
+            };
 
+            function showState(stateName) {
+                // 隐藏所有状态
+                Object.values(states).forEach(el => {
+                    if (el) el.classList.add('hidden');
+                });
+                // 显示指定状态
+                if (states[stateName]) {
+                    states[stateName].classList.remove('hidden');
+                }
+            }
+
+            // 监听状态切换器事件
+            window.addEventListener('statechange', function(e) {
+                const state = e.detail.state;
+                showState(state);
+            });
+
+            // 初始化：从 URL 参数读取状态
+            const urlParams = new URLSearchParams(window.location.search);
+            const initialState = urlParams.get('state') || 'normal';
+            showState(initialState);
+        })();
+
+        // 导出列表按钮状态演示
+        function handleExportClick(btn) {
+            const originalContent = btn.innerHTML;
+            btn.disabled = true;
+            btn.classList.add('opacity-75', 'cursor-not-allowed');
+            btn.innerHTML = `
+                <svg class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                </svg>
+                导出中...
+            `;
+
+            // 模拟导出完成
+            setTimeout(() => {
+                btn.innerHTML = `
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    导出成功
+                `;
+                btn.classList.remove('bg-slate-100', 'text-secondary');
+                btn.classList.add('bg-success', 'text-white');
+
+                // 2秒后恢复原状
+                setTimeout(() => {
+                    btn.innerHTML = originalContent;
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-75', 'cursor-not-allowed', 'bg-success', 'text-white');
+                    btn.classList.add('bg-slate-100', 'text-secondary');
+                }, 2000);
+            }, 1500);
+        }
+
+        // 为导出按钮绑定事件
+        document.addEventListener('DOMContentLoaded', function() {
+            const exportBtns = document.querySelectorAll('button');
+            exportBtns.forEach(btn => {
+                if (btn.textContent.includes('导出列表')) {
+                    btn.onclick = function() { handleExportClick(this); };
+                }
+            });
+        });
+    </script>
 </body>
 </html>

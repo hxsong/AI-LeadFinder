@@ -1,3 +1,8 @@
+<!--
+  关联文档：
+    - [模块设计](../../02-modules/03-静态数据获客.md)
+    - [功能说明](../../04-specs/搜客结果列表-说明.md)
+-->
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -55,7 +60,19 @@
             animation: modalIn 0.3s ease-out forwards;
         }
     </style>
-    <script src="../entry-nav.js"></script>
+    <script src="../scripts/entry-nav.js"></script>
+    <script>
+        // 状态切换器配置（必须在引入 state-switcher.js 之前定义）
+        window.STATE_SWITCHER_CONFIG = {
+            states: [
+                { key: 'normal', label: '默认状态', color: 'bg-success' },
+                { key: 'loading', label: '加载中', color: 'bg-cta' },
+                { key: 'empty', label: '无数据', color: 'bg-slate-400' },
+                { key: 'error', label: '错误', color: 'bg-red-500' }
+            ]
+        };
+    </script>
+    <script src="../scripts/state-switcher.js"></script>
 </head>
 <body class="bg-background font-sans min-h-screen">
     <!-- Navigation -->
@@ -91,7 +108,7 @@
     <!-- Main Content -->
     <main class="pt-28 pb-24 px-4">
         <div class="max-w-5xl mx-auto">
-            <!-- Progress Steps -->
+            <!-- Progress Steps - 在所有状态下显示 -->
             <div class="mb-10">
                 <div class="flex items-center justify-center gap-2">
                     <div class="flex items-center gap-2">
@@ -127,6 +144,77 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Loading State -->
+            <div id="loadingState" class="hidden">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-12">
+                    <div class="flex flex-col items-center justify-center py-12">
+                        <div class="relative w-20 h-20 mb-6">
+                            <div class="absolute inset-0 border-4 border-slate-100 rounded-full"></div>
+                            <div class="absolute inset-0 border-4 border-cta border-t-transparent rounded-full animate-spin"></div>
+                            <svg class="absolute inset-0 w-full h-full p-4 text-cta" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-primary mb-2">正在分析搜客结果</h2>
+                        <p class="text-muted text-center max-w-md">AI 正在对搜客结果进行智能评分和排序，请稍候...</p>
+                        <div class="mt-6 w-64 h-2 bg-slate-100 rounded-full overflow-hidden">
+                            <div class="h-full bg-cta rounded-full animate-pulse" style="width: 60%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="hidden">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-12">
+                    <div class="flex flex-col items-center justify-center py-12">
+                        <div class="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mb-6">
+                            <svg class="w-10 h-10 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-primary mb-2">暂无搜客结果</h2>
+                        <p class="text-muted text-center max-w-md mb-6">当前搜索条件未找到匹配的企业，建议调整搜索条件后重试</p>
+                        <a href="搜客需求输入.html" class="px-6 py-3 bg-cta hover:bg-cta/90 text-white rounded-xl font-medium transition-colors flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                            </svg>
+                            重新搜索
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error State -->
+            <div id="errorState" class="hidden">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-12">
+                    <div class="flex flex-col items-center justify-center py-12">
+                        <div class="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mb-6">
+                            <svg class="w-10 h-10 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <h2 class="text-xl font-semibold text-primary mb-2">搜客结果加载失败</h2>
+                        <p class="text-muted text-center max-w-md mb-2">网络连接异常或服务器繁忙，请稍后重试</p>
+                        <p class="text-xs text-slate-400 mb-6">错误代码: ERR_NETWORK_TIMEOUT</p>
+                        <div class="flex items-center gap-3">
+                            <button onclick="location.reload()" class="px-6 py-3 bg-cta hover:bg-cta/90 text-white rounded-xl font-medium transition-colors flex items-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                </svg>
+                                重新加载
+                            </button>
+                            <a href="搜客需求输入.html" class="px-6 py-3 border border-slate-200 text-secondary rounded-xl font-medium hover:bg-slate-50 transition-colors">
+                                返回修改条件
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Normal State -->
+            <div id="normalState">
             
             <!-- Success Banner -->
             <div class="bg-gradient-to-r from-success/10 to-accent/10 rounded-2xl p-6 mb-6 border border-success/20 opacity-0 animate-fade-in-up">
@@ -171,7 +259,7 @@
                             </svg>
                             重新搜索
                         </a>
-                        <button class="px-3 py-1.5 bg-slate-100 text-secondary text-sm rounded-lg hover:bg-slate-200 transition-colors flex items-center gap-1 cursor-pointer">
+                        <button id="exportBtn" onclick="exportList()" class="px-3 py-1.5 bg-slate-100 text-secondary text-sm rounded-lg hover:bg-slate-200 transition-colors flex items-center gap-1 cursor-pointer">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
                             </svg>
@@ -502,6 +590,7 @@
                     </div>
                 </div>
             </div>
+            </div><!-- /normalState -->
         </div>
     </main>
 
@@ -681,6 +770,25 @@
     </div>
 
     <script>
+        // 监听状态切换事件
+        window.addEventListener('statechange', function(e) {
+            const state = e.detail.state;
+            document.getElementById('normalState').classList.add('hidden');
+            document.getElementById('loadingState').classList.add('hidden');
+            document.getElementById('emptyState').classList.add('hidden');
+            document.getElementById('errorState').classList.add('hidden');
+            
+            if (state === 'normal') {
+                document.getElementById('normalState').classList.remove('hidden');
+            } else if (state === 'loading') {
+                document.getElementById('loadingState').classList.remove('hidden');
+            } else if (state === 'empty') {
+                document.getElementById('emptyState').classList.remove('hidden');
+            } else if (state === 'error') {
+                document.getElementById('errorState').classList.remove('hidden');
+            }
+        });
+
         function showRawDataModal(enterpriseId) {
             document.getElementById('rawDataModal').classList.remove('hidden');
             document.body.style.overflow = 'hidden';
@@ -699,6 +807,63 @@
         function hideContactModal() {
             document.getElementById('contactModal').classList.add('hidden');
             document.body.style.overflow = '';
+        }
+
+        // 导出列表功能
+        function exportList() {
+            const btn = document.getElementById('exportBtn');
+            const originalText = btn.innerHTML;
+            
+            // 显示加载状态
+            btn.disabled = true;
+            btn.innerHTML = `
+                <svg class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                导出中...
+            `;
+            
+            // 模拟导出过程
+            setTimeout(() => {
+                btn.innerHTML = `
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    导出成功
+                `;
+                btn.classList.remove('bg-slate-100', 'text-secondary');
+                btn.classList.add('bg-success', 'text-white');
+                
+                // 恢复原始状态
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                    btn.classList.remove('bg-success', 'text-white');
+                    btn.classList.add('bg-slate-100', 'text-secondary');
+                }, 2000);
+            }, 1500);
+        }
+
+        // 开始挖掘功能
+        function startMining(btn) {
+            const originalText = btn.innerHTML;
+            
+            // 显示加载状态
+            btn.disabled = true;
+            btn.innerHTML = `
+                <svg class="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                正在创建任务...
+            `;
+            
+            // 模拟创建任务过程
+            setTimeout(() => {
+                // 跳转到静态线索池页面
+                window.location.href = '静态线索池.html';
+            }, 1500);
         }
     </script>
 
@@ -771,9 +936,9 @@
                         <button onclick="hideContactModal()" class="flex-1 px-6 py-3 border border-slate-200 text-secondary rounded-xl font-medium hover:bg-slate-100 transition-colors cursor-pointer">
                             取消
                         </button>
-                        <a href="静态线索池.html" class="flex-1 px-6 py-3 bg-cta hover:bg-cta/90 text-white rounded-xl font-medium text-center transition-colors cursor-pointer">
+                        <button id="confirmMiningBtn" onclick="startMining(this)" class="flex-1 px-6 py-3 bg-cta hover:bg-cta/90 text-white rounded-xl font-medium text-center transition-colors cursor-pointer flex items-center justify-center gap-2">
                             确认并开始挖掘
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>

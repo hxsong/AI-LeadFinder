@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI LeadFinder - 商务方案与报价指南</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        primary: '#3B82F6', secondary: '#60A5FA', accent: '#10B981',
+                        cta: '#F97316', dark: '#1E293B', light: '#F8FAFC',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #F8FAFC; color: #1E293B; }
+        .glass-card {
+            background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards; opacity: 0; transform: translateY(20px);
+        }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
+        .delay-500 { animation-delay: 500ms; }
+        .tooltip-container { position: relative; }
+        .tooltip-content {
+            visibility: hidden; opacity: 0; position: absolute; bottom: 100%; left: 50%;
+            transform: translateX(-50%) translateY(10px); width: max-content; max-width: 450px;
+            padding: 1.5rem; background: rgba(30,41,59,0.98); color: white; border-radius: 0.75rem;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            z-index: 100; font-size: 0.875rem; line-height: 1.6; text-align: left;
+            border: 1px solid rgba(255,255,255,0.1); margin-bottom: 1rem;
+        }
+        .tooltip-content::after {
+            content: ""; position: absolute; top: 100%; left: 50%; margin-left: -8px;
+            border-width: 8px; border-style: solid; border-color: rgba(30,41,59,0.98) transparent transparent transparent;
+        }
+        .tooltip-container:hover .tooltip-content {
+            visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0);
+        }
+        .data-table { width: 100%; border-collapse: collapse; }
+        .data-table th { background: #F1F5F9; padding: 0.75rem 1rem; text-align: left; font-weight: 600; color: #475569; border-bottom: 2px solid #E2E8F0; }
+        .data-table td { padding: 0.75rem 1rem; border-bottom: 1px solid #E2E8F0; }
+        .data-table tr:hover { background: #F8FAFC; }
+        .pricing-card {
+            transition: all 0.3s ease;
+        }
+        .pricing-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+        }
+        .pricing-card.featured {
+            border: 2px solid #3B82F6;
+            position: relative;
+        }
+        .pricing-card.featured::before {
+            content: "推荐";
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #3B82F6;
+            color: white;
+            padding: 4px 16px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .feature-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .feature-list li::before {
+            content: "✓";
+            color: #10B981;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        .credits-bar {
+            height: 8px;
+            border-radius: 9999px;
+            background: #E2E8F0;
+            overflow: hidden;
+        }
+        .credits-bar-fill {
+            height: 100%;
+            border-radius: 9999px;
+            background: linear-gradient(90deg, #3B82F6, #60A5FA);
+        }
+    </style>
+</head>
+<body class="antialiased font-sans">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-3">
+                    <a href="00-index.html" class="text-xl font-bold text-primary tracking-tight">AI LeadFinder</a>
+                    <span class="text-gray-300">|</span>
+                    <span class="text-sm text-gray-600">商务方案与报价指南</span>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#model" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">商业模式</a>
+                    <a href="#pricing" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">费用结构</a>
+                    <a href="#packages" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">套餐方案</a>
+                    <a href="#credits" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">Credits</a>
+                    <a href="#templates" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">报价模板</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-[50vh] flex items-center justify-center pt-16 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
+            <div class="absolute top-20 right-10 w-72 h-72 bg-green-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
+            <div class="absolute -bottom-8 left-20 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
+        </div>
+        <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-primary text-xs font-semibold tracking-wide uppercase mb-6 animate-fade-in-up">
+                Pricing Guide
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold text-dark mb-6 leading-tight animate-fade-in-up delay-100">
+                AI LeadFinder<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">商务方案与报价指南</span>
+            </h1>
+            <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto animate-fade-in-up delay-200">
+                灵活的"系统服务费 + 资源购买"模式，按需付费，无版本限制
+            </p>
+        </div>
+    </section>
+
+    <!-- Business Model -->
+    <section id="model" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Business Model</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">商业模式</h2>
+            </div>
+
+            <div class="glass-card p-8 rounded-2xl mb-12">
+                <div class="text-center mb-8">
+                    <h3 class="text-2xl font-bold text-dark mb-4">"系统服务费 + 资源购买"</h3>
+                    <p class="text-gray-600">所有功能无版本限制，客户按需购买 BOT 席位和 Credits 资源</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-blue-50 rounded-xl p-6 tooltip-container group cursor-pointer">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-primary">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-dark">系统服务费</h4>
+                                <p class="text-sm text-gray-600">按年/BOT计费</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4">维持账号使用的基础费用，包含系统使用权限、全部功能开放、技术支持</p>
+                        <div class="text-2xl font-bold text-primary">3,000 元/年/BOT</div>
+                        <div class="tooltip-content">
+                            <strong>系统服务费</strong><br><br>
+                            按年计费，到期后系统入口关闭。BOT 席位本身无到期时间，但受系统服务期限制。
+                        </div>
+                    </div>
+                    <div class="bg-green-50 rounded-xl p-6 tooltip-container group cursor-pointer">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center text-accent">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-dark">Credits 资源</h4>
+                                <p class="text-sm text-gray-600">消耗型资源</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4">用于支付 API 调用和 AI 服务成本，永久有效，不清零</p>
+                        <div class="text-2xl font-bold text-accent">1,000 Credits = 1,000 元起</div>
+                        <div class="tooltip-content">
+                            <strong>Credits 资源</strong><br><br>
+                            消耗型资源，永久有效，不清零。用于支付 API 调用和 AI 服务成本。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Structure -->
+    <section id="pricing" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Pricing Structure</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">费用结构</h2>
+            </div>
+
+            <!-- System Service Fee -->
+            <div class="glass-card p-8 rounded-2xl mb-12">
+                <h3 class="text-xl font-bold text-dark mb-6">1. 系统服务费（按年/BOT计费）</h3>
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>计费项</th>
+                                <th>价格</th>
+                                <th>说明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">系统服务费</td>
+                                <td class="text-primary font-bold">3,000 元/年/BOT</td>
+                                <td>包含系统使用权限、全部功能开放、技术支持</td>
+                                <div class="tooltip-content">
+                                    <strong>系统服务费</strong><br><br>
+                                    按年计费，到期后系统入口关闭，所有功能不可用。BOT 席位本身无到期时间，但受系统服务期限制。
+                                </div>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-6 bg-yellow-50 rounded-lg p-4">
+                    <p class="font-semibold text-dark mb-2">重要说明：</p>
+                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                        <li>系统服务费按年计费，到期后系统入口关闭，所有功能不可用</li>
+                        <li>BOT 席位本身无到期时间，但受系统服务期限制</li>
+                        <li>系统到期后，已购买的 Credits 不会清除，但无法使用（需续费系统服务后才能恢复）</li>
+                        <li>新增 BOT 席位 = 增加系统服务费基数（3,000 元/年/BOT）</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Credits Packages -->
+            <div class="glass-card p-8 rounded-2xl mb-12">
+                <h3 class="text-xl font-bold text-dark mb-6">2. Credits 资源包</h3>
+                <p class="text-gray-600 mb-6">Credits 是消耗型资源，用于支付 API 调用和 AI 服务成本，<strong>永久有效，不清零</strong>。</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="pricing-card bg-white rounded-xl p-6 border border-gray-200 tooltip-container group cursor-pointer">
+                        <h4 class="font-bold text-dark mb-2">基础包</h4>
+                        <div class="text-3xl font-bold text-primary mb-2">1,000</div>
+                        <p class="text-sm text-gray-500 mb-4">Credits</p>
+                        <div class="text-xl font-bold text-dark">1,000 元</div>
+                        <div class="tooltip-content">
+                            <strong>基础包</strong><br><br>
+                            1,000 Credits，适合初创企业试用和小规模使用。
+                        </div>
+                    </div>
+                    <div class="pricing-card bg-white rounded-xl p-6 border border-gray-200 tooltip-container group cursor-pointer">
+                        <h4 class="font-bold text-dark mb-2">标准包</h4>
+                        <div class="text-3xl font-bold text-primary mb-2">5,000</div>
+                        <p class="text-sm text-gray-500 mb-4">Credits</p>
+                        <div class="text-xl font-bold text-dark">4,500 元</div>
+                        <div class="text-sm text-accent font-semibold">9折</div>
+                        <div class="tooltip-content">
+                            <strong>标准包</strong><br><br>
+                            5,000 Credits，享受 9 折优惠，适合成长型企业。
+                        </div>
+                    </div>
+                    <div class="pricing-card featured bg-white rounded-xl p-6 tooltip-container group cursor-pointer">
+                        <h4 class="font-bold text-dark mb-2">专业包</h4>
+                        <div class="text-3xl font-bold text-primary mb-2">20,000</div>
+                        <p class="text-sm text-gray-500 mb-4">Credits</p>
+                        <div class="text-xl font-bold text-dark">16,000 元</div>
+                        <div class="text-sm text-accent font-semibold">8折</div>
+                        <div class="tooltip-content">
+                            <strong>专业包</strong><br><br>
+                            20,000 Credits，享受 8 折优惠，适合中大型企业。
+                        </div>
+                    </div>
+                    <div class="pricing-card bg-white rounded-xl p-6 border border-gray-200 tooltip-container group cursor-pointer">
+                        <h4 class="font-bold text-dark mb-2">企业包</h4>
+                        <div class="text-3xl font-bold text-primary mb-2">100,000</div>
+                        <p class="text-sm text-gray-500 mb-4">Credits</p>
+                        <div class="text-xl font-bold text-dark">70,000 元</div>
+                        <div class="text-sm text-accent font-semibold">7折</div>
+                        <div class="tooltip-content">
+                            <strong>企业包</strong><br><br>
+                            100,000 Credits，享受 7 折优惠，适合大型企业和集团客户。
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature List -->
+            <div class="glass-card p-8 rounded-2xl">
+                <h3 class="text-xl font-bold text-dark mb-6">3. 功能清单（全部开放）</h3>
+                <p class="text-gray-600 mb-6">所有客户均可使用以下全部功能，无版本限制</p>
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th class="w-[18%]">模块分类</th>
+                                <th class="w-[22%]">功能模块</th>
+                                <th class="w-[20%]">功能项</th>
+                                <th class="w-[40%]">说明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td rowspan="4" class="font-semibold align-top">租户服务与资源管理</td>
+                                <td rowspan="4" class="align-top">多 BOT 工作台</td>
+                                <td>全局资源看板</td>
+                                <td>查看 Credits 余额、BOT 席位使用情况</td>
+                            </tr>
+                            <tr>
+                                <td>BOT 实例管理</td>
+                                <td>查看各 BOT 状态、线索数、Credits 消耗</td>
+                            </tr>
+                            <tr>
+                                <td>创建新 BOT</td>
+                                <td>在席位充足时创建新的获客 BOT</td>
+                            </tr>
+                            <tr>
+                                <td>数据隔离</td>
+                                <td>进入 BOT 后操作锁定在该 BOT 数据作用域内</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="7" class="font-semibold align-top">BOT 业务建模</td>
+                                <td rowspan="2" class="align-top">数据来源选择</td>
+                                <td>上传业务材料</td>
+                                <td>支持 PDF/WORD/MD/TXT 格式，最多 3 个文件，单文件 ≤5MB</td>
+                            </tr>
+                            <tr>
+                                <td>授权独立站</td>
+                                <td>选择已绑定的独立站作为数据来源</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2" class="align-top">AI 业务分析</td>
+                                <td>文本提取与结构化</td>
+                                <td>提取并结构化处理输入数据</td>
+                            </tr>
+                            <tr>
+                                <td>深度分析与 ICP 建模</td>
+                                <td>生成企业定位、业务类型、主营品类、核心优势</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="3" class="align-top">业务分析报告</td>
+                                <td>企业定位展示</td>
+                                <td>企业名称、业务类型标签、定位描述</td>
+                            </tr>
+                            <tr>
+                                <td>四维雷达图</td>
+                                <td>需求匹配度、购买能力、采购意向、活跃意向</td>
+                            </tr>
+                            <tr>
+                                <td>主营品类标签</td>
+                                <td>一级/二级分类标签展示</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="12" class="font-semibold align-top">静态数据获客</td>
+                                <td rowspan="4" class="align-top">搜客需求输入</td>
+                                <td>自然语言需求输入</td>
+                                <td>最多 500 字符</td>
+                            </tr>
+                            <tr>
+                                <td>快速筛选标签</td>
+                                <td>美国/欧洲/有海关记录/近期参展/大型企业</td>
+                            </tr>
+                            <tr>
+                                <td>目标企业数量设置</td>
+                                <td>范围 20-200，默认 100</td>
+                            </tr>
+                            <tr>
+                                <td>ICP 画像默认搜索</td>
+                                <td>未输入需求时使用 ICP 画像搜索</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="3" class="align-top">搜客策略预览</td>
+                                <td>策略解读</td>
+                                <td>展示数据源列表、筛选条件</td>
+                            </tr>
+                            <tr>
+                                <td>瀑布流执行计划</td>
+                                <td>展示各 API 调用步骤</td>
+                            </tr>
+                            <tr>
+                                <td>费用预估明细</td>
+                                <td>展示基础费用、动态溢价、总预估费用</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="3" class="align-top">搜客执行监控</td>
+                                <td>企业信息提取</td>
+                                <td>提取候选企业列表并清洗数据</td>
+                            </tr>
+                            <tr>
+                                <td>ICP 匹配打分</td>
+                                <td>四维评分计算，过滤低于阈值企业</td>
+                            </tr>
+                            <tr>
+                                <td>企业信息增强</td>
+                                <td>补充海关、展会、地图数据</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2" class="align-top">搜客记录管理</td>
+                                <td>历史记录列表</td>
+                                <td>按状态/时间筛选，展示需求摘要、状态、消耗</td>
+                            </tr>
+                            <tr>
+                                <td>失败任务重试</td>
+                                <td>支持最多 3 次重试</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="9" class="font-semibold align-top">动态数据获客</td>
+                                <td rowspan="2" class="align-top">探针部署</td>
+                                <td>JS 探针部署</td>
+                                <td>选择核心主站，复制探针代码嵌入网站</td>
+                            </tr>
+                            <tr>
+                                <td>IP 解析</td>
+                                <td>输入 IP 地址解析企业信息</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="4" class="align-top">访客雷达</td>
+                                <td>访客列表</td>
+                                <td>展示 IP、地理位置、访问页面、停留时长</td>
+                            </tr>
+                            <tr>
+                                <td>统计概览</td>
+                                <td>今日访客、总访客、回访客户数</td>
+                            </tr>
+                            <tr>
+                                <td>筛选与排序</td>
+                                <td>按时间范围、访问页面、地理位置筛选</td>
+                            </tr>
+                            <tr>
+                                <td>访客转线索</td>
+                                <td>将访客转为线索</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="3" class="align-top">访客行为详情</td>
+                                <td>访客基本信息</td>
+                                <td>IP、地理位置、ISP</td>
+                            </tr>
+                            <tr>
+                                <td>访问轨迹时间轴</td>
+                                <td>页面、停留时长、访问时间</td>
+                            </tr>
+                            <tr>
+                                <td>行为分析</td>
+                                <td>访问深度、兴趣页面、回访次数</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="5" class="font-semibold align-top">系统支撑功能</td>
+                                <td rowspan="4" class="align-top">Credits 计费</td>
+                                <td>透明预估算费</td>
+                                <td>执行前展示预估 Credits 消耗</td>
+                            </tr>
+                            <tr>
+                                <td>实际结算</td>
+                                <td>按真实 API 成功调用次数核算</td>
+                            </tr>
+                            <tr>
+                                <td>多退少补</td>
+                                <td>预估时锁定的多余 Credits 退回</td>
+                            </tr>
+                            <tr>
+                                <td>保底策略</td>
+                                <td>未查到邮箱/数据时扣费为 0</td>
+                            </tr>
+                            <tr>
+                                <td class="align-top">数据管理</td>
+                                <td>数据保留策略</td>
+                                <td>搜客记录 90 天、结果 7 天、联系人 90 天、访客 90 天</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Package Deals -->
+    <section id="packages" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Package Deals</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">套餐折扣（推荐方案）</h2>
+                <p class="text-gray-600">套餐仅为折扣组合，<strong>不影响任何功能权限</strong>，所有客户均可使用全部功能</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="pricing-card bg-white rounded-xl p-6 border border-gray-200 tooltip-container group cursor-pointer">
+                    <h4 class="font-bold text-dark mb-2">基础套餐</h4>
+                    <ul class="text-sm text-gray-600 space-y-2 mb-4">
+                        <li>• 1 BOT 年费</li>
+                        <li>• 2,000 Credits</li>
+                    </ul>
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-gray-400 line-through">5,000 元</span>
+                        <span class="text-lg font-bold text-primary">4,250 元</span>
+                    </div>
+                    <div class="text-sm text-accent font-semibold">85折</div>
+                    <div class="tooltip-content">
+                        <strong>基础套餐</strong><br><br>
+                        适合初创企业，1 个 BOT + 2,000 Credits，享受 85 折优惠。
+                    </div>
+                </div>
+                <div class="pricing-card bg-white rounded-xl p-6 border border-gray-200 tooltip-container group cursor-pointer">
+                    <h4 class="font-bold text-dark mb-2">标准套餐</h4>
+                    <ul class="text-sm text-gray-600 space-y-2 mb-4">
+                        <li>• 3 BOT 年费</li>
+                        <li>• 10,000 Credits</li>
+                    </ul>
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-gray-400 line-through">19,000 元</span>
+                        <span class="text-lg font-bold text-primary">15,200 元</span>
+                    </div>
+                    <div class="text-sm text-accent font-semibold">8折</div>
+                    <div class="tooltip-content">
+                        <strong>标准套餐</strong><br><br>
+                        适合成长型企业，3 个 BOT + 10,000 Credits，享受 8 折优惠。
+                    </div>
+                </div>
+                <div class="pricing-card featured bg-white rounded-xl p-6 tooltip-container group cursor-pointer">
+                    <h4 class="font-bold text-dark mb-2">高级套餐</h4>
+                    <ul class="text-sm text-gray-600 space-y-2 mb-4">
+                        <li>• 5 BOT 年费</li>
+                        <li>• 30,000 Credits</li>
+                    </ul>
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="text-gray-400 line-through">45,000 元</span>
+                        <span class="text-lg font-bold text-primary">33,750 元</span>
+                    </div>
+                    <div class="text-sm text-accent font-semibold">75折</div>
+                    <div class="tooltip-content">
+                        <strong>高级套餐</strong><br><br>
+                        适合中大型企业，5 个 BOT + 30,000 Credits，享受 75 折优惠。
+                    </div>
+                </div>
+                <div class="pricing-card bg-white rounded-xl p-6 border border-gray-200 tooltip-container group cursor-pointer">
+                    <h4 class="font-bold text-dark mb-2">定制套餐</h4>
+                    <ul class="text-sm text-gray-600 space-y-2 mb-4">
+                        <li>• 按需设计</li>
+                        <li>• BOT 数量 + Credits 额度</li>
+                    </ul>
+                    <div class="text-lg font-bold text-primary">面议</div>
+                    <div class="text-sm text-accent font-semibold">专属折扣</div>
+                    <div class="tooltip-content">
+                        <strong>定制套餐</strong><br><br>
+                        根据客户需求定制 BOT 数量和 Credits 额度，享受专属折扣。
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 text-center">
+                <p class="text-sm text-gray-500">*注：套餐价格为参考指导价，实际报价可根据客户情况浮动 ±15%。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Credits Consumption -->
+    <section id="credits" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Credits Consumption</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">Credits 消耗标准</h2>
+            </div>
+
+            <div class="glass-card p-8 rounded-2xl mb-12">
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>功能场景</th>
+                                <th>计费规则</th>
+                                <th>说明</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">全网搜客</td>
+                                <td>按实际 API 调用次数计费</td>
+                                <td>预估调用 → 后台折算 → 实际执行后多退少补</td>
+                                <div class="tooltip-content">
+                                    <strong>全网搜客计费</strong><br><br>
+                                    按实际 API 调用次数计费，预估调用后后台折算，实际执行后多退少补。
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">IP 解析</td>
+                                <td>3 Credits/次</td>
+                                <td>解析访客 IP 对应的企业信息</td>
+                                <div class="tooltip-content">
+                                    <strong>IP 解析计费</strong><br><br>
+                                    每次解析访客 IP 对应的企业信息消耗 3 Credits。
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">联系人挖掘</td>
+                                <td>2 Credits/有效邮箱</td>
+                                <td>获取 1 个带验证邮箱的联系人</td>
+                                <div class="tooltip-content">
+                                    <strong>联系人挖掘计费</strong><br><br>
+                                    获取 1 个带验证邮箱的联系人消耗 2 Credits。
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">附加社媒</td>
+                                <td>+1 Credit/个</td>
+                                <td>LinkedIn、Twitter/FB 等</td>
+                                <div class="tooltip-content">
+                                    <strong>附加社媒计费</strong><br><br>
+                                    获取 LinkedIn、Twitter/FB 等社媒信息，每个消耗 1 Credit。
+                                </div>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Billing Principles -->
+            <div class="glass-card p-8 rounded-2xl">
+                <h3 class="text-xl font-bold text-dark mb-6">计费原则</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="flex items-start gap-3 tooltip-container group cursor-pointer">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-primary font-bold flex-shrink-0">1</div>
+                        <div>
+                            <h4 class="font-bold text-dark">透明预估算费</h4>
+                            <p class="text-gray-600">执行前展示预估 Credits 消耗</p>
+                        </div>
+                        <div class="tooltip-content">
+                            <strong>透明预估算费</strong><br><br>
+                            执行前展示预估 Credits 消耗，让客户心中有数。
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3 tooltip-container group cursor-pointer">
+                        <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center text-accent font-bold flex-shrink-0">2</div>
+                        <div>
+                            <h4 class="font-bold text-dark">实际结算</h4>
+                            <p class="text-gray-600">按真实 API 成功调用次数核算</p>
+                        </div>
+                        <div class="tooltip-content">
+                            <strong>实际结算</strong><br><br>
+                            按真实 API 成功调用次数核算，确保公平合理。
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3 tooltip-container group cursor-pointer">
+                        <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 font-bold flex-shrink-0">3</div>
+                        <div>
+                            <h4 class="font-bold text-dark">多退少补</h4>
+                            <p class="text-gray-600">预估时锁定的多余 Credits 退回</p>
+                        </div>
+                        <div class="tooltip-content">
+                            <strong>多退少补</strong><br><br>
+                            预估时锁定的多余 Credits 退回账户，避免浪费。
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3 tooltip-container group cursor-pointer">
+                        <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center text-cta font-bold flex-shrink-0">4</div>
+                        <div>
+                            <h4 class="font-bold text-dark">保底策略</h4>
+                            <p class="text-gray-600">未查到邮箱/数据时，扣费为 0</p>
+                        </div>
+                        <div class="tooltip-content">
+                            <strong>保底策略</strong><br><br>
+                            未查到邮箱或数据时，扣费为 0，确保客户利益。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quote Templates -->
+    <section id="templates" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Quote Templates</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">报价模板</h2>
+            </div>
+
+            <!-- Scenario A -->
+            <div class="glass-card p-8 rounded-2xl mb-12 tooltip-container group cursor-pointer">
+                <h3 class="text-xl font-bold text-dark mb-4">场景 A：新客户标准报价</h3>
+                <div class="bg-gray-50 rounded-xl p-6">
+                    <p class="text-gray-600 mb-4">尊敬的客户：</p>
+                    <p class="text-gray-600 mb-4">根据贵司业务需求（XX 业务线 / XX 人销售团队），推荐以下方案：</p>
+                    <div class="bg-white rounded-lg p-4 mb-4">
+                        <p class="font-semibold text-dark mb-2">【方案配置】</p>
+                        <ul class="list-disc list-inside text-gray-600 space-y-1">
+                            <li>BOT 席位：5 个</li>
+                            <li>系统服务费：15,000 元/年（5 × 3,000 元）</li>
+                            <li>Credits 资源：30,000 Credits（高级套餐含）</li>
+                            <li>套餐总价：33,750 元（原价 45,000 元，75折）</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-lg p-4 mb-4">
+                        <p class="font-semibold text-dark mb-2">【费用明细】</p>
+                        <p class="text-gray-600">首年总计：33,750 元</p>
+                        <p class="text-gray-600">次年起：仅需支付系统服务费 15,000 元/年</p>
+                    </div>
+                    <div class="bg-white rounded-lg p-4 mb-4">
+                        <p class="font-semibold text-dark mb-2">【预期效果】</p>
+                        <ul class="list-disc list-inside text-gray-600 space-y-1">
+                            <li>月均新增线索：300-500 条</li>
+                            <li>S/A 级线索占比：60%+</li>
+                            <li>获客效率提升：3-5 倍</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-lg p-4">
+                        <p class="font-semibold text-dark mb-2">【付款方式】</p>
+                        <p class="text-gray-600">一次性支付：33,750 元</p>
+                        <p class="text-gray-600">或分期支付：首付 50%，余款 3 个月内付清</p>
+                    </div>
+                </div>
+                <div class="tooltip-content">
+                    <strong>新客户标准报价</strong><br><br>
+                    适用于首次购买的客户，提供完整的方案配置和费用明细。
+                </div>
+            </div>
+
+            <!-- Scenario B -->
+            <div class="glass-card p-8 rounded-2xl mb-12 tooltip-container group cursor-pointer">
+                <h3 class="text-xl font-bold text-dark mb-4">场景 B：试用转付费报价</h3>
+                <div class="bg-gray-50 rounded-xl p-6">
+                    <p class="text-gray-600 mb-4">尊敬的客户：</p>
+                    <p class="text-gray-600 mb-4">感谢您试用 AI LeadFinder。根据试用期间数据：</p>
+                    <div class="bg-white rounded-lg p-4 mb-4">
+                        <p class="font-semibold text-dark mb-2">【试用成果】</p>
+                        <ul class="list-disc list-inside text-gray-600 space-y-1">
+                            <li>累计获取线索：XX 条</li>
+                            <li>S/A 级线索：XX 条</li>
+                            <li>已识别访客：XX 家</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-lg p-4 mb-4">
+                        <p class="font-semibold text-dark mb-2">【推荐方案】</p>
+                        <ul class="list-disc list-inside text-gray-600 space-y-1">
+                            <li>基础套餐：4,250 元（1 BOT 年费 + 2,000 Credits）</li>
+                            <li>标准套餐：15,200 元（3 BOT 年费 + 10,000 Credits）</li>
+                            <li>高级套餐：33,750 元（5 BOT 年费 + 30,000 Credits）★推荐</li>
+                            <li>定制套餐：按需设计报价（10+ BOT 或特殊需求）</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-lg p-4">
+                        <p class="font-semibold text-dark mb-2">【限时优惠】</p>
+                        <ul class="list-disc list-inside text-gray-600 space-y-1">
+                            <li>本月签约，额外赠送 1,000 Credits</li>
+                            <li>推荐新用户，双方各获赠 500 Credits</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tooltip-content">
+                    <strong>试用转付费报价</strong><br><br>
+                    适用于试用后转化的客户，基于试用数据提供个性化推荐。
+                </div>
+            </div>
+
+            <!-- Scenario C -->
+            <div class="glass-card p-8 rounded-2xl mb-12 tooltip-container group cursor-pointer">
+                <h3 class="text-xl font-bold text-dark mb-4">场景 C：续费报价</h3>
+                <div class="bg-gray-50 rounded-xl p-6">
+                    <p class="text-gray-600 mb-4">尊敬的客户：</p>
+                    <p class="text-gray-600 mb-4">您的 AI LeadFinder 系统服务即将到期（到期日：XXXX-XX-XX）。</p>
+                    <div class="bg-white rounded-lg p-4 mb-4">
+                        <p class="font-semibold text-dark mb-2">【当前资源】</p>
+                        <ul class="list-disc list-inside text-gray-600 space-y-1">
+                            <li>BOT 席位：X 个</li>
+                            <li>剩余 Credits：X,XXX（永久有效）</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-lg p-4 mb-4">
+                        <p class="font-semibold text-dark mb-2">【续费方案】</p>
+                        <ul class="list-disc list-inside text-gray-600 space-y-1">
+                            <li>系统服务费：X × 3,000 = X,000 元/年</li>
+                            <li>如需补充 Credits，可叠加资源包购买</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-lg p-4">
+                        <p class="font-semibold text-dark mb-2">【续费优惠】</p>
+                        <ul class="list-disc list-inside text-gray-600 space-y-1">
+                            <li>提前 30 天续费：赠送 500 Credits</li>
+                            <li>续费 2 年：享受 9 折优惠</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tooltip-content">
+                    <strong>续费报价</strong><br><br>
+                    适用于到期续费的客户，提供续费方案和优惠政策。
+                </div>
+            </div>
+
+            <!-- Scenario D -->
+            <div class="glass-card p-8 rounded-2xl tooltip-container group cursor-pointer">
+                <h3 class="text-xl font-bold text-dark mb-4">场景 D：增购 BOT 报价</h3>
+                <div class="bg-gray-50 rounded-xl p-6">
+                    <p class="text-gray-600 mb-4">尊敬的客户：</p>
+                    <p class="text-gray-600 mb-4">根据贵司业务扩展需求，推荐增购 BOT 席位：</p>
+                    <div class="bg-white rounded-lg p-4 mb-4">
+                        <p class="font-semibold text-dark mb-2">【当前配置】</p>
+                        <ul class="list-disc list-inside text-gray-600 space-y-1">
+                            <li>BOT 席位：X 个</li>
+                            <li>年系统服务费：X,000 元</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-lg p-4 mb-4">
+                        <p class="font-semibold text-dark mb-2">【增购方案】</p>
+                        <ul class="list-disc list-inside text-gray-600 space-y-1">
+                            <li>新增 BOT：X 个</li>
+                            <li>新增系统服务费：X × 3,000 = X,000 元/年</li>
+                            <li>增购后年系统服务费总计：X,000 元/年</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-lg p-4">
+                        <p class="font-semibold text-dark mb-2">【生效时间】</p>
+                        <p class="text-gray-600">增购即时生效，系统服务期与当前周期同步</p>
+                    </div>
+                </div>
+                <div class="tooltip-content">
+                    <strong>增购 BOT 报价</strong><br><br>
+                    适用于业务扩展需要增购 BOT 的客户，提供增购方案和生效时间说明。
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Promotions -->
+    <section class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Promotions</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">优惠政策</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="glass-card p-8 rounded-2xl">
+                    <h3 class="text-xl font-bold text-dark mb-6">标准优惠</h3>
+                    <div class="overflow-x-auto">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>优惠类型</th>
+                                    <th>条件</th>
+                                    <th>优惠内容</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="tooltip-container group cursor-pointer">
+                                    <td class="font-semibold">套餐折扣</td>
+                                    <td>购买套餐组合</td>
+                                    <td>75-85 折</td>
+                                    <div class="tooltip-content">
+                                        <strong>套餐折扣</strong><br><br>
+                                        购买套餐组合享受 75-85 折优惠。
+                                    </div>
+                                </tr>
+                                <tr class="tooltip-container group cursor-pointer">
+                                    <td class="font-semibold">提前续费</td>
+                                    <td>到期前 30 天续费</td>
+                                    <td>赠送 500 Credits</td>
+                                    <div class="tooltip-content">
+                                        <strong>提前续费优惠</strong><br><br>
+                                        到期前 30 天续费赠送 500 Credits。
+                                    </div>
+                                </tr>
+                                <tr class="tooltip-container group cursor-pointer">
+                                    <td class="font-semibold">多年续费</td>
+                                    <td>一次性续费 2 年及以上</td>
+                                    <td>系统服务费 9 折</td>
+                                    <div class="tooltip-content">
+                                        <strong>多年续费优惠</strong><br><br>
+                                        一次性续费 2 年及以上享受系统服务费 9 折。
+                                    </div>
+                                </tr>
+                                <tr class="tooltip-container group cursor-pointer">
+                                    <td class="font-semibold">推荐奖励</td>
+                                    <td>推荐新用户成交</td>
+                                    <td>双方各 500 Credits</td>
+                                    <div class="tooltip-content">
+                                        <strong>推荐奖励</strong><br><br>
+                                        推荐新用户成交，双方各获赠 500 Credits。
+                                    </div>
+                                </tr>
+                                <tr class="tooltip-container group cursor-pointer">
+                                    <td class="font-semibold">试用转化</td>
+                                    <td>试用期内签约</td>
+                                    <td>赠送 500 Credits</td>
+                                    <div class="tooltip-content">
+                                        <strong>试用转化优惠</strong><br><br>
+                                        试用期内签约赠送 500 Credits。
+                                    </div>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="glass-card p-8 rounded-2xl">
+                    <h3 class="text-xl font-bold text-dark mb-6">大客户定制</h3>
+                    <p class="text-gray-600 mb-6">年消费 5 万以上的客户可享受：</p>
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3 tooltip-container group cursor-pointer">
+                            <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center text-primary font-bold flex-shrink-0">1</div>
+                            <div>
+                                <h4 class="font-bold text-dark">专属定价</h4>
+                                <p class="text-gray-600">面议</p>
+                            </div>
+                            <div class="tooltip-content">
+                                <strong>专属定价</strong><br><br>
+                                年消费 5 万以上客户可享受专属定价，具体面议。
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3 tooltip-container group cursor-pointer">
+                            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center text-accent font-bold flex-shrink-0">2</div>
+                            <div>
+                                <h4 class="font-bold text-dark">自定义 Credits 包购买</h4>
+                                <p class="text-gray-600">灵活配置</p>
+                            </div>
+                            <div class="tooltip-content">
+                                <strong>自定义 Credits 包</strong><br><br>
+                                支持自定义 Credits 包购买，灵活配置。
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3 tooltip-container group cursor-pointer">
+                            <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600 font-bold flex-shrink-0">3</div>
+                            <div>
+                                <h4 class="font-bold text-dark">专属客户成功经理</h4>
+                                <p class="text-gray-600">一对一服务</p>
+                            </div>
+                            <div class="tooltip-content">
+                                <strong>专属客户成功经理</strong><br><br>
+                                提供一对一专属客户成功经理服务。
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3 tooltip-container group cursor-pointer">
+                            <div class="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center text-cta font-bold flex-shrink-0">4</div>
+                            <div>
+                                <h4 class="font-bold text-dark">优先技术支持</h4>
+                                <p class="text-gray-600">快速响应</p>
+                            </div>
+                            <div class="tooltip-content">
+                                <strong>优先技术支持</strong><br><br>
+                                享受优先技术支持，快速响应解决问题。
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3 tooltip-container group cursor-pointer">
+                            <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center text-red-600 font-bold flex-shrink-0">5</div>
+                            <div>
+                                <h4 class="font-bold text-dark">定制化功能开发</h4>
+                                <p class="text-gray-600">按需定制</p>
+                            </div>
+                            <div class="tooltip-content">
+                                <strong>定制化功能开发</strong><br><br>
+                                支持定制化功能开发，满足个性化需求。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Free Trial -->
+    <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Free Trial</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">免费试用政策</h2>
+            </div>
+
+            <div class="glass-card p-8 rounded-2xl">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-blue-50 rounded-xl p-6 text-center tooltip-container group cursor-pointer">
+                        <div class="text-3xl font-bold text-primary mb-2">14 天</div>
+                        <p class="text-gray-600">试用期限</p>
+                        <div class="tooltip-content">
+                            <strong>试用期限</strong><br><br>
+                            提供 14 天免费试用期，充分体验产品功能。
+                        </div>
+                    </div>
+                    <div class="bg-green-50 rounded-xl p-6 text-center tooltip-container group cursor-pointer">
+                        <div class="text-3xl font-bold text-accent mb-2">500</div>
+                        <p class="text-gray-600">赠送 Credits</p>
+                        <div class="tooltip-content">
+                            <strong>赠送 Credits</strong><br><br>
+                            试用期间赠送 500 Credits，可体验完整功能。
+                        </div>
+                    </div>
+                    <div class="bg-purple-50 rounded-xl p-6 text-center tooltip-container group cursor-pointer">
+                        <div class="text-3xl font-bold text-purple-600 mb-2">1 个</div>
+                        <p class="text-gray-600">BOT 限制</p>
+                        <div class="tooltip-content">
+                            <strong>BOT 限制</strong><br><br>
+                            试用期间最多可创建 1 个 BOT。
+                        </div>
+                    </div>
+                    <div class="bg-orange-50 rounded-xl p-6 text-center tooltip-container group cursor-pointer">
+                        <div class="text-3xl font-bold text-cta mb-2">全部</div>
+                        <p class="text-gray-600">功能开放</p>
+                        <div class="tooltip-content">
+                            <strong>功能开放</strong><br><br>
+                            试用期间全部功能开放，无功能限制。
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-8 text-center">
+                    <p class="text-gray-600">试用期间产生的线索可带走，零风险体验完整功能</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark border-t border-white/10 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <span class="text-xl font-bold text-white tracking-tight">AI <span class="text-primary">LeadFinder</span></span>
+                <p class="text-gray-500 text-sm mt-1">让 AI 成为您的获客专家</p>
+            </div>
+            <div class="text-gray-500 text-sm">
+                &copy; 2026 AI LeadFinder. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,3 +1,8 @@
+<!--
+  关联文档：
+    - [模块设计](../../02-modules/04-动态数据获客.md)
+    - [功能说明](../../04-specs/搜客记录-说明.md)
+-->
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -36,7 +41,18 @@
         .animate-delay-200 { animation-delay: 0.2s; }
         .animate-delay-300 { animation-delay: 0.3s; }
     </style>
-    <script src="../entry-nav.js"></script>
+    <script src="../scripts/entry-nav.js"></script>
+    <script>
+        window.STATE_SWITCHER_CONFIG = {
+            states: [
+                { key: "normal", label: "正常状态", color: "bg-success" },
+                { key: "loading", label: "加载状态", color: "bg-accent" },
+                { key: "empty", label: "空状态", color: "bg-muted" },
+                { key: "error", label: "错误状态", color: "bg-red-500" }
+            ]
+        };
+    </script>
+    <script src="../scripts/state-switcher.js"></script>
 </head>
 <body class="bg-background font-sans min-h-screen">
     <!-- Navigation -->
@@ -126,8 +142,8 @@
                 </div>
             </div>
 
-            <!-- Records List -->
-            <div class="space-y-4 opacity-0 animate-fade-in-up animate-delay-300">
+            <!-- Records List - Normal State -->
+            <div id="records-normal" class="space-y-4 opacity-0 animate-fade-in-up animate-delay-300">
                 <!-- Record 1 -->
                 <a href="搜客结果列表.html" class="block bg-white rounded-2xl shadow-sm border border-slate-200/50 p-5 hover:shadow-md transition-shadow cursor-pointer">
                     <div class="flex items-start justify-between mb-3">
@@ -388,6 +404,106 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Loading State -->
+            <div id="records-loading" class="hidden space-y-4">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-8">
+                    <div class="flex flex-col items-center justify-center py-12">
+                        <div class="w-12 h-12 border-4 border-accent/20 border-t-accent rounded-full animate-spin mb-4"></div>
+                        <p class="text-primary font-medium">正在加载搜客记录...</p>
+                        <p class="text-sm text-muted mt-1">请稍候</p>
+                    </div>
+                </div>
+                <!-- Skeleton Loading Items -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-5 animate-pulse">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-slate-200 rounded-lg"></div>
+                            <div>
+                                <div class="w-24 h-3 bg-slate-200 rounded mb-2"></div>
+                                <div class="w-40 h-4 bg-slate-200 rounded"></div>
+                            </div>
+                        </div>
+                        <div class="w-16 h-6 bg-slate-200 rounded-lg"></div>
+                    </div>
+                    <div class="w-full h-3 bg-slate-200 rounded mb-3"></div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <div class="w-20 h-3 bg-slate-200 rounded"></div>
+                            <div class="w-24 h-3 bg-slate-200 rounded"></div>
+                        </div>
+                        <div class="w-16 h-3 bg-slate-200 rounded"></div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-5 animate-pulse">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-slate-200 rounded-lg"></div>
+                            <div>
+                                <div class="w-24 h-3 bg-slate-200 rounded mb-2"></div>
+                                <div class="w-48 h-4 bg-slate-200 rounded"></div>
+                            </div>
+                        </div>
+                        <div class="w-16 h-6 bg-slate-200 rounded-lg"></div>
+                    </div>
+                    <div class="w-full h-3 bg-slate-200 rounded mb-3"></div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <div class="w-20 h-3 bg-slate-200 rounded"></div>
+                            <div class="w-24 h-3 bg-slate-200 rounded"></div>
+                        </div>
+                        <div class="w-16 h-3 bg-slate-200 rounded"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty State -->
+            <div id="records-empty" class="hidden">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-8">
+                    <div class="flex flex-col items-center justify-center py-16">
+                        <div class="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mb-4">
+                            <svg class="w-10 h-10 text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-primary mb-2">暂无搜客记录</h3>
+                        <p class="text-sm text-muted text-center max-w-sm mb-6">您还没有创建过搜客任务，点击下方的按钮开始您的第一次智能搜客吧</p>
+                        <a href="搜客需求输入.html" class="px-6 py-3 bg-cta hover:bg-cta/90 text-white rounded-xl font-medium transition-all hover:shadow-lg hover:shadow-cta/20 flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                            </svg>
+                            新建搜客
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Error State -->
+            <div id="records-error" class="hidden">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/50 p-8">
+                    <div class="flex flex-col items-center justify-center py-16">
+                        <div class="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mb-4">
+                            <svg class="w-10 h-10 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-primary mb-2">记录加载失败</h3>
+                        <p class="text-sm text-muted text-center max-w-sm mb-2">无法获取搜客记录，可能是网络连接问题或服务器暂时不可用</p>
+                        <p class="text-xs text-red-400 mb-6">错误代码：ERR_NETWORK_TIMEOUT</p>
+                        <div class="flex items-center gap-3">
+                            <button onclick="location.reload()" class="px-5 py-2.5 bg-cta hover:bg-cta/90 text-white rounded-xl font-medium transition-all flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                </svg>
+                                重新加载
+                            </button>
+                            <a href="搜客需求输入.html" class="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-secondary rounded-xl font-medium transition-all">
+                                返回搜客配置
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -405,6 +521,61 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        // 页面状态切换逻辑
+        (function() {
+            const states = ['normal', 'loading', 'empty', 'error'];
+            
+            function switchState(newState) {
+                // 隐藏所有状态
+                states.forEach(state => {
+                    const el = document.getElementById('records-' + state);
+                    if (el) {
+                        el.classList.add('hidden');
+                    }
+                });
+                
+                // 显示目标状态
+                const targetEl = document.getElementById('records-' + newState);
+                if (targetEl) {
+                    targetEl.classList.remove('hidden');
+                }
+                
+                // 更新统计卡片和筛选栏的显示（空状态和错误状态隐藏）
+                const statsCards = document.querySelector('.grid.grid-cols-3');
+                const filterBar = document.querySelector('#records-normal').previousElementSibling;
+                
+                if (statsCards) {
+                    if (newState === 'empty' || newState === 'error') {
+                        statsCards.style.display = 'none';
+                        if (filterBar && filterBar.classList.contains('bg-white')) {
+                            filterBar.style.display = 'none';
+                        }
+                    } else {
+                        statsCards.style.display = 'grid';
+                        if (filterBar && filterBar.classList.contains('bg-white')) {
+                            filterBar.style.display = 'block';
+                        }
+                    }
+                }
+            }
+            
+            // 监听状态切换器事件
+            window.addEventListener('statechange', function(e) {
+                if (e.detail && e.detail.state) {
+                    switchState(e.detail.state);
+                }
+            });
+            
+            // 从 URL 初始化状态
+            const urlParams = new URLSearchParams(window.location.search);
+            const stateParam = urlParams.get('state');
+            if (stateParam && states.includes(stateParam)) {
+                switchState(stateParam);
+            }
+        })();
+    </script>
 
 </body>
 </html>

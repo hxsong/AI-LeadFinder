@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI LeadFinder - 演示指南与话术脚本</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        primary: '#3B82F6', secondary: '#60A5FA', accent: '#10B981',
+                        cta: '#F97316', dark: '#1E293B', light: '#F8FAFC',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #F8FAFC; color: #1E293B; }
+        .glass-card {
+            background: rgba(255,255,255,0.9); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards; opacity: 0; transform: translateY(20px);
+        }
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
+        .delay-500 { animation-delay: 500ms; }
+        .tooltip-container { position: relative; }
+        .tooltip-content {
+            visibility: hidden; opacity: 0; position: absolute; bottom: 100%; left: 50%;
+            transform: translateX(-50%) translateY(10px); width: max-content; max-width: 450px;
+            padding: 1.5rem; background: rgba(30,41,59,0.98); color: white; border-radius: 0.75rem;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3); transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+            z-index: 100; font-size: 0.875rem; line-height: 1.6; text-align: left;
+            border: 1px solid rgba(255,255,255,0.1); margin-bottom: 1rem;
+        }
+        .tooltip-content::after {
+            content: ""; position: absolute; top: 100%; left: 50%; margin-left: -8px;
+            border-width: 8px; border-style: solid; border-color: rgba(30,41,59,0.98) transparent transparent transparent;
+        }
+        .tooltip-container:hover .tooltip-content {
+            visibility: visible; opacity: 1; transform: translateX(-50%) translateY(0);
+        }
+        .data-table { width: 100%; border-collapse: collapse; }
+        .data-table th { background: #F1F5F9; padding: 0.75rem 1rem; text-align: left; font-weight: 600; color: #475569; border-bottom: 2px solid #E2E8F0; }
+        .data-table td { padding: 0.75rem 1rem; border-bottom: 1px solid #E2E8F0; }
+        .data-table tr:hover { background: #F8FAFC; }
+        .script-box {
+            background: #F8FAFC; border-left: 4px solid #3B82F6;
+            padding: 1.5rem; border-radius: 0 0.75rem 0.75rem 0;
+            font-style: italic; color: #475569;
+        }
+        .checklist-item {
+            display: flex; align-items: center; gap: 0.75rem;
+            padding: 0.75rem; border-radius: 0.5rem;
+        }
+        .checklist-item:hover { background: #F1F5F9; }
+        .check-circle {
+            width: 1.5rem; height: 1.5rem; border-radius: 50%;
+            border: 2px solid #CBD5E1; display: flex;
+            align-items: center; justify-content: center;
+            flex-shrink: 0;
+        }
+        .check-circle.checked { background: #10B981; border-color: #10B981; color: white; }
+        .phase-badge {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.5rem 1rem; border-radius: 9999px;
+            font-size: 0.875rem; font-weight: 600;
+        }
+        .phase-blue { background: #DBEAFE; color: #1D4ED8; }
+        .phase-green { background: #D1FAE5; color: #047857; }
+        .phase-purple { background: #EDE9FE; color: #6D28D9; }
+        .phase-orange { background: #FFEDD5; color: #C2410C; }
+        .phase-red { background: #FEE2E2; color: #B91C1C; }
+        .objection-card {
+            border-left: 4px solid #EF4444;
+            background: #FEF2F2;
+        }
+        .response-card {
+            border-left: 4px solid #10B981;
+            background: #ECFDF5;
+        }
+    </style>
+</head>
+<body class="antialiased font-sans">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-3">
+                    <a href="00-index.html" class="text-xl font-bold text-primary tracking-tight">AI LeadFinder</a>
+                    <span class="text-gray-300">|</span>
+                    <span class="text-sm text-gray-600">演示指南与话术脚本</span>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#preparation" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">演示前准备</a>
+                    <a href="#flow" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">标准演示流程</a>
+                    <a href="#objections" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">异议处理</a>
+                    <a href="#taboos" class="text-gray-600 hover:text-primary transition-colors text-sm font-medium">演示禁忌</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-[50vh] flex items-center justify-center pt-16 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
+            <div class="absolute top-20 right-10 w-72 h-72 bg-green-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
+            <div class="absolute -bottom-8 left-20 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
+        </div>
+        <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-primary text-xs font-semibold tracking-wide uppercase mb-6 animate-fade-in-up">
+                Demo Guide
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold text-dark mb-6 leading-tight animate-fade-in-up delay-100">
+                AI LeadFinder<br><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent">演示指南与话术脚本</span>
+            </h1>
+            <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto animate-fade-in-up delay-200">
+                30 分钟标准演示流程，从开场破冰到异议处理的全套话术
+            </p>
+        </div>
+    </section>
+
+    <!-- Preparation Section -->
+    <section id="preparation" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Preparation</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">演示前准备</h2>
+            </div>
+
+            <!-- Checklist -->
+            <div class="glass-card p-8 rounded-2xl mb-12">
+                <h3 class="text-xl font-bold text-dark mb-6">检查清单</h3>
+                <div class="space-y-3">
+                    <div class="checklist-item tooltip-container group cursor-pointer">
+                        <div class="check-circle checked">✓</div>
+                        <span class="text-gray-700">确认客户行业和痛点（参考 <a href="04-target-customer.html" class="text-primary hover:underline">目标客户画像</a>）</span>
+                        <div class="tooltip-content">
+                            <strong>确认客户行业和痛点</strong><br><br>
+                            提前了解客户所在行业、业务规模、核心痛点，以便针对性演示。
+                        </div>
+                    </div>
+                    <div class="checklist-item tooltip-container group cursor-pointer">
+                        <div class="check-circle checked">✓</div>
+                        <span class="text-gray-700">准备对应场景的演示数据（参考 <a href="06-typical-scenarios.html" class="text-primary hover:underline">典型场景方案</a>）</span>
+                        <div class="tooltip-content">
+                            <strong>准备演示数据</strong><br><br>
+                            根据客户行业准备对应的演示数据和案例。
+                        </div>
+                    </div>
+                    <div class="checklist-item tooltip-container group cursor-pointer">
+                        <div class="check-circle checked">✓</div>
+                        <span class="text-gray-700">测试演示环境（探针数据、搜客任务已就绪）</span>
+                        <div class="tooltip-content">
+                            <strong>测试演示环境</strong><br><br>
+                            确保探针数据正常回传，搜客任务已完成，演示环境稳定。
+                        </div>
+                    </div>
+                    <div class="checklist-item tooltip-container group cursor-pointer">
+                        <div class="check-circle checked">✓</div>
+                        <span class="text-gray-700">打印 <a href="01-one-pager.html" class="text-primary hover:underline">产品一页纸简介</a> 作为会前分发</span>
+                        <div class="tooltip-content">
+                            <strong>准备会前资料</strong><br><br>
+                            打印产品一页纸简介，会前分发给客户。
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Environment Requirements -->
+            <div class="glass-card p-8 rounded-2xl">
+                <h3 class="text-xl font-bold text-dark mb-6">演示环境要求</h3>
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>项目</th>
+                                <th>要求</th>
+                                <th>备注</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">网络</td>
+                                <td>稳定网络连接</td>
+                                <td>确保 API 调用正常</td>
+                                <div class="tooltip-content">
+                                    <strong>网络要求</strong><br><br>
+                                    稳定的网络连接是演示成功的基础，确保 API 调用和数据加载正常。
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">账号</td>
+                                <td>预配置演示账号</td>
+                                <td>已上传示例业务材料</td>
+                                <div class="tooltip-content">
+                                    <strong>演示账号</strong><br><br>
+                                    使用预配置的演示账号，已上传示例业务材料，确保演示流畅。
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">数据</td>
+                                <td>预执行搜客任务</td>
+                                <td>展示完整线索列表</td>
+                                <div class="tooltip-content">
+                                    <strong>演示数据</strong><br><br>
+                                    提前执行搜客任务，确保演示时展示完整的线索列表。
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">访客</td>
+                                <td>预部署探针的演示站</td>
+                                <td>有实时访客数据</td>
+                                <div class="tooltip-content">
+                                    <strong>访客数据</strong><br><br>
+                                    演示站已部署探针，有实时访客数据展示。
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="font-semibold">设备</td>
+                                <td>大屏幕/投影仪</td>
+                                <td>确保客户可见</td>
+                                <div class="tooltip-content">
+                                    <strong>演示设备</strong><br><br>
+                                    使用大屏幕或投影仪，确保所有客户都能清晰看到演示内容。
+                                </div>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Standard Demo Flow -->
+    <section id="flow" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Standard Demo Flow</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">标准演示流程（30 分钟）</h2>
+            </div>
+
+            <!-- Phase 1: Ice Breaker -->
+            <div class="glass-card p-8 rounded-2xl mb-12">
+                <div class="flex items-center gap-4 mb-6">
+                    <span class="phase-badge phase-blue">阶段一 · 3 分钟</span>
+                    <h3 class="text-xl font-bold text-dark">开场破冰</h3>
+                </div>
+                <div class="mb-6">
+                    <p class="text-sm text-gray-500 mb-2">目标：建立信任，确认客户痛点</p>
+                </div>
+                <div class="script-box mb-6 tooltip-container group cursor-pointer">
+                    <p class="mb-2">"张总，根据我们之前的沟通，了解到咱们目前主要面临两个挑战：一是新市场拓展时客户资源不足，二是独立站有流量但不知道访客是谁、谁在真正关注咱们的产品。今天我将用 30 分钟，向您展示 AI LeadFinder 如何用双引擎方案解决这两个问题。"</p>
+                    <div class="tooltip-content">
+                        <strong>开场破冰话术</strong><br><br>
+                        建立信任，确认客户痛点，为后续演示铺垫。
+                    </div>
+                </div>
+                <div class="bg-blue-50 rounded-lg p-4">
+                    <p class="font-semibold text-dark mb-2">关键动作：</p>
+                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                        <li>确认客户当前使用的获客方式</li>
+                        <li>记录客户提到的具体痛点（后续针对性演示）</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Phase 2: Product Overview -->
+            <div class="glass-card p-8 rounded-2xl mb-12">
+                <div class="flex items-center gap-4 mb-6">
+                    <span class="phase-badge phase-green">阶段二 · 5 分钟</span>
+                    <h3 class="text-xl font-bold text-dark">产品概述</h3>
+                </div>
+                <div class="mb-6">
+                    <p class="text-sm text-gray-500 mb-2">目标：让客户理解产品定位和价值</p>
+                    <p class="text-sm text-gray-500">演示内容：展示 <a href="01-one-pager.html" class="text-primary hover:underline">产品一页纸简介</a></p>
+                </div>
+                <div class="script-box mb-6 tooltip-container group cursor-pointer">
+                    <p class="mb-4">"AI LeadFinder 的核心是<strong>双引擎获客</strong>：</p>
+                    <ul class="list-disc list-inside space-y-2 mb-4">
+                        <li><strong>静态引擎</strong>：AI 主动全网搜客，基于海关、展会、地图等多源数据，帮您找到潜在客户</li>
+                        <li><strong>动态引擎</strong>：追踪独立站访客行为，实时识别高意向采购者</li>
+                    </ul>
+                    <p>双引擎数据融合，生成全景客户画像，让获客效率提升 3-5 倍。"</p>
+                    <div class="tooltip-content">
+                        <strong>产品概述话术</strong><br><br>
+                        强调双引擎获客核心概念，让客户理解产品定位和价值。
+                    </div>
+                </div>
+                <div class="bg-green-50 rounded-lg p-4">
+                    <p class="font-semibold text-dark mb-2">关键动作：</p>
+                    <ul class="list-disc list-inside text-gray-600 space-y-1">
+                        <li>用手绘/图示双引擎架构</li>
+                        <li>强调"全链路 AI"和"双引擎"两个唯一差异化</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Phase 3: Business Modeling -->
+            <div class="glass-card p-8 rounded-2xl mb-12">
+                <div class="flex items-center gap-4 mb-6">
+                    <span class="phase-badge phase-purple">阶段三 · 5 分钟</span>
+                    <h3 class="text-xl font-bold text-dark">业务建模演示</h3>
+                </div>
+                <div class="mb-6">
+                    <p class="text-sm text-gray-500 mb-2">目标：展示 AI 如何理解客户业务</p>
+                </div>
+                <div class="space-y-6">
+                    <div class="tooltip-container group cursor-pointer">
+                        <h4 class="font-bold text-dark mb-2">1. 上传业务材料</h4>
+                        <div class="script-box">
+                            <p>"您只需要上传产品资料，AI 会在 3 分钟内完成业务分析"</p>
+                        </div>
+                        <div class="tooltip-content">
+                            <strong>上传业务材料</strong><br><br>
+                            演示上传 PDF 产品画册，展示 AI 自动分析能力。
+                        </div>
+                    </div>
+                    <div class="tooltip-container group cursor-pointer">
+                        <h4 class="font-bold text-dark mb-2">2. 展示业务分析报告</h4>
+                        <div class="script-box">
+                            <p>"这是 AI 生成的业务分析报告。它不仅分析了咱们的主营产品和竞争优势，还推演了下游高潜客群。最重要的是，它自动生成了一套<strong>四维评分模型</strong>，后续所有线索都会按这个标准评估。"</p>
+                        </div>
+                        <div class="tooltip-content">
+                            <strong>业务分析报告</strong><br><br>
+                            展示 AI 生成的业务分析报告，强调四维评分模型。
+                        </div>
+                    </div>
+                    <div class="tooltip-container group cursor-pointer">
+                        <h4 class="font-bold text-dark mb-2">3. 展示 ICP 画像</h4>
+                        <div class="script-box">
+                            <p>"这是 AI 判断的咱们的理想客户画像。系统根据业务类型自动配置了评分权重——比如您是生产型企业，需求匹配度的权重就会更高（40%），因为产品对口是核心。"</p>
+                        </div>
+                        <div class="tooltip-content">
+                            <strong>ICP 画像展示</strong><br><br>
+                            展示 AI 生成的 ICP 画像，说明评分权重的动态调整。
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 4: Static Lead Generation -->
+            <div class="glass-card p-8 rounded-2xl mb-12">
+                <div class="flex items-center gap-4 mb-6">
+                    <span class="phase-badge phase-orange">阶段四 · 8 分钟</span>
+                    <h3 class="text-xl font-bold text-dark">静态获客演示</h3>
+                </div>
+                <div class="mb-6">
+                    <p class="text-sm text-gray-500 mb-2">目标：展示 AI 搜客的全流程和效果</p>
+                </div>
+                <div class="space-y-6">
+                    <div class="tooltip-container group cursor-pointer">
+                        <h4 class="font-bold text-dark mb-2">1. 自然语言输入需求</h4>
+                        <div class="script-box">
+                            <p>"搜客不需要复杂的筛选条件，用自然语言描述您的需求就行。AI 会自动理解并生成搜客策略。"</p>
+                        </div>
+                        <div class="tooltip-content">
+                            <strong>自然语言输入</strong><br><br>
+                            演示在搜客输入框输入"找一下东南亚的电子产品进口商"。
+                        </div>
+                    </div>
+                    <div class="tooltip-container group cursor-pointer">
+                        <h4 class="font-bold text-dark mb-2">2. 展示 AI 生成的搜客策略</h4>
+                        <div class="script-box">
+                            <p>"这是 AI 规划的搜客策略。它会决定先调用哪个 API、再调用哪个 API，并预估消耗多少 Credits。整个过程透明可见，您确认后才开始执行。"</p>
+                        </div>
+                        <div class="tooltip-content">
+                            <strong>搜客策略预览</strong><br><br>
+                            展示策略预览页，强调透明度和可控性。
+                        </div>
+                    </div>
+                    <div class="tooltip-container group cursor-pointer">
+                        <h4 class="font-bold text-dark mb-2">3. 展示搜索结果</h4>
+                        <div class="script-box">
+                            <p>"这是搜索结果。每条线索都有<strong>四维评分</strong>和<strong>AI 判词</strong>。比如这家企业 96 分，AI 判词说'命中海关与地域要求，且业务场景对防水需求极高'——销售一看就知道为什么跟进这家。"</p>
+                        </div>
+                        <div class="tooltip-content">
+                            <strong>搜索结果展示</strong><br><br>
+                            展示完整的线索列表，强调四维评分和 AI 判词的价值。
+                        </div>
+                    </div>
+                    <div class="tooltip-container group cursor-pointer">
+                        <h4 class="font-bold text-dark mb-2">4. 展示原始数据</h4>
+                        <div class="script-box">
+                            <p>"点击可以查看每条线索的底层数据依据——海关进口记录、展会参展历史、地图位置验证、官网内容摘要。数据真实可查，不是黑箱操作。"</p>
+                        </div>
+                        <div class="tooltip-content">
+                            <strong>原始数据展示</strong><br><br>
+                            展示底层数据依据，强调数据真实性和透明度。
+                        </div>
+                    </div>
+                    <div class="tooltip-container group cursor-pointer">
+                        <h4 class="font-bold text-dark mb-2">5. 演示联系人挖掘</h4>
+                        <div class="script-box">
+                            <p>"对高评分企业，可以一键挖掘关键决策人。系统会获取验证过的邮箱和 LinkedIn 主页，按实际获取价值扣费——没找到不收费。"</p>
+                        </div>
+                        <div class="tooltip-content">
+                            <strong>联系人挖掘</strong><br><br>
+                            演示联系人挖掘功能，强调按效果付费。
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 5: Dynamic Lead Generation -->
+            <div class="glass-card p-8 rounded-2xl">
+                <div class="flex items-center gap-4 mb-6">
+                    <span class="phase-badge phase-red">阶段五 · 6 分钟</span>
+                    <h3 class="text-xl font-bold text-dark">动态获客演示</h3>
+                </div>
+                <div class="mb-6">
+                    <p class="text-sm text-gray-500 mb-2">目标：展示访客分析的独特价值</p>
+                </div>
+                <div class="space-y-6">
+                    <div class="tooltip-container group cursor-pointer">
+                        <h4 class="font-bold text-dark mb-2">1. 展示访客雷达看板</h4>
+                        <div class="script-box">
+                            <p>"这是独立站的<strong>实时访客雷达</strong>。您能看到每个访客的 IP、地理位置、设备信息，以及 AI 分析的行为轨迹。"</p>
+                        </div>
+                        <div class="tooltip-content">
+                            <strong>访客雷达看板</strong><br><br>
+                            展示实时访客雷达，强调实时性和全面性。
+                        </div>
+                    </div>
+                    <div class="tooltip-container group cursor-pointer">
+                        <h4 class="font-bold text-dark mb-2">2. 展示微观行为分析</h4>
+                        <div class="script-box">
+                            <p>"看这个访客，95 分。AI 分析发现：</p>
+                            <ul class="list-disc list-inside space-y-1 mt-2">
+                                <li>他在产品页滚动深度 85%，看完了整个参数表</li>
+                                <li>复制了'亮度 7500 nits'这个技术参数——大概率在做内部竞品对比</li>
+                                <li>在 Contact Us 页面输入后放弃——说明有明确需求但可能有顾虑</li>
+                            </ul>
+                            <p class="mt-2">这种洞察，传统工具完全做不到。"</p>
+                        </div>
+                        <div class="tooltip-content">
+                            <strong>微观行为分析</strong><br><br>
+                            展示 AI 对访客行为的深度分析，强调差异化价值。
+                        </div>
+                    </div>
+                    <div class="tooltip-container group cursor-pointer">
+                        <h4 class="font-bold text-dark mb-2">3. 展示揭秘与线索转化</h4>
+                        <div class="script-box">
+                            <p>"对高意向访客，消耗 3 个 Credits 就能揭秘企业身份。系统会解析 IP 所属企业，并挖掘联系人。这个访客背后是一家佛罗里达的舞台设备公司，我们挖到了他们的采购副总裁。"</p>
+                        </div>
+                        <div class="tooltip-content">
+                            <strong>揭秘与线索转化</strong><br><br>
+                            演示揭秘企业身份和联系人挖掘，强调低门槛和高价值。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Objection Handling -->
+    <section id="objections" class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Objection Handling</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">常见异议处理</h2>
+            </div>
+
+            <div class="space-y-8">
+                <!-- Objection 1 -->
+                <div class="glass-card p-8 rounded-2xl tooltip-container group cursor-pointer">
+                    <h3 class="text-xl font-bold text-dark mb-4">异议一："数据准确性如何保证？"</h3>
+                    <div class="objection-card rounded-lg p-4 mb-4">
+                        <p class="font-semibold text-dark mb-2">客户疑虑：</p>
+                        <p class="text-gray-600">"你们的数据准确吗？会不会有很多错误？"</p>
+                    </div>
+                    <div class="response-card rounded-lg p-4">
+                        <p class="font-semibold text-dark mb-2">应对话术：</p>
+                        <div class="script-box border-l-4 border-green-500">
+                            <p class="mb-2">"我们的数据通过多层质量保证：</p>
+                            <ol class="list-decimal list-inside space-y-1">
+                                <li><strong>多源交叉验证</strong>：同一企业在海关、展会、地图、网页中的信息相互印证</li>
+                                <li><strong>实时验证</strong>：联系人邮箱通过 SMTP 实时验证，确保可送达</li>
+                                <li><strong>时效管理</strong>：超期数据自动标记，客户可自行判断</li>
+                                <li><strong>用户反馈</strong>：错误数据可一键反馈修正</li>
+                            </ol>
+                            <p class="mt-2">企业基础信息准确率 95%+，海关数据 98%+，验证后邮箱准确率 90%+。"</p>
+                        </div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>数据准确性异议</strong><br><br>
+                        强调多层质量保证机制，提供具体的准确率数据。
+                    </div>
+                </div>
+
+                <!-- Objection 2 -->
+                <div class="glass-card p-8 rounded-2xl tooltip-container group cursor-pointer">
+                    <h3 class="text-xl font-bold text-dark mb-4">异议二："会不会侵犯访客隐私？"</h3>
+                    <div class="objection-card rounded-lg p-4 mb-4">
+                        <p class="font-semibold text-dark mb-2">客户疑虑：</p>
+                        <p class="text-gray-600">"追踪访客行为会不会违反隐私法规？"</p>
+                    </div>
+                    <div class="response-card rounded-lg p-4">
+                        <p class="font-semibold text-dark mb-2">应对话术：</p>
+                        <div class="script-box border-l-4 border-green-500">
+                            <p class="mb-2">"完全合规。我们的探针严格遵循 GDPR 标准：</p>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>只采集公开网页上的交互行为，<strong>不采集表单输入内容</strong></li>
+                                <li>访客数据匿名存储，仅在您主动揭秘时才解析企业身份</li>
+                                <li>支持数据主体权利（访问、更正、删除）</li>
+                                <li>提供数据处理协议（DPA）</li>
+                            </ul>
+                            <p class="mt-2">技术上，探针异步加载、体积 <10KB，对网站性能影响 <1%，访客无感知。"</p>
+                        </div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>隐私合规异议</strong><br><br>
+                        强调 GDPR 合规，说明探针的技术特性和隐私保护措施。
+                    </div>
+                </div>
+
+                <!-- Objection 3 -->
+                <div class="glass-card p-8 rounded-2xl tooltip-container group cursor-pointer">
+                    <h3 class="text-xl font-bold text-dark mb-4">异议三："实施起来复杂吗？"</h3>
+                    <div class="objection-card rounded-lg p-4 mb-4">
+                        <p class="font-semibold text-dark mb-2">客户疑虑：</p>
+                        <p class="text-gray-600">"实施需要多长时间？需要 IT 团队配合吗？"</p>
+                    </div>
+                    <div class="response-card rounded-lg p-4">
+                        <p class="font-semibold text-dark mb-2">应对话术：</p>
+                        <div class="script-box border-l-4 border-green-500">
+                            <p class="mb-2">"非常简单，分三步：</p>
+                            <ol class="list-decimal list-inside space-y-1">
+                                <li><strong>业务建模</strong>：上传资料，AI 自动生成报告（1-2 天）</li>
+                                <li><strong>探针部署</strong>：复制代码到网站 &lt;head&gt; 标签（1 小时）</li>
+                                <li><strong>首次搜客</strong>：输入需求，AI 自动执行（2-20 分钟）</li>
+                            </ol>
+                            <p class="mt-2">整个过程 1-2 周即可完成，首周就能获取首批线索。不需要 IT 团队长期投入，也不需要改变现有工作流程。"</p>
+                        </div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>实施复杂度异议</strong><br><br>
+                        强调实施简单快速，1-2 周即可完成，无需长期 IT 投入。
+                    </div>
+                </div>
+
+                <!-- Objection 4 -->
+                <div class="glass-card p-8 rounded-2xl tooltip-container group cursor-pointer">
+                    <h3 class="text-xl font-bold text-dark mb-4">异议四："价格能不能优惠？"</h3>
+                    <div class="objection-card rounded-lg p-4 mb-4">
+                        <p class="font-semibold text-dark mb-2">客户疑虑：</p>
+                        <p class="text-gray-600">"价格有点高，能不能打折？"</p>
+                    </div>
+                    <div class="response-card rounded-lg p-4">
+                        <p class="font-semibold text-dark mb-2">应对话术：</p>
+                        <div class="script-box border-l-4 border-green-500">
+                            <p class="mb-2">"我们采用 SaaS 订阅 + Credits 用量付费的灵活模式：</p>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>基础版适合初创企业，1 个 BOT 起步</li>
+                                <li>专业版适合成长型企业，3-5 个 BOT</li>
+                                <li>企业版支持多业务线管理</li>
+                            </ul>
+                            <p class="mt-2">目前提供 <strong>14 天免费试用</strong>，赠送 200 Credits，您可以零风险体验完整功能。试用期间产生的真实线索，都可以免费带走。"</p>
+                        </div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>价格异议</strong><br><br>
+                        强调灵活定价和免费试用，降低客户决策门槛。
+                    </div>
+                </div>
+
+                <!-- Objection 5 -->
+                <div class="glass-card p-8 rounded-2xl tooltip-container group cursor-pointer">
+                    <h3 class="text-xl font-bold text-dark mb-4">异议五："我们已经在用其他工具了"</h3>
+                    <div class="objection-card rounded-lg p-4 mb-4">
+                        <p class="font-semibold text-dark mb-2">客户疑虑：</p>
+                        <p class="text-gray-600">"我们已经在用 ZoomInfo/Apollo 等工具，为什么还要用你们？"</p>
+                    </div>
+                    <div class="response-card rounded-lg p-4">
+                        <p class="font-semibold text-dark mb-2">应对话术：</p>
+                        <div class="script-box border-l-4 border-green-500">
+                            <p class="mb-2">"AI LeadFinder 不是替代您现有工具，而是<strong>补强获客前端</strong>：</p>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>用 AI LeadFinder 获取高质量线索</li>
+                                <li>线索可以导出到您的 CRM（如 HubSpot、Salesforce）做后续管理</li>
+                                <li>很多客户是 AI LeadFinder + CRM 的组合使用</li>
+                            </ul>
+                            <p class="mt-2">而且，双引擎中的动态访客分析是大多数工具不具备的——它能让您发现独立站上原本流失的高价值访客。"</p>
+                        </div>
+                    </div>
+                    <div class="tooltip-content">
+                        <strong>已有工具异议</strong><br><br>
+                        强调互补而非替代，突出动态访客分析的差异化价值。
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Taboos -->
+    <section id="taboos" class="py-24 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-semibold tracking-wide uppercase text-sm">Demo Taboos</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-dark mt-2 mb-4">演示禁忌</h2>
+            </div>
+
+            <div class="glass-card p-8 rounded-2xl">
+                <div class="overflow-x-auto">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th class="text-red-600">❌ 不要做</th>
+                                <th class="text-green-600">✅ 应该做</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="text-red-600">过度承诺"保证成交"</td>
+                                <td class="text-green-600">用数据说话，展示平均提升</td>
+                                <div class="tooltip-content">
+                                    <strong>避免过度承诺</strong><br><br>
+                                    用客观数据展示平均提升效果，避免绝对化承诺。
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="text-red-600">贬低竞品"XX 产品很烂"</td>
+                                <td class="text-green-600">强调差异化价值而非贬低</td>
+                                <div class="tooltip-content">
+                                    <strong>避免贬低竞品</strong><br><br>
+                                    强调自身差异化价值，而非贬低竞争对手。
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="text-red-600">演示复杂的技术实现</td>
+                                <td class="text-green-600">聚焦客户价值和效果</td>
+                                <div class="tooltip-content">
+                                    <strong>避免技术细节</strong><br><br>
+                                    聚焦客户价值和效果，避免陷入技术细节。
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="text-red-600">超过 30 分钟不切入 ROI</td>
+                                <td class="text-green-600">每 10 分钟强调一次价值</td>
+                                <div class="tooltip-content">
+                                    <strong>及时强调价值</strong><br><br>
+                                    每 10 分钟强调一次产品价值，保持客户关注度。
+                                </div>
+                            </tr>
+                            <tr class="tooltip-container group cursor-pointer">
+                                <td class="text-red-600">假设客户懂技术术语</td>
+                                <td class="text-green-600">用业务语言解释</td>
+                                <div class="tooltip-content">
+                                    <strong>使用业务语言</strong><br><br>
+                                    用客户熟悉的业务语言解释，避免技术术语。
+                                </div>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark border-t border-white/10 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <span class="text-xl font-bold text-white tracking-tight">AI <span class="text-primary">LeadFinder</span></span>
+                <p class="text-gray-500 text-sm mt-1">让 AI 成为您的获客专家</p>
+            </div>
+            <div class="text-gray-500 text-sm">
+                &copy; 2026 AI LeadFinder. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
