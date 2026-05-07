@@ -224,6 +224,19 @@
         // 获取所有可用的状态 key
         getAvailableStates() {
             return CONFIG.states.map(s => s.key);
+        },
+
+        // 设置当前状态（不触发跳转，仅更新UI）
+        setState(state) {
+            if (!CONFIG.states.some(s => s.key === state)) {
+                console.warn(`[StateSwitcher] 无效的状态: ${state}`);
+                return;
+            }
+            this.currentState = state;
+            // 更新菜单高亮
+            document.querySelectorAll('#stateMenu .state-menu-item').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.state === state);
+            });
         }
     };
 

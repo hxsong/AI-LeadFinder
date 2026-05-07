@@ -3,7 +3,7 @@
   关联模块: 02-modules/02-BOT业务建模.md
   功能说明: 04-specs/独立站授权-说明.md
   页面类型: form
-  最后更新: 2026-04-29
+  最后更新: 2026-05-07
 -->
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -360,26 +360,6 @@
                 </div>
             </div>
 
-            <!-- Summary Card -->
-            <div id="summaryCard" class="hidden bg-gradient-to-r from-orange-50 to-amber-50 rounded-2xl border border-orange-100 p-6 mb-8">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm">
-                            <svg class="w-6 h-6 text-cta" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                        </div>
-                        <div>
-                            <p class="text-sm text-slate-500">已选择站点</p>
-                            <p class="text-lg font-semibold text-slate-800" id="selectedSiteName">-</p>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-sm text-slate-500">预计分析时长</p>
-                        <p class="text-lg font-semibold text-cta">约 1-2 分钟</p>
-                    </div>
-                </div>
-            </div>
             </div>
         </div>
     </main>
@@ -438,8 +418,6 @@
             selectedSite = siteId;
 
             document.getElementById('dataPreview').classList.remove('hidden');
-            document.getElementById('summaryCard').classList.remove('hidden');
-            document.getElementById('selectedSiteName').textContent = siteData[siteId].name;
 
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = false;

@@ -1,6 +1,6 @@
 # AI业务分析中
 
-> **最后更新**：2026-04-29
+> **最后更新**：2026-05-07
 > **关联文档**：
 >   - [模块设计](../02-modules/02-BOT业务建模.md)
 >   - [原型页面](../03-prototypes/pages/AI业务分析中.html)
@@ -302,8 +302,8 @@ GET /api/v1/analysis/tasks/{task_id}/status
 **执行逻辑**：
 1. 页面加载时解析 URL 参数，获取 `bot_id`、`task_id`、`source`
 2. 根据 `source` 值切换前端文案：
-   - `upload`：展示"文本内容提取与结构化"相关文案
-   - `site`：展示"数据解析与结构化"相关文案
+   - `upload`：展示"文本内容提取与结构化"相关文案，页面标题为"AI 正在分析您的业务文档"
+   - `site`：展示"数据解析与结构化"相关文案，页面标题为"AI 正在分析您的独立站数据"
 3. 页面发起轮询请求获取任务状态，默认间隔 2 秒
 4. 系统根据返回的 `stages` 数据渲染进度卡片：
    - 等待中状态：灰色圆圈 + "等待中"标签
@@ -333,7 +333,8 @@ GET /api/v1/analysis/tasks/{task_id}/status
 | P07 进行中 | P07 完成 | stages[0].status 变为 completed |
 | P07 完成 | P08 进行中 | stages[1].status 变为 in_progress |
 | P08 进行中 | P08 完成 | stages[1].status 变为 completed |
-| P08 完成 | 处理完成 | overall_status 变为 completed |
+| P08 完成 | P09 进行中 | stages[2].status 变为 in_progress（原型展示）|
+| P09 进行中 | 处理完成 | overall_status 变为 completed |
 | 处理完成 | 已跳转 | 1.5s 延迟后执行页面跳转 |
 
 **输出**：实时进度 UI，处理完成自动跳转。
@@ -511,3 +512,5 @@ GET /api/v1/analysis/tasks/{task_id}/status
 |------------|------|---------|---------|
 | P07-ETL-Prompt | v1.0 | 2026-04-29 | 初始版本 |
 | P08-ICP-Prompt | v1.0 | 2026-04-29 | 初始版本 |
+
+

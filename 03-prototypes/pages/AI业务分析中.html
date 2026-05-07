@@ -3,7 +3,7 @@
   关联模块: 02-modules/02-BOT业务建模.md
   功能说明: 04-specs/AI业务分析中-说明.md
   页面类型: generic
-  最后更新: 2026-04-29
+  最后更新: 2026-05-07
 -->
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -34,6 +34,17 @@
     </script>
     <link rel="stylesheet" href="../styles/global.css">
     <script src="../scripts/entry-nav.js"></script>
+    <script>
+        window.STATE_SWITCHER_CONFIG = {
+            states: [
+                { key: 'upload', label: '上传文档状态', color: 'bg-blue-500' },
+                { key: 'site', label: '独立站授权状态', color: 'bg-orange-500' }
+            ],
+            position: 'top-24 right-4',
+            zIndex: 50
+        };
+    </script>
+    <script src="../scripts/state-switcher.js"></script>
     <style>
         .animate-spin-slow {
             animation: spin 3s linear infinite;
@@ -263,12 +274,16 @@
             upload: {
                 step1Title: '文本内容提取与结构化',
                 step1Desc: '使用 AI 模型提取文档中的客观业务事实，去除排版噪音',
-                statusText: '正在提取文本内容...'
+                statusText: '正在提取文本内容...',
+                pageTitle: 'AI 正在分析您的业务文档',
+                sourceLabel: '上传文档'
             },
             site: {
                 step1Title: '数据解析与结构化',
                 step1Desc: '解析独立站同步的结构化数据，提取核心业务信息',
-                statusText: '正在解析独立站数据...'
+                statusText: '正在解析独立站数据...',
+                pageTitle: 'AI 正在分析您的独立站数据',
+                sourceLabel: '独立站授权'
             }
         };
 
@@ -277,7 +292,21 @@
             document.getElementById('step1Title').textContent = config.step1Title;
             document.getElementById('step1Desc').textContent = config.step1Desc;
             document.getElementById('statusText').textContent = config.statusText;
+            document.querySelector('h1.text-2xl').textContent = config.pageTitle;
         }
+
+        window.addEventListener('statechange', function(e) {
+            const { state } = e.detail;
+            const newUrl = new URL(window.location.href);
+            newUrl.searchParams.set('source', state);
+            window.location.href = newUrl.toString();
+        });
+
+        window.addEventListener('DOMContentLoaded', function() {
+            if (window.StateSwitcher) {
+                window.StateSwitcher.setState(source);
+            }
+        });
 
         function updateStep1(progress) {
             step1Progress = progress;
