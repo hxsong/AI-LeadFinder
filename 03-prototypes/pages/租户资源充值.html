@@ -319,25 +319,25 @@
                             <h3 class="text-sm font-medium text-gray-800 mb-1">基础包</h3>
                             <p class="text-lg font-bold text-blue-600">1,000</p>
                             <p class="text-xs text-gray-500">Credits</p>
-                            <p class="text-sm text-gray-700 mt-1">1,000 元</p>
+                            <p class="text-sm text-gray-700 mt-1">100 元</p>
                         </div>
                         <div class="package-card border-2 border-gray-200 rounded-lg p-3 cursor-pointer text-center" onclick="toggleCreditPackage(this, 'standard')">
                             <h3 class="text-sm font-medium text-gray-800 mb-1">标准包</h3>
                             <p class="text-lg font-bold text-blue-600">5,000</p>
                             <p class="text-xs text-gray-500">Credits</p>
-                            <p class="text-sm text-gray-700 mt-1">4,500 元 <span class="text-xs text-red-500">9折</span></p>
+                            <p class="text-sm text-gray-700 mt-1">500 元</p>
                         </div>
                         <div class="package-card border-2 border-gray-200 rounded-lg p-3 cursor-pointer text-center" onclick="toggleCreditPackage(this, 'professional')">
                             <h3 class="text-sm font-medium text-gray-800 mb-1">专业包</h3>
                             <p class="text-lg font-bold text-blue-600">20,000</p>
                             <p class="text-xs text-gray-500">Credits</p>
-                            <p class="text-sm text-gray-700 mt-1">16,000 元 <span class="text-xs text-red-500">8折</span></p>
+                            <p class="text-sm text-gray-700 mt-1">2,000 元</p>
                         </div>
                         <div class="package-card border-2 border-gray-200 rounded-lg p-3 cursor-pointer text-center" onclick="toggleCreditPackage(this, 'enterprise')">
                             <h3 class="text-sm font-medium text-gray-800 mb-1">企业包</h3>
                             <p class="text-lg font-bold text-blue-600">100,000</p>
                             <p class="text-xs text-gray-500">Credits</p>
-                            <p class="text-sm text-gray-700 mt-1">70,000 元 <span class="text-xs text-red-500">7折</span></p>
+                            <p class="text-sm text-gray-700 mt-1">10,000 元</p>
                         </div>
                     </div>
                     <div class="mt-3 text-sm text-gray-600">
@@ -426,10 +426,10 @@
         let serviceYears = 0;
         let botAddCount = 0;
         let selectedCreditPackages = {
-            basic: { selected: false, credits: 1000, price: 1000 },
-            standard: { selected: false, credits: 5000, price: 4500 },
-            professional: { selected: false, credits: 20000, price: 16000 },
-            enterprise: { selected: false, credits: 100000, price: 70000 }
+            basic: { selected: false, credits: 1000, price: 100 },
+            standard: { selected: false, credits: 5000, price: 500 },
+            professional: { selected: false, credits: 20000, price: 2000 },
+            enterprise: { selected: false, credits: 100000, price: 10000 }
         };
         let featureEnabled = true;
 
