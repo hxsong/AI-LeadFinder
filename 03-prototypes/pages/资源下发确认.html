@@ -3,7 +3,7 @@
   关联模块: 02-modules/01-租户服务开通.md
   功能说明: 04-specs/资源下发确认-说明.md
   页面类型: modal
-  最后更新: 2026-04-29
+  最后更新: 2026-06-23（去除 Credits 资源包，AI 积分统一使用 Moli AI 点数）
 -->
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -302,29 +302,6 @@
                             </div>
                         </div>
 
-                        <!-- Credits 资源包 -->
-                        <div class="pb-4">
-                            <h3 class="text-sm font-medium text-gray-700 mb-3">Credits 资源包</h3>
-                            <div class="space-y-2">
-                                <div class="flex items-center justify-between text-sm bg-gray-50 rounded p-3">
-                                    <div class="flex items-center gap-4">
-                                        <span class="text-gray-700 font-medium">标准包</span>
-                                        <span class="text-gray-500">5,000 Credits</span>
-                                    </div>
-                                    <span class="text-orange-500 font-medium">500 元</span>
-                                </div>
-                                <div class="flex items-center justify-between text-sm bg-gray-50 rounded p-3">
-                                    <div class="flex items-center gap-4">
-                                        <span class="text-gray-700 font-medium">基础包</span>
-                                        <span class="text-gray-500">1,000 Credits</span>
-                                    </div>
-                                    <span class="text-orange-500 font-medium">100 元</span>
-                                </div>
-                            </div>
-                            <div class="mt-3 text-sm text-gray-600 text-right">
-                                Credits 费用合计：<span class="text-orange-500 font-medium">600 元</span>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -336,13 +313,9 @@
                             <span class="text-gray-600">系统服务费</span>
                             <span class="text-gray-800">42,000 元</span>
                         </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Credits 资源包费</span>
-                            <span class="text-gray-800">5,500 元</span>
-                        </div>
                         <div class="border-t border-gray-200 pt-2 mt-2 flex justify-between">
                             <span class="text-gray-800 font-medium">总计</span>
-                            <span class="text-xl font-bold text-orange-500">47,500 元</span>
+                            <span class="text-xl font-bold text-orange-500">42,000 元</span>
                         </div>
                     </div>
                 </div>
@@ -369,7 +342,7 @@
     <script>
         function confirmProvision() {
             if (confirm('确认资源下发生效？生效后费用将不可撤销。')) {
-                alert('资源下发已生效，租户余额已更新');
+                alert('资源下发已生效，系统服务及 BOT 席位已更新');
             }
         }
 

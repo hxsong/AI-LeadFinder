@@ -1,6 +1,6 @@
 # 多BOT工作台
 
-> **最后更新**：2026-05-29
+> **最后更新**：2026-06-23（去除 Credits 资源包，AI 积分统一使用 Moli AI 点数）
 > **关联文档**：
 >   - [模块设计](../02-modules/01-租户服务开通.md)
 >   - [原型页面](../03-prototypes/pages/多BOT工作台.html)
@@ -14,7 +14,7 @@
 
 | 前端展示字段 | 后端字段名 | 类型 | 来源/存储 | 说明 |
 |-------------|-----------|------|----------|------|
-| Global Credits 余额 | `global_credits_balance` | `number` | 接口返回 | 全账号共享资金池余额 |
+| Global MoliAI点数余额 | `moli_ai_balance` | `number` | 接口返回 | 全账号共享资金池余额 |
 | BOT 席位（已用） | `bot_seats_used` | `number` | 接口返回 | 当前 BOT 实例数 |
 | BOT 席位（总计） | `bot_seats_total` | `number` | 接口返回 | 租户购买的 BOT 席位总额度 |
 | 可用 BOT 席位 | `bot_seats_available` | `number` | 接口返回 | 服务端计算：bot_seats_total - bot_seats_used |
@@ -24,7 +24,7 @@
 | 业务画像状态 | `icp_status` | `string` | 接口返回 | 枚举值：pending / completed |
 | 静态线索数 | `static_leads_count` | `number` | 接口返回 | 静态线索池汇总数量 |
 | 动态线索数 | `dynamic_leads_count` | `number` | 接口返回 | 动态线索池汇总数量 |
-| Credits 消耗 | `credits_consumed` | `number` | 接口返回 | 该 BOT 累计消耗的 Credits |
+| MoliAI点数消耗 | `moli_ai_consumed` | `number` | 接口返回 | 该 BOT 累计消耗的 MoliAI点数 |
 | 创建时间 | `created_at` | `string` | 接口返回 | ISO 8601 时间戳 |
 | 当前活跃 BOT | `current_active_bot_id` | `string` | 本地存储 | 前端状态管理，存储于 localStorage，键名 `current_active_bot_id` |
 
@@ -32,7 +32,7 @@
 
 | 前端展示字段 | 后端字段名 | 类型 | 来源/存储 | 说明（含技术处理逻辑） |
 |-------------|-----------|------|----------|------------------------|
-| Global Credits 余额 | `global_credits_balance` | `number` | 接口返回 | 从 `tenant_configs` 表 `credits_balance` 字段查询，全账号共享资金池余额 |
+| Global MoliAI点数余额 | `moli_ai_balance` | `number` | 接口返回 | 从 `tenant_configs` 表 `moli_ai_balance` 字段查询，全账号共享资金池余额 |
 | BOT 席位（已用） | `bot_seats_used` | `number` | 接口返回 | 从 `bots` 表统计 `tenant_id` 对应的记录数，计算 `COUNT(*)` |
 | BOT 席位（总计） | `bot_seats_total` | `number` | 接口返回 | 从 `tenant_configs` 表 `bot_seats_total` 字段查询 |
 | 可用 BOT 席位 | `bot_seats_available` | `number` | 系统生成 | 服务端计算：`bot_seats_total - bot_seats_used` |
@@ -41,7 +41,7 @@
 | 业务画像状态 | `icp_status` | `string` | 接口返回 | BOT 创建后尚未完成业务画像初始化为 `pending`，已完成为 `completed` |
 | 静态线索数 | `static_leads_count` | `number` | 接口返回 | 从 `leads_static` 表实时统计 `COUNT(*)`，按 `bot_id` 分组 |
 | 动态线索数 | `dynamic_leads_count` | `number` | 接口返回 | 从 `leads_dynamic` 表实时统计 `COUNT(*)`，按 `bot_id` 分组 |
-| Credits 消耗 | `credits_consumed` | `number` | 接口返回 | 从 `bot_credits_logs` 表统计该 BOT 累计消耗，计算 `SUM(amount)` |
+| MoliAI点数消耗 | `moli_ai_consumed` | `number` | 接口返回 | 从 `bot_moli_ai_logs` 表统计该 BOT 累计消耗，计算 `SUM(amount)` |
 | 创建时间 | `created_at` | `string` | 接口返回 | 从 `bots` 表 `created_at` 字段查询，ISO 8601 时间戳 |
 
 ### 状态枚举定义
@@ -116,9 +116,9 @@
 
 1. 系统接收请求：页面加载时调用 `GET /api/v1/tenant/workspace` 接口
 2. 系统执行处理：
-   - 展示全局 Credits 余额（全账号共享资金池）
+   - 展示全局 MoliAI点数余额（全账号共享资金池）
    - 展示 BOT 席位使用情况（已创建 / 总额度）
-   - 展示 BOT 实例列表，每个卡片显示：名称、状态、累计线索数、Credits 消耗
+   - 展示 BOT 实例列表，每个卡片显示：名称、状态、累计线索数、MoliAI点数消耗
 3. 系统返回响应：渲染完整工作台 dashboard
 
 **边界条件**：
@@ -270,7 +270,7 @@
 
 | 前端字段 | 加工类型 | 技术处理逻辑 | 存储位置 |
 |---------|---------|--------------|---------|
-| Global Credits 余额 | 查询 | 从 `tenant_configs` 表 `credits_balance` 字段查询 | `tenant_configs.credits_balance` |
+| Global MoliAI点数余额 | 查询 | 从 `tenant_configs` 表 `moli_ai_balance` 字段查询 | `tenant_configs.moli_ai_balance` |
 | BOT 席位（已用） | 聚合计算 | 从 `bots` 表统计 `tenant_id` 对应的记录数，计算 `COUNT(*)` | 实时计算 |
 | BOT 席位（总计） | 查询 | 从 `tenant_configs` 表 `bot_seats_total` 字段查询 | `tenant_configs.bot_seats_total` |
 | 可用 BOT 席位 | 计算 | `bot_seats_total - bot_seats_used` | 实时计算 |
@@ -278,7 +278,7 @@
 | BOT 状态 | 条件判断 | 查询 `probe_logs` 表最近 24 小时是否有上报记录 | `bots.status` |
 | 静态线索数 | 聚合计算 | 从 `leads_static` 表实时统计 `COUNT(*)`，按 `bot_id` 分组 | 实时计算 |
 | 动态线索数 | 聚合计算 | 从 `leads_dynamic` 表实时统计 `COUNT(*)`，按 `bot_id` 分组 | 实时计算 |
-| Credits 消耗 | 聚合计算 | 从 `bot_credits_logs` 表统计该 BOT 累计消耗，计算 `SUM(amount)` | 实时计算 |
+| MoliAI点数消耗 | 聚合计算 | 从 `bot_moli_ai_logs` 表统计该 BOT 累计消耗，计算 `SUM(amount)` | 实时计算 |
 
 ### 计算逻辑
 
@@ -319,7 +319,7 @@ GET /api/v1/tenant/workspace
   "code": 200,
   "message": "操作成功",
   "data": {
-    "global_credits_balance": 35000,
+    "moli_ai_balance": 35000,
     "bot_seats_used": 1,
     "bot_seats_total": 3,
     "bot_seats_available": 2,
@@ -331,7 +331,7 @@ GET /api/v1/tenant/workspace
         "icp_status": "completed",
         "static_leads_count": 48,
         "dynamic_leads_count": 12,
-        "credits_consumed": 850,
+        "moli_ai_consumed": 850,
         "created_at": "2024-01-10T09:00:00Z"
       }
     ]

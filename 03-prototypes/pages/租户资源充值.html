@@ -3,7 +3,7 @@
   关联模块: 02-modules/01-租户服务开通.md
   功能说明: 04-specs/租户资源充值-说明.md
   页面类型: form
-  最后更新: 2026-04-29
+  最后更新: 2026-06-23（去除 Credits 资源包，AI 积分统一使用 Moli AI 点数）
 -->
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -308,41 +308,17 @@
                     </div>
                 </div>
 
-                <!-- Credits 资源包 -->
-                <div class="border border-gray-200 rounded-lg p-4 mb-4">
-                    <div class="flex items-center gap-2 mb-3">
-                        <span class="text-sm font-medium text-gray-800">Credits 资源包</span>
-                        <span class="text-xs text-gray-400">永久有效，不清零</span>
+                <!-- AI 积分说明 -->
+                <div class="border border-gray-200 rounded-lg p-4 mb-4 bg-blue-50">
+                    <div class="flex items-center gap-2 mb-2">
+                        <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <span class="text-sm font-medium text-blue-700">AI 积分说明</span>
                     </div>
-                    <div class="grid md:grid-cols-4 gap-3">
-                        <div class="package-card border-2 border-gray-200 rounded-lg p-3 cursor-pointer text-center" onclick="toggleCreditPackage(this, 'basic')">
-                            <h3 class="text-sm font-medium text-gray-800 mb-1">基础包</h3>
-                            <p class="text-lg font-bold text-blue-600">1,000</p>
-                            <p class="text-xs text-gray-500">Credits</p>
-                            <p class="text-sm text-gray-700 mt-1">100 元</p>
-                        </div>
-                        <div class="package-card border-2 border-gray-200 rounded-lg p-3 cursor-pointer text-center" onclick="toggleCreditPackage(this, 'standard')">
-                            <h3 class="text-sm font-medium text-gray-800 mb-1">标准包</h3>
-                            <p class="text-lg font-bold text-blue-600">5,000</p>
-                            <p class="text-xs text-gray-500">Credits</p>
-                            <p class="text-sm text-gray-700 mt-1">500 元</p>
-                        </div>
-                        <div class="package-card border-2 border-gray-200 rounded-lg p-3 cursor-pointer text-center" onclick="toggleCreditPackage(this, 'professional')">
-                            <h3 class="text-sm font-medium text-gray-800 mb-1">专业包</h3>
-                            <p class="text-lg font-bold text-blue-600">20,000</p>
-                            <p class="text-xs text-gray-500">Credits</p>
-                            <p class="text-sm text-gray-700 mt-1">2,000 元</p>
-                        </div>
-                        <div class="package-card border-2 border-gray-200 rounded-lg p-3 cursor-pointer text-center" onclick="toggleCreditPackage(this, 'enterprise')">
-                            <h3 class="text-sm font-medium text-gray-800 mb-1">企业包</h3>
-                            <p class="text-lg font-bold text-blue-600">100,000</p>
-                            <p class="text-xs text-gray-500">Credits</p>
-                            <p class="text-sm text-gray-700 mt-1">10,000 元</p>
-                        </div>
-                    </div>
-                    <div class="mt-3 text-sm text-gray-600">
-                        Credits 费用：<span class="text-orange-500 font-medium" id="creditsCost">0</span> 元
-                    </div>
+                    <p class="text-xs text-blue-600 leading-relaxed">
+                        AI 功能消耗已统一使用 Moli AI 点数计费。如需充值 AI 点数，请前往 Moli AI 系统操作。LeadFinder 不再单独提供 Credits 资源包充值。
+                    </p>
                 </div>
             </div>
         </main>
@@ -354,13 +330,12 @@
                 返回
             </button>
             <div class="flex items-center gap-6">
-                <div class="flex items-center gap-4 text-sm text-gray-600">
-                    <div>系统服务费：<span class="text-orange-500 font-medium" id="footerServiceCost">0</span> 元</div>
-                    <div>Credits 费：<span class="text-orange-500 font-medium" id="footerCreditsCost">0</span> 元</div>
-                    <div class="border-l border-gray-300 pl-4">
-                        总计：<span class="text-lg font-bold text-orange-500" id="totalCost">0</span> 元
+                    <div class="flex items-center gap-4 text-sm text-gray-600">
+                        <div>系统服务费：<span class="text-orange-500 font-medium" id="footerServiceCost">0</span> 元</div>
+                        <div class="border-l border-gray-300 pl-4">
+                            总计：<span class="text-lg font-bold text-orange-500" id="totalCost">0</span> 元
+                        </div>
                     </div>
-                </div>
                 <button id="submitBtn" class="px-6 py-2 bg-gray-400 text-white rounded text-sm cursor-not-allowed" disabled onclick="confirmPurchase()">
                     确认购买
                 </button>
@@ -425,12 +400,6 @@
 
         let serviceYears = 0;
         let botAddCount = 0;
-        let selectedCreditPackages = {
-            basic: { selected: false, credits: 1000, price: 100 },
-            standard: { selected: false, credits: 5000, price: 500 },
-            professional: { selected: false, credits: 20000, price: 2000 },
-            enterprise: { selected: false, credits: 100000, price: 10000 }
-        };
         let featureEnabled = true;
 
         function toggleFeature() {
@@ -465,43 +434,25 @@
             updateTotals();
         }
 
-        function toggleCreditPackage(element, pkg) {
-            selectedCreditPackages[pkg].selected = !selectedCreditPackages[pkg].selected;
-            if (selectedCreditPackages[pkg].selected) {
-                element.classList.add('selected');
-            } else {
-                element.classList.remove('selected');
-            }
-            updateTotals();
-        }
-
         function updateTotals() {
             // 计算总服务年数（向上取整）
             const totalYears = Math.ceil(remainingYears + serviceYears);
             const remainingYearsCeil = Math.ceil(remainingYears);
-            
+
             // 系统服务费 = (当前BOT席位数 × 新增年数 + 新增BOT席位数 × 总年数) × 单价
             const existingBotFee = currentBotSeats * serviceYears;
             const newBotFee = botAddCount * totalYears;
             const serviceCost = (existingBotFee + newBotFee) * servicePricePerYear;
-            
-            let creditsCost = 0;
-            for (const pkg in selectedCreditPackages) {
-                if (selectedCreditPackages[pkg].selected) {
-                    creditsCost += selectedCreditPackages[pkg].price;
-                }
-            }
-            const total = serviceCost + creditsCost;
+
+            const total = serviceCost;
 
             document.getElementById('serviceCost').textContent = serviceCost.toLocaleString();
-            document.getElementById('creditsCost').textContent = creditsCost.toLocaleString();
             document.getElementById('footerServiceCost').textContent = serviceCost.toLocaleString();
-            document.getElementById('footerCreditsCost').textContent = creditsCost.toLocaleString();
             document.getElementById('totalCost').textContent = total.toLocaleString();
 
             // 更新剩余年数显示（向上取整）
             document.getElementById('remainingYearsDisplay').textContent = remainingYearsCeil;
-            
+
             // 更新增购后席位显示
             const totalSeatsAfterAdd = currentBotSeats + botAddCount;
             document.getElementById('totalSeatsAfterAdd').textContent = totalSeatsAfterAdd;
@@ -517,7 +468,7 @@
             document.getElementById('newExpiryDate').textContent = formattedDate;
 
             const btn = document.getElementById('submitBtn');
-            const hasSelection = serviceYears > 0 || botAddCount > 0 || creditsCost > 0;
+            const hasSelection = serviceYears > 0 || botAddCount > 0;
             if (hasSelection) {
                 btn.disabled = false;
                 btn.className = 'px-6 py-2 bg-blue-500 text-white rounded text-sm cursor-pointer hover:bg-blue-600';
