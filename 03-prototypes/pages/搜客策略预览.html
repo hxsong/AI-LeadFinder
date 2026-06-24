@@ -3,7 +3,7 @@
   关联模块: 02-modules/03-静态数据获客.md
   功能说明: 04-specs/搜客策略预览-说明.md
   页面类型: generic
-  最后更新: 2026-06-23（去除 MoliAI点数 资源包，AI 积分统一使用 Moli AI 点数）
+  最后更新: 2026-06-23（改为单一主数据源策略，系统强制 Jina Reader 深度验证）
 -->
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -301,7 +301,7 @@
                     </div>
                     <div>
                         <h3 class="font-semibold text-primary mb-2">AI 策略解读</h3>
-                        <p class="text-secondary">系统将优先在欧洲地图雷达扫描登山装备品牌代理商，并结合海关与展会数据进行深度交叉信调，确保筛选出最具转化潜力的 B2B 客户。</p>
+                        <p class="text-secondary">用户意图明确指向欧洲地区的登山装备分销商，系统将使用 Google Maps 进行多关键词、多区域的阶梯式搜索，覆盖核心关键词、同义词扩展及地理细分，随后由系统进行网页深度验证以确保与 ICP 画像的匹配度。</p>
                     </div>
                 </div>
             </div>
@@ -316,7 +316,7 @@
                 </h3>
                 
                 <div class="space-y-4">
-                    <!-- Step 1 -->
+                    <!-- Step 1: 主数据源第1次调用 -->
                     <div class="flex gap-4">
                         <div class="flex flex-col items-center">
                             <div class="w-10 h-10 bg-cta text-white rounded-full flex items-center justify-center font-semibold text-sm">1</div>
@@ -324,21 +324,20 @@
                         </div>
                         <div class="flex-1 pb-4">
                             <div class="flex items-center justify-between mb-2">
-                                <h4 class="font-medium text-primary">地图企业扫描 - 欧洲登山装备品牌代理商</h4>
-                                <span class="px-2 py-1 bg-blue-50 text-blue-600 text-xs font-medium rounded-lg">地图服务</span>
+                                <h4 class="font-medium text-primary">地图搜索 - 欧洲登山装备分销商</h4>
+                                <span class="px-2 py-1 bg-blue-50 text-blue-600 text-xs font-medium rounded-lg">地图服务 · AI 生成</span>
                             </div>
-                            <p class="text-sm text-muted mb-2">按地理位置和实体类型搜索目标企业</p>
+                            <p class="text-sm text-muted mb-2">第 1 次搜索：使用核心关键词获取欧洲地区登山装备分销商</p>
                             <div class="bg-slate-50 rounded-lg p-3 text-xs space-y-1">
-                                <div><span class="text-muted">textQuery:</span> <code class="text-secondary">"mountaineering equipment brand distributor"</code></div>
-                                <div><span class="text-muted">includedType:</span> <code class="text-secondary">"store"</code></div>
-                                <div><span class="text-muted">locationRestriction:</span> <code class="text-secondary">Europe (DE, FR, GB, IT, ES, NL, BE, AT, CH, SE)</code></div>
-                                <div><span class="text-muted">pageSize:</span> <code class="text-secondary">20</code></div>
+                                <div><span class="text-muted">query:</span> <code class="text-secondary">"mountaineering equipment distributor"</code></div>
+                                <div><span class="text-muted">location:</span> <code class="text-secondary">"Europe"</code></div>
+                                <div><span class="text-muted">limit:</span> <code class="text-secondary">20</code></div>
                             </div>
-                            <p class="text-xs text-accent mt-2">预期输出：获取欧洲地区登山装备品牌代理商候选列表，预计返回 20-40 条企业记录</p>
+                            <p class="text-xs text-accent mt-2">预期输出：获取 20 条欧洲登山装备分销商记录</p>
                         </div>
                     </div>
 
-                    <!-- Step 2 -->
+                    <!-- Step 2: 主数据源第2次调用（不同关键词） -->
                     <div class="flex gap-4">
                         <div class="flex flex-col items-center">
                             <div class="w-10 h-10 bg-cta text-white rounded-full flex items-center justify-center font-semibold text-sm">2</div>
@@ -346,22 +345,20 @@
                         </div>
                         <div class="flex-1 pb-4">
                             <div class="flex items-center justify-between mb-2">
-                                <h4 class="font-medium text-primary">海关数据交叉验证 - 筛选有进出口记录的企业</h4>
-                                <span class="px-2 py-1 bg-green-50 text-green-600 text-xs font-medium rounded-lg">海关服务</span>
+                                <h4 class="font-medium text-primary">地图搜索 - 欧洲户外用品进口商</h4>
+                                <span class="px-2 py-1 bg-blue-50 text-blue-600 text-xs font-medium rounded-lg">地图服务 · AI 生成</span>
                             </div>
-                            <p class="text-sm text-muted mb-2">验证候选企业的进出口记录</p>
+                            <p class="text-sm text-muted mb-2">第 2 次搜索：使用同义词扩展，覆盖更多潜在企业</p>
                             <div class="bg-slate-50 rounded-lg p-3 text-xs space-y-1">
-                                <div><span class="text-muted">searchField:</span> <code class="text-secondary">"product"</code></div>
-                                <div><span class="text-muted">searchTerm:</span> <code class="text-secondary">"mountaineering OR hiking OR climbing equipment"</code></div>
-                                <div><span class="text-muted">hs_codes:</span> <code class="text-secondary">950691, 420212, 640399</code></div>
-                                <div><span class="text-muted">countries:</span> <code class="text-secondary">de, fr, gb, it, es, nl</code></div>
-                                <div><span class="text-muted">date_range:</span> <code class="text-secondary">2024-01-01 ~ 2025-03-04</code></div>
+                                <div><span class="text-muted">query:</span> <code class="text-secondary">"outdoor gear importer"</code></div>
+                                <div><span class="text-muted">location:</span> <code class="text-secondary">"Europe"</code></div>
+                                <div><span class="text-muted">limit:</span> <code class="text-secondary">20</code></div>
                             </div>
-                            <p class="text-xs text-accent mt-2">预期输出：验证候选企业的进出口记录，筛选出有海关交易记录的企业</p>
+                            <p class="text-xs text-accent mt-2">预期输出：获取 20 条欧洲户外用品进口商记录</p>
                         </div>
                     </div>
 
-                    <!-- Step 3 -->
+                    <!-- Step 3: 主数据源第3次调用（不同关键词+地区细分） -->
                     <div class="flex gap-4">
                         <div class="flex flex-col items-center">
                             <div class="w-10 h-10 bg-cta text-white rounded-full flex items-center justify-center font-semibold text-sm">3</div>
@@ -369,37 +366,75 @@
                         </div>
                         <div class="flex-1 pb-4">
                             <div class="flex items-center justify-between mb-2">
-                                <h4 class="font-medium text-primary">展会数据交叉验证 - 筛选有参展记录的企业</h4>
-                                <span class="px-2 py-1 bg-purple-50 text-purple-600 text-xs font-medium rounded-lg">展会服务</span>
+                                <h4 class="font-medium text-primary">地图搜索 - 阿尔卑斯山区登山设备供应商</h4>
+                                <span class="px-2 py-1 bg-blue-50 text-blue-600 text-xs font-medium rounded-lg">地图服务 · AI 生成</span>
                             </div>
-                            <p class="text-sm text-muted mb-2">获取欧洲户外展会参展商名单</p>
+                            <p class="text-sm text-muted mb-2">第 3 次搜索：细化到阿尔卑斯山区，使用更具体的关键词</p>
                             <div class="bg-slate-50 rounded-lg p-3 text-xs space-y-1">
-                                <div><span class="text-muted">location:</span> <code class="text-secondary">"Europe"</code></div>
-                                <div><span class="text-muted">query:</span> <code class="text-secondary">"outdoor mountaineering hiking climbing"</code></div>
-                                <div><span class="text-muted">category:</span> <code class="text-secondary">172 (户外用品)</code></div>
-                                <div><span class="text-muted">eventType:</span> <code class="text-secondary">"tradeshow"</code></div>
-                                <div><span class="text-muted">date_range:</span> <code class="text-secondary">2024-01-01 ~ 2025-12-31</code></div>
+                                <div><span class="text-muted">query:</span> <code class="text-secondary">"climbing equipment supplier"</code></div>
+                                <div><span class="text-muted">location:</span> <code class="text-secondary">"Alps region (CH, AT, FR, IT)"</code></div>
+                                <div><span class="text-muted">limit:</span> <code class="text-secondary">20</code></div>
                             </div>
-                            <p class="text-xs text-accent mt-2">预期输出：获取欧洲户外展会参展商名单，交叉验证候选企业的参展记录</p>
+                            <p class="text-xs text-accent mt-2">预期输出：获取 20 条阿尔卑斯山区登山设备供应商记录</p>
                         </div>
                     </div>
 
-                    <!-- Step 4 -->
+                    <!-- Step 4: 主数据源第4次调用（补充搜索） -->
                     <div class="flex gap-4">
                         <div class="flex flex-col items-center">
                             <div class="w-10 h-10 bg-cta text-white rounded-full flex items-center justify-center font-semibold text-sm">4</div>
+                            <div class="w-0.5 h-full bg-slate-200 mt-2"></div>
                         </div>
-                        <div class="flex-1">
+                        <div class="flex-1 pb-4">
                             <div class="flex items-center justify-between mb-2">
-                                <h4 class="font-medium text-primary">官网内容富化 - 提取企业详细信息用于 ICP 匹配</h4>
-                                <span class="px-2 py-1 bg-orange-50 text-orange-600 text-xs font-medium rounded-lg">网页服务</span>
+                                <h4 class="font-medium text-primary">地图搜索 - 北欧徒步装备经销商</h4>
+                                <span class="px-2 py-1 bg-blue-50 text-blue-600 text-xs font-medium rounded-lg">地图服务 · AI 生成</span>
                             </div>
-                            <p class="text-sm text-muted mb-2">解析目标企业官网内容</p>
+                            <p class="text-sm text-muted mb-2">第 4 次搜索：扩展到北欧地区，覆盖更多地理区域</p>
                             <div class="bg-slate-50 rounded-lg p-3 text-xs space-y-1">
-                                <div><span class="text-muted">extract_mode:</span> <code class="text-secondary">"first_800_chars"</code></div>
-                                <div><span class="text-muted">target_domains:</span> <code class="text-secondary">20</code></div>
+                                <div><span class="text-muted">query:</span> <code class="text-secondary">"hiking gear dealer"</code></div>
+                                <div><span class="text-muted">location:</span> <code class="text-secondary">"Nordic (SE, NO, FI, DK)"</code></div>
+                                <div><span class="text-muted">limit:</span> <code class="text-secondary">20</code></div>
                             </div>
-                            <p class="text-xs text-accent mt-2">预期输出：解析目标企业官网内容，提取企业介绍、产品信息、联系方式等，用于语义匹配和 ICP 画像对齐</p>
+                            <p class="text-xs text-accent mt-2">预期输出：获取 20 条北欧徒步装备经销商记录</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 5: 主数据源第5次调用（最终补充） -->
+                    <div class="flex gap-4">
+                        <div class="flex flex-col items-center">
+                            <div class="w-10 h-10 bg-cta text-white rounded-full flex items-center justify-center font-semibold text-sm">5</div>
+                            <div class="w-0.5 h-full bg-slate-200 mt-2"></div>
+                        </div>
+                        <div class="flex-1 pb-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="font-medium text-primary">地图搜索 - 欧洲露营装备批发商</h4>
+                                <span class="px-2 py-1 bg-blue-50 text-blue-600 text-xs font-medium rounded-lg">地图服务 · AI 生成</span>
+                            </div>
+                            <p class="text-sm text-muted mb-2">第 5 次搜索：使用关联品类关键词进行最终补充</p>
+                            <div class="bg-slate-50 rounded-lg p-3 text-xs space-y-1">
+                                <div><span class="text-muted">query:</span> <code class="text-secondary">"camping equipment wholesaler"</code></div>
+                                <div><span class="text-muted">location:</span> <code class="text-secondary">"Europe"</code></div>
+                                <div><span class="text-muted">limit:</span> <code class="text-secondary">20</code></div>
+                            </div>
+                            <p class="text-xs text-accent mt-2">预期输出：获取 20 条欧洲露营装备批发商记录</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 6: 系统强制 Jina Reader -->
+                    <div class="flex gap-4">
+                        <div class="flex flex-col items-center">
+                            <div class="w-10 h-10 bg-slate-400 text-white rounded-full flex items-center justify-center font-semibold text-sm border-2 border-dashed border-slate-300">6</div>
+                        </div>
+                        <div class="flex-1 border border-dashed border-slate-300 rounded-xl p-4 bg-slate-50/50">
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="font-medium text-primary">网页深度验证</h4>
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs font-medium rounded-lg flex items-center gap-1">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                                    系统强制验证
+                                </span>
+                            </div>
+                            <p class="text-sm text-muted">对主数据源获取的每一家企业解析官网内容，验证与 ICP 画像的匹配度</p>
                         </div>
                     </div>
                 </div>
@@ -416,20 +451,20 @@
                 
                 <div class="grid md:grid-cols-3 gap-4">
                     <div class="bg-slate-50 rounded-xl p-4 text-center">
-                        <p class="text-2xl font-bold text-primary">20</p>
+                        <p class="text-2xl font-bold text-primary">100</p>
                         <p class="text-xs text-muted mt-1">目标企业数量</p>
                     </div>
                     <div class="bg-slate-50 rounded-xl p-4 text-center">
-                        <p class="text-2xl font-bold text-accent">40</p>
+                        <p class="text-2xl font-bold text-accent">100</p>
                         <p class="text-xs text-muted mt-1">预计候选企业</p>
                     </div>
                     <div class="bg-slate-50 rounded-xl p-4 text-center">
-                        <p class="text-2xl font-bold text-success">20</p>
+                        <p class="text-2xl font-bold text-success">100</p>
                         <p class="text-xs text-muted mt-1">最终输出企业</p>
                     </div>
                 </div>
-                
-                <p class="text-xs text-muted mt-4 text-center">预计候选企业 = 各接口预估获取数量之和（地图 20 + 海关 10 + 展会 10 = 40）</p>
+
+                <p class="text-xs text-muted mt-4 text-center">预计候选企业 = 各步骤预估获取数量之和（20 + 20 + 20 + 20 + 20 = 100）</p>
             </div>
 
             <!-- Cost Estimation -->
@@ -449,49 +484,33 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                                 </svg>
                             </div>
-                            <span class="text-primary font-medium">地图服务</span>
-                        </div>
-                        <span class="text-primary font-medium">~6 MoliAI点数</span>
-                    </div>
-                    <div class="flex items-center justify-between py-3 border-b border-slate-50">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center">
-                                <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
-                                </svg>
+                            <div>
+                                <span class="text-primary font-medium">地图服务</span>
+                                <span class="text-xs text-muted ml-2">5 次调用</span>
                             </div>
-                            <span class="text-primary font-medium">海关服务</span>
                         </div>
-                        <span class="text-primary font-medium">~7 MoliAI点数</span>
+                        <span class="text-muted font-medium">0 MoliAI点数</span>
                     </div>
-                    <div class="flex items-center justify-between py-3 border-b border-slate-50">
+                    <div class="flex items-center justify-between py-3 border-b border-slate-200 border-dashed">
                         <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 bg-purple-50 rounded-lg flex items-center justify-center">
-                                <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                </svg>
-                            </div>
-                            <span class="text-primary font-medium">展会服务</span>
-                        </div>
-                        <span class="text-primary font-medium">~4 MoliAI点数</span>
-                    </div>
-                    <div class="flex items-center justify-between py-3">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 bg-orange-50 rounded-lg flex items-center justify-center">
-                                <svg class="w-4 h-4 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center">
+                                <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
                                 </svg>
                             </div>
-                            <span class="text-primary font-medium">网页服务</span>
+                            <div>
+                                <span class="text-primary font-medium">网页深度验证</span>
+                                <span class="text-xs text-muted ml-2">系统强制</span>
+                            </div>
                         </div>
-                        <span class="text-primary font-medium">~26 MoliAI点数</span>
+                        <span class="text-muted font-medium">0 MoliAI点数</span>
                     </div>
                 </div>
 
                 <div class="mt-4 pt-4 border-t border-slate-100">
                     <div class="flex items-center justify-between">
                         <span class="font-semibold text-primary">预估总消耗</span>
-                        <span class="text-xl font-bold text-cta">~42 MoliAI点数</span>
+                        <span class="text-xl font-bold text-cta">0 MoliAI点数</span>
                     </div>
                 </div>
             </div>
